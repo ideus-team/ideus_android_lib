@@ -4,6 +4,8 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -20,8 +22,9 @@ import com.trello.rxlifecycle.components.RxActivity;
  * Created by user on 08.11.2016.
  */
 
-public abstract class DLibBindingActivity extends RxActivity {
+public abstract class DLibBindingActivity<T extends ViewDataBinding> extends RxActivity {
     private Fragment oldFragment;
+    T binding;
 
 
     protected void hideKeyboard() {
@@ -40,6 +43,10 @@ public abstract class DLibBindingActivity extends RxActivity {
         if (!ImageLoader.getInstance().isInited()) {
             ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(this));
         }
+        if (getLayoutId() == 0) {
+            throw new RuntimeException("You must pass to 'getFragmentLayoutId()' your layout.");
+        }
+        binding = DataBindingUtil.setContentView(this, getLayoutId());
     }
 
     public abstract int getLayoutId();

@@ -16,7 +16,6 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.trello.rxlifecycle.components.RxFragment;
 
-import biz.ideus.ideuslib.R;
 import biz.ideus.ideuslib.Utils.BackPressImpl;
 import biz.ideus.ideuslib.activity.DLibBindingActivity;
 import biz.ideus.ideuslib.interfaces.OnBackPressListener;
@@ -101,14 +100,14 @@ public abstract class DLibBindingFragment<T extends ViewDataBinding> extends RxF
                 || !(lastAddedFragment.getClass().equals(fragment.getClass()))) {
             lastAddedFragment = fragment;
             FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(R.animator.slide_up, R.animator.slide_down);
+        //    transaction.setCustomAnimations(R.animator.slide_up, R.animator.slide_down);
             transaction.replace(containerId, fragment, null).commit();
         }
     }
 
     public void replaceSpecialisationFragment(DLibBindingFragment fragment, int containerId) {
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.animator.slide_up, R.animator.slide_down);
+   //     transaction.setCustomAnimations(R.animator.slide_up, R.animator.slide_down);
         transaction.replace(containerId, fragment, null).commit();
     }
 
