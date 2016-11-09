@@ -23,10 +23,12 @@ import io.requery.sql.TableCreationMode;
  * Created by user on 09.11.2016.
  */
 
-public class DLibApplication extends Application {
+public abstract class DLibApplication extends Application {
     protected SingleEntityStore<Persistable> dataStore;
     protected static DLibApplication appInstance;
     protected Configuration configuration;
+
+    protected abstract void setupFonts();
 
     public static synchronized DLibApplication getInstance() {
         return appInstance;
@@ -42,6 +44,7 @@ public class DLibApplication extends Application {
     public void onCreate() {
         super.onCreate();
         appInstance = this;
+        setupFonts();
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
