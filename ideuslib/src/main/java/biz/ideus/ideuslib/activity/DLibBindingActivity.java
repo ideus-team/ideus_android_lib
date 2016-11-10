@@ -15,13 +15,13 @@ import android.widget.EditText;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.trello.rxlifecycle.components.RxActivity;
+import com.trello.rxlifecycle.components.support.RxFragmentActivity;
 
 /**
  * Created by user on 08.11.2016.
  */
 
-public abstract class DLibBindingActivity<T extends ViewDataBinding> extends RxActivity {
+public abstract class DLibBindingActivity<T extends ViewDataBinding> extends RxFragmentActivity {
     private Fragment oldFragment;
     T binding;
 
