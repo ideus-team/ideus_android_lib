@@ -12,4 +12,5 @@ public class SampleApplication extends DLibApplication {
     protected void setupFonts() {
         DLibTypefaceAdapter.addFontDefinition("normal", "fonts/MuseoSansCyrl.otf");
     }
+    
 }
