@@ -1,4 +1,4 @@
-package biz.ideus.ideuslib.custom_views;
+package biz.ideus.ideuslib.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -73,7 +73,7 @@ public class ZoomImageView extends ImageView {
             if(drawable != null) {
                 setImage(drawable);
             }
-            url = ta.getString(R.styleable.ZoomImageView_imageUrl);
+            url = ta.getString(R.styleable.ZoomImageView_setImageUrl);
             if(url != null){
                 loadImage(url);
             }

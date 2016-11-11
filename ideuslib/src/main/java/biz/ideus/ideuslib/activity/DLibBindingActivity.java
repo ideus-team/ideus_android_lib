@@ -2,7 +2,6 @@ package biz.ideus.ideuslib.activity;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
@@ -47,6 +46,7 @@ public abstract class DLibBindingActivity<T extends ViewDataBinding> extends RxA
             throw new RuntimeException("You must pass to 'getFragmentLayoutId()' your layout.");
         }
         binding = DataBindingUtil.setContentView(this, getLayoutId());
+        onInit(binding.getRoot());
     }
 
     public abstract int getLayoutId();
@@ -59,41 +59,17 @@ public abstract class DLibBindingActivity<T extends ViewDataBinding> extends RxA
 
 
     public void addFragment(Fragment fragment) {
-        getFragmentManager().beginTransaction().setCustomAnimations(android.R.animator.fade_in
+        addFragment(fragment, android.R.animator.fade_in
                 , android.R.animator.fade_out
-                , android.R.animator.fade_in, android.R.animator.fade_out)
+                , android.R.animator.fade_in, android.R.animator.fade_out);
+    }
+
+    public void addFragment(Fragment fragment, int a1, int a2, int a3, int a4) {
+        getFragmentManager().beginTransaction().setCustomAnimations(a1, a2, a3, a4)
                 .replace(android.R.id.content, fragment, fragment.getClass().getSimpleName())
                 .addToBackStack(fragment.getClass().getSimpleName())
                 .commit();
-    }
 
-    public void addImageViewerFragment(Fragment fragment) {
-        getFragmentManager().beginTransaction().setCustomAnimations(android.R.animator.fade_in
-                , android.R.animator.fade_out
-                , android.R.animator.fade_in, android.R.animator.fade_out)
-                .add(android.R.id.content, fragment)
-                .addToBackStack(null)
-                .commit();
-    }
-
-    public void addDialogFragment(Fragment fragment) {
-        FragmentTransaction transaction = getFragmentManager().beginTransaction().setCustomAnimations(android.R.animator.fade_in
-                , android.R.animator.fade_out
-                , android.R.animator.fade_in, android.R.animator.fade_out);
-        transaction.replace(android.R.id.content, fragment, fragment.getClass().getSimpleName());
-        transaction.addToBackStack(fragment.getClass().getSimpleName());
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-        transaction.commit();
-        oldFragment = fragment;
-    }
-
-    public void addReviewFragment(Fragment fragment) {
-        getFragmentManager().beginTransaction().setCustomAnimations(android.R.animator.fade_in
-                , android.R.animator.fade_out
-                , android.R.animator.fade_in, android.R.animator.fade_out)
-                .add(android.R.id.content, fragment, fragment.getClass().getSimpleName())
-                .addToBackStack(null)
-                .commit();
     }
 
     public Fragment getTopFragment() {

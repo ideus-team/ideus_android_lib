@@ -21,13 +21,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     dataBinding {
         enabled = true
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -35,8 +39,10 @@ dependencies {
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     compile 'io.requery:sqlite-android:3.13.0-1'
     compile 'io.requery:requery:1.0.0-rc2'
-    compile 'io.requery:requery-android:1.0.0-rc2' // for android
-    apt 'io.requery:requery-processor:1.0.0-rc2'   // use an APT plugin
+    compile 'io.requery:requery-android:1.0.0-rc2'
+    // for android
+    apt 'io.requery:requery-processor:1.0.0-rc2'
+    // use an APT plugin
     compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
     compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
     compile 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'
@@ -49,4 +55,5 @@ dependencies {
     compile 'com.google.firebase:firebase-messaging:9.4.0'
     compile 'testfairy:testfairy-android-sdk:1.+@aar'
     testCompile 'junit:junit:4.12'
+    compile 'com.android.support:design:25.0.0'
 }
