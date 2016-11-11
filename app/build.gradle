@@ -42,6 +42,6 @@ dependencies {
     apt "com.google.dagger:dagger-compiler:${daggerVersion}"
     compile "com.google.dagger:dagger:${daggerVersion}"
     testCompile 'junit:junit:4.12'
-    compile project(':ideuslib')
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta3'
+  //  compile project(':ideuslib')
+   // compile 'com.android.support.constraint:constraint-layout:1.0.0-beta3'
 }
