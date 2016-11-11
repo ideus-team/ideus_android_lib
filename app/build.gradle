@@ -8,7 +8,7 @@ android {
     defaultConfig {
         applicationId "biz.ideus.ideuslibexample"
         minSdkVersion 21
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -32,6 +32,9 @@ ext.daggerVersion = '2.7'
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    compile project(':ideuslib')
+
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -40,4 +43,5 @@ dependencies {
     compile "com.google.dagger:dagger:${daggerVersion}"
     testCompile 'junit:junit:4.12'
     compile project(':ideuslib')
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta3'
 }

@@ -10,7 +10,7 @@ import biz.ideus.ideuslib.interfaces.OnBackPressListener;
  * Created by user on 08.11.2016.
  */
 
-public class BackPressImpl   implements OnBackPressListener {
+public class BackPressImpl implements OnBackPressListener {
 
     private Fragment parentFragment;
 

@@ -84,6 +84,7 @@ public class CircleImageView extends ImageLoaderView {
 
     public CircleImageView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
+        init();
     }
 
     public CircleImageView(Context context, AttributeSet attrs, int defStyle) {

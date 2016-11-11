@@ -46,6 +46,7 @@ public abstract class DLibBindingActivity<T extends ViewDataBinding> extends RxF
             throw new RuntimeException("You must pass to 'getFragmentLayoutId()' your layout.");
         }
         binding = DataBindingUtil.setContentView(this, getLayoutId());
+        onInit(binding.getRoot());
     }
 
     public abstract int getLayoutId();
