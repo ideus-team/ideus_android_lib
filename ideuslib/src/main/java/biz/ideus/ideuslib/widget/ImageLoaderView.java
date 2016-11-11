@@ -16,10 +16,10 @@ import biz.ideus.ideuslib.R;
  */
 
 @BindingMethods({
-        @BindingMethod(type = ImageLoaderView.class, attribute = "imageLoader:imageUrl",
+        @BindingMethod(type = ImageLoaderView.class, attribute = "imageUrl",
                 method = "loadImage")
         ,
-        @BindingMethod(type = ImageLoaderView.class, attribute = "imageLoader:imageFlag",
+        @BindingMethod(type = ImageLoaderView.class, attribute = "imageFlag",
                 method = "setImageFlag")})
 public class ImageLoaderView extends ImageView {
     private String url;
