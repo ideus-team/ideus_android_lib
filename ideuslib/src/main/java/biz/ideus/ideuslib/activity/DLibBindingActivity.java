@@ -15,15 +15,15 @@ import android.widget.EditText;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.trello.rxlifecycle.components.RxActivity;
+import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 /**
  * Created by user on 08.11.2016.
  */
 
-public abstract class DLibBindingActivity<T extends ViewDataBinding> extends RxActivity {
+public abstract class DLibBindingActivity<T extends ViewDataBinding> extends RxAppCompatActivity {
     private Fragment oldFragment;
-    T binding;
+    protected T binding;
 
 
     protected void hideKeyboard() {

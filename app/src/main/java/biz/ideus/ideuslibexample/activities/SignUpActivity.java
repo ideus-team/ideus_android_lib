@@ -4,16 +4,16 @@ import android.view.View;
 
 import biz.ideus.ideuslib.activity.DLibBindingActivity;
 import biz.ideus.ideuslibexample.R;
-import biz.ideus.ideuslibexample.databinding.SignUpActivityBinding;
+import biz.ideus.ideuslibexample.databinding.ActivitySignUpBinding;
 
 /**
  * Created by blackmamba on 11.11.16.
  */
 
-public class SignUpActivity extends DLibBindingActivity<SignUpActivityBinding> {
+public class SignUpActivity extends DLibBindingActivity<ActivitySignUpBinding> {
     @Override
     public int getLayoutId() {
-        return R.layout.sign_up_activity;
+        return R.layout.activity_sign_up;
     }
 
     @Override

@@ -6,6 +6,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/white"
         android:orientation="vertical">
 
         <ScrollView
@@ -14,7 +15,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:background="@android:color/white"
                 android:orientation="vertical">
 
@@ -203,7 +204,7 @@
                             android:background="@color/gray" />
 
                         <RelativeLayout
-                            android:id="@+id/ll_password"
+                            android:id="@+id/ll_create_password"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="horizontal">
@@ -217,7 +218,7 @@
                                 android:src="@drawable/ic_cancel" />
 
                             <EditText
-                                android:id="@+id/et_password"
+                                android:id="@+id/et_create_password"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="false"
@@ -227,7 +228,7 @@
                                 android:layout_weight="1"
                                 android:background="@null"
                                 android:ems="10"
-                                android:hint="@string/password"
+                                android:hint="@string/create_password"
                                 android:inputType="textPassword"
                                 android:textColor="@android:color/black" />
                         </RelativeLayout>
@@ -240,57 +241,59 @@
                         android:padding="@dimen/font_size_15">
 
 
-                        <android.support.v7.widget.AppCompatCheckBox
-                            android:id="@+id/checkBox"
+                        <CheckBox
+                            android:id="@+id/cb_show_pass"
                             android:layout_alignParentStart="true"
                             android:layout_centerInParent="true"
                             android:text="@string/show_password"
                             style="@style/checkBoxComponent" />
 
-                        <TextView
-                            android:id="@+id/tv_forgot_password"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerInParent="true"
-                            android:paddingEnd="5dp"
-                            android:text="@string/forgot_password"
-                            android:textSize="@dimen/font_size_15" />
                     </RelativeLayout>
 
                     <Button
                         android:id="@+id/btn_sing_in"
-                        style="@style/ButtonGreenStyle"
+                        style="@style/ButtonTransparentStyle"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:text="@string/sign_in" />
+                        android:text="@string/create_account"
+                        android:layout_marginBottom="@dimen/font_size_15"
+                        android:layout_marginEnd="@dimen/font_size_15"
+                        android:layout_marginStart="@dimen/font_size_15" />
+
+                    <TextView
+                        android:id="@+id/textView7"
+                        android:textSize="@dimen/font_size_15"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/do_not_have_an_account" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:padding="@dimen/font_size_10">
+                        android:orientation="vertical"
+                        android:padding="@dimen/font_size_10"
+                        android:layout_marginBottom="@dimen/font_size_10"
+                        android:gravity="center">
+
+                        <CheckBox
+                            android:id="@+id/checkBox_privacy_policy"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerInParent="true"
+                            android:text="@string/by_creating_account"
+                            style="@style/checkBoxComponent"
+                            android:layout_width="match_parent" />
 
                         <TextView
-                            android:id="@+id/textView7"
+                            android:id="@+id/tv_privacy_policy"
                             android:textSize="@dimen/font_size_15"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/do_not_have_an_account" />
-
-                        <TextView
-                            android:textColor="@color/green_btn_default"
                             android:textStyle="bold"
-                            android:layout_marginStart="5dp"
-                            android:textSize="@dimen/font_size_15"
-                            android:id="@+id/tv_sign_up"
+                            android:textColor="@color/green_btn_default"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/sign_up" />
+                            android:text="@string/terms_and_privacy_policy" />
                     </LinearLayout>
+
+
                 </LinearLayout>
 
             </LinearLayout>
