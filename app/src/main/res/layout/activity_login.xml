@@ -78,10 +78,22 @@
                         android:paddingEnd="@dimen/font_size_15"
                         android:paddingStart="@dimen/font_size_15">
 
+                        <!--<com.facebook.login.widget.LoginButton-->
+                            <!--android:id="@+id/btn_login_fb"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="40dp"-->
+                            <!--android:layout_marginEnd="5dp"-->
+                            <!--android:layout_marginStart="5dp"-->
+                            <!--android:layout_gravity="center_horizontal"-->
+                            <!--android:layout_marginTop="30dp"-->
+                            <!--android:layout_weight="1"-->
+                            <!--android:layout_marginBottom="30dp" />-->
+
                         <Button
                             android:id="@+id/btn_login_fb"
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
+                            android:onClick="@{loginVM.onClickFaceBookLogin}"
                             android:layout_marginEnd="5dp"
                             android:layout_marginStart="5dp"
                             android:layout_weight="1"
@@ -90,11 +102,13 @@
                             android:textAllCaps="false"
                             android:textColor="@android:color/white" />
 
+
                         <Button
                             android:id="@+id/btn_login_twitter"
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
                             android:layout_weight="1"
+                            android:onClick="@{loginVM.onClickTwitterLogin}"
                             android:background="@drawable/twitter_btn_selector"
                             android:text="@string/twitter"
                             android:textAllCaps="false"
