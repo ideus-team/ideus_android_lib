@@ -4,13 +4,9 @@ import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
-import com.facebook.CallbackManager;
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 
 import biz.ideus.ideuslib.Models;
 import io.requery.Persistable;
@@ -35,7 +31,7 @@ public abstract class DLibApplication extends Application {
 
     protected abstract void setupFonts();
     protected abstract void setupFaceBookSDK();
-    protected abstract void setupTwitterLogin();
+    protected abstract void setupTwitterSDK();
 
     public static synchronized DLibApplication getInstance() {
         return appInstance;
@@ -53,7 +49,7 @@ public abstract class DLibApplication extends Application {
         appInstance = this;
         setupFonts();
         setupFaceBookSDK();
-        setupTwitterLogin();
+        setupTwitterSDK();
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .cacheOnDisk(true)

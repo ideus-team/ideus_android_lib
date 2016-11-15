@@ -1,11 +1,9 @@
 package biz.ideus.ideuslibexample;
 
-import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
-import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 
 import biz.ideus.ideuslib.adapter.typeface_adapters.DLibTypefaceAdapter;
 import biz.ideus.ideuslib.application.DLibApplication;
@@ -17,8 +15,7 @@ import io.fabric.sdk.android.Fabric;
  */
 
 public class SampleApplication extends DLibApplication {
-    public static CallbackManager faceBookCallbackManager;
-    public static TwitterAuthClient twitterAuthClient;
+
     @Override
     protected void setupFonts() {
         DLibTypefaceAdapter.addFontDefinition("normal", "fonts/MuseoSansCyrl.otf");
@@ -28,16 +25,15 @@ public class SampleApplication extends DLibApplication {
     protected void setupFaceBookSDK() {
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
-        faceBookCallbackManager = CallbackManager.Factory.create();
+
 
     }
 
     @Override
-    protected void setupTwitterLogin() {
+    protected void setupTwitterSDK() {
         TwitterAuthConfig authConfig = new TwitterAuthConfig(Constants.TWITTER_APP_KEY, Constants.TWITTER_SECRET_KEY);
         Fabric.with(this, new Twitter(authConfig));
-        twitterAuthClient = new TwitterAuthClient();
-    }
 
+    }
 
 }

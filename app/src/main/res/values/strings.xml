@@ -3,6 +3,8 @@
     <string name="google_client_id">509396066324-muum3kceqo16d382ufa72usklbgm6js8.apps.googleusercontent.com</string>
 
     <string name="app_name">IdeusLibExample</string>
+    <string name="invalid_email">Invalid email</string>
+    <string name="invalid_password">Password should be more than 5 characters</string>
     <string name="login_with_social_network">Login With Social Network</string>
     <string name="with_social_networks"> With Social Networks</string>
     <string name="facebook">Facebook</string>
