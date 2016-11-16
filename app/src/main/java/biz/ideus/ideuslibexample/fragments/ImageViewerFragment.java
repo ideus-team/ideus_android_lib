@@ -1,21 +1,9 @@
 package biz.ideus.ideuslibexample.fragments;
 
-import android.support.v4.view.ViewPager;
-import android.view.View;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import biz.ideus.ideuslib.fragment.DLibBindingFragment;
-import biz.ideus.ideuslib.listeners.SwipeImageTouchListener;
-import biz.ideus.ideuslibexample.R;
-import biz.ideus.ideuslibexample.adapters.ImageViewerPagerAdapter;
-import biz.ideus.ideuslibexample.databinding.FragmentImageViewerBinding;
-
 /**
  * Created by blackmamba on 10.11.16.
  */
-
+/*
 public class ImageViewerFragment extends DLibBindingFragment<FragmentImageViewerBinding>
         implements SwipeImageTouchListener.AnimationListener {
     private List<String> imageUrlList = new ArrayList<>();
@@ -65,3 +53,4 @@ public class ImageViewerFragment extends DLibBindingFragment<FragmentImageViewer
     }
 
 
+*/

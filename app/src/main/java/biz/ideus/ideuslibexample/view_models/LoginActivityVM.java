@@ -1,5 +1,6 @@
 package biz.ideus.ideuslibexample.view_models;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.databinding.Bindable;
 import android.databinding.ObservableField;
@@ -24,12 +25,8 @@ import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
-import biz.ideus.ideuslib.Utils.Utils;
 import biz.ideus.ideuslib.Utils.UtilsValidationETFields;
-import biz.ideus.ideuslib.activity.DLibBindingActivity;
 import biz.ideus.ideuslibexample.R;
-import biz.ideus.ideuslibexample.activities.LoginActivity;
-import biz.ideus.ideuslibexample.activities.SignUpActivity;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -40,7 +37,7 @@ import rx.android.schedulers.AndroidSchedulers;
  */
 
 public class LoginActivityVM extends ViewModel {
-    private DLibBindingActivity activity;
+    private Activity activity;
     private CallbackManager faceBookCallbackManager;
     private TwitterAuthClient twitterAuthClient;
     private GoogleApiClient googleApiClient;
@@ -68,7 +65,7 @@ public class LoginActivityVM extends ViewModel {
     public LoginActivityVM(CallbackManager faceBookCallbackManager
             , TwitterAuthClient twitterAuthClient
             , GoogleApiClient googleApiClient
-            , DLibBindingActivity activity) {
+            , Activity activity) {
         this.activity = activity;
         this.faceBookCallbackManager = faceBookCallbackManager;
         this.twitterAuthClient = twitterAuthClient;
@@ -103,12 +100,12 @@ public class LoginActivityVM extends ViewModel {
     }
 
     private void goToSignUp() {
-        activity.startActivity(new Intent(activity, SignUpActivity.class));
+       // activity.startActivity(new Intent(activity, SignUpActivity.class));
     }
 
     private void signInWithGooglePlus() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
-        activity.startActivityForResult(signInIntent, LoginActivity.GOOGLE_SIGN_IN);
+     //   activity.startActivityForResult(signInIntent, LoginActivity.GOOGLE_SIGN_IN);
     }
 
     public void onClickFaceBookLogin(View view) {
@@ -138,12 +135,12 @@ public class LoginActivityVM extends ViewModel {
     }
 
     private boolean isValidData() {
-        if (!isValidEmail) {
-            Utils.toast(activity.getString(R.string.invalid_email));
-            return isValidEmail && isValidPassword;
-        }
-        if (!isValidPassword)
-            Utils.toast(activity.getString(R.string.invalid_password));
+     //   if (!isValidEmail) {
+      //      Utils.toast(activity.getString(R.string.invalid_email));
+    //        return isValidEmail && isValidPassword;
+  //      }
+     //   if (!isValidPassword)
+      //      Utils.toast(activity.getString(R.string.invalid_password));
         return isValidEmail && isValidPassword;
 
     }

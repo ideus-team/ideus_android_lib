@@ -1,19 +1,9 @@
 package biz.ideus.ideuslibexample.activities;
 
-import android.content.Intent;
-import android.view.View;
-
-import java.util.concurrent.TimeUnit;
-
-import biz.ideus.ideuslib.activity.DLibBindingActivity;
-import biz.ideus.ideuslibexample.R;
-import biz.ideus.ideuslibexample.databinding.ActivitySplashBinding;
-import rx.Observable;
-
 /**
  * Created by blackmamba on 10.11.16.
  */
-
+/*
 public class SplashActivity extends DLibBindingActivity<ActivitySplashBinding> {
     @Override
     public int getLayoutId() {
@@ -36,3 +26,4 @@ public class SplashActivity extends DLibBindingActivity<ActivitySplashBinding> {
     }
 
 }
+*/
