@@ -58,9 +58,9 @@ public abstract class DLibBindingFragment<T extends ViewDataBinding> extends RxF
         binding = DataBindingUtil.inflate(inflater, getFragmentLayoutId(), container, false);
 
 
-        onInit(mFragmentRootView);
+        onInit(binding.getRoot());
 
-        return mFragmentRootView.getRootView();
+        return binding.getRoot();
     }
 
 

@@ -16,6 +16,7 @@ import biz.ideus.ideuslib.activity.DLibBindingActivity;
 import biz.ideus.ideuslib.interfaces.OnValidateSignUpScreen;
 import biz.ideus.ideuslib.view_models.AutorisationVM;
 import biz.ideus.ideuslibexample.R;
+import biz.ideus.ideuslibexample.fragments.TermsAndPrivacyFragment;
 
 /**
  * Created by blackmamba on 16.11.16.
@@ -120,6 +121,9 @@ public class SignUpActivityVM extends AutorisationVM implements OnValidateSignUp
 
     public void onClickFaceBookLogin(View view) {
       onClickFaceBookLogin();
+    }
+    public void onClickTermsAndPolicy(View view){
+        activity.addFragment( new TermsAndPrivacyFragment());
     }
 
     // CheckBox change listener

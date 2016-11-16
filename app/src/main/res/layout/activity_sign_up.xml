@@ -309,6 +309,7 @@
                             android:layout_width="match_parent" />
 
                         <TextView
+                            android:onClick="@{signUpVM.onClickTermsAndPolicy}"
                             android:id="@+id/tv_privacy_policy"
                             android:textSize="@dimen/font_size_15"
                             android:textStyle="bold"

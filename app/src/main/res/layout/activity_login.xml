@@ -282,7 +282,8 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_centerInParent="true"
-                            android:paddingEnd="5dp"
+                            android:onClick="@{loginVM.onClickForgotPassword}"
+                            android:padding="5dp"
                             android:text="@string/forgot_password"
                             android:textSize="@dimen/font_size_15" />
                     </RelativeLayout>
@@ -319,7 +320,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/sign_up"
-                            android:padding="5dp" />
+                            android:padding="10dp" />
                     </LinearLayout>
                 </LinearLayout>
 

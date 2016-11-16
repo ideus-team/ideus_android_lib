@@ -18,6 +18,7 @@ import biz.ideus.ideuslib.interfaces.OnValidateField;
 import biz.ideus.ideuslib.view_models.AutorisationVM;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.activities.SignUpActivity;
+import biz.ideus.ideuslibexample.fragments.ForgotPasswordFragment;
 
 
 /**
@@ -71,6 +72,9 @@ public class LoginActivityVM extends AutorisationVM implements OnValidateField {
     public void onClickTwitterLogin(View view) {
        onClickTwitterLogin();
 
+    }
+    public void onClickForgotPassword(View view){
+        activity.addFragment(new ForgotPasswordFragment());
     }
 
     private void goToSignUp() {
