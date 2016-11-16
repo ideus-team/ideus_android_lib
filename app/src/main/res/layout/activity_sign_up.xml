@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data></data>
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="signUpVM"
+            type="biz.ideus.ideuslibexample.view_models.SignUpActivityVM" />
+    </data>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -51,6 +57,7 @@
                             android:layout_height="40dp"
                             android:layout_marginEnd="5dp"
                             android:layout_marginStart="5dp"
+                            android:onClick="@{signUpVM.onClickFaceBookLogin}"
                             android:layout_weight="1"
                             android:background="@drawable/facebook_btn_selector"
                             android:text="@string/facebook"
@@ -62,6 +69,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
                             android:layout_weight="1"
+                            android:onClick="@{signUpVM.onClickTwitterLogin}"
                             android:background="@drawable/twitter_btn_selector"
                             android:text="@string/twitter"
                             android:textAllCaps="false"
@@ -73,6 +81,7 @@
                             android:layout_height="40dp"
                             android:layout_marginEnd="5dp"
                             android:layout_marginStart="5dp"
+                            android:onClick="@{signUpVM.onClickGooglePlus}"
                             android:layout_weight="1"
                             android:background="@drawable/google_btn_selector"
                             android:text="@string/google_plus"
@@ -142,6 +151,8 @@
                             android:orientation="horizontal">
 
                             <ImageView
+                                android:visibility="@{signUpVM.visibilityClearNameImage}"
+                                android:onClick="@{signUpVM.onClickClearFieldImage}"
                                 android:id="@+id/iv_cancel_name"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
@@ -160,7 +171,9 @@
                                 android:ems="10"
                                 android:hint="@string/your_name"
                                 android:inputType="text"
-                                android:textColor="@android:color/black" />
+                                android:onTextChanged="@{signUpVM.onTextChangedName}"
+                                android:text="@{signUpVM.name}"
+                                android:textColor="@{ (int)signUpVM.titleColorName}"/>
                         </RelativeLayout>
 
                         <View
@@ -176,6 +189,8 @@
                             android:orientation="horizontal">
 
                             <ImageView
+                                android:visibility="@{signUpVM.visibilityClearEmailImage}"
+                                android:onClick="@{signUpVM.onClickClearFieldImage}"
                                 android:id="@+id/iv_cancel_email"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
@@ -194,7 +209,9 @@
                                 android:ems="10"
                                 android:hint="@string/email"
                                 android:inputType="textEmailAddress"
-                                android:textColor="@android:color/black" />
+                                android:onTextChanged="@{signUpVM.onTextChangedEmail}"
+                                android:text="@{signUpVM.email}"
+                                android:textColor="@{ (int)signUpVM.titleColorEmail}"/>
                         </RelativeLayout>
 
                         <View
@@ -210,6 +227,8 @@
                             android:orientation="horizontal">
 
                             <ImageView
+                                android:visibility="@{signUpVM.visibilityClearPasswordImage}"
+                                android:onClick="@{signUpVM.onClickClearFieldImage}"
                                 android:id="@+id/iv_cancel_password"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
@@ -228,9 +247,12 @@
                                 android:layout_weight="1"
                                 android:background="@null"
                                 android:ems="10"
+                                android:password="@{signUpVM.isPasswordShow}"
+                                android:onTextChanged="@{signUpVM.onTextChangedPassword}"
                                 android:hint="@string/create_password"
                                 android:inputType="textPassword"
-                                android:textColor="@android:color/black" />
+                                android:text="@{signUpVM.password}"
+                                android:textColor="@{(int)signUpVM.titleColorPassword}"/>
                         </RelativeLayout>
                     </LinearLayout>
 
@@ -246,12 +268,14 @@
                             android:layout_alignParentStart="true"
                             android:layout_centerInParent="true"
                             android:text="@string/show_password"
+                            android:onClick="@{signUpVM.onCheckedChanged}"
                             style="@style/checkBoxComponent" />
 
                     </RelativeLayout>
 
                     <Button
-                        android:id="@+id/btn_sing_in"
+                        android:id="@+id/btn_Crate_account"
+                        android:onClick="@{signUpVM.onCreateAccountClick}"
                         style="@style/ButtonTransparentStyle"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
@@ -279,6 +303,7 @@
                             android:id="@+id/checkBox_privacy_policy"
                             android:layout_alignParentStart="true"
                             android:layout_centerInParent="true"
+                            android:onClick="@{signUpVM.onCheckedChangedTermAndPolicy}"
                             android:text="@string/by_creating_account"
                             style="@style/checkBoxComponent"
                             android:layout_width="match_parent" />

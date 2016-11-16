@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.view_models;
+package biz.ideus.ideuslib.view_models;
 
 import android.databinding.BaseObservable;
 

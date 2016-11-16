@@ -5,6 +5,7 @@
     <string name="app_name">IdeusLibExample</string>
     <string name="invalid_email">Invalid email</string>
     <string name="invalid_password">Password should be more than 5 characters</string>
+    <string name="invalid_name">Name should be more than 3 characters</string>
     <string name="login_with_social_network">Login With Social Network</string>
     <string name="with_social_networks"> With Social Networks</string>
     <string name="facebook">Facebook</string>

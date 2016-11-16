@@ -3,9 +3,12 @@ package biz.ideus.ideuslib.activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,9 +16,17 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.facebook.CallbackManager;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 
 import rx.subscriptions.CompositeSubscription;
 
@@ -23,9 +34,15 @@ import rx.subscriptions.CompositeSubscription;
  * Created by user on 08.11.2016.
  */
 
-public abstract class DLibBindingActivity<T extends ViewDataBinding> extends RxAppCompatActivity {
+public abstract class DLibBindingActivity<T extends ViewDataBinding> extends RxAppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
     private Fragment oldFragment;
     protected T binding;
+
+    protected CallbackManager faceBookCallbackManager;
+    protected TwitterAuthClient twitterAuthClient;
+    protected GoogleSignInOptions googleSignInOptions;
+    protected GoogleApiClient googleApiClient;
+    public static final int GOOGLE_SIGN_IN = 2222;
 
     public CompositeSubscription compositeSubscription = new CompositeSubscription();
     // endregion
@@ -57,6 +74,12 @@ public abstract class DLibBindingActivity<T extends ViewDataBinding> extends RxA
             throw new RuntimeException("You must pass to 'getFragmentLayoutId()' your layout.");
         }
         binding = DataBindingUtil.setContentView(this, getLayoutId());
+
+        faceBookCallbackManager = CallbackManager.Factory.create();
+        createGoogleSignInOptions();
+        createGoogleApiClient();
+        twitterAuthClient = new TwitterAuthClient();
+
         onInit(binding.getRoot());
     }
 
@@ -119,6 +142,48 @@ public abstract class DLibBindingActivity<T extends ViewDataBinding> extends RxA
                                 .getApplicationWindowToken()), 0);
         }
         return super.dispatchTouchEvent(motionEvent);
+    }
+
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GOOGLE_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(result);
+        }
+
+        faceBookCallbackManager.onActivityResult(requestCode, resultCode, data);
+        twitterAuthClient.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void createGoogleSignInOptions() {
+        googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+    }
+
+    private void createGoogleApiClient() {
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions)
+                .build();
+    }
+
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    private void handleSignInResult(GoogleSignInResult result) {
+        Log.d("googleSignIn", "handleSignInResult:" + result.isSuccess());
+        if (result.isSuccess()) {
+            GoogleSignInAccount acct = result.getSignInAccount();
+            Log.d("googleSignIn", "handleSignInResult:" + acct.getDisplayName());
+        } else {
+
+        }
     }
 
 }
