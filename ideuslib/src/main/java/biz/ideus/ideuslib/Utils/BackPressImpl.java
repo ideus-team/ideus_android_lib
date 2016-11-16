@@ -1,15 +1,9 @@
 package biz.ideus.ideuslib.Utils;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-
-import biz.ideus.ideuslib.fragment.DLibBindingFragment;
-import biz.ideus.ideuslib.interfaces.OnBackPressListener;
-
 /**
  * Created by user on 08.11.2016.
  */
-
+/*
 public class BackPressImpl implements OnBackPressListener {
 
     private Fragment parentFragment;
@@ -60,3 +54,4 @@ public class BackPressImpl implements OnBackPressListener {
         }
     }
 }
+*/

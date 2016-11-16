@@ -50,14 +50,14 @@ public class ImageViewerPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-        itemImageBinding = DataBindingUtil
-                .inflate(layoutInflater, R.layout.item_image_viewer_pager, container, false);
+        itemImageBinding = DataBindingUtil.inflate(layoutInflater, R.layout.item_image_viewer_pager, container, false);
         itemImageBinding.ivImage.loadImage(imageUrlList.get(position));
         itemImageBinding.llImageContainer
                 .setOnTouchListener(new SwipeImageTouchListener(itemImageBinding.llImageContainer
                         , animationListener));
         container.addView(itemImageBinding.getRoot());
         return itemImageBinding.getRoot();
+
     }
 
     @Override

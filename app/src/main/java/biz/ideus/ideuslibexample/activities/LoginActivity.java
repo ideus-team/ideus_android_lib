@@ -1,7 +1,11 @@
 package biz.ideus.ideuslibexample.activities;
 
+/**
+ * Created by blackmamba on 10.11.16.
+ */
+
+/*
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 
@@ -14,15 +18,10 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 
-import biz.ideus.ideuslib.activity.DLibBindingActivity;
-import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.databinding.ActivityLoginBinding;
 import biz.ideus.ideuslibexample.view_models.LoginActivityVM;
 
-
-/**
- * Created by blackmamba on 10.11.16.
- */
+import static com.testfairy.l.R;
 
 public class LoginActivity extends DLibBindingActivity<ActivityLoginBinding> implements GoogleApiClient.OnConnectionFailedListener {
     private LoginActivityVM loginActivityVM;
@@ -93,3 +92,4 @@ public class LoginActivity extends DLibBindingActivity<ActivityLoginBinding> imp
         }
     }
 }
+*/

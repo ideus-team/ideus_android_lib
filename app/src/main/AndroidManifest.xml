@@ -23,17 +23,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="biz.ideus.ideuslibexample.activities.SplashActivity"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar">
-        </activity>
-        <activity android:name="biz.ideus.ideuslibexample.activities.LoginActivity"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar">
-        </activity>
-            android:name=".activities.SignUpActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+        <!--<activity android:name="biz.ideus.ideuslibexample.activities.SplashActivity"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:theme="@android:style/Theme.NoTitleBar">-->
+        <!--</activity>-->
+        <!--<activity android:name="biz.ideus.ideuslibexample.activities.LoginActivity"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:theme="@android:style/Theme.NoTitleBar">-->
+        <!--</activity>-->
+            <!--android:name=".activities.SignUpActivity"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />-->
 
 
         <meta-data
