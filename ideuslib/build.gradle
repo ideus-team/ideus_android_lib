@@ -7,7 +7,7 @@ android {
     buildToolsVersion "24.0.2"
 
     defaultConfig {
-        minSdkVersion 17
+        minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -46,7 +46,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.google.code.gson:gson:2.7'
-    compile 'com.android.support:appcompat-v7:25.0.0'
+    compile 'com.android.support:appcompat-v7:25.0.1'
     compile "com.android.support:recyclerview-v7:${supportLibVersion}"
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     //compile "io.requery:sqlite-android:3.13.0-1"

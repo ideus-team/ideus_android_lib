@@ -181,6 +181,7 @@
                                 android:layout_height="20dp"
                                 android:id="@+id/iv_cancel_email"
                                 android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
                                 android:layout_centerInParent="true" />
 
                             <EditText
@@ -213,6 +214,7 @@
                                 android:layout_height="20dp"
                                 android:id="@+id/iv_cancel_password"
                                 android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
                                 android:layout_centerInParent="true" />
 
                             <EditText

@@ -122,4 +122,44 @@ public abstract class BaseNavigator implements Navigator {
             ft.commitNow();
         }
     }
+
+    /*
+    Intent intent_next=new Intent(One_Activity.this,Second_Activity.class);
+   overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
+   startActivity(intent_next);
+ finish();
+     */
+
+    /*
+        public void scaleupAnimation(View view) {
+        // Create a scale-up animation that originates at the button
+        // being pressed.
+        ActivityOptions opts = ActivityOptions.makeScaleUpAnimation(view, 0, 0,
+                view.getWidth(), view.getHeight());
+        // Request the activity be started, using the custom animation options.
+        startActivity(new Intent(StartActivity.this, AnimationActivity.class),
+                opts.toBundle());
+    }
+
+    public void thumbNailScaleAnimation(View view) {
+        view.setDrawingCacheEnabled(true);
+        view.setPressed(false);
+        view.refreshDrawableState();
+        Bitmap bitmap = view.getDrawingCache();
+        ActivityOptions opts = ActivityOptions.makeThumbnailScaleUpAnimation(
+                view, bitmap, 0, 0);
+        // Request the activity be started, using the custom animation options.
+        startActivity(new Intent(StartActivity.this, AnimationActivity.class),
+                opts.toBundle());
+        view.setDrawingCacheEnabled(false);
+    }
+
+    public void fadeAnimation(View view) {
+        ActivityOptions opts = ActivityOptions.makeCustomAnimation(
+                StartActivity.this, R.anim.fade_in, R.anim.fade_out);
+        // Request the activity be started, using the custom animation options.
+        startActivity(new Intent(StartActivity.this, AnimationActivity.class),
+                opts.toBundle());
+    }
+     */
 }

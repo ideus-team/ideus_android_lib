@@ -16,6 +16,7 @@ public class StartActivity extends BaseActivity<ActivityStartBinding, NoOpViewMo
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
 
         activityComponent().inject(this);
@@ -26,4 +27,6 @@ public class StartActivity extends BaseActivity<ActivityStartBinding, NoOpViewMo
         //binding.viewPager.setAdapter(adapter);
         //binding.tabLayout.setupWithViewPager(binding.viewPager);
     }
+
+
 }
