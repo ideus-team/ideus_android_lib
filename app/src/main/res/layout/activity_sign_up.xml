@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data>
-        <import type="android.view.View" />
-
-        <variable
-            name="loginVM"
-            type="biz.ideus.ideuslibexample.view_models.LoginActivityVM" />
-    </data>
+    <data></data>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,36 +15,9 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:background="@android:color/white"
                 android:orientation="vertical">
-
-                <RelativeLayout
-                    android:id="@+id/rl_header"
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp">
-
-                    <biz.ideus.ideuslib.widget.ImageLoaderView
-                        android:id="@+id/imageView"
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/skybridge" />
-
-                    <TextView
-                        android:id="@+id/textView2"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/colorLoginHolder" />
-
-                    <biz.ideus.ideuslib.widget.CircleImageView
-                        android:id="@+id/imageViewCircle"
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
-                        android:layout_centerInParent="true"
-                        android:src="@drawable/logo_temp_app" />
-
-                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -65,7 +32,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="15dp"
                         android:gravity="center_horizontal"
-                        android:text="@string/login_with_social_network"
+                        android:text="@string/with_social_networks"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/font_size_17" />
 
@@ -78,22 +45,10 @@
                         android:paddingEnd="@dimen/font_size_15"
                         android:paddingStart="@dimen/font_size_15">
 
-                        <!--<com.facebook.login.widget.LoginButton-->
-                            <!--android:id="@+id/btn_login_fb"-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="40dp"-->
-                            <!--android:layout_marginEnd="5dp"-->
-                            <!--android:layout_marginStart="5dp"-->
-                            <!--android:layout_gravity="center_horizontal"-->
-                            <!--android:layout_marginTop="30dp"-->
-                            <!--android:layout_weight="1"-->
-                            <!--android:layout_marginBottom="30dp" />-->
-
                         <Button
                             android:id="@+id/btn_login_fb"
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
-                            android:onClick="@{loginVM.onClickFaceBookLogin}"
                             android:layout_marginEnd="5dp"
                             android:layout_marginStart="5dp"
                             android:layout_weight="1"
@@ -102,13 +57,11 @@
                             android:textAllCaps="false"
                             android:textColor="@android:color/white" />
 
-
                         <Button
                             android:id="@+id/btn_login_twitter"
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
                             android:layout_weight="1"
-                            android:onClick="@{loginVM.onClickTwitterLogin}"
                             android:background="@drawable/twitter_btn_selector"
                             android:text="@string/twitter"
                             android:textAllCaps="false"
@@ -121,7 +74,6 @@
                             android:layout_marginEnd="5dp"
                             android:layout_marginStart="5dp"
                             android:layout_weight="1"
-                            android:onClick="@{loginVM.onClickGooglePlus}"
                             android:background="@drawable/google_btn_selector"
                             android:text="@string/google_plus"
                             android:textAllCaps="false"
@@ -159,7 +111,7 @@
                                 android:id="@+id/textView4"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/login_with_email"
+                                android:text="@string/sign_up_with_email"
                                 android:textColor="@android:color/black"
                                 android:textSize="@dimen/font_size_15" />
 
@@ -184,15 +136,47 @@
                         android:padding="@dimen/font_size_15">
 
                         <RelativeLayout
+                            android:id="@+id/ll_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/iv_cancel_name"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerInParent="true"
+                                android:src="@drawable/ic_cancel" />
+
+                            <EditText
+                                android:id="@+id/et_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginBottom="@dimen/font_size_15"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:ems="10"
+                                android:hint="@string/your_name"
+                                android:inputType="text"
+                                android:textColor="@android:color/black" />
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_margin="@dimen/font_size_15"
+                            android:background="@color/gray" />
+
+                        <RelativeLayout
                             android:id="@+id/ll_login"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="horizontal">
 
                             <ImageView
-                                android:visibility="@{loginVM.visibilityClearEmailImage}"
                                 android:id="@+id/iv_cancel_email"
-                                android:onClick="@{loginVM.onClickClearFieldImage}"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
                                 android:layout_alignParentEnd="true"
@@ -209,10 +193,8 @@
                                 android:background="@null"
                                 android:ems="10"
                                 android:hint="@string/email"
-                                android:onTextChanged="@{loginVM.onTextChangedEmail}"
                                 android:inputType="textEmailAddress"
-                                android:text="@{loginVM.email}"
-                                android:textColor="@{ (int)loginVM.titleColorEmail}" />
+                                android:textColor="@android:color/black" />
                         </RelativeLayout>
 
                         <View
@@ -222,23 +204,21 @@
                             android:background="@color/gray" />
 
                         <RelativeLayout
-                            android:id="@+id/ll_password"
+                            android:id="@+id/ll_create_password"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="horizontal">
 
                             <ImageView
-                                android:visibility="@{loginVM.visibilityClearPasswordImage}"
                                 android:id="@+id/iv_cancel_password"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:onClick="@{loginVM.onClickClearFieldImage}"
                                 android:layout_alignParentEnd="true"
                                 android:layout_centerInParent="true"
                                 android:src="@drawable/ic_cancel" />
 
                             <EditText
-                                android:id="@+id/et_password"
+                                android:id="@+id/et_create_password"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="false"
@@ -248,12 +228,9 @@
                                 android:layout_weight="1"
                                 android:background="@null"
                                 android:ems="10"
-                                android:password="@{loginVM.isPasswordShow}"
-                                android:hint="@string/password"
-                                android:onTextChanged="@{loginVM.onTextChangedPassword}"
+                                android:hint="@string/create_password"
                                 android:inputType="textPassword"
-                                android:text="@{loginVM.password}"
-                                android:textColor="@{(int)loginVM.titleColorPassword}" />
+                                android:textColor="@android:color/black" />
                         </RelativeLayout>
                     </LinearLayout>
 
@@ -266,61 +243,57 @@
 
                         <CheckBox
                             android:id="@+id/cb_show_pass"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:layout_centerInParent="true"
                             android:text="@string/show_password"
-                            android:checked="false"
-                            android:onClick="@{loginVM.onCheckedChanged}"
-                            android:textSize="@dimen/font_size_15"
-                            android:theme="@style/checkBoxComponent" />
+                            style="@style/checkBoxComponent" />
 
-                        <TextView
-                            android:id="@+id/tv_forgot_password"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerInParent="true"
-                            android:paddingEnd="5dp"
-                            android:text="@string/forgot_password"
-                            android:textSize="@dimen/font_size_15" />
                     </RelativeLayout>
 
                     <Button
-                        android:onClick="@{loginVM.onSignInClick}"
                         android:id="@+id/btn_sing_in"
-                        style="@style/ButtonGreenStyle"
+                        style="@style/ButtonTransparentStyle"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
-                        android:text="@string/sign_in" />
+                        android:text="@string/create_account"
+                        android:layout_marginBottom="@dimen/font_size_15"
+                        android:layout_marginEnd="@dimen/font_size_15"
+                        android:layout_marginStart="@dimen/font_size_15" />
+
+                    <TextView
+                        android:id="@+id/textView7"
+                        android:textSize="@dimen/font_size_15"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/do_not_have_an_account" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/font_size_10"
                         android:layout_marginBottom="@dimen/font_size_10"
-                        android:orientation="horizontal"
-                        android:padding="@dimen/font_size_10">
+                        android:gravity="center">
+
+                        <CheckBox
+                            android:id="@+id/checkBox_privacy_policy"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerInParent="true"
+                            android:text="@string/by_creating_account"
+                            style="@style/checkBoxComponent"
+                            android:layout_width="match_parent" />
 
                         <TextView
-                            android:id="@+id/textView7"
+                            android:id="@+id/tv_privacy_policy"
                             android:textSize="@dimen/font_size_15"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/do_not_have_an_account" />
-
-                        <TextView
-                            android:onClick="@{loginVM.onClickSignUp}"
-                            android:textColor="@color/green_btn_default"
                             android:textStyle="bold"
-                            android:textSize="@dimen/font_size_15"
-                            android:id="@+id/tv_sign_up"
+                            android:textColor="@color/green_btn_default"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/sign_up"
-                            android:padding="5dp" />
+                            android:text="@string/terms_and_privacy_policy" />
                     </LinearLayout>
+
+
                 </LinearLayout>
 
             </LinearLayout>

@@ -15,16 +15,27 @@ import android.widget.EditText;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.trello.rxlifecycle.components.support.RxFragmentActivity;
+import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by user on 08.11.2016.
  */
 
-public abstract class DLibBindingActivity<T extends ViewDataBinding> extends RxFragmentActivity {
+public abstract class DLibBindingActivity<T extends ViewDataBinding> extends RxAppCompatActivity {
     private Fragment oldFragment;
-    T binding;
+    protected T binding;
 
+    public CompositeSubscription compositeSubscription = new CompositeSubscription();
+    // endregion
+
+    // region Lifecycle Methods
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        compositeSubscription.unsubscribe();
+    }
 
     protected void hideKeyboard() {
         View view = getCurrentFocus();

@@ -28,7 +28,10 @@ public abstract class DLibApplication extends Application {
     protected static DLibApplication appInstance;
     protected Configuration configuration;
 
+
     protected abstract void setupFonts();
+    protected abstract void setupFaceBookSDK();
+    protected abstract void setupTwitterSDK();
 
     public static synchronized DLibApplication getInstance() {
         return appInstance;
@@ -45,6 +48,8 @@ public abstract class DLibApplication extends Application {
         super.onCreate();
         appInstance = this;
         setupFonts();
+        setupFaceBookSDK();
+        setupTwitterSDK();
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
@@ -65,6 +70,8 @@ public abstract class DLibApplication extends Application {
         configuration = source.getConfiguration();
         dataStore = RxSupport.toReactiveStore(new EntityDataStore<Persistable>(configuration));
     }
+
+
 
     public void deleteAllTables() {
         SchemaModifier tables = new SchemaModifier(configuration);
