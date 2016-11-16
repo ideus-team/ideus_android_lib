@@ -3,18 +3,15 @@ package biz.ideus.ideuslibexample;
 import android.app.Application;
 import android.content.res.Resources;
 
-import biz.ideus.ideuslib.adapter.typeface_adapters.DLibTypefaceAdapter;
-import biz.ideus.ideuslibexample.injection.components.AppComponent;
-import biz.ideus.ideuslibexample.injection.components.DaggerAppComponent;
-import biz.ideus.ideuslibexample.injection.modules.AppModule;
-
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 
 import biz.ideus.ideuslib.adapter.typeface_adapters.DLibTypefaceAdapter;
-import biz.ideus.ideuslib.application.DLibApplication;
+import biz.ideus.ideuslibexample.injection.components.AppComponent;
+import biz.ideus.ideuslibexample.injection.components.DaggerAppComponent;
+import biz.ideus.ideuslibexample.injection.modules.AppModule;
 import biz.ideus.ideuslibexample.utils.Constants;
 import io.fabric.sdk.android.Fabric;
 
@@ -52,7 +49,7 @@ public class SampleApplication extends Application {
 
     public static Resources getRes() { return sInstance.getResources(); }
     
-    @Override
+    //@Override
     protected void setupFaceBookSDK() {
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
@@ -60,7 +57,7 @@ public class SampleApplication extends Application {
 
     }
 
-    @Override
+    //@Override
     protected void setupTwitterSDK() {
         TwitterAuthConfig authConfig = new TwitterAuthConfig(Constants.TWITTER_APP_KEY, Constants.TWITTER_SECRET_KEY);
         Fabric.with(this, new Twitter(authConfig));
