@@ -1,5 +1,8 @@
 package biz.ideus.ideuslibexample.injection.modules;
 
+import biz.ideus.ideuslibexample.ui.start_screen.StartMvvm;
+import biz.ideus.ideuslibexample.ui.start_screen.activity.StartActivityMvvm;
+import dagger.Binds;
 import dagger.Module;
 
 /* Copyright 2016 Patrick Löwenstein
@@ -20,8 +23,8 @@ public abstract class ViewModelModule {
 
 //    // Activities
 //
-//    @Binds
-//    abstract DetailMvvm.ViewModel bindDetailViewModel(DetailViewModel detailViewModel);
+    @Binds
+    abstract StartMvvm.ViewModel bindStartActivityMvvm(StartActivityMvvm startViewModel);
 //
 //
 //    // Fragments

@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.activities;
+package biz.ideus.ideuslib.temp.activities;
 
 /**
  * Created by blackmamba on 10.11.16.

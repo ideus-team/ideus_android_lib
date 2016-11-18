@@ -1,10 +1,5 @@
-package biz.ideus.ideuslibexample.data;
+package biz.ideus.ideuslibexample.data.remote;
 
-
-import java.util.List;
-
-import retrofit2.http.GET;
-import rx.Observable;
 
 /* Copyright 2016 Patrick Löwenstein
  *
@@ -22,6 +17,6 @@ import rx.Observable;
 public interface CountryApi {
 //    @POST("list/getSpecializations")
 //    Observable<SpecializationAnswer> getSpecializations(@Body LanguageModel languageModel);
-@GET("rest/v1/all")
-Observable<List<Country>> getAllCountries();
+//@GET("rest/v1/all")
+//Observable<List<Country>> getAllCountries();
 }

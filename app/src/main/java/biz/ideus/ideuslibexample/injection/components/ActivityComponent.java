@@ -4,7 +4,7 @@ package biz.ideus.ideuslibexample.injection.components;
 import biz.ideus.ideuslibexample.injection.modules.ActivityModule;
 import biz.ideus.ideuslibexample.injection.modules.ViewModelModule;
 import biz.ideus.ideuslibexample.injection.scopes.PerActivity;
-import biz.ideus.ideuslibexample.ui.start_screen.StartActivity;
+import biz.ideus.ideuslibexample.ui.start_screen.activity.StartActivity;
 import dagger.Component;
 
 /* Copyright 2016 Patrick Löwenstein

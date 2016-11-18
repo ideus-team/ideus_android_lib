@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import okhttp3.logging.HttpLoggingInterceptor;
 
 import biz.ideus.ideuslibexample.BuildConfig;
-import biz.ideus.ideuslibexample.data.CountryApi;
+import biz.ideus.ideuslibexample.data.remote.CountryApi;
 import biz.ideus.ideuslibexample.injection.scopes.PerApplication;
 import dagger.Module;
 import dagger.Provides;
