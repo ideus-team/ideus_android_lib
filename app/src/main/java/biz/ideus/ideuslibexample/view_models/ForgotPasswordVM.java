@@ -12,6 +12,7 @@ import biz.ideus.ideuslib.Utils.Utils;
 import biz.ideus.ideuslib.Utils.UtilsValidationETFields;
 import biz.ideus.ideuslib.view_models.ViewModel;
 import biz.ideus.ideuslibexample.R;
+import biz.ideus.ideuslibexample.utils.Constants;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 
@@ -25,17 +26,15 @@ public class ForgotPasswordVM extends ViewModel {
 
     @Bindable
     public final ObservableField<Integer> titleColorEmail = new ObservableField<>();
-    private UtilsValidationETFields utilsValidationETFields;
 
     public ForgotPasswordVM(Activity activity) {
         this.activity = activity;
-        utilsValidationETFields = new UtilsValidationETFields(activity);
     }
 
     public void onTextChangedEmail(CharSequence s, int start, int before, int count) {
         Observable.just(s.toString())
                 .debounce(500, TimeUnit.MILLISECONDS)
-                .flatMap(text -> Observable.just(utilsValidationETFields.validateEmail(text)))
+                .flatMap(text -> Observable.just(UtilsValidationETFields.validateEmail(text, Constants.EMAIL_PATTERN)))
                 .map(isValid -> {
                     titleColorEmail.set((isValid) ? ContextCompat.getColor(activity, biz.ideus.ideuslib.R.color.black)
                             : ContextCompat.getColor(activity, biz.ideus.ideuslib.R.color.error_color));

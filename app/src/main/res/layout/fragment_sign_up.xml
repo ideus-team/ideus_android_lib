@@ -6,7 +6,7 @@
 
         <variable
             name="signUpVM"
-            type="biz.ideus.ideuslibexample.view_models.SignUpActivityVM" />
+            type="biz.ideus.ideuslibexample.view_models.SignUpFragmentVM" />
     </data>
 
     <LinearLayout

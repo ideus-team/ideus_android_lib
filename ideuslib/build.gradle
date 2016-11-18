@@ -55,6 +55,7 @@ dependencies {
         transitive = true;
     }
     // use an APT plugin
+    compile 'com.theartofdev.edmodo:android-image-cropper:2.3.+'
     compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
     compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
     compile 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'

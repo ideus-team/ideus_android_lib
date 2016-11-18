@@ -28,7 +28,21 @@
     <string name="title_activity_maps">Map</string>
     <string name="forgot_password_message">Enter the Email for during registration to receive password reset instructions.</string>
     <string name="send_password">Send password</string>
+    <string name="skip_all">Skip All</string>
+    <string name="get_started">Get Started</string>
+    <string name="select_image">Select Image</string>
+    <string name="pick_from_galery">Pick from galery</string>
+    <string name="make_photo">Make photo</string>
     <string name="your_email_address">Your email address</string>
+    <string name="tutorial_title_welcome">Welcome to TempApp</string>
+    <string name="tutorial_title_network">Personal Network</string>
+    <string name="tutorial_title_protection">Account Protection</string>
+    <string name="tutorial_title_customisation">Customisation</string>
+
+    <string name="about_welcome">While most people enjoy casino gambling, sports betting, lottery and bingo playing for the fun and excitement it provides</string>
+    <string name="about_network">Statistics show that while 80 percent of the adult population in the US enjoys some type of gambling every year</string>
+    <string name="about_protection">Where can your draw between harmless gambling to problem gambling? How can you tell if you or your friend are compulsive</string>
+    <string name="about_customisation">Problem gambling or compulsive gambling is defined uncontrollable urge to gamble despite the destructive effect </string>
 
 
 </resources>

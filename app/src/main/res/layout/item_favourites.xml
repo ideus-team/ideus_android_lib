@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/background_favorites_item">
+
+
+        <biz.ideus.ideuslib.widget.CircleImageView
+            android:id="@+id/imageViewCircle"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/logo_temp_app"
+            android:layout_centerInParent="false"
+            android:layout_centerHorizontal="false"
+            android:layout_centerVertical="true" />
+
+
+        <TextView
+            android:text="David"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_name"
+            android:textColor="@color/black"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:paddingEnd="10dp"
+            android:paddingStart="5dp"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/imageViewCircle" />
+
+    </RelativeLayout>
+</layout>

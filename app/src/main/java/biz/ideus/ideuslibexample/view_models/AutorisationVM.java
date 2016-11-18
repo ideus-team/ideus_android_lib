@@ -1,5 +1,6 @@
-package biz.ideus.ideuslib.view_models;
+package biz.ideus.ideuslibexample.view_models;
 
+import android.app.Activity;
 import android.content.Intent;
 
 import com.facebook.CallbackManager;
@@ -17,10 +18,10 @@ import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 
 import java.util.Arrays;
 
-import biz.ideus.ideuslib.Utils.UtilsValidationETFields;
 import biz.ideus.ideuslib.activity.DLibBindingActivity;
-
-import static biz.ideus.ideuslib.activity.DLibBindingActivity.GOOGLE_SIGN_IN;
+import biz.ideus.ideuslib.view_models.ViewModel;
+import biz.ideus.ideuslibexample.activities.LoginActivity;
+import biz.ideus.ideuslibexample.utils.UtilsValidation;
 
 /**
  * Created by blackmamba on 16.11.16.
@@ -28,29 +29,25 @@ import static biz.ideus.ideuslib.activity.DLibBindingActivity.GOOGLE_SIGN_IN;
 
 public abstract class AutorisationVM extends ViewModel {
 
-    protected DLibBindingActivity activity;
-    protected CallbackManager faceBookCallbackManager;
-    protected TwitterAuthClient twitterAuthClient;
-    protected GoogleApiClient googleApiClient;
-    protected UtilsValidationETFields utilsValidationETFields;
+    private Activity activity;
+    private CallbackManager faceBookCallbackManager;
+    private TwitterAuthClient twitterAuthClient;
+    private GoogleApiClient googleApiClient;
+    protected UtilsValidation utilsValidation;
 
 
-    public AutorisationVM(DLibBindingActivity activity
-            , CallbackManager faceBookCallbackManager
-    , TwitterAuthClient twitterAuthClient
-            , GoogleApiClient googleApiClient
-            , UtilsValidationETFields utilsValidationETFields) {
+    public AutorisationVM(DLibBindingActivity activity) {
 
         this.activity = activity;
-        this.faceBookCallbackManager = faceBookCallbackManager;
-        this.twitterAuthClient = twitterAuthClient;
-        this.googleApiClient = googleApiClient;
-        this.utilsValidationETFields = utilsValidationETFields;
+        this.faceBookCallbackManager = ((LoginActivity)activity).getFaceBookCallbackManager();
+        this.twitterAuthClient = ((LoginActivity)activity).getTwitterAuthClient();
+        this.googleApiClient = ((LoginActivity)activity).getGoogleApiClient();
+        this.utilsValidation = new UtilsValidation(activity);
     }
 
     protected void signInWithGooglePlus() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
-        activity.startActivityForResult(signInIntent, GOOGLE_SIGN_IN);
+        activity.startActivityForResult(signInIntent, LoginActivity.GOOGLE_SIGN_IN);
     }
 
     protected void onClickTwitterLogin() {

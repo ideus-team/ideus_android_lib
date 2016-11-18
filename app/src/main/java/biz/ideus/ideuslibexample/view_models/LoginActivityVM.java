@@ -7,18 +7,14 @@ import android.text.Editable;
 import android.view.View;
 import android.widget.CheckBox;
 
-import com.facebook.CallbackManager;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.twitter.sdk.android.core.identity.TwitterAuthClient;
+import com.theartofdev.edmodo.cropper.CropImage;
 
 import biz.ideus.ideuslib.Utils.Utils;
-import biz.ideus.ideuslib.Utils.UtilsValidationETFields;
 import biz.ideus.ideuslib.activity.DLibBindingActivity;
 import biz.ideus.ideuslib.interfaces.OnValidateField;
-import biz.ideus.ideuslib.view_models.AutorisationVM;
 import biz.ideus.ideuslibexample.R;
-import biz.ideus.ideuslibexample.activities.SignUpActivity;
 import biz.ideus.ideuslibexample.fragments.ForgotPasswordFragment;
+import biz.ideus.ideuslibexample.fragments.SignUpFragment;
 
 
 /**
@@ -26,7 +22,7 @@ import biz.ideus.ideuslibexample.fragments.ForgotPasswordFragment;
  */
 
 public class LoginActivityVM extends AutorisationVM implements OnValidateField {
-
+    private DLibBindingActivity activity;
 
     private boolean isValidEmail = false;
     private boolean isValidPassword = false;
@@ -48,39 +44,44 @@ public class LoginActivityVM extends AutorisationVM implements OnValidateField {
     public final ObservableField<Boolean> isPasswordShow = new ObservableField<>();
 
 
-    public LoginActivityVM(CallbackManager faceBookCallbackManager
-            , TwitterAuthClient twitterAuthClient
-            , GoogleApiClient googleApiClient
-            , DLibBindingActivity activity) {
-        super(activity, faceBookCallbackManager, twitterAuthClient, googleApiClient, new UtilsValidationETFields(activity));
-
+    public LoginActivityVM(DLibBindingActivity activity) {
+        super(activity);
+        this.activity = activity;
         this.visibilityClearEmailImage.set(View.INVISIBLE);
         this.visibilityClearPasswordImage.set(View.INVISIBLE);
         this.isPasswordShow.set(true);
-        utilsValidationETFields.setOnValidateField(this);
+        utilsValidation.setOnValidateField(this);
     }
 
     public void onClickSignUp(View view) {
         goToSignUp();
     }
 
+    public void onClickSelectPhoto(View view) {
+        selectPhoto();
+    }
+
+    private void selectPhoto() {
+        Intent chooseImageIntent = CropImage.getPickImageChooserIntent(activity);
+        activity.startActivityForResult(chooseImageIntent, CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE);
+    }
 
     public void onClickGooglePlus(View view) {
         signInWithGooglePlus();
     }
 
     public void onClickTwitterLogin(View view) {
-       onClickTwitterLogin();
+        onClickTwitterLogin();
 
     }
-    public void onClickForgotPassword(View view){
+
+    public void onClickForgotPassword(View view) {
         activity.addFragment(new ForgotPasswordFragment());
     }
 
     private void goToSignUp() {
-        activity.startActivity(new Intent(activity, SignUpActivity.class));
+        activity.addFragment(new SignUpFragment());
     }
-
 
 
     public void onClickFaceBookLogin(View view) {
@@ -104,11 +105,11 @@ public class LoginActivityVM extends AutorisationVM implements OnValidateField {
     }
 
     public void onTextChangedEmail(CharSequence s, int start, int before, int count) {
-        utilsValidationETFields.onTextChangedEmail(s.toString());
+        utilsValidation.onTextChangedEmail(s.toString());
     }
 
     public void onTextChangedPassword(CharSequence s, int start, int before, int count) {
-        utilsValidationETFields.onTextChangedPassword(s.toString());
+        utilsValidation.onTextChangedPassword(s.toString());
 
     }
 

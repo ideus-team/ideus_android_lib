@@ -6,15 +6,9 @@ import android.text.Editable;
 import android.view.View;
 import android.widget.CheckBox;
 
-import com.facebook.CallbackManager;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.twitter.sdk.android.core.identity.TwitterAuthClient;
-
 import biz.ideus.ideuslib.Utils.Utils;
-import biz.ideus.ideuslib.Utils.UtilsValidationETFields;
 import biz.ideus.ideuslib.activity.DLibBindingActivity;
 import biz.ideus.ideuslib.interfaces.OnValidateSignUpScreen;
-import biz.ideus.ideuslib.view_models.AutorisationVM;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.fragments.TermsAndPrivacyFragment;
 
@@ -22,8 +16,8 @@ import biz.ideus.ideuslibexample.fragments.TermsAndPrivacyFragment;
  * Created by blackmamba on 16.11.16.
  */
 
-public class SignUpActivityVM extends AutorisationVM implements OnValidateSignUpScreen {
-
+public class SignUpFragmentVM extends AutorisationVM implements OnValidateSignUpScreen {
+    private DLibBindingActivity activity;
     private boolean isValidName = false;
     private boolean isValidEmail = false;
     private boolean isValidPassword = false;
@@ -52,16 +46,14 @@ public class SignUpActivityVM extends AutorisationVM implements OnValidateSignUp
     public final ObservableField<Boolean> isPasswordShow = new ObservableField<>();
 
 
-    public SignUpActivityVM(CallbackManager faceBookCallbackManager
-            , TwitterAuthClient twitterAuthClient
-            , GoogleApiClient googleApiClient
-            , DLibBindingActivity activity) {
-        super(activity, faceBookCallbackManager, twitterAuthClient, googleApiClient, new UtilsValidationETFields(activity));
+    public SignUpFragmentVM(DLibBindingActivity activity) {
+        super(activity);
+        this.activity = activity;
         this.visibilityClearEmailImage.set(View.INVISIBLE);
         this.visibilityClearPasswordImage.set(View.INVISIBLE);
         this.visibilityClearNameImage.set(View.INVISIBLE);
         this.isPasswordShow.set(true);
-        utilsValidationETFields.setOnValidateField(this);
+        utilsValidation.setOnValidateField(this);
     }
 
 
@@ -80,7 +72,7 @@ public class SignUpActivityVM extends AutorisationVM implements OnValidateSignUp
     }
 
     public void onTextChangedName(CharSequence s, int start, int before, int count) {
-        utilsValidationETFields.onTextChangedName(s.toString());
+        utilsValidation.onTextChangedName(s.toString());
 
     }
 
@@ -120,10 +112,11 @@ public class SignUpActivityVM extends AutorisationVM implements OnValidateSignUp
     }
 
     public void onClickFaceBookLogin(View view) {
-      onClickFaceBookLogin();
+        onClickFaceBookLogin();
     }
-    public void onClickTermsAndPolicy(View view){
-        activity.addFragment( new TermsAndPrivacyFragment());
+
+    public void onClickTermsAndPolicy(View view) {
+        activity.addFragment(new TermsAndPrivacyFragment());
     }
 
     // CheckBox change listener
@@ -132,11 +125,11 @@ public class SignUpActivityVM extends AutorisationVM implements OnValidateSignUp
     }
 
     public void onTextChangedEmail(CharSequence s, int start, int before, int count) {
-        utilsValidationETFields.onTextChangedEmail(s.toString());
+        utilsValidation.onTextChangedEmail(s.toString());
     }
 
     public void onTextChangedPassword(CharSequence s, int start, int before, int count) {
-        utilsValidationETFields.onTextChangedPassword(s.toString());
+        utilsValidation.onTextChangedPassword(s.toString());
 
     }
 
