@@ -14,6 +14,7 @@ import biz.ideus.ideuslibexample.injection.components.DaggerAppComponent;
 import biz.ideus.ideuslibexample.injection.modules.AppModule;
 import biz.ideus.ideuslibexample.utils.Constants;
 import io.fabric.sdk.android.Fabric;
+import io.requery.sql.Configuration;
 
 /**
  * Created by user on 09.11.2016.
@@ -21,6 +22,7 @@ import io.fabric.sdk.android.Fabric;
 
 public class SampleApplication extends Application {
 
+    private Configuration configuration;
 
     protected void setupFonts() {
         DLibTypefaceAdapter.addFontDefinition("normal", "fonts/MuseoSansCyrl.otf");
@@ -47,6 +49,8 @@ public class SampleApplication extends Application {
                 .build();
 
        // if(BuildConfig.DEBUG) { Timber.plant(new Timber.DebugTree()); }
+
+
     }
 
     public static SampleApplication getInstance() { return sInstance; }

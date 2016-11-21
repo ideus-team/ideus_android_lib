@@ -6,7 +6,7 @@
 
         <variable
             name="loginVM"
-            type="biz.ideus.ideuslibexample.ui.start_screen.activity.StartActivityViewModel" />
+            type="biz.ideus.ideuslibexample.view_models.LoginActivityVM" />
     </data>
 
     <LinearLayout

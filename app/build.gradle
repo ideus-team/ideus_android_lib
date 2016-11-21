@@ -30,6 +30,7 @@ android {
 
 ext.daggerVersion = '2.7'
 ext.okHttpVersion = '3.4.1'
+ext.requeryVersion = '1.0.2'
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -39,6 +40,11 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+
+    compile "io.requery:requery:${requeryVersion}"
+    compile "io.requery:requery-android:${requeryVersion}" // for android
+    apt "io.requery:requery-processor:${requeryVersion}"   // use an APT plugin
+
     compile "com.squareup.okhttp3:okhttp:${okHttpVersion}"
     compile "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}"
     compile 'com.android.support:appcompat-v7:25.0.1'

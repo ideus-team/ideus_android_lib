@@ -19,7 +19,7 @@ public class StartActivity extends BaseActivity<ActivityStartBinding, StartMvvm.
         super.onCreate(savedInstanceState);
 
         activityComponent().inject(this);
-        setAndBindContentView(R.layout.activity_login, savedInstanceState);
+        setAndBindContentView(R.layout.activity_start, savedInstanceState);
 
         //setSupportActionBar(binding.toolbar);
 

@@ -14,14 +14,14 @@ public interface StartMvvm {
 
     interface ViewModel extends MvvmViewModel<StartMvvm.View> {
 
-        void onFaceBookClick(View view);
-        void onTwitterClick(View view);
-        void onGoogleClick(View view);
-        void onSignInClick(View view);
-        void onSignUpClick(View view);
-        void onShowPasswordClick(View view);
-        void onForgotPasswordClick(View view);
-        void onClearEmailClick(View view);
-        void onClearPasswordClick(View view);
+        void onFaceBookClick(android.view.View view);
+        void onTwitterClick(android.view.View view);
+        void onGoogleClick(android.view.View view);
+        void onSignInClick(android.view.View view);
+        void onSignUpClick(android.view.View view);
+        void onShowPasswordClick(android.view.View view);
+        void onForgotPasswordClick(android.view.View view);
+        void onClearEmailClick(android.view.View view);
+        void onClearPasswordClick(android.view.View view);
     }
 }

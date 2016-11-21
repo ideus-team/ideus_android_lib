@@ -1,6 +1,7 @@
 package biz.ideus.ideuslibexample.ui.start_screen.activity;
 
 import android.content.Context;
+import android.view.View;
 
 import javax.inject.Inject;
 
@@ -15,59 +16,58 @@ import biz.ideus.ideuslibexample.ui.start_screen.StartMvvm;
 @PerActivity
 public class StartActivityViewModel extends BaseViewModel<StartMvvm.View> implements StartMvvm.ViewModel {
 
+    
+
     protected final Context ctx;
+
 
     @Inject
     public StartActivityViewModel(@AppContext Context context) {
         this.ctx = context.getApplicationContext();
     }
 
-
-
     @Override
-    public void onFaceBookClick(StartMvvm.View view) {
+    public void onFaceBookClick(View view) {
 
     }
 
     @Override
-    public void onTwitterClick(StartMvvm.View view) {
+    public void onTwitterClick(View view) {
 
     }
 
     @Override
-    public void onGoogleClick(StartMvvm.View view) {
+    public void onGoogleClick(View view) {
 
     }
 
     @Override
-    public void onSignInClick(StartMvvm.View view) {
+    public void onSignInClick(View view) {
 
     }
 
     @Override
-    public void onSignUpClick(StartMvvm.View view) {
+    public void onSignUpClick(View view) {
 
     }
 
     @Override
-    public void onShowPasswordClick(StartMvvm.View view) {
+    public void onShowPasswordClick(View view) {
 
     }
 
     @Override
-    public void onForgotPasswordClick(StartMvvm.View view) {
+    public void onForgotPasswordClick(View view) {
 
     }
 
     @Override
-    public void onClearEmailClick(StartMvvm.View view) {
+    public void onClearEmailClick(View view) {
 
     }
 
     @Override
-    public void onClearPasswordClick(StartMvvm.View view) {
+    public void onClearPasswordClick(View view) {
 
     }
-
-
 }
