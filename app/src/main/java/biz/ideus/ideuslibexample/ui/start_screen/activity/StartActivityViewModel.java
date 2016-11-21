@@ -13,12 +13,12 @@ import biz.ideus.ideuslibexample.ui.start_screen.StartMvvm;
  * Created by user on 18.11.2016.
  */
 @PerActivity
-public class StartActivityMvvm extends BaseViewModel<StartMvvm.View> implements StartMvvm.ViewModel {
+public class StartActivityViewModel extends BaseViewModel<StartMvvm.View> implements StartMvvm.ViewModel {
 
     protected final Context ctx;
 
     @Inject
-    public StartActivityMvvm(@AppContext Context context) {
+    public StartActivityViewModel(@AppContext Context context) {
         this.ctx = context.getApplicationContext();
     }
 
