@@ -35,6 +35,12 @@ public class SampleApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         sInstance = this;
         sAppComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))

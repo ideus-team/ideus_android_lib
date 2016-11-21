@@ -1,11 +1,5 @@
-package biz.ideus.ideuslibexample.injection.components;
+package biz.ideus.ideuslibexample.data.remote;
 
-
-import biz.ideus.ideuslibexample.injection.modules.ActivityModule;
-import biz.ideus.ideuslibexample.injection.modules.ViewModelModule;
-import biz.ideus.ideuslibexample.injection.scopes.PerActivity;
-import biz.ideus.ideuslibexample.ui.start_screen.activity.StartActivity;
-import dagger.Component;
 
 /* Copyright 2016 Patrick Löwenstein
  *
@@ -20,9 +14,9 @@ import dagger.Component;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License. */
-@PerActivity
-@Component(dependencies = AppComponent.class, modules = {ActivityModule.class, ViewModelModule.class})
-public interface ActivityComponent {
-    void inject(StartActivity activity);
-//    void inject(DetailActivity activity);
+public interface CountryApi {
+//    @POST("list/getSpecializations")
+//    Observable<SpecializationAnswer> getSpecializations(@Body LanguageModel languageModel);
+//@GET("rest/v1/all")
+//Observable<List<Country>> getAllCountries();
 }
