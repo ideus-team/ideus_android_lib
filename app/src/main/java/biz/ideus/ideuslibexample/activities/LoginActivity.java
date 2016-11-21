@@ -69,7 +69,6 @@ public class LoginActivity extends DLibBindingActivity<ActivityLoginBinding> imp
         createGoogleSignInOptions();
         createGoogleApiClient();
         twitterAuthClient = new TwitterAuthClient();
-
         loginActivityVM = new LoginActivityVM(this);
         binding.setLoginVM(loginActivityVM);
 
