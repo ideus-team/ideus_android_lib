@@ -5,8 +5,9 @@
         <import type="android.view.View" />
 
         <variable
-            name="loginVM"
-            type="biz.ideus.ideuslibexample.view_models.LoginActivityVM" />
+            name="vm"
+
+            type="biz.ideus.ideuslibexample.view_models.StartActivityViewModel" />
     </data>
 
     <LinearLayout
@@ -19,21 +20,24 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
                 android:orientation="vertical">
-
+                
                 <RelativeLayout
                     android:id="@+id/rl_header"
                     android:layout_width="match_parent"
                     android:layout_height="150dp">
 
+
                     <biz.ideus.ideuslib.widget.ImageLoaderView
-                        android:id="@+id/imageView"
-                        android:onClick="@{loginVM.onClickSelectPhoto}"
+                        android:id="@+id/imageView_header"
                         android:layout_width="match_parent"
+                    android:onClick="@{vm::onClickSelectPhoto}"
                         android:layout_height="200dp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/skybridge" />
@@ -79,22 +83,12 @@
                         android:paddingEnd="@dimen/font_size_15"
                         android:paddingStart="@dimen/font_size_15">
 
-                        <!--<com.facebook.login.widget.LoginButton-->
-                            <!--android:id="@+id/btn_login_fb"-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="40dp"-->
-                            <!--android:layout_marginEnd="5dp"-->
-                            <!--android:layout_marginStart="5dp"-->
-                            <!--android:layout_gravity="center_horizontal"-->
-                            <!--android:layout_marginTop="30dp"-->
-                            <!--android:layout_weight="1"-->
-                            <!--android:layout_marginBottom="30dp" />-->
 
                         <Button
                             android:id="@+id/btn_login_fb"
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
-                            android:onClick="@{loginVM.onClickFaceBookLogin}"
+                            android:onClick="@{vm::onFaceBookClick}"
                             android:layout_marginEnd="5dp"
                             android:layout_marginStart="5dp"
                             android:layout_weight="1"
@@ -109,7 +103,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
                             android:layout_weight="1"
-                            android:onClick="@{loginVM.onClickTwitterLogin}"
+                            android:onClick="@{vm.onTwitterClick}"
                             android:background="@drawable/twitter_btn_selector"
                             android:text="@string/twitter"
                             android:textAllCaps="false"
@@ -122,7 +116,7 @@
                             android:layout_marginEnd="5dp"
                             android:layout_marginStart="5dp"
                             android:layout_weight="1"
-                            android:onClick="@{loginVM.onClickGooglePlus}"
+                            android:onClick="@{vm.onGoogleClick}"
                             android:background="@drawable/google_btn_selector"
                             android:text="@string/google_plus"
                             android:textAllCaps="false"
@@ -191,17 +185,20 @@
                             android:orientation="horizontal">
 
                             <ImageView
-                                android:visibility="@{loginVM.visibilityClearEmailImage}"
+                                android:visibility="@{vm.visibilityClearEmailImage}"
                                 android:id="@+id/iv_cancel_email"
-                                android:onClick="@{loginVM.onClickClearFieldImage}"
+                                android:onClick="@{vm.onClearEmailClick}"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
                                 android:layout_alignParentEnd="true"
                                 android:layout_centerInParent="true"
                                 android:src="@drawable/ic_cancel" />
 
+
+
                             <EditText
                                 android:id="@+id/et_login"
+                            android:onTextChanged="@{vm.onTextChangedEmail}"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
@@ -210,10 +207,9 @@
                                 android:background="@null"
                                 android:ems="10"
                                 android:hint="@string/email"
-                                android:onTextChanged="@{loginVM.onTextChangedEmail}"
                                 android:inputType="textEmailAddress"
-                                android:text="@{loginVM.email}"
-                                android:textColor="@{ (int)loginVM.titleColorEmail}" />
+                                android:text="@{vm.email}"
+                                android:textColor="@{ (int)vm.titleColorEmail}" />
                         </RelativeLayout>
 
                         <View
@@ -229,14 +225,15 @@
                             android:orientation="horizontal">
 
                             <ImageView
-                                android:visibility="@{loginVM.visibilityClearPasswordImage}"
+                                android:visibility="@{vm.visibilityClearPasswordImage}"
                                 android:id="@+id/iv_cancel_password"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:onClick="@{loginVM.onClickClearFieldImage}"
+                                android:onClick="@{vm.onClearPasswordClick}"
                                 android:layout_alignParentEnd="true"
                                 android:layout_centerInParent="true"
                                 android:src="@drawable/ic_cancel" />
+
 
                             <EditText
                                 android:id="@+id/et_password"
@@ -249,12 +246,12 @@
                                 android:layout_weight="1"
                                 android:background="@null"
                                 android:ems="10"
-                                android:password="@{loginVM.isPasswordShow}"
+                            android:onTextChanged="@{vm.onTextChangedPassword}"
+                                android:password="@{vm.isPasswordShow}"
                                 android:hint="@string/password"
-                                android:onTextChanged="@{loginVM.onTextChangedPassword}"
                                 android:inputType="textPassword"
-                                android:text="@{loginVM.password}"
-                                android:textColor="@{(int)loginVM.titleColorPassword}" />
+                                android:text="@{vm.password}"
+                                android:textColor="@{(int)vm.titleColorPassword}" />
                         </RelativeLayout>
                     </LinearLayout>
 
@@ -273,7 +270,7 @@
                             android:layout_centerInParent="true"
                             android:text="@string/show_password"
                             android:checked="false"
-                            android:onClick="@{loginVM.onCheckedChanged}"
+                            android:onClick="@{vm.onShowPasswordClick}"
                             android:textSize="@dimen/font_size_15"
                             android:theme="@style/checkBoxComponent" />
 
@@ -283,14 +280,14 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_centerInParent="true"
-                            android:onClick="@{loginVM.onClickForgotPassword}"
+                            android:onClick="@{vm.onForgotPasswordClick}"
                             android:padding="5dp"
                             android:text="@string/forgot_password"
                             android:textSize="@dimen/font_size_15" />
                     </RelativeLayout>
 
                     <Button
-                        android:onClick="@{loginVM.onSignInClick}"
+                        android:onClick="@{vm.onSignInClick}"
                         android:id="@+id/btn_sing_in"
                         style="@style/ButtonGreenStyle"
                         android:layout_width="match_parent"
@@ -313,7 +310,7 @@
                             android:text="@string/do_not_have_an_account" />
 
                         <TextView
-                            android:onClick="@{loginVM.onClickSignUp}"
+                            android:onClick="@{vm.onSignUpClick}"
                             android:textColor="@color/green_btn_default"
                             android:textStyle="bold"
                             android:textSize="@dimen/font_size_15"

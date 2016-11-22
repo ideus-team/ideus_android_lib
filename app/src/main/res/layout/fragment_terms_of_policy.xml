@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data></data>
+    <data>
+            <import type="android.view.View" />
+
+            <variable
+                name="vm"
+
+                type="biz.ideus.ideuslibexample.view_models.TermsPolicyVM" />
+    </data>
 
     <LinearLayout
         android:clickable="true"
@@ -19,11 +26,11 @@
                 android:layout_height="match_parent"
                 android:background="@android:color/white"
                 android:orientation="vertical" >
-                <WebView
-                    android:id="@+id/webView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
+                <!--<WebView-->
+                    <!--android:id="@+id/webView"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"/>-->
 
             </LinearLayout>
         </ScrollView>

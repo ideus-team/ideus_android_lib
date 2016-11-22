@@ -1,23 +1,26 @@
 package biz.ideus.ideuslibexample.view_models;
 
+import android.content.Context;
 import android.databinding.Bindable;
 import android.databinding.ObservableField;
 import android.text.Editable;
 import android.view.View;
 import android.widget.CheckBox;
 
-import biz.ideus.ideuslib.Utils.Utils;
-import biz.ideus.ideuslib.activity.DLibBindingActivity;
+import javax.inject.Inject;
+
 import biz.ideus.ideuslib.interfaces.OnValidateSignUpScreen;
 import biz.ideus.ideuslibexample.R;
-import biz.ideus.ideuslibexample.fragments.TermsAndPrivacyFragment;
+import biz.ideus.ideuslibexample.injection.qualifier.AppContext;
+import biz.ideus.ideuslibexample.injection.scopes.PerFragment;
+import biz.ideus.ideuslibexample.ui.start_screen.activity.StartActivity;
 
 /**
  * Created by blackmamba on 16.11.16.
  */
-
+@PerFragment
 public class SignUpFragmentVM extends AutorisationVM implements OnValidateSignUpScreen {
-    private DLibBindingActivity activity;
+    private Context ctx;
     private boolean isValidName = false;
     private boolean isValidEmail = false;
     private boolean isValidPassword = false;
@@ -45,14 +48,15 @@ public class SignUpFragmentVM extends AutorisationVM implements OnValidateSignUp
     @Bindable
     public final ObservableField<Boolean> isPasswordShow = new ObservableField<>();
 
-
-    public SignUpFragmentVM(DLibBindingActivity activity) {
-        super(activity);
-        this.activity = activity;
+    @Inject
+    public SignUpFragmentVM(@AppContext Context context) {
+        super(context);
+        this.ctx = context;
         this.visibilityClearEmailImage.set(View.INVISIBLE);
         this.visibilityClearPasswordImage.set(View.INVISIBLE);
         this.visibilityClearNameImage.set(View.INVISIBLE);
         this.isPasswordShow.set(true);
+       // setUtilsValidation(context);
         utilsValidation.setOnValidateField(this);
     }
 
@@ -77,17 +81,17 @@ public class SignUpFragmentVM extends AutorisationVM implements OnValidateSignUp
     }
 
     private boolean isValidData() {
-        if (!isValidEmail) {
-            Utils.toast(activity.getString(R.string.invalid_email));
-            return isValidEmail && isValidPassword && isValidName;
-        }
-        if (!isValidPassword) {
-            Utils.toast(activity.getString(R.string.invalid_password));
-            return isValidEmail && isValidPassword && isValidName;
-        }
-
-        if (!isValidName)
-            Utils.toast(activity.getString(R.string.invalid_name));
+//        if (!isValidEmail) {
+//            Utils.toast(activity.getString(R.string.invalid_email));
+//            return isValidEmail && isValidPassword && isValidName;
+//        }
+//        if (!isValidPassword) {
+//            Utils.toast(activity.getString(R.string.invalid_password));
+//            return isValidEmail && isValidPassword && isValidName;
+//        }
+//
+//        if (!isValidName)
+//            Utils.toast(activity.getString(R.string.invalid_name));
         return isValidEmail && isValidPassword && isValidName;
 
     }
@@ -104,19 +108,19 @@ public class SignUpFragmentVM extends AutorisationVM implements OnValidateSignUp
 
 
     public void onClickGooglePlus(View view) {
-        signInWithGooglePlus();
+        signInWithGooglePlus((StartActivity) view.getContext());
     }
 
     public void onClickTwitterLogin(View view) {
-        onClickTwitterLogin();
+        onClickTwitterLogin((StartActivity) view.getContext());
     }
 
     public void onClickFaceBookLogin(View view) {
-        onClickFaceBookLogin();
+        onClickFaceBookLogin((StartActivity) view.getContext());
     }
 
     public void onClickTermsAndPolicy(View view) {
-        activity.addFragment(new TermsAndPrivacyFragment());
+
     }
 
     // CheckBox change listener

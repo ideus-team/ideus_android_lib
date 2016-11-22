@@ -10,15 +10,17 @@ android {
     buildToolsVersion "24.0.2"
 
     defaultConfig {
-        minSdkVersion 17
+        minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
 
-
-
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     buildTypes {
         release {
@@ -36,15 +38,23 @@ android {
 
 }
 
+ext.supportLibVersion = '25.0.0'
+ext.daggerVersion = '2.7'
+ext.parcelerVersion = '1.1.6'
+ext.retrofitVersion = '2.1.0'
+ext.requeryVersion = '1.0.1'
+
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.google.android.gms:play-services-auth:9.8.0'
-
-    compile 'com.android.support:appcompat-v7:25.0.0'
+    compile 'com.google.code.gson:gson:2.7'
+    compile 'com.android.support:appcompat-v7:25.0.1'
+    compile "com.android.support:recyclerview-v7:${supportLibVersion}"
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+
     compile 'io.requery:sqlite-android:3.13.0-1'
     compile 'io.requery:requery:1.0.0-rc2'
     compile 'io.requery:requery-android:1.0.0-rc2'
@@ -59,15 +69,32 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
     compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
     compile 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'
+
+    //compile "io.requery:sqlite-android:3.13.0-1"
+    compile "io.requery:requery:${requeryVersion}"
+    compile "io.requery:requery-android:${requeryVersion}" // for android
+    apt "io.requery:requery-processor:${requeryVersion}"   // use an APT plugin
+    compile "com.squareup.retrofit2:retrofit:${retrofitVersion}"
+    compile "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
+    compile "com.squareup.retrofit2:adapter-rxjava:${retrofitVersion}"
+
     compile 'com.squareup.okhttp:logging-interceptor:2.6.0'
-    compile 'io.reactivex:rxandroid:1.0.1'
-    compile 'io.reactivex:rxjava:1.0.14'
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'io.reactivex:rxjava:1.2.1'
     compile 'com.trello:rxlifecycle:0.3.0'
     compile 'com.trello:rxlifecycle-components:0.3.0'
     compile 'com.google.firebase:firebase-core:9.4.0'
     compile 'com.google.firebase:firebase-messaging:9.4.0'
     compile 'testfairy:testfairy-android-sdk:1.+@aar'
+    apt "com.google.dagger:dagger-compiler:${daggerVersion}"
+    compile "com.google.dagger:dagger:${daggerVersion}"
+    compile "org.parceler:parceler-api:${parcelerVersion}"
+    apt "org.parceler:parceler:${parcelerVersion}"
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:design:25.0.0'
+    compile 'com.facebook.android:facebook-android-sdk:4.+'
+    compile('com.twitter.sdk.android:twitter:2.2.0@aar') {
+        transitive = true;
+    }
 }
 apply plugin: 'com.google.gms.google-services'

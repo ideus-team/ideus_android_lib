@@ -1,12 +1,12 @@
-package biz.ideus.ideuslibexample.activities;
+package biz.ideus.ideuslibexample.ui.start_screen.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.view.View;
 
 import com.facebook.CallbackManager;
 import com.google.android.gms.auth.api.Auth;
@@ -21,20 +21,23 @@ import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 
 import java.io.IOException;
 
-import biz.ideus.ideuslib.activity.DLibBindingActivity;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.databinding.ActivityLoginBinding;
-import biz.ideus.ideuslibexample.view_models.LoginActivityVM;
+import biz.ideus.ideuslibexample.ui.base.BaseActivity;
+import biz.ideus.ideuslibexample.ui.start_screen.StartMvvm;
 
+import static biz.ideus.ideuslibexample.view_models.AutorisationVM.GOOGLE_SIGN_IN;
 
 /**
- * Created by blackmamba on 10.11.16.
+ * Created by user on 11.11.2016.
  */
 
-public class LoginActivity extends DLibBindingActivity<ActivityLoginBinding> implements GoogleApiClient.OnConnectionFailedListener {
-    private LoginActivityVM loginActivityVM;
+public class StartActivity extends BaseActivity<ActivityLoginBinding, StartMvvm.ViewModel> implements StartMvvm.View ,GoogleApiClient.OnConnectionFailedListener {
 
     private CallbackManager faceBookCallbackManager;
+    private TwitterAuthClient twitterAuthClient;
+    private GoogleSignInOptions googleSignInOptions;
+    private GoogleApiClient googleApiClient;
 
     public CallbackManager getFaceBookCallbackManager() {
         return faceBookCallbackManager;
@@ -52,25 +55,24 @@ public class LoginActivity extends DLibBindingActivity<ActivityLoginBinding> imp
         return googleApiClient;
     }
 
-    private TwitterAuthClient twitterAuthClient;
-    private GoogleSignInOptions googleSignInOptions;
-    private GoogleApiClient googleApiClient;
-    public static final int GOOGLE_SIGN_IN = 2222;
+
 
     @Override
-    public int getLayoutId() {
-        return R.layout.activity_login;
-    }
-
-    @Override
-    public void onInit(View rootView) {
-
+    protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
+        super.onCreate(savedInstanceState);
         faceBookCallbackManager = CallbackManager.Factory.create();
         createGoogleSignInOptions();
         createGoogleApiClient();
         twitterAuthClient = new TwitterAuthClient();
-        loginActivityVM = new LoginActivityVM(this);
-        binding.setLoginVM(loginActivityVM);
+        activityComponent().inject(this);
+        setAndBindContentView(R.layout.activity_login, savedInstanceState);
+
+
+        //setSupportActionBar(binding.toolbar);
+
+        //binding.viewPager.setAdapter(adapter);
+        //binding.tabLayout.setupWithViewPager(binding.viewPager);
 
     }
 
@@ -98,7 +100,8 @@ public class LoginActivity extends DLibBindingActivity<ActivityLoginBinding> imp
                 case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
                     CropImage.ActivityResult result = CropImage.getActivityResult(data);
                     Uri resultUri = result.getUri();
-                    binding.imageView.setImageBitmap(useImage(resultUri));
+
+                    binding.imageViewHeader.setImageBitmap(useImage(resultUri));
                     break;
                 case CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE:
                     break;
@@ -118,7 +121,7 @@ public class LoginActivity extends DLibBindingActivity<ActivityLoginBinding> imp
         }
         return bitmap;
     }
-    
+
     private void createGoogleSignInOptions() {
         googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -148,5 +151,4 @@ public class LoginActivity extends DLibBindingActivity<ActivityLoginBinding> imp
 
         }
     }
-
 }

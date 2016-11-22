@@ -1,6 +1,6 @@
 package biz.ideus.ideuslibexample.view_models;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 
 import com.facebook.CallbackManager;
@@ -18,40 +18,45 @@ import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 
 import java.util.Arrays;
 
-import biz.ideus.ideuslib.activity.DLibBindingActivity;
-import biz.ideus.ideuslib.view_models.ViewModel;
-import biz.ideus.ideuslibexample.activities.LoginActivity;
+import biz.ideus.ideuslib.ui_base.viewmodel.BaseViewModel;
+import biz.ideus.ideuslibexample.ui.start_screen.StartMvvm;
+import biz.ideus.ideuslibexample.ui.start_screen.activity.StartActivity;
 import biz.ideus.ideuslibexample.utils.UtilsValidation;
 
 /**
  * Created by blackmamba on 16.11.16.
  */
 
-public abstract class AutorisationVM extends ViewModel {
+public abstract class AutorisationVM extends BaseViewModel<StartMvvm.View> {
 
-    private Activity activity;
     private CallbackManager faceBookCallbackManager;
     private TwitterAuthClient twitterAuthClient;
     private GoogleApiClient googleApiClient;
     protected UtilsValidation utilsValidation;
+    public static final int GOOGLE_SIGN_IN = 2222;
 
-
-    public AutorisationVM(DLibBindingActivity activity) {
-
-        this.activity = activity;
-        this.faceBookCallbackManager = ((LoginActivity)activity).getFaceBookCallbackManager();
-        this.twitterAuthClient = ((LoginActivity)activity).getTwitterAuthClient();
-        this.googleApiClient = ((LoginActivity)activity).getGoogleApiClient();
-        this.utilsValidation = new UtilsValidation(activity);
+    public UtilsValidation getUtilsValidation() {
+        return utilsValidation;
     }
 
-    protected void signInWithGooglePlus() {
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
-        activity.startActivityForResult(signInIntent, LoginActivity.GOOGLE_SIGN_IN);
+    public void setUtilsValidation(Context context) {
+        this.utilsValidation = new UtilsValidation(context);
     }
 
-    protected void onClickTwitterLogin() {
-        twitterAuthClient.authorize(activity, new Callback<TwitterSession>() {
+    public AutorisationVM(Context context){
+        this.utilsValidation = new UtilsValidation(context);
+    }
+
+
+
+
+    protected void signInWithGooglePlus(StartActivity activity) {
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(activity.getGoogleApiClient());
+        activity.startActivityForResult(signInIntent, GOOGLE_SIGN_IN);
+    }
+
+    protected void onClickTwitterLogin(StartActivity activity) {
+        activity.getTwitterAuthClient().authorize(activity, new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> twitterSessionResult) {
                 System.out.println("TwitterSession  " + twitterSessionResult.data.getUserName());
@@ -65,9 +70,9 @@ public abstract class AutorisationVM extends ViewModel {
 
     }
 
-    protected void onClickFaceBookLogin() {
+    protected void onClickFaceBookLogin(StartActivity activity) {
         LoginManager.getInstance().logInWithReadPermissions(activity, Arrays.asList("public_profile", "email"));
-        LoginManager.getInstance().registerCallback(faceBookCallbackManager,
+        LoginManager.getInstance().registerCallback(activity.getFaceBookCallbackManager(),
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {

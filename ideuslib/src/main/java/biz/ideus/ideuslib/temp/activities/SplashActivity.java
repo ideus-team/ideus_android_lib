@@ -1,16 +1,19 @@
-package biz.ideus.ideuslibexample.activities;
-
-import android.content.Intent;
-import android.view.View;
-
-import biz.ideus.ideuslib.activity.DLibBindingActivity;
-import biz.ideus.ideuslibexample.R;
-import biz.ideus.ideuslibexample.databinding.ActivitySplashBinding;
-
-/**
- * Created by blackmamba on 10.11.16.
- */
-
+//package biz.ideus.ideuslibexample.activities;
+//
+//import android.content.Intent;
+//import android.view.View;
+//
+//import biz.ideus.ideuslib.activity.DLibBindingActivity;
+//import biz.ideus.ideuslibexample.R;
+//import biz.ideus.ideuslibexample.databinding.ActivitySplashBinding;
+//
+//package biz.ideus.ideuslib.temp.activities;
+//
+//
+///**
+// * Created by blackmamba on 10.11.16.
+// */
+/*
 public class SplashActivity extends DLibBindingActivity<ActivitySplashBinding> {
     @Override
     public int getLayoutId() {
@@ -35,3 +38,4 @@ public class SplashActivity extends DLibBindingActivity<ActivitySplashBinding> {
     }
 
 }
+*/

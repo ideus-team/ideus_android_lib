@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layer-list
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@android:anim/linear_interpolator" >
+
+
+
+    <item
+
+        android:drawable="@color/color_main"/>
+
+    <item>
+
+        <bitmap
+
+            android:gravity="center"
+
+            android:src="@drawable/logo_circle"/>
+
+    </item>
+
+    <!--<item>-->
+        <!--<rotate-->
+            <!--android:duration="2000"-->
+            <!--android:drawable="@drawable/logo"-->
+            <!--android:startOffset="0"-->
+            <!--android:repeatCount="infinite"-->
+            <!--android:pivotX="50%"-->
+            <!--android:pivotY="50%"-->
+            <!--android:fromDegrees="0"-->
+            <!--android:toDegrees="360"/>-->
+    <!--</item>-->
+
+    <!--<item>-->
+        <!--<rotate-->
+            <!--android:fromDegrees="45"-->
+            <!--android:toDegrees="45"-->
+            <!--android:pivotX="50%"-->
+            <!--android:pivotY="50%" >-->
+            <!--<shape-->
+                <!--android:shape="line"-->
+                <!--android:top="1dip" >-->
+                <!--<stroke-->
+                    <!--android:width="1dip"-->
+                    <!--android:color="#FF0000" />-->
+            <!--</shape>-->
+        <!--</rotate>-->
+    <!--</item>-->
+
+</layer-list>
