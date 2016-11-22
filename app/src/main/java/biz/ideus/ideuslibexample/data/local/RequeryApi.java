@@ -15,6 +15,7 @@ import rx.Observable;
 @SuppressLint("NewApi")
 public class RequeryApi implements IRequeryApi{
 
+
     private SingleEntityStore<Persistable> dataStore;
 
 //    @Provides

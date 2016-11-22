@@ -123,6 +123,9 @@ public abstract class BaseNavigator implements Navigator {
         }
     }
 
+
+    }
+
     /*
     Intent intent_next=new Intent(One_Activity.this,Second_Activity.class);
    overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);

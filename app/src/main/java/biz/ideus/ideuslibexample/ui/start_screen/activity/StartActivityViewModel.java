@@ -1,6 +1,8 @@
 package biz.ideus.ideuslibexample.ui.start_screen.activity;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import javax.inject.Inject;
@@ -16,7 +18,7 @@ import biz.ideus.ideuslibexample.ui.start_screen.StartMvvm;
 @PerActivity
 public class StartActivityViewModel extends BaseViewModel<StartMvvm.View> implements StartMvvm.ViewModel {
 
-    
+
 
     protected final Context ctx;
 
@@ -28,12 +30,12 @@ public class StartActivityViewModel extends BaseViewModel<StartMvvm.View> implem
 
     @Override
     public void onFaceBookClick(View view) {
-
+        navigator.get().startActivity(new Intent());
     }
 
     @Override
     public void onTwitterClick(View view) {
-
+        AppCompatActivity activity = (AppCompatActivity) view.getContext();
     }
 
     @Override

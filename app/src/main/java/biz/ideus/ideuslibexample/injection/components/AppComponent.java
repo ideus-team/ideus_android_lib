@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.res.Resources;
 
 import biz.ideus.ideuslibexample.injection.modules.AppModule;
+import biz.ideus.ideuslibexample.injection.modules.DataModule;
+import biz.ideus.ideuslibexample.injection.modules.NetModule;
 import biz.ideus.ideuslibexample.injection.qualifier.AppContext;
 import biz.ideus.ideuslibexample.injection.scopes.PerApplication;
 import dagger.Component;
@@ -13,9 +15,10 @@ import dagger.Component;
  */
 
 @PerApplication
-@Component(modules={AppModule.class /*, NetModule.class, DataModule.class*/})
+@Component(modules={AppModule.class , NetModule.class, DataModule.class})
 public interface AppComponent {
     @AppContext
     Context context();
     Resources resources();
+
 }
