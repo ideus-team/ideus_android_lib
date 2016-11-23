@@ -1,6 +1,7 @@
 package biz.ideus.ideuslibexample.view_models;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.Bindable;
 import android.databinding.ObservableField;
 import android.text.Editable;
@@ -9,11 +10,13 @@ import android.widget.CheckBox;
 
 import javax.inject.Inject;
 
+import biz.ideus.ideuslib.Utils.Utils;
 import biz.ideus.ideuslib.interfaces.OnValidateSignUpScreen;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.injection.qualifier.AppContext;
 import biz.ideus.ideuslibexample.injection.scopes.PerFragment;
-import biz.ideus.ideuslibexample.ui.start_screen.activity.StartActivity;
+import biz.ideus.ideuslibexample.ui.activities.StartActivity;
+import biz.ideus.ideuslibexample.ui.activities.TutorialActivity;
 
 /**
  * Created by blackmamba on 16.11.16.
@@ -81,25 +84,26 @@ public class SignUpFragmentVM extends AutorisationVM implements OnValidateSignUp
     }
 
     private boolean isValidData() {
-//        if (!isValidEmail) {
-//            Utils.toast(activity.getString(R.string.invalid_email));
-//            return isValidEmail && isValidPassword && isValidName;
-//        }
-//        if (!isValidPassword) {
-//            Utils.toast(activity.getString(R.string.invalid_password));
-//            return isValidEmail && isValidPassword && isValidName;
-//        }
-//
-//        if (!isValidName)
-//            Utils.toast(activity.getString(R.string.invalid_name));
+        if (!isValidEmail) {
+            Utils.toast(ctx, ctx.getString(R.string.invalid_email));
+            return isValidEmail && isValidPassword && isValidName;
+        }
+        if (!isValidPassword) {
+            Utils.toast(ctx, ctx.getString(R.string.invalid_password));
+            return isValidEmail && isValidPassword && isValidName;
+        }
+
+        if (!isValidName)
+            Utils.toast(ctx, ctx.getString(R.string.invalid_name));
         return isValidEmail && isValidPassword && isValidName;
 
     }
 
     public void onCreateAccountClick(View view) {
-        if (isValidData()) {
+      //  if (isValidData()) {
 
-        }
+    //    }
+        navigator.get().startActivity(new Intent(((StartActivity)view.getContext()) , TutorialActivity.class));
     }
 
     public void onCheckedChangedTermAndPolicy(View v) {

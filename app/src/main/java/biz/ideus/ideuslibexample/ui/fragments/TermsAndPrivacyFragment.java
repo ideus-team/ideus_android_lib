@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.fragments;
+package biz.ideus.ideuslibexample.ui.fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -22,6 +22,7 @@ public class TermsAndPrivacyFragment extends BaseFragment<FragmentTermsOfPolicyB
     @Override
     public android.view.View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentComponent().inject(this);
+
         return setAndBindContentView(inflater, container,R.layout.fragment_terms_of_policy,savedInstanceState);
     }
     // setContentWebView("file:///android_asset/contract.html");

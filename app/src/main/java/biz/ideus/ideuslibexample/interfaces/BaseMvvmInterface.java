@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.ui.start_screen;
+package biz.ideus.ideuslibexample.interfaces;
 
 import biz.ideus.ideuslib.ui_base.view.MvvmView;
 import biz.ideus.ideuslib.ui_base.viewmodel.MvvmViewModel;
@@ -7,13 +7,12 @@ import biz.ideus.ideuslib.ui_base.viewmodel.MvvmViewModel;
  * Created by user on 18.11.2016.
  */
 
-public interface StartMvvm {
+public interface BaseMvvmInterface {
     interface View extends MvvmView {
 
     }
 
-    interface ViewModel extends MvvmViewModel<StartMvvm.View> {
-
+    interface StartActivityVmListener extends MvvmViewModel<BaseMvvmInterface.View> {
         void onFaceBookClick(android.view.View view);
         void onTwitterClick(android.view.View view);
         void onGoogleClick(android.view.View view);
@@ -23,6 +22,11 @@ public interface StartMvvm {
         void onForgotPasswordClick(android.view.View view);
         void onClearEmailClick(android.view.View view);
         void onClearPasswordClick(android.view.View view);
+    }
+    interface TutorialVmListener extends MvvmViewModel<BaseMvvmInterface.View> {
+        void onSkipAllClick(android.view.View view);
+        void onGetStartedClick(android.view.View view);
+
     }
 
 }

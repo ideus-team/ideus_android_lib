@@ -2,7 +2,14 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data />
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+
+            type="biz.ideus.ideuslibexample.view_models.TutorialActivityVM" />
+    </data>
 
     <RelativeLayout
         android:clickable="true"
@@ -23,15 +30,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tv_skip"
+            android:onClick="@{vm.onSkipAllClick}"
             android:layout_alignParentEnd="true"
             android:padding="15dp" />
 
         <LinearLayout
             android:text="Button"
             style="@style/ButtonTransparentStyleWhiteCorner"
+        android:background = "@{vm.isBtnSelectorDefoult ? @drawable/lets_start_btn_selector : @drawable/green_btn_selector}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/font_size_15"
+            android:onClick="@{vm.onGetStartedClick}"
             android:id="@+id/btn_lets_start"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true">

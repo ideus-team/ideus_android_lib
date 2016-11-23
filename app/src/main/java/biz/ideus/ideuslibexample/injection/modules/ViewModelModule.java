@@ -1,7 +1,7 @@
 package biz.ideus.ideuslibexample.injection.modules;
 
-import biz.ideus.ideuslibexample.ui.start_screen.StartMvvm;
-import biz.ideus.ideuslibexample.view_models.StartActivityViewModel;
+import biz.ideus.ideuslibexample.interfaces.BaseMvvmInterface;
+import biz.ideus.ideuslibexample.view_models.StartActivityVM;
 import dagger.Binds;
 import dagger.Module;
 
@@ -24,7 +24,7 @@ public abstract class ViewModelModule {
 //    // Activities
 //
     @Binds
-    abstract StartMvvm.ViewModel bindStartActivityMvvm(StartActivityViewModel startViewModel);
+    abstract BaseMvvmInterface.StartActivityVmListener bindStartActivityMvvm(StartActivityVM startViewModel);
 //
 //
 //    // Fragments
@@ -39,6 +39,6 @@ public abstract class ViewModelModule {
 //    // View Holders
 //
 //    @Binds
-//    abstract CountryMvvm.ViewModel bindCountryViewModel(CountryViewModel countryViewModel);
+//    abstract CountryMvvm.StartActivityVmListener bindCountryViewModel(CountryViewModel countryViewModel);
 
 }

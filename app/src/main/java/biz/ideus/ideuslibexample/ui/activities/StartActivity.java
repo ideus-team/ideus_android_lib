@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.ui.start_screen.activity;
+package biz.ideus.ideuslibexample.ui.activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -23,8 +23,8 @@ import java.io.IOException;
 
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.databinding.ActivityLoginBinding;
+import biz.ideus.ideuslibexample.interfaces.BaseMvvmInterface;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
-import biz.ideus.ideuslibexample.ui.start_screen.StartMvvm;
 
 import static biz.ideus.ideuslibexample.view_models.AutorisationVM.GOOGLE_SIGN_IN;
 
@@ -32,7 +32,7 @@ import static biz.ideus.ideuslibexample.view_models.AutorisationVM.GOOGLE_SIGN_I
  * Created by user on 11.11.2016.
  */
 
-public class StartActivity extends BaseActivity<ActivityLoginBinding, StartMvvm.ViewModel> implements StartMvvm.View ,GoogleApiClient.OnConnectionFailedListener {
+public class StartActivity extends BaseActivity<ActivityLoginBinding, BaseMvvmInterface.StartActivityVmListener> implements BaseMvvmInterface.View ,GoogleApiClient.OnConnectionFailedListener {
 
     private CallbackManager faceBookCallbackManager;
     private TwitterAuthClient twitterAuthClient;
@@ -45,10 +45,6 @@ public class StartActivity extends BaseActivity<ActivityLoginBinding, StartMvvm.
 
     public TwitterAuthClient getTwitterAuthClient() {
         return twitterAuthClient;
-    }
-
-    public GoogleSignInOptions getGoogleSignInOptions() {
-        return googleSignInOptions;
     }
 
     public GoogleApiClient getGoogleApiClient() {

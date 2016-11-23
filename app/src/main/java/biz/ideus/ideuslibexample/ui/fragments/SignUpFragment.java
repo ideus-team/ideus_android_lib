@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.fragments;
+package biz.ideus.ideuslibexample.ui.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

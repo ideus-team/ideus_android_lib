@@ -12,19 +12,22 @@ import com.theartofdev.edmodo.cropper.CropImage;
 
 import javax.inject.Inject;
 
+import biz.ideus.ideuslib.Utils.Utils;
 import biz.ideus.ideuslib.interfaces.OnValidateField;
-import biz.ideus.ideuslibexample.fragments.SignUpFragment;
+import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.injection.qualifier.AppContext;
 import biz.ideus.ideuslibexample.injection.scopes.PerActivity;
-import biz.ideus.ideuslibexample.ui.start_screen.StartMvvm;
-import biz.ideus.ideuslibexample.ui.start_screen.activity.StartActivity;
+import biz.ideus.ideuslibexample.interfaces.BaseMvvmInterface;
+import biz.ideus.ideuslibexample.ui.activities.StartActivity;
+import biz.ideus.ideuslibexample.ui.fragments.ForgotPasswordFragment;
+import biz.ideus.ideuslibexample.ui.fragments.SignUpFragment;
 import biz.ideus.ideuslibexample.utils.Constants;
 
 /**
  * Created by user on 18.11.2016.
  */
 @PerActivity
-public class StartActivityViewModel extends AutorisationVM implements StartMvvm.ViewModel, OnValidateField {
+public class StartActivityVM extends AutorisationVM implements BaseMvvmInterface.StartActivityVmListener, OnValidateField {
 
     private final Context ctx;
     private boolean isValidEmail = false;
@@ -47,25 +50,23 @@ public class StartActivityViewModel extends AutorisationVM implements StartMvvm.
     public final ObservableField<Boolean> isPasswordShow = new ObservableField<>();
 
     @Inject
-    public StartActivityViewModel(@AppContext Context context) {
+    public StartActivityVM(@AppContext Context context) {
         super(context);
         this.ctx = context.getApplicationContext();
         this.visibilityClearEmailImage.set(View.INVISIBLE);
         this.visibilityClearPasswordImage.set(View.INVISIBLE);
         this.isPasswordShow.set(true);
-       // setUtilsValidation(context);
         utilsValidation.setOnValidateField(this);
     }
 
 
-
     private boolean isValidData() {
-//        if (!isValidEmail) {
-//            Utils.toast(activity.getString(R.string.invalid_email));
-//            return isValidEmail && isValidPassword;
-//        }
-//        if (!isValidPassword)
-//            Utils.toast(activity.getString(R.string.invalid_password));
+        if (!isValidEmail) {
+            Utils.toast(ctx, ctx.getString(R.string.invalid_email));
+            return isValidEmail && isValidPassword;
+        }
+        if (!isValidPassword)
+            Utils.toast(ctx, ctx.getString(R.string.invalid_password));
         return isValidEmail && isValidPassword;
 
     }
@@ -98,7 +99,6 @@ public class StartActivityViewModel extends AutorisationVM implements StartMvvm.
 
         }
     }
-
     @Override
     public void onSignUpClick(View view) {
         navigator.get().addFragmentToBackStack(android.R.id.content, new SignUpFragment(), Constants.SIGN_UP_FRAGMENT,null, true, null);
@@ -111,7 +111,7 @@ public class StartActivityViewModel extends AutorisationVM implements StartMvvm.
 
     @Override
     public void onForgotPasswordClick(View view) {
-
+        navigator.get().addFragmentToBackStack(android.R.id.content, new ForgotPasswordFragment(), Constants.SIGN_UP_FRAGMENT,null, true, null);
     }
 
     @Override
@@ -131,7 +131,6 @@ public class StartActivityViewModel extends AutorisationVM implements StartMvvm.
 
     public void onTextChangedPassword(CharSequence s, int start, int before, int count) {
         utilsValidation.onTextChangedPassword(s.toString());
-
     }
 
     @Override

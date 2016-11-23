@@ -13,5 +13,6 @@ public class Constants {
 
     //fragment tags
     public static final String SIGN_UP_FRAGMENT = "SIGN_UP_FRAGMENT";
+    public static final String FORGOT_PASSWORD_FRAGMENT = "FORGOT_PASSWORD_FRAGMENT";
 
 }

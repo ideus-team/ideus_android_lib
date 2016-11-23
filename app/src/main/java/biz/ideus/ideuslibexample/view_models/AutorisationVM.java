@@ -19,15 +19,15 @@ import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import java.util.Arrays;
 
 import biz.ideus.ideuslib.ui_base.viewmodel.BaseViewModel;
-import biz.ideus.ideuslibexample.ui.start_screen.StartMvvm;
-import biz.ideus.ideuslibexample.ui.start_screen.activity.StartActivity;
+import biz.ideus.ideuslibexample.interfaces.BaseMvvmInterface;
+import biz.ideus.ideuslibexample.ui.activities.StartActivity;
 import biz.ideus.ideuslibexample.utils.UtilsValidation;
 
 /**
  * Created by blackmamba on 16.11.16.
  */
 
-public abstract class AutorisationVM extends BaseViewModel<StartMvvm.View> {
+public abstract class AutorisationVM extends BaseViewModel<BaseMvvmInterface.View> {
 
     private CallbackManager faceBookCallbackManager;
     private TwitterAuthClient twitterAuthClient;

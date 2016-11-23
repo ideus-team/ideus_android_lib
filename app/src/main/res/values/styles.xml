@@ -62,7 +62,6 @@
     </style>
     <style name="ButtonTransparentStyleWhiteCorner" parent="android:Widget">
         <item name="android:textColor">@color/light_gray</item>
-        <item name="android:background">@drawable/lets_start_btn_selector</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/font_size_16</item>
         <item name="android:gravity">center</item>

@@ -7,7 +7,7 @@
         <variable
             name="vm"
 
-            type="biz.ideus.ideuslibexample.view_models.StartActivityViewModel" />
+            type="biz.ideus.ideuslibexample.view_models.StartActivityVM" />
     </data>
 
     <LinearLayout

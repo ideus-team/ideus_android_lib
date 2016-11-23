@@ -51,5 +51,5 @@ public class ActivityModule {
     @Provides
     @PerActivity
     Navigator provideNavigator() { return new ActivityNavigator(mActivity); }
-
+    
 }
