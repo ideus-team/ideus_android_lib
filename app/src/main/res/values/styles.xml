@@ -43,6 +43,27 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <style name="SettingsTextTitleStyle" parent="android:Widget.TextView">
+        <item name="android:textAllCaps">true</item>
+        <item name="android:layout_marginBottom">@dimen/font_size_10</item>
+        <item name="android:layout_marginTop">@dimen/font_size_20</item>
+        <item name="android:layout_marginStart">@dimen/font_size_10</item>
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+
+    <style name="SettingsTextPasswordStyle" parent="android:Widget.TextView">
+        <item name="android:paddingBottom">@dimen/font_size_15</item>
+        <item name="android:paddingTop">@dimen/font_size_15</item>
+        <item name="android:layout_marginStart">@dimen/font_size_10</item>
+        <item name="android:textSize">@dimen/font_size_18</item>
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
     <style name="RbTutorialStyle" parent="android:Widget">
         <item name="android:layout_width">10dp</item>
         <item name="android:layout_height">10dp</item>

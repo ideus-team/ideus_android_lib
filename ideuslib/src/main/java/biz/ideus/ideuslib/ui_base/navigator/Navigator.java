@@ -32,6 +32,7 @@ public interface Navigator {
     void startActivity(@NonNull Class<? extends Activity> activityClass);
     void startActivity(@NonNull Class<? extends Activity> activityClass, Bundle args);
     void startActivity(@NonNull Class<? extends Activity> activityClass, Parcelable args);
+    void startActivityForResult(@NonNull Intent intent, int requestCode);
 
 
     void replaceFragment(@IdRes int containerId, @NonNull Fragment fragment, Bundle args);

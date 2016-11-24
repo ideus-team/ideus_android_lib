@@ -21,6 +21,6 @@ public class PersonalNetworkFragment extends BaseTutorialFragment {
 
     @Override
     public Drawable setImage() {
-        return getResources().getDrawable(R.drawable.logo_circle);
+        return getResources().getDrawable(R.drawable.networking);
     }
 }

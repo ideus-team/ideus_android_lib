@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data>
-    </data>
+    <data></data>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,14 +11,13 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:background="@color/light_gray"
                 android:orientation="vertical">
-
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -27,28 +25,273 @@
                     android:background="@android:color/white">
 
                     <biz.ideus.ideuslib.widget.CircleImageView
-                        android:layout_margin="@dimen/font_size_10"
                         android:id="@+id/imageViewCircle"
-                        android:layout_width="90dp"
-                        android:layout_height="90dp"
-                        android:src="@drawable/logo_temp_app"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/font_size_10"
+                        android:src="@drawable/logo_temp_app" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_user_descriptions"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/font_size_10"
+                        android:layout_toEndOf="@+id/imageViewCircle"
+                        android:layout_toRightOf="@+id/imageViewCircle"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:text="Bob Jack"
+                            android:textColor="@color/dark_gray_text"
+                            android:textSize="@dimen/font_size_18"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_count_connections"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="+1000 Connections"
+                            android:textColor="@color/dark_gray_text" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <TextView
+                    style="@style/SettingsTextTitleStyle"
+                    android:text="@string/general_info" />
+
+                <LinearLayout
+                    android:id="@+id/ll_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/font_size_10"
+                        android:text="@string/name"
+                        android:textColor="@color/dark_gray_text" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/font_size_10"
+                        android:layout_marginStart="@dimen/font_size_10"
+                        android:text="Bob Jack"
+                        android:textColor="@color/dark_gray_text"
+                        android:textSize="@dimen/font_size_18" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ii_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="1dp"
+                    android:background="@android:color/white"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/font_size_10"
+                        android:text="@string/email"
+                        android:textColor="@color/dark_gray_text" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/font_size_10"
+                        android:layout_marginStart="@dimen/font_size_10"
+                        android:text="bobJack72@gmail.com"
+                        android:textColor="@color/dark_gray_text"
+                        android:textSize="@dimen/font_size_18" />
+
+                </LinearLayout>
+
+                <TextView
+                    style="@style/SettingsTextTitleStyle"
+                    android:text="@string/password" />
+
+                <LinearLayout
+                    android:id="@+id/ll_current_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="1dp"
+                    android:background="@android:color/white"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/SettingsTextPasswordStyle"
+                        android:text="@string/current_password" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_new_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/SettingsTextPasswordStyle"
+                        android:text="@string/new_password" />
+
+                </LinearLayout>
+
+                <TextView
+                    style="@style/SettingsTextTitleStyle"
+                    android:text="@string/facebook" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="1dp"
+                    android:background="@android:color/white"
+                    android:id="@+id/rl_facebook">
+
+                    <ImageView
+                        android:id="@+id/imageView3"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="@dimen/font_size_10"
+                        android:src="@drawable/facebook" />
+
+                    <TextView
+                        android:id="@+id/tv_fb_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:text="Bob Jack"
+                        android:textStyle="bold"
+                        android:textColor="@color/fb_color_default"
+                        android:textSize="@dimen/font_size_17"
+                        android:layout_toLeftOf="@+id/tv_status_connect"
+                        android:layout_toRightOf="@+id/imageView3" />
+
+                    <TextView
+                        android:id="@+id/tv_status_connect"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:padding="@dimen/font_size_10"
+                        android:text="@string/disconnect"
+                        android:textSize="@dimen/font_size_17" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:background="@android:color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <Switch
+                       style="@style/SwitchGreenStyle"
+                        android:checked="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/switch1"
+                        android:padding="@dimen/font_size_10"
+                        android:layout_centerInParent="false"
+                        android:layout_centerHorizontal="false"
+                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true" />
 
                     <TextView
-                        android:text="Bob Jack"
+                        android:text="@string/visible_on_profile"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/tv_name"
-                        android:layout_below="@+id/tv_count_connections" />
+                        android:id="@+id/textView9"
+                        android:textColor="@color/dark_gray_text"
+                        android:padding="@dimen/font_size_10"
+                        android:textSize="@dimen/font_size_17"
+                        android:layout_alignBaseline="@+id/switch1"
+                        android:layout_alignBottom="@+id/switch1"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true" />
+                </RelativeLayout>
+
+                <TextView
+                    style="@style/SettingsTextTitleStyle"
+                    android:text="@string/twitter" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="1dp"
+                    android:background="@android:color/white"
+                    android:id="@+id/rl_twitter">
+
+                    <ImageView
+                        android:id="@+id/imageView4"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="@dimen/font_size_10"
+                        android:src="@drawable/twitter" />
 
                     <TextView
-                        android:text="+1000 Connections"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/tv_twitter_name"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/tv_count_connections"
-                        />
-
+                        android:layout_centerVertical="true"
+                        android:text="@string/connect_twitter_account"
+                        android:textStyle="bold"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:textColor="@color/twitter_color_default"
+                        android:textSize="@dimen/font_size_17"
+                        android:layout_toRightOf="@+id/imageView4" />
                 </RelativeLayout>
+
+                <TextView
+                    style="@style/SettingsTextTitleStyle" />
+
+                <LinearLayout
+                    android:id="@+id/ll_logout"
+                    android:layout_marginBottom="40dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="@dimen/font_size_10"
+                        android:layout_marginStart="@dimen/font_size_10"
+                        android:text="@string/logout"
+                        android:textColor="@color/dark_gray_text"
+                        android:textSize="@dimen/font_size_18" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/font_size_10"
+                        android:layout_marginBottom="@dimen/font_size_10"
+                        android:text="Signed in as Bob Jack"
+                        android:textColor="@color/gray" />
+
+
+
+                </LinearLayout>
+
             </LinearLayout>
         </ScrollView>
 

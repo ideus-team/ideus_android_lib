@@ -2,8 +2,9 @@ package biz.ideus.ideuslibexample.view_models;
 
 import android.content.Context;
 import android.databinding.Bindable;
-import android.databinding.ObservableField;
 import android.view.View;
+
+import com.android.databinding.library.baseAdapters.BR;
 
 import javax.inject.Inject;
 
@@ -12,35 +13,58 @@ import biz.ideus.ideuslibexample.adapters.TutorialPagerAdapter;
 import biz.ideus.ideuslibexample.injection.qualifier.AppContext;
 import biz.ideus.ideuslibexample.injection.scopes.PerActivity;
 import biz.ideus.ideuslibexample.interfaces.BaseMvvmInterface;
-import biz.ideus.ideuslibexample.interfaces.TutorialPagerActivityListener;
 
 /**
  * Created by blackmamba on 23.11.16.
  */
 @PerActivity
-public class TutorialActivityVM extends BaseViewModel<BaseMvvmInterface.View> implements BaseMvvmInterface.TutorialVmListener, TutorialPagerActivityListener {
+public class TutorialActivityVM extends BaseViewModel<BaseMvvmInterface.View> implements BaseMvvmInterface.TutorialVmListener, TutorialPagerAdapter.OnPagerListener {
     private Context context;
     private TutorialPagerAdapter adapter;
+    private final int ABOUT_APP = 0;
+    private final int NETWORK = 1;
+    private final int PROTECTION = 2;
+    private final int CUSTOMISATION = 3;
 
-    //    @Bindable
-//    public final ObservableField<Integer> image = new ObservableField<>();
-    @Bindable
-    public final ObservableField<String> title = new ObservableField<>();
-    @Bindable
-    public final ObservableField<Boolean> isBtnSelectorDefoult = new ObservableField<>();
+    private boolean isBtnSelectorDefault = true;
+    private boolean isRadioBtnWelcomeChecked = true;
+    private boolean isRadioBtnNetworkChecked;
+    private boolean isRadioBtnProtectionChecked;
+    private boolean isRadioBtnCustomChecked;
 
-    public void setAdapter(TutorialPagerAdapter adapter) {
-        this.adapter = adapter;
-        adapter.setTutorialPagerActivityListener(this);
+    @Bindable
+    public boolean isRadioBtnWelcomeChecked() {
+        return isRadioBtnWelcomeChecked;
     }
+
+    @Bindable
+    public boolean isRadioBtnProtectionChecked() {
+        return isRadioBtnProtectionChecked;
+    }
+
+    @Bindable
+    public boolean isRadioBtnNetworkChecked() {
+        return isRadioBtnNetworkChecked;
+    }
+
+    @Bindable
+    public boolean isRadioBtnCustomChecked() {
+        return isRadioBtnCustomChecked;
+    }
+
+    @Bindable
+    public boolean isBtnSelectorDefault() {
+        return isBtnSelectorDefault;
+    }
+
 
     @Inject
-    public TutorialActivityVM(@AppContext Context context) {
+    public TutorialActivityVM(@AppContext Context context, TutorialPagerAdapter adapter) {
         this.context = context;
-        adapter.setTutorialPagerActivityListener(this);
-        isBtnSelectorDefoult.set(true);
-
+        this.adapter = adapter;
+        this.adapter.setOnPagerListener(this);
     }
+
 
     @Override
     public void onSkipAllClick(View view) {
@@ -52,21 +76,27 @@ public class TutorialActivityVM extends BaseViewModel<BaseMvvmInterface.View> im
 
     }
 
-    public void onPageChanged(int position) {
-
-    }
-
     @Override
-    public void changeIndicator(int position) {
-
-    }
-
-    @Override
-    public void changeSelectorBtn(int position) {
-        if (position == 3) {
-            isBtnSelectorDefoult.set(false);
-        } else {
-            isBtnSelectorDefoult.set(true);
+    public void selectPage(int position) {
+        switch (position) {
+            case ABOUT_APP:
+                isRadioBtnWelcomeChecked = true;
+                notifyPropertyChanged(BR.radioBtnWelcomeChecked);
+                break;
+            case NETWORK:
+                isRadioBtnNetworkChecked = true;
+                notifyPropertyChanged(BR.radioBtnNetworkChecked);
+                break;
+            case PROTECTION:
+                isRadioBtnProtectionChecked = true;
+                notifyPropertyChanged(BR.radioBtnProtectionChecked);
+                break;
+            case CUSTOMISATION:
+                isRadioBtnCustomChecked = true;
+                isBtnSelectorDefault = false;
+                notifyPropertyChanged(BR.radioBtnCustomChecked);
+                notifyPropertyChanged(BR.btnSelectorDefault);
+                break;
         }
     }
 }

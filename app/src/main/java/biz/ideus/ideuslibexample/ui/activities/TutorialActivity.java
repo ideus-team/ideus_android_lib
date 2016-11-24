@@ -19,19 +19,13 @@ public class TutorialActivity extends BaseActivity<ActivityTutorialBinding, Tuto
     @Inject
     TutorialPagerAdapter adapter;
 
-    public TutorialPagerAdapter getAdapter() {
-        return adapter;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityComponent().inject(this);
         setAndBindContentView(R.layout.activity_tutorial, savedInstanceState);
-        viewModel.setAdapter(adapter);
         binding.viewFlipper.setAdapter(adapter);
-
-
-
+        binding.viewFlipper.addOnPageChangeListener(adapter);
     }
 }

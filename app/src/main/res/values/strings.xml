@@ -13,7 +13,7 @@
     <string name="google_plus">Google+</string>
     <string name="login_with_email">Or Login with Email</string>
     <string name="sign_up_with_email">Or Sign Up with Email</string>
-    <string name="email">Enter Email</string>
+    <string name="enter_email">Enter Email</string>
     <string name="your_name">Your Name</string>
     <string name="password">Password</string>
     <string name="forgot_password">Forgot password?</string>
@@ -38,6 +38,16 @@
     <string name="tutorial_title_network">Personal Network</string>
     <string name="tutorial_title_protection">Account Protection</string>
     <string name="tutorial_title_customisation">Customisation</string>
+    <string name="general_info">general info</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="current_password">Current Password (required)</string>
+    <string name="new_password">New Password (required)</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="visible_on_profile">Visible on profile</string>
+    <string name="connect_twitter_account">Connect Twitter Account</string>
+    <string name="logout">Logout</string>
+
 
     <string name="about_welcome">While most people enjoy casino gambling, sports betting, lottery and bingo playing for the fun and excitement it provides</string>
     <string name="about_network">Statistics show that while 80 percent of the adult population in the US enjoys some type of gambling every year</string>

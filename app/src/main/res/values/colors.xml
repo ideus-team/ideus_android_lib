@@ -15,6 +15,7 @@
     <color name="google_plus_pressed">#bc1804</color>
     <color name="error_color">#d65141</color>
     <color name="black">#030000</color>
+    <color name="dark_gray_text">#292929</color>
     <color name="light_gray">#f5f5f5</color>
     <color name="gray">#b3b3b3</color>
     <color name="date_gray">#939393</color>

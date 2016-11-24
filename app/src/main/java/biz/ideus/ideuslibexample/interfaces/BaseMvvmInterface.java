@@ -7,7 +7,7 @@ import biz.ideus.ideuslib.ui_base.viewmodel.MvvmViewModel;
  * Created by user on 18.11.2016.
  */
 
-public interface BaseMvvmInterface {
+public interface BaseMvvmInterface{
     interface View extends MvvmView {
 
     }

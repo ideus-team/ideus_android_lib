@@ -74,7 +74,8 @@ public class StartActivityVM extends AutorisationVM implements BaseMvvmInterface
     public void onClickSelectPhoto(View view) {
             StartActivity activity = (StartActivity) view.getContext();
         Intent chooseImageIntent = CropImage.getPickImageChooserIntent(activity);
-    activity.startActivityForResult(chooseImageIntent, CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE);
+        navigator.get().startActivityForResult(chooseImageIntent, CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE);
+  //  activity.startActivityForResult(chooseImageIntent, CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE);
     }
 
 

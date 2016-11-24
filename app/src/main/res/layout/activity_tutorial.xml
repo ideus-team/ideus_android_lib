@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+
         <import type="android.view.View" />
 
         <variable
@@ -12,78 +12,82 @@
     </data>
 
     <RelativeLayout
-        android:clickable="true"
         android:layout_width="match_parent"
-        android:background="@color/color_main"
         android:layout_height="match_parent"
+        android:background="@color/color_main"
+        android:clickable="true"
         android:orientation="vertical">
 
         <android.support.v4.view.ViewPager
-            android:layout_above="@+id/id_radio_group"
             android:id="@+id/view_flipper"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_above="@+id/id_radio_group" />
 
         <TextView
-            android:text="@string/skip_all"
-            android:textColor="@color/light_gray"
+            android:id="@+id/tv_skip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tv_skip"
+            android:layout_alignParentRight="true"
             android:onClick="@{vm.onSkipAllClick}"
-            android:layout_alignParentEnd="true"
-            android:padding="15dp" />
+            android:padding="15dp"
+            android:text="@string/skip_all"
+            android:textColor="@color/light_gray" />
 
         <LinearLayout
-            android:text="Button"
+            android:id="@+id/btn_lets_start"
             style="@style/ButtonTransparentStyleWhiteCorner"
-        android:background = "@{vm.isBtnSelectorDefoult ? @drawable/lets_start_btn_selector : @drawable/green_btn_selector}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/font_size_15"
-            android:onClick="@{vm.onGetStartedClick}"
-            android:id="@+id/btn_lets_start"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true">
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/font_size_15"
+            android:background="@{vm.btnSelectorDefault ? @drawable/lets_start_btn_selector : @drawable/green_btn_selector}"
+            android:onClick="@{vm.onGetStartedClick}"
+            android:text="Button">
 
             <TextView
-                android:text="@string/get_started"
-                android:textColor="@color/light_gray"
+                android:id="@+id/text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
+                android:layout_alignParentRight="true"
+                android:padding="15dp"
+                android:text="@string/get_started"
+                android:textColor="@color/light_gray"
                 android:textSize="@dimen/font_size_17"
-                android:id="@+id/text"
-                android:layout_alignParentEnd="true"
-                android:padding="15dp" />
+                android:textStyle="bold" />
         </LinearLayout>
 
 
-
         <RadioGroup
-            android:layout_margin="@dimen/font_size_10"
-            android:gravity="center"
+            android:id="@+id/id_radio_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_above="@+id/btn_lets_start"
-            android:layout_alignParentStart="true"
-
-            android:id="@+id/id_radio_group">
+            android:layout_alignParentLeft="true"
+            android:layout_margin="@dimen/font_size_10"
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/radio0"
-                android:checked="true"
-                style="@style/RbTutorialStyle"/>
+                style="@style/RbTutorialStyle"
+                android:checked="@{vm.radioBtnWelcomeChecked}" />
+
             <RadioButton
                 android:id="@+id/radio1"
-                style="@style/RbTutorialStyle"/>
-            <RadioButton
                 style="@style/RbTutorialStyle"
-                android:id="@+id/radio2" />
+                android:checked="@{vm.radioBtnNetworkChecked}" />
+
+            <RadioButton
+                android:id="@+id/radio2"
+                style="@style/RbTutorialStyle"
+                android:checked="@{vm.radioBtnProtectionChecked}" />
+
             <RadioButton
                 android:id="@+id/radio3"
-                style="@style/RbTutorialStyle"/>
+                style="@style/RbTutorialStyle"
+                android:checked="@{vm.radioBtnCustomChecked}" />
 
         </RadioGroup>
     </RelativeLayout>

@@ -2,6 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+
         <import type="android.view.View" />
 
         <variable
@@ -21,13 +22,12 @@
             android:layout_height="match_parent">
 
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
                 android:orientation="vertical">
-                
+
                 <RelativeLayout
                     android:id="@+id/rl_header"
                     android:layout_width="match_parent"
@@ -37,8 +37,8 @@
                     <biz.ideus.ideuslib.widget.ImageLoaderView
                         android:id="@+id/imageView_header"
                         android:layout_width="match_parent"
-                    android:onClick="@{vm::onClickSelectPhoto}"
                         android:layout_height="200dp"
+                        android:onClick="@{vm::onClickSelectPhoto}"
                         android:scaleType="centerCrop"
                         android:src="@drawable/skybridge" />
 
@@ -88,11 +88,11 @@
                             android:id="@+id/btn_login_fb"
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
-                            android:onClick="@{vm::onFaceBookClick}"
                             android:layout_marginEnd="5dp"
                             android:layout_marginStart="5dp"
                             android:layout_weight="1"
                             android:background="@drawable/facebook_btn_selector"
+                            android:onClick="@{vm::onFaceBookClick}"
                             android:text="@string/facebook"
                             android:textAllCaps="false"
                             android:textColor="@android:color/white" />
@@ -103,8 +103,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
                             android:layout_weight="1"
-                            android:onClick="@{vm.onTwitterClick}"
                             android:background="@drawable/twitter_btn_selector"
+                            android:onClick="@{vm.onTwitterClick}"
                             android:text="@string/twitter"
                             android:textAllCaps="false"
                             android:textColor="@android:color/white" />
@@ -116,8 +116,8 @@
                             android:layout_marginEnd="5dp"
                             android:layout_marginStart="5dp"
                             android:layout_weight="1"
-                            android:onClick="@{vm.onGoogleClick}"
                             android:background="@drawable/google_btn_selector"
+                            android:onClick="@{vm.onGoogleClick}"
                             android:text="@string/google_plus"
                             android:textAllCaps="false"
                             android:textColor="@android:color/white" />
@@ -185,20 +185,18 @@
                             android:orientation="horizontal">
 
                             <ImageView
-                                android:visibility="@{vm.visibilityClearEmailImage}"
                                 android:id="@+id/iv_cancel_email"
-                                android:onClick="@{vm.onClearEmailClick}"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
                                 android:layout_centerInParent="true"
-                                android:src="@drawable/ic_cancel" />
-
+                                android:onClick="@{vm.onClearEmailClick}"
+                                android:src="@drawable/ic_cancel"
+                                android:visibility="@{vm.visibilityClearEmailImage}" />
 
 
                             <EditText
                                 android:id="@+id/et_login"
-                            android:onTextChanged="@{vm.onTextChangedEmail}"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
@@ -206,8 +204,9 @@
                                 android:layout_weight="1"
                                 android:background="@null"
                                 android:ems="10"
-                                android:hint="@string/email"
+                                android:hint="@string/enter_email"
                                 android:inputType="textEmailAddress"
+                                android:onTextChanged="@{vm.onTextChangedEmail}"
                                 android:text="@{vm.email}"
                                 android:textColor="@{ (int)vm.titleColorEmail}" />
                         </RelativeLayout>
@@ -225,14 +224,14 @@
                             android:orientation="horizontal">
 
                             <ImageView
-                                android:visibility="@{vm.visibilityClearPasswordImage}"
                                 android:id="@+id/iv_cancel_password"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:onClick="@{vm.onClearPasswordClick}"
-                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
                                 android:layout_centerInParent="true"
-                                android:src="@drawable/ic_cancel" />
+                                android:onClick="@{vm.onClearPasswordClick}"
+                                android:src="@drawable/ic_cancel"
+                                android:visibility="@{vm.visibilityClearPasswordImage}" />
 
 
                             <EditText
@@ -246,10 +245,10 @@
                                 android:layout_weight="1"
                                 android:background="@null"
                                 android:ems="10"
-                            android:onTextChanged="@{vm.onTextChangedPassword}"
-                                android:password="@{vm.isPasswordShow}"
                                 android:hint="@string/password"
                                 android:inputType="textPassword"
+                                android:onTextChanged="@{vm.onTextChangedPassword}"
+                                android:password="@{vm.isPasswordShow}"
                                 android:text="@{vm.password}"
                                 android:textColor="@{(int)vm.titleColorPassword}" />
                         </RelativeLayout>
@@ -266,11 +265,11 @@
                             android:id="@+id/cb_show_pass"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
                             android:layout_centerInParent="true"
-                            android:text="@string/show_password"
                             android:checked="false"
                             android:onClick="@{vm.onShowPasswordClick}"
+                            android:text="@string/show_password"
                             android:textSize="@dimen/font_size_15"
                             android:theme="@style/checkBoxComponent" />
 
@@ -278,7 +277,7 @@
                             android:id="@+id/tv_forgot_password"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
                             android:layout_centerInParent="true"
                             android:onClick="@{vm.onForgotPasswordClick}"
                             android:padding="5dp"
@@ -287,38 +286,38 @@
                     </RelativeLayout>
 
                     <Button
-                        android:onClick="@{vm.onSignInClick}"
                         android:id="@+id/btn_sing_in"
                         style="@style/ButtonGreenStyle"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
+                        android:onClick="@{vm.onSignInClick}"
                         android:text="@string/sign_in" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center"
                         android:layout_marginBottom="@dimen/font_size_10"
+                        android:gravity="center"
                         android:orientation="horizontal"
                         android:padding="@dimen/font_size_10">
 
                         <TextView
                             android:id="@+id/textView7"
-                            android:textSize="@dimen/font_size_15"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/do_not_have_an_account" />
+                            android:text="@string/do_not_have_an_account"
+                            android:textSize="@dimen/font_size_15" />
 
                         <TextView
-                            android:onClick="@{vm.onSignUpClick}"
-                            android:textColor="@color/green_btn_default"
-                            android:textStyle="bold"
-                            android:textSize="@dimen/font_size_15"
                             android:id="@+id/tv_sign_up"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:onClick="@{vm.onSignUpClick}"
+                            android:padding="10dp"
                             android:text="@string/sign_up"
-                            android:padding="10dp" />
+                            android:textColor="@color/green_btn_default"
+                            android:textSize="@dimen/font_size_15"
+                            android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -13,50 +13,50 @@
             android:id="@+id/imageViewCircle"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_margin="5dp"
-            android:src="@drawable/logo_temp_app"
-            android:layout_centerInParent="false"
             android:layout_centerHorizontal="false"
-            android:layout_centerVertical="true" />
+            android:layout_centerInParent="false"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
+            android:src="@drawable/logo_temp_app" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:layout_toEndOf="@+id/imageViewCircle">
+            android:layout_toRightOf="@+id/imageViewCircle">
 
             <TextView
-                android:text="David Bowie"
+                android:id="@+id/tv_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_name"
-                android:textColor="@color/black"
-                android:singleLine="true"
+                android:layout_toLeftOf="@+id/tv_date"
                 android:ellipsize="end"
                 android:padding="5dp"
-                android:layout_toStartOf="@+id/tv_date" />
+                android:singleLine="true"
+                android:text="David Bowie"
+                android:textColor="@color/black" />
 
             <TextView
-                android:text="6 Dec"
+                android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_date"
-                android:textColor="@color/date_gray"
                 android:layout_alignParentRight="true"
-                android:padding="5dp" />
+                android:padding="5dp"
+                android:text="6 Dec"
+                android:textColor="@color/date_gray" />
 
             <TextView
-                android:layout_below="@+id/tv_name"
-                android:text="For many of us, our wery first "
-                android:padding="5dp"
-                android:singleLine="true"
-                android:ellipsize="end"
+                android:id="@+id/tv_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_description"
+                android:layout_below="@+id/tv_name"
                 android:layout_centerVertical="true"
-                android:layout_toStartOf="@+id/tv_date"  />
+                android:layout_toLeftOf="@+id/tv_date"
+                android:ellipsize="end"
+                android:padding="5dp"
+                android:singleLine="true"
+                android:text="For many of us, our wery first " />
         </RelativeLayout>
 
     </RelativeLayout>

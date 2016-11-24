@@ -71,6 +71,10 @@ public abstract class BaseNavigator implements Navigator {
         if(args != null) { intent.putExtra(EXTRA_ARGS, args); }
         activity.startActivity(intent);
     }
+    @Override
+    public final void startActivityForResult(@NonNull Intent intent, int requestCode) {
+        getActivity().startActivityForResult(intent, requestCode);
+    }
 
 
 

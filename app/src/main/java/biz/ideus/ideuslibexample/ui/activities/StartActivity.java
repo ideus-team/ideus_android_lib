@@ -24,7 +24,9 @@ import java.io.IOException;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.databinding.ActivityLoginBinding;
 import biz.ideus.ideuslibexample.interfaces.BaseMvvmInterface;
+import biz.ideus.ideuslibexample.interfaces.OnActivityResultInterface;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
+import biz.ideus.ideuslibexample.view_models.StartActivityVM;
 
 import static biz.ideus.ideuslibexample.view_models.AutorisationVM.GOOGLE_SIGN_IN;
 
@@ -32,7 +34,7 @@ import static biz.ideus.ideuslibexample.view_models.AutorisationVM.GOOGLE_SIGN_I
  * Created by user on 11.11.2016.
  */
 
-public class StartActivity extends BaseActivity<ActivityLoginBinding, BaseMvvmInterface.StartActivityVmListener> implements BaseMvvmInterface.View ,GoogleApiClient.OnConnectionFailedListener {
+public class StartActivity extends BaseActivity<ActivityLoginBinding, StartActivityVM> implements BaseMvvmInterface.View ,GoogleApiClient.OnConnectionFailedListener, OnActivityResultInterface {
 
     private CallbackManager faceBookCallbackManager;
     private TwitterAuthClient twitterAuthClient;
@@ -63,8 +65,7 @@ public class StartActivity extends BaseActivity<ActivityLoginBinding, BaseMvvmIn
         twitterAuthClient = new TwitterAuthClient();
         activityComponent().inject(this);
         setAndBindContentView(R.layout.activity_login, savedInstanceState);
-
-
+        setOnActivityResultInterface(this);
         //setSupportActionBar(binding.toolbar);
 
         //binding.viewPager.setAdapter(adapter);
@@ -73,39 +74,7 @@ public class StartActivity extends BaseActivity<ActivityLoginBinding, BaseMvvmIn
     }
 
 
-    @Override
-    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GOOGLE_SIGN_IN) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleSignInResult(result);
-        }
-        faceBookCallbackManager.onActivityResult(requestCode, resultCode, data);
-        twitterAuthClient.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE:
-                    Uri resultPick = CropImage.getPickImageResultUri(this, data);
-                    if (resultPick != null) {
-                        CropImage.activity(resultPick)
-                                .setGuidelines(CropImageView.Guidelines.ON)
-                                .start(this);
-                    }
-                    break;
-                case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
-                    CropImage.ActivityResult result = CropImage.getActivityResult(data);
-                    Uri resultUri = result.getUri();
-
-                    binding.imageViewHeader.setImageBitmap(useImage(resultUri));
-                    break;
-                case CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE:
-                    break;
-            }
-        }
-
-
-    }
 
 
     private Bitmap useImage(Uri uri) {
@@ -147,4 +116,36 @@ public class StartActivity extends BaseActivity<ActivityLoginBinding, BaseMvvmIn
 
         }
     }
+
+    @Override
+    public void onActivityResultCurrentActivity(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == GOOGLE_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(intent);
+            handleSignInResult(result);
+        }
+        faceBookCallbackManager.onActivityResult(requestCode, resultCode, intent);
+        twitterAuthClient.onActivityResult(requestCode, resultCode, intent);
+
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE:
+                    Uri resultPick = CropImage.getPickImageResultUri(this, intent);
+                    if (resultPick != null) {
+                        CropImage.activity(resultPick)
+                                .setGuidelines(CropImageView.Guidelines.ON)
+                                .start(this);
+                    }
+                    break;
+                case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
+                    CropImage.ActivityResult result = CropImage.getActivityResult(intent);
+                    Uri resultUri = result.getUri();
+
+                    binding.imageViewHeader.setImageBitmap(useImage(resultUri));
+                    break;
+                case CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE:
+                    break;
+            }
+        }
+    }
+
 }

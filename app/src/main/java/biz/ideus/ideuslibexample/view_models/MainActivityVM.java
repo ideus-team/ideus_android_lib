@@ -5,23 +5,18 @@ import android.content.Context;
 import javax.inject.Inject;
 
 import biz.ideus.ideuslib.ui_base.viewmodel.BaseViewModel;
-import biz.ideus.ideuslibexample.adapters.TutorialPagerAdapter;
 import biz.ideus.ideuslibexample.injection.qualifier.AppContext;
-import biz.ideus.ideuslibexample.injection.scopes.PerFragment;
+import biz.ideus.ideuslibexample.injection.scopes.PerActivity;
 import biz.ideus.ideuslibexample.interfaces.BaseMvvmInterface;
 
 /**
- * Created by blackmamba on 23.11.16.
+ * Created by blackmamba on 24.11.16.
  */
-
-@PerFragment
-public class TutorialFragmentVM extends BaseViewModel<BaseMvvmInterface.View> {
+@PerActivity
+public class MainActivityVM extends BaseViewModel<BaseMvvmInterface.View> implements BaseMvvmInterface {
     private Context context;
-    private TutorialPagerAdapter adapter;
-
     @Inject
-    public TutorialFragmentVM(@AppContext Context context) {
+    public MainActivityVM(@AppContext Context context){
         this.context = context;
     }
-
 }

@@ -19,6 +19,7 @@ import biz.ideus.ideuslibexample.SampleApplication;
 import biz.ideus.ideuslibexample.injection.components.ActivityComponent;
 import biz.ideus.ideuslibexample.injection.components.DaggerActivityComponent;
 import biz.ideus.ideuslibexample.injection.modules.ActivityModule;
+import biz.ideus.ideuslibexample.interfaces.OnActivityResultInterface;
 
 /* Copyright 2016 Patrick Löwenstein
  *
@@ -49,6 +50,11 @@ import biz.ideus.ideuslibexample.injection.modules.ActivityModule;
  * Your subclass must implement the MvvmView implementation that you use in your
  * view model. */
 public abstract class BaseActivity<B extends ViewDataBinding, V extends MvvmViewModel> extends RxFragmentActivity {
+private OnActivityResultInterface onActivityResultInterface;
+
+    public void setOnActivityResultInterface(OnActivityResultInterface onActivityResultInterface) {
+        this.onActivityResultInterface = onActivityResultInterface;
+    }
 
     protected B binding;
     @Inject protected V viewModel;
@@ -86,6 +92,13 @@ public abstract class BaseActivity<B extends ViewDataBinding, V extends MvvmView
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(onActivityResultInterface != null)
+        onActivityResultInterface.onActivityResultCurrentActivity(requestCode, resultCode, data);
+    }
+
+    @Override
     @CallSuper
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -104,4 +117,5 @@ public abstract class BaseActivity<B extends ViewDataBinding, V extends MvvmView
 //        realm = null;
 
     }
+
 }

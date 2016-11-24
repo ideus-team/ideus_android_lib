@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data />
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,25 +14,25 @@
             android:id="@+id/imageViewCircle"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_margin="5dp"
-            android:src="@drawable/logo_temp_app"
-            android:layout_centerInParent="false"
             android:layout_centerHorizontal="false"
-            android:layout_centerVertical="true" />
+            android:layout_centerInParent="false"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
+            android:src="@drawable/logo_temp_app" />
 
 
         <TextView
-            android:text="David"
+            android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tv_name"
-            android:textColor="@color/black"
-            android:singleLine="true"
-            android:ellipsize="end"
-            android:paddingEnd="10dp"
-            android:paddingStart="5dp"
             android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/imageViewCircle" />
+            android:layout_toRightOf="@+id/imageViewCircle"
+            android:ellipsize="end"
+            android:paddingLeft="5dp"
+            android:paddingRight="10dp"
+            android:singleLine="true"
+            android:text="David"
+            android:textColor="@color/black" />
 
     </RelativeLayout>
 </layout>

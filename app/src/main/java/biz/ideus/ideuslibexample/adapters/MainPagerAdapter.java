@@ -10,37 +10,42 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.injection.scopes.PerActivity;
+import biz.ideus.ideuslibexample.ui.base.BaseFragment;
 import biz.ideus.ideuslibexample.ui.fragments.tutorial_fragments.AboutAppFragment;
 import biz.ideus.ideuslibexample.ui.fragments.tutorial_fragments.AccountProtectionFragment;
-import biz.ideus.ideuslibexample.ui.fragments.tutorial_fragments.BaseTutorialFragment;
-import biz.ideus.ideuslibexample.ui.fragments.tutorial_fragments.CustomisationFragment;
 import biz.ideus.ideuslibexample.ui.fragments.tutorial_fragments.PersonalNetworkFragment;
 
 /**
- * Created by blackmamba on 23.11.16.
+ * Created by blackmamba on 24.11.16.
  */
 
 @PerActivity
-public class TutorialPagerAdapter extends FragmentStatePagerAdapter implements ViewPager.OnPageChangeListener{
-    private final int PAGE_COUNT = 4;
-    private OnPagerListener onPagerListener;
+public class MainPagerAdapter extends FragmentStatePagerAdapter implements ViewPager.OnPageChangeListener{
+    private final int PAGE_COUNT = 3;
 
-    public void setOnPagerListener(OnPagerListener onPagerListener) {
-        this.onPagerListener = onPagerListener;
-    }
-
-    List<BaseTutorialFragment> fragmentList = new ArrayList<>();
+    List<BaseFragment> fragmentList = new ArrayList<>();
 
     @Inject
-    public TutorialPagerAdapter(FragmentManager fm) {
+    public MainPagerAdapter(FragmentManager fm) {
         super(fm);
         setFragments();
     }
 
+    public int getTabResource(int position) {
+        switch (position) {
+            case 0 : return R.layout.item_tab_left;
+            case 1 : return R.layout.item_tab_center;
+            case 2 : return R.layout.item_tab_right;
+            default:
+                return 0;
+        }
+    };
+
     @Override
     public Fragment getItem(int position) {
-            return fragmentList.get(position);
+        return fragmentList.get(position);
     }
 
     @Override
@@ -52,7 +57,6 @@ public class TutorialPagerAdapter extends FragmentStatePagerAdapter implements V
         fragmentList.add(new AboutAppFragment());
         fragmentList.add(new PersonalNetworkFragment());
         fragmentList.add(new AccountProtectionFragment());
-        fragmentList.add(new CustomisationFragment());
     }
 
     @Override
@@ -62,7 +66,7 @@ public class TutorialPagerAdapter extends FragmentStatePagerAdapter implements V
 
     @Override
     public void onPageSelected(int position) {
-        onPagerListener.selectPage(position);
+
     }
 
     @Override
@@ -70,7 +74,4 @@ public class TutorialPagerAdapter extends FragmentStatePagerAdapter implements V
 
     }
 
-    public interface OnPagerListener {
-        void selectPage(int position);
-    }
 }
