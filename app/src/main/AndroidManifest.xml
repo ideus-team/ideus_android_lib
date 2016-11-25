@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.activities.StartActivity"
+            android:name=".ui.activities.start_activity.StartActivity"
             android:windowSoftInputMode="stateHidden"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -31,8 +31,11 @@
         </activity>
 
         <activity
-            android:name=".ui.activities.TutorialActivity"
+            android:name=".ui.activities.tutorial_activity.TutorialActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+
+        <activity
+            android:name=".ui.activities.main_activity.MainActivity" />
 
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat"/>

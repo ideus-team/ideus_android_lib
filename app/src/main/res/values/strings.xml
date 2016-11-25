@@ -47,6 +47,17 @@
     <string name="visible_on_profile">Visible on profile</string>
     <string name="connect_twitter_account">Connect Twitter Account</string>
     <string name="logout">Logout</string>
+    <string name="invalidate_login_text">The email address or password you entered is incorrect</string>
+    <string name="invalidate_sign_in_text">The name, email address or password you entered is incorrect</string>
+    <string name="try_again">Try again</string>
+    <string name="password_reset_title">An email containing information on how to reset your password has been send to bobJack@gmail.com</string>
+    <string name="password_reset">Password reset</string>
+    <string name="creating_an_account">Creating an account</string>
+    <string name="about_creating_account">Where can you draw the line between harmless gambling to problem gambling</string>
+    <string name="logging_to_app_temp">Logging to App Temp</string>
+    <string name="about_logining_account">Statistic show that while 85 percent of adult population of US</string>
+    <string name="ok">Ok</string>
+    <string name="error">Error</string>
 
 
     <string name="about_welcome">While most people enjoy casino gambling, sports betting, lottery and bingo playing for the fun and excitement it provides</string>

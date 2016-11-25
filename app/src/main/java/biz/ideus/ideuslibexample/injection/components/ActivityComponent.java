@@ -4,9 +4,9 @@ package biz.ideus.ideuslibexample.injection.components;
 import biz.ideus.ideuslibexample.injection.modules.ActivityModule;
 import biz.ideus.ideuslibexample.injection.modules.ViewModelModule;
 import biz.ideus.ideuslibexample.injection.scopes.PerActivity;
-import biz.ideus.ideuslibexample.ui.activities.MainActivity;
-import biz.ideus.ideuslibexample.ui.activities.StartActivity;
-import biz.ideus.ideuslibexample.ui.activities.TutorialActivity;
+import biz.ideus.ideuslibexample.ui.activities.main_activity.MainActivity;
+import biz.ideus.ideuslibexample.ui.activities.start_activity.StartActivity;
+import biz.ideus.ideuslibexample.ui.activities.tutorial_activity.TutorialActivity;
 import dagger.Component;
 
 /* Copyright 2016 Patrick Löwenstein

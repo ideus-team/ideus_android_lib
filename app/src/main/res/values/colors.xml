@@ -13,6 +13,7 @@
     <color name="twitter_color_pressed">#008abe</color>
     <color name="google_plus_default">#dd4b39</color>
     <color name="google_plus_pressed">#bc1804</color>
+    <color name="red">#bc1804</color>
     <color name="error_color">#d65141</color>
     <color name="black">#030000</color>
     <color name="dark_gray_text">#292929</color>

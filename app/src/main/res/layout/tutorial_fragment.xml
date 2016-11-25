@@ -6,7 +6,7 @@
 
     <variable
         name="vm"
-        type="biz.ideus.ideuslibexample.view_models.TutorialFragmentVM" />
+        type="biz.ideus.ideuslibexample.ui.fragments.tutorial_fragments.TutorialFragmentVM" />
     </data>
     <LinearLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"

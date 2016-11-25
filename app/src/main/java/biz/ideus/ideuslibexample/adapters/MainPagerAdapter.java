@@ -13,9 +13,9 @@ import javax.inject.Inject;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.injection.scopes.PerActivity;
 import biz.ideus.ideuslibexample.ui.base.BaseFragment;
-import biz.ideus.ideuslibexample.ui.fragments.tutorial_fragments.AboutAppFragment;
-import biz.ideus.ideuslibexample.ui.fragments.tutorial_fragments.AccountProtectionFragment;
-import biz.ideus.ideuslibexample.ui.fragments.tutorial_fragments.PersonalNetworkFragment;
+import biz.ideus.ideuslibexample.ui.fragments.home_fragments.home_fragment.HomeFragment;
+import biz.ideus.ideuslibexample.ui.fragments.home_fragments.people_fragment.PeopleFragment;
+import biz.ideus.ideuslibexample.ui.fragments.home_fragments.settings_fragment.SettingsFragment;
 
 /**
  * Created by blackmamba on 24.11.16.
@@ -54,9 +54,9 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter implements ViewP
     }
 
     private void setFragments(){
-        fragmentList.add(new AboutAppFragment());
-        fragmentList.add(new PersonalNetworkFragment());
-        fragmentList.add(new AccountProtectionFragment());
+        fragmentList.add(new HomeFragment());
+        fragmentList.add(new PeopleFragment());
+        fragmentList.add(new SettingsFragment());
     }
 
     @Override

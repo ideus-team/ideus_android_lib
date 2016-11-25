@@ -8,7 +8,7 @@
         <variable
             name="vm"
 
-            type="biz.ideus.ideuslibexample.view_models.TutorialActivityVM" />
+            type="biz.ideus.ideuslibexample.ui.activities.tutorial_activity.TutorialActivityVM" />
     </data>
 
     <RelativeLayout
@@ -42,7 +42,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_margin="@dimen/font_size_15"
-            android:background="@{vm.btnSelectorDefault ? @drawable/lets_start_btn_selector : @drawable/green_btn_selector}"
+            android:background="@{!vm.btnActive ? @drawable/lets_start_btn_selector : @drawable/green_btn_selector}"
             android:onClick="@{vm.onGetStartedClick}"
             android:text="Button">
 

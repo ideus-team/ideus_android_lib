@@ -11,7 +11,6 @@ import biz.ideus.ideuslib.ui_base.view.MvvmView;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.databinding.TutorialFragmentBinding;
 import biz.ideus.ideuslibexample.ui.base.BaseFragment;
-import biz.ideus.ideuslibexample.view_models.TutorialFragmentVM;
 
 /**
  * Created by blackmamba on 23.11.16.

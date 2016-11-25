@@ -1,7 +1,7 @@
 package biz.ideus.ideuslibexample.injection.modules;
 
 import biz.ideus.ideuslibexample.interfaces.BaseMvvmInterface;
-import biz.ideus.ideuslibexample.view_models.StartActivityVM;
+import biz.ideus.ideuslibexample.ui.activities.start_activity.StartActivityVM;
 import dagger.Binds;
 import dagger.Module;
 

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools">
 
     <data>
 
@@ -8,10 +10,10 @@
         <variable
             name="vm"
 
-            type="biz.ideus.ideuslibexample.view_models.StartActivityVM" />
+            type="biz.ideus.ideuslibexample.ui.activities.start_activity.StartActivityVM" />
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"
@@ -324,5 +326,17 @@
             </LinearLayout>
         </ScrollView>
 
-    </LinearLayout>
+        <FrameLayout
+            android:id="@+id/loading_screen_container"
+            android:visibility="@{vm.visibilityLoadingPage}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include
+                app:title="@{vm.titleAutorisationScreen}"
+                app:aboutTitle="@{vm.aboutTitleAutorisationScreen}"
+                android:id="@+id/loading_autorisation_page"
+                layout="@layout/loading_autorisation_screen" />
+        </FrameLayout>
+    </RelativeLayout>
 </layout>

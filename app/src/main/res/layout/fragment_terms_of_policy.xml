@@ -7,7 +7,7 @@
             <variable
                 name="vm"
 
-                type="biz.ideus.ideuslibexample.view_models.TermsPolicyVM" />
+                type="biz.ideus.ideuslibexample.ui.fragments.terms_privacy_fragment.TermsPolicyVM" />
     </data>
 
     <LinearLayout
