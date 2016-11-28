@@ -30,12 +30,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="150dp">
 
-                    <biz.ideus.ideuslib.widget.ImageLoaderView
-                        android:id="@+id/imageView"
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/skybridge" />
+                    <!--<biz.ideus.ideuslib.widget.ImageLoaderView-->
+                        <!--android:id="@+id/imageView"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="200dp"-->
+                        <!--android:scaleType="centerCrop"-->
+                        <!--android:src="@drawable/skybridge" />-->
 
                     <TextView
                         android:id="@+id/textView2"
@@ -43,12 +43,12 @@
                         android:layout_height="match_parent"
                         android:background="@color/colorLoginHolder" />
 
-                    <biz.ideus.ideuslib.widget.CircleImageView
-                        android:id="@+id/imageViewCircle"
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
-                        android:layout_centerInParent="true"
-                        android:src="@drawable/logo_temp_app" />
+                    <!--<biz.ideus.ideuslib.widget.CircleImageView-->
+                        <!--android:id="@+id/imageViewCircle"-->
+                        <!--android:layout_width="120dp"-->
+                        <!--android:layout_height="120dp"-->
+                        <!--android:layout_centerInParent="true"-->
+                        <!--android:src="@drawable/logo_temp_app" />-->
 
                 </RelativeLayout>
 
@@ -93,7 +93,7 @@
                             android:id="@+id/btn_login_fb"
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
-                            android:onClick="@{loginVM.onClickFaceBookLogin}"
+                            android:onClick="@{loginVM::onClickFaceBookLogin}"
                             android:layout_marginEnd="5dp"
                             android:layout_marginStart="5dp"
                             android:layout_weight="1"
@@ -108,7 +108,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
                             android:layout_weight="1"
-                            android:onClick="@{loginVM.onClickTwitterLogin}"
+                            android:onClick="@{loginVM::onClickTwitterLogin}"
                             android:background="@drawable/twitter_btn_selector"
                             android:text="@string/twitter"
                             android:textAllCaps="false"
@@ -121,7 +121,7 @@
                             android:layout_marginEnd="5dp"
                             android:layout_marginStart="5dp"
                             android:layout_weight="1"
-                            android:onClick="@{loginVM.onClickGooglePlus}"
+                            android:onClick="@{loginVM::onClickGooglePlus}"
                             android:background="@drawable/google_btn_selector"
                             android:text="@string/google_plus"
                             android:textAllCaps="false"
@@ -192,7 +192,7 @@
                             <ImageView
                                 android:visibility="@{loginVM.visibilityClearEmailImage}"
                                 android:id="@+id/iv_cancel_email"
-                                android:onClick="@{loginVM.onClickClearFieldImage}"
+                                android:onClick="@{loginVM::onClickClearFieldImage}"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
                                 android:layout_alignParentEnd="true"
@@ -209,7 +209,7 @@
                                 android:background="@null"
                                 android:ems="10"
                                 android:hint="@string/email"
-                                android:onTextChanged="@{loginVM.onTextChangedEmail}"
+                                android:onTextChanged="@{loginVM::onTextChangedEmail}"
                                 android:inputType="textEmailAddress"
                                 android:text="@{loginVM.email}"
                                 android:textColor="@{ (int)loginVM.titleColorEmail}" />
@@ -232,7 +232,7 @@
                                 android:id="@+id/iv_cancel_password"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:onClick="@{loginVM.onClickClearFieldImage}"
+                                android:onClick="@{loginVM::onClickClearFieldImage}"
                                 android:layout_alignParentEnd="true"
                                 android:layout_centerInParent="true"
                                 android:src="@drawable/ic_cancel" />
@@ -250,7 +250,7 @@
                                 android:ems="10"
                                 android:password="@{loginVM.isPasswordShow}"
                                 android:hint="@string/password"
-                                android:onTextChanged="@{loginVM.onTextChangedPassword}"
+                                android:onTextChanged="@{loginVM::onTextChangedPassword}"
                                 android:inputType="textPassword"
                                 android:text="@{loginVM.password}"
                                 android:textColor="@{(int)loginVM.titleColorPassword}" />
@@ -272,7 +272,7 @@
                             android:layout_centerInParent="true"
                             android:text="@string/show_password"
                             android:checked="false"
-                            android:onClick="@{loginVM.onCheckedChanged}"
+                            android:onClick="@{loginVM::onCheckedChanged}"
                             android:textSize="@dimen/font_size_15"
                             android:theme="@style/checkBoxComponent" />
 
@@ -288,7 +288,7 @@
                     </RelativeLayout>
 
                     <Button
-                        android:onClick="@{loginVM.onSignInClick}"
+                        android:onClick="@{loginVM::onSignInClick}"
                         android:id="@+id/btn_sing_in"
                         style="@style/ButtonGreenStyle"
                         android:layout_width="match_parent"
@@ -311,7 +311,7 @@
                             android:text="@string/do_not_have_an_account" />
 
                         <TextView
-                            android:onClick="@{loginVM.onClickSignUp}"
+                            android:onClick="@{loginVM::onClickSignUp}"
                             android:textColor="@color/green_btn_default"
                             android:textStyle="bold"
                             android:textSize="@dimen/font_size_15"

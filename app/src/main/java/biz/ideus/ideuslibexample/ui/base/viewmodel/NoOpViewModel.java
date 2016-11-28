@@ -1,11 +1,6 @@
 package biz.ideus.ideuslibexample.ui.base.viewmodel;
 
 
-import javax.inject.Inject;
-
-import biz.ideus.ideuslib.ui_base.view.MvvmView;
-import biz.ideus.ideuslib.ui_base.viewmodel.BaseViewModel;
-
 /* Copyright 2016 Patrick Löwenstein
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,8 +14,8 @@ import biz.ideus.ideuslib.ui_base.viewmodel.BaseViewModel;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License. */
-public final class NoOpViewModel extends BaseViewModel<MvvmView> {
-
-    @Inject
-    public NoOpViewModel() { }
-}
+//public final class NoOpViewModel extends BaseViewModel<MvvmView> {
+//
+//    @Inject
+//    public NoOpViewModel() { }
+//}

@@ -31,26 +31,39 @@ android {
 ext.daggerVersion = '2.7'
 ext.okHttpVersion = '3.4.1'
 ext.requeryVersion = '1.0.2'
+ext.retrofitVersion = '2.1.0'
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile project(':ideuslib')
 
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
     compile "io.requery:requery:${requeryVersion}"
-    compile "io.requery:requery-android:${requeryVersion}" // for android
-    apt "io.requery:requery-processor:${requeryVersion}"   // use an APT plugin
+    compile "io.requery:requery-android:${requeryVersion}"
 
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'io.reactivex:rxjava:1.2.1'
+    compile 'com.trello:rxlifecycle:0.3.0'
+    compile 'com.trello:rxlifecycle-components:0.3.0'
+
+    compile "com.squareup.retrofit2:retrofit:${retrofitVersion}"
+    compile "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
+    compile "com.squareup.retrofit2:adapter-rxjava:${retrofitVersion}"
+    compile 'com.squareup.okhttp:logging-interceptor:2.6.0'
+
+
+    // for android
+    apt "io.requery:requery-processor:${requeryVersion}"
+    // use an APT plugin
     compile "com.squareup.okhttp3:okhttp:${okHttpVersion}"
     compile "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}"
     compile 'com.android.support:appcompat-v7:25.0.1'
     apt "com.google.dagger:dagger-compiler:${daggerVersion}"
     compile "com.google.dagger:dagger:${daggerVersion}"
     testCompile 'junit:junit:4.12'
-  //  compile project(':ideuslib')
-   // compile 'com.android.support.constraint:constraint-layout:1.0.0-beta3'
+    compile project(':ideuslib')
+//    compile project(':mvvmlificyclelibrary')
+
 }

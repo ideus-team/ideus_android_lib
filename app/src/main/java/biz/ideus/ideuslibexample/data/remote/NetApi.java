@@ -1,6 +1,9 @@
 package biz.ideus.ideuslibexample.data.remote;
 
 
+import retrofit2.http.POST;
+import rx.Observable;
+
 /* Copyright 2016 Patrick Löwenstein
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,9 +17,9 @@ package biz.ideus.ideuslibexample.data.remote;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License. */
-public interface CountryApi {
-//    @POST("list/getSpecializations")
-//    Observable<SpecializationAnswer> getSpecializations(@Body LanguageModel languageModel);
+public interface NetApi {
+    @POST("list/getSpecializations")
+    Observable<String> getSpecializations();
 //@GET("rest/v1/all")
 //Observable<List<Country>> getAllCountries();
 }

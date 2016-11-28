@@ -4,7 +4,11 @@ import android.content.Context;
 
 import biz.ideus.ideuslibexample.BuildConfig;
 import biz.ideus.ideuslibexample.data.Models;
+import biz.ideus.ideuslibexample.data.local.IRequeryApi;
+import biz.ideus.ideuslibexample.data.local.RequeryApi;
+import biz.ideus.ideuslibexample.injection.qualifier.AppContext;
 import biz.ideus.ideuslibexample.injection.scopes.PerApplication;
+import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 import io.requery.Persistable;
@@ -20,12 +24,12 @@ import io.requery.sql.TableCreationMode;
  */
 
 @Module
-public class DataModule {
+public abstract class DataModule {
 
 
     @Provides
     @PerApplication
-    static SingleEntityStore<Persistable> provideDataStore(Context context) {
+    static SingleEntityStore<Persistable> provideDataStore(@AppContext Context context) {
         DatabaseSource source = new DatabaseSource(context, Models.DEFAULT, 1);
         source.setLoggingEnabled(true);
         if (BuildConfig.DEBUG) {
@@ -35,5 +39,8 @@ public class DataModule {
         Configuration configuration = source.getConfiguration();
         return RxSupport.toReactiveStore(new EntityDataStore<Persistable>(configuration));
     }
+
+    @Binds
+    abstract IRequeryApi binddataApi(RequeryApi requeryApi);
 
 }

@@ -2,6 +2,8 @@ package biz.ideus.ideuslibexample.data.local;
 
 import android.annotation.SuppressLint;
 
+import javax.inject.Inject;
+
 import biz.ideus.ideuslibexample.injection.scopes.PerApplication;
 import io.requery.Persistable;
 import io.requery.rx.SingleEntityStore;
@@ -15,23 +17,12 @@ import rx.Observable;
 @SuppressLint("NewApi")
 public class RequeryApi implements IRequeryApi{
 
+    private final SingleEntityStore<Persistable> data;
 
-    private SingleEntityStore<Persistable> dataStore;
-
-//    @Provides
-//    @Singleton
-//    SingleEntityStore<Persistable> getData() {
-//
-//        DatabaseSource source = new DatabaseSource(this, Models.DEFAULT, 1);
-//        source.setLoggingEnabled(true);
-//        if (BuildConfig.DEBUG) {
-//            // use this in development mode to drop and recreate the tables on every upgrade
-//            source.setTableCreationMode(TableCreationMode.DROP_CREATE);
-//        }
-//        Configuration configuration = source.getConfiguration();
-//        dataStore = RxSupport.toReactiveStore(new EntityDataStore<Persistable>(configuration));
-//        return dataStore;
-//    }
+    @Inject
+    public RequeryApi(SingleEntityStore<Persistable> data) {
+        this.data = data;
+    }
 
     @Override
     public Observable<String> getFavoriteChangeObservable() {

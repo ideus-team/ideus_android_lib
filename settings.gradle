@@ -1,1 +1,1 @@
-include ':app', ':ideuslib'
+include ':app', ':ideuslib', ':mvvmlificyclelibrary'
