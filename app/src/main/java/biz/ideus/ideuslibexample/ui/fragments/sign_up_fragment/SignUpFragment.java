@@ -9,12 +9,24 @@ import biz.ideus.ideuslib.ui_base.view.MvvmView;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.databinding.FragmentSignUpBinding;
 import biz.ideus.ideuslibexample.ui.base.BaseFragment;
+import biz.ideus.ideuslibexample.ui.toolbar.ToolbarType;
 
 /**
  * Created by blackmamba on 11.11.16.
  */
 
 public class SignUpFragment extends BaseFragment<FragmentSignUpBinding, SignUpFragmentVM> implements MvvmView {
+
+
+    @Override
+    public String getToolbarName(){
+        return getString(R.string.sign_up);
+    }
+
+    @Override
+    protected ToolbarType getToolbarType() {
+        return ToolbarType.BACK_BTN_TOOLBAR;
+    }
 
     @Nullable
     @Override

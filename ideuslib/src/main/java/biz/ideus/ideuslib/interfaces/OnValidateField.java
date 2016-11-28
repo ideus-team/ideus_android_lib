@@ -11,6 +11,8 @@ public interface OnValidateField  {
 
     void setTitleColorEmail(int color);
 
+    void setValidAutorisationBtn();
+
     void setTitleColorPassword(int color);
 
     void isValidEmail(boolean isValid);

@@ -30,5 +30,10 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivity
             binding.tabLayout.getTabAt(i).setCustomView(mainAdapter.getTabResource(i));
         }
     }
+
+    @Override
+    public String getToolbarName() {
+        return null;
+    }
 }
 

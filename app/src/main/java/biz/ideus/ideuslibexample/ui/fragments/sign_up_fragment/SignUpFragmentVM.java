@@ -2,6 +2,7 @@ package biz.ideus.ideuslibexample.ui.fragments.sign_up_fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.Editable;
 import android.view.View;
 import android.widget.CheckBox;
 
@@ -43,13 +44,13 @@ public class SignUpFragmentVM extends AutorisationVM implements OnValidateSignUp
     public void onClickClearFieldImage(View view) {
         switch (view.getId()) {
             case R.id.iv_cancel_email:
-                showAttentionDialog((StartActivity)view.getContext(), ctx.getString(R.string.invalidate_sign_in_text));
+                email.set(Editable.Factory.getInstance().newEditable(""));
                 break;
             case R.id.iv_cancel_password:
-                showAttentionDialog((StartActivity)view.getContext(), ctx.getString(R.string.invalidate_sign_in_text));
+                password.set(Editable.Factory.getInstance().newEditable(""));
                 break;
             case R.id.iv_cancel_name:
-                showAttentionDialog((StartActivity)view.getContext(), ctx.getString(R.string.invalidate_sign_in_text));
+                name.set(Editable.Factory.getInstance().newEditable(""));
                 break;
         }
     }
@@ -60,17 +61,9 @@ public class SignUpFragmentVM extends AutorisationVM implements OnValidateSignUp
     }
 
     private boolean isValidData(BaseActivity activity) {
-        if (!isValidEmail) {
+        if (!(isValidEmail && isValidPassword && isValidName)) {
            showAttentionDialog(activity, ctx.getString(R.string.invalidate_sign_in_text));
-            return isValidEmail && isValidPassword && isValidName;
         }
-        if (!isValidPassword) {
-            showAttentionDialog(activity, ctx.getString(R.string.invalidate_sign_in_text));
-            return isValidEmail && isValidPassword && isValidName;
-        }
-
-        if (!isValidName)
-            showAttentionDialog(activity, ctx.getString(R.string.invalidate_sign_in_text));
         return isValidEmail && isValidPassword && isValidName;
 
     }
@@ -131,6 +124,11 @@ public class SignUpFragmentVM extends AutorisationVM implements OnValidateSignUp
     @Override
     public void setTitleColorEmail(int color) {
         titleColorEmail.set(color);
+    }
+
+    @Override
+    public void setValidAutorisationBtn() {
+        isValidFields.set(isValidEmail && isValidPassword && isValidName);
     }
 
     @Override

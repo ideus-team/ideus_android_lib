@@ -64,11 +64,14 @@ public abstract class AutorisationVM extends BaseViewModel<BaseMvvmInterface.Vie
     public final ObservableField<String> aboutTitleAutorisationScreen = new ObservableField<>();
     @Bindable
     public final ObservableField<Integer> visibilityLoadingPage = new ObservableField<>();
+    @Bindable
+    public final ObservableField<Boolean> isValidFields = new ObservableField<>();
 
     public AutorisationVM(Context context) {
         this.context = context;
         this.utilsValidation = new UtilsValidation(context);
         visibilityLoadingPage.set(View.GONE);
+        isValidFields.set(false);
     }
 
     public void showLoadingPage(String title, String aboutTilte, int visibility) {
@@ -76,7 +79,6 @@ public abstract class AutorisationVM extends BaseViewModel<BaseMvvmInterface.Vie
         aboutTitleAutorisationScreen.set(aboutTilte);
         visibilityLoadingPage.set(visibility);
     }
-
 
 
     public void showAttentionDialog(BaseActivity activity, String dialogMessage) {

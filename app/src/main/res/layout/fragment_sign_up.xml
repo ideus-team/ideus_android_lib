@@ -280,12 +280,9 @@
                     <Button
                         android:id="@+id/btn_Crate_account"
                         style="@style/ButtonTransparentStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:layout_marginBottom="@dimen/font_size_15"
-                        android:layout_marginEnd="@dimen/font_size_15"
-                        android:layout_marginStart="@dimen/font_size_15"
+                        android:background="@{vm.isValidFields ? @drawable/green_btn_selector : @drawable/create_account_btn_selector}"
                         android:onClick="@{vm.onCreateAccountClick}"
+                        android:textColor="@{vm.isValidFields ? @android:color/white : @color/gray}"
                         android:text="@string/create_account" />
 
                     <TextView
@@ -328,9 +325,10 @@
 
             </LinearLayout>
         </ScrollView>
+        <!--android:visibility="@{vm.visibilityLoadingPage}"-->
         <FrameLayout
             android:id="@+id/loading_screen_container"
-            android:visibility="@{vm.visibilityLoadingPage}"
+           android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 

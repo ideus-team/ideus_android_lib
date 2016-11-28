@@ -42,12 +42,9 @@ public class StartActivityVM extends AutorisationVM implements BaseMvvmInterface
 
 
     private boolean isValidData(View view) {
-        if (!isValidEmail) {
+        if (!(isValidEmail && isValidPassword)) {
             showAttentionDialog((StartActivity)view.getContext(), ctx.getString(R.string.invalidate_login_text));
-            return isValidEmail && isValidPassword;
         }
-        if (!isValidPassword)
-            showAttentionDialog((StartActivity)view.getContext(), ctx.getString(R.string.invalidate_login_text));
         return isValidEmail && isValidPassword;
 
     }
@@ -130,6 +127,12 @@ public class StartActivityVM extends AutorisationVM implements BaseMvvmInterface
     @Override
     public void setTitleColorEmail(int color) {
         titleColorEmail.set(color);
+    }
+
+    @Override
+    public void setValidAutorisationBtn() {
+        isValidFields.set(isValidEmail && isValidPassword);
+
     }
 
     @Override

@@ -33,7 +33,7 @@ import static biz.ideus.ideuslibexample.ui.activities.start_activity.Autorisatio
  * Created by user on 11.11.2016.
  */
 
-public class StartActivity extends BaseActivity<ActivityLoginBinding, StartActivityVM> implements BaseMvvmInterface.View ,GoogleApiClient.OnConnectionFailedListener, OnActivityResultInterface {
+public class StartActivity extends BaseActivity<ActivityLoginBinding, StartActivityVM> implements BaseMvvmInterface.View, GoogleApiClient.OnConnectionFailedListener, OnActivityResultInterface {
 
     private CallbackManager faceBookCallbackManager;
     private TwitterAuthClient twitterAuthClient;
@@ -53,7 +53,6 @@ public class StartActivity extends BaseActivity<ActivityLoginBinding, StartActiv
     }
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
@@ -71,9 +70,6 @@ public class StartActivity extends BaseActivity<ActivityLoginBinding, StartActiv
         //binding.tabLayout.setupWithViewPager(binding.viewPager);
 
     }
-
-
-
 
 
     private Bitmap useImage(Uri uri) {

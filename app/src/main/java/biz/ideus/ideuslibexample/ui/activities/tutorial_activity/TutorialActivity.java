@@ -27,4 +27,5 @@ public class TutorialActivity extends BaseActivity<ActivityTutorialBinding, Tuto
         binding.viewFlipper.setAdapter(adapter);
         binding.viewFlipper.addOnPageChangeListener(adapter);
     }
+    
 }

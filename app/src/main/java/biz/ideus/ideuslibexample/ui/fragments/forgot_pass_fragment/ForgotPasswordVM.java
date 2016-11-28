@@ -37,12 +37,12 @@ public class ForgotPasswordVM extends BaseViewModel<BaseMvvmInterface.View> {
     public final ObservableField<Integer> titleColorEmail = new ObservableField<>();
 
     @Bindable
-    public final ObservableField<Boolean> isDafaultBgButton = new ObservableField<>();
+    public final ObservableField<Boolean> isValidField = new ObservableField<>();
 
-@Inject
+    @Inject
     public ForgotPasswordVM(@AppContext Context context) {
         this.context = context;
-    isDafaultBgButton.set(true);
+        isValidField.set(false);
     }
 
     public void onTextChangedEmail(CharSequence s, int start, int before, int count) {
@@ -52,24 +52,24 @@ public class ForgotPasswordVM extends BaseViewModel<BaseMvvmInterface.View> {
                 .map(isValid -> {
                     titleColorEmail.set((isValid) ? ContextCompat.getColor(context, biz.ideus.ideuslib.R.color.black)
                             : ContextCompat.getColor(context, biz.ideus.ideuslib.R.color.error_color));
-                    isDafaultBgButton.set(!isValid);
                     return isValid;
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aBoolean -> {
-                   isValidEmail = aBoolean;
+                    isValidEmail = aBoolean;
+                    isValidField.set(aBoolean);
                 });
     }
 
     private boolean isValidData() {
         if (!isValidEmail)
             Utils.toast(context, context.getString(R.string.invalid_email));
-            return isValidEmail;
+        return isValidEmail;
     }
 
-    public void onClickSendPassword(View view){
-        if(isValidData()){
-            showSuccessDialog((StartActivity)view.getContext());
+    public void onClickSendPassword(View view) {
+        if (isValidData()) {
+            showSuccessDialog((StartActivity) view.getContext());
         }
     }
 

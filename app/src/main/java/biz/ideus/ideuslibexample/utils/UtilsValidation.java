@@ -35,17 +35,17 @@ public class UtilsValidation {
         Observable.just(text)
                 .debounce(500, TimeUnit.MILLISECONDS)
                 .doOnNext(currentText -> {
-                    onValidateField.setVisibilityImageEmail((!currentText.equals("")) ? View.VISIBLE : View.INVISIBLE);
+                    onValidateField.setVisibilityImageEmail(getVisibility(currentText));
                 })
                 .flatMap(currentText -> Observable.just(UtilsValidationETFields.validateEmail(currentText, Constants.EMAIL_PATTERN)))
                 .map(isValid -> {
-                    onValidateField.setTitleColorEmail((isValid) ? ContextCompat.getColor(context, biz.ideus.ideuslib.R.color.black)
-                            : ContextCompat.getColor(context, biz.ideus.ideuslib.R.color.error_color));
+                    onValidateField.setTitleColorEmail(getColor(isValid));
                     return isValid;
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aBoolean -> {
                     onValidateField.isValidEmail(aBoolean);
+                    onValidateField.setValidAutorisationBtn();
                 });
     }
 
@@ -53,17 +53,17 @@ public class UtilsValidation {
         Observable.just(text)
                 .debounce(500, TimeUnit.MILLISECONDS)
                 .doOnNext(currentText -> {
-                    onValidateField.setVisibilityImagePassword((!currentText.equals("")) ? View.VISIBLE : View.INVISIBLE);
+                    onValidateField.setVisibilityImagePassword(getVisibility(currentText));
                 })
                 .flatMap(currentText -> Observable.just(UtilsValidationETFields.validatePassword(currentText, MIN_COUNT_CHARACTER_PASSWORD)))
                 .map(isValid -> {
-                    onValidateField.setTitleColorPassword((isValid) ? ContextCompat.getColor(context, biz.ideus.ideuslib.R.color.black)
-                            : ContextCompat.getColor(context, biz.ideus.ideuslib.R.color.error_color));
+                    onValidateField.setTitleColorPassword(getColor(isValid));
                     return isValid;
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aBoolean -> {
                     onValidateField.isValidPassword(aBoolean);
+                    onValidateField.setValidAutorisationBtn();
                 });
 
     }
@@ -71,18 +71,28 @@ public class UtilsValidation {
         Observable.just(text)
                 .debounce(500, TimeUnit.MILLISECONDS)
                 .doOnNext(currentText -> {
-                    ((OnValidateSignUpScreen) onValidateField).setVisibilityImageName((!currentText.equals("")) ? View.VISIBLE : View.INVISIBLE);
+                    ((OnValidateSignUpScreen) onValidateField).setVisibilityImageName(getVisibility(currentText));
                 })
                 .flatMap(currentText -> Observable.just(UtilsValidationETFields.validateName(currentText, MIN_COUNT_CHARACTER_NAME)))
                 .map(isValid -> {
-                    ((OnValidateSignUpScreen) onValidateField).setTitleColorName((isValid) ? ContextCompat.getColor(context, biz.ideus.ideuslib.R.color.black)
-                            : ContextCompat.getColor(context, biz.ideus.ideuslib.R.color.error_color));
+                    ((OnValidateSignUpScreen) onValidateField).setTitleColorName(getColor(isValid));
                     return isValid;
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aBoolean -> {
                     ((OnValidateSignUpScreen) onValidateField).isValidName(aBoolean);
+                    onValidateField.setValidAutorisationBtn();
                 });
 
     }
+
+    private int getColor(Boolean isValid) {
+        return (isValid) ? ContextCompat.getColor(context, biz.ideus.ideuslib.R.color.black)
+                : ContextCompat.getColor(context, biz.ideus.ideuslib.R.color.error_color);
+    }
+    private int getVisibility(String currentText) {
+        return (!currentText.equals("")) ? View.VISIBLE : View.INVISIBLE;
+    }
+
+
 }

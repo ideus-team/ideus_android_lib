@@ -22,6 +22,11 @@
     </style>
 
 
+    <style name="StyledLinearProgressBar" parent="Base.Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="colorAccent">@color/color_main</item>
+        <item name="android:progressBackgroundTint">@color/color_main_pressed</item>
+    </style>
+
     <style name="AppTheme.WhiteAccent">
         <item name="colorAccent">@android:color/white</item> <!-- Whatever color you want-->
     </style>
@@ -74,13 +79,17 @@
     </style>
 
     <style name="ButtonTransparentStyle" parent="android:Widget">
-        <item name="android:textColor">@color/gray</item>
-        <item name="android:background">@drawable/create_account_btn_selector</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:layout_marginBottom">@dimen/font_size_15</item>
+        <item name="android:layout_marginEnd">@dimen/font_size_15</item>
+        <item name="android:layout_marginStart">@dimen/font_size_15</item>
         <item name="android:textSize">@dimen/font_size_16</item>
         <item name="android:gravity">center</item>
         <item name="android:textAllCaps">false</item>
     </style>
+
     <style name="ButtonTransparentStyleWhiteCorner" parent="android:Widget">
         <item name="android:textColor">@color/light_gray</item>
         <item name="android:textStyle">bold</item>
