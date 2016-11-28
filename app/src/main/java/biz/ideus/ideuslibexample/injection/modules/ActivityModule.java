@@ -2,11 +2,8 @@ package biz.ideus.ideuslibexample.injection.modules;
 
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 
-import com.trello.rxlifecycle.components.support.RxFragmentActivity;
-
-import biz.ideus.ideuslib.ui_base.navigator.ActivityNavigator;
-import biz.ideus.ideuslib.ui_base.navigator.Navigator;
 import biz.ideus.ideuslibexample.injection.qualifier.ActivityContext;
 import biz.ideus.ideuslibexample.injection.scopes.PerActivity;
 import dagger.Module;
@@ -28,9 +25,9 @@ import dagger.Provides;
 @Module
 public class ActivityModule {
 
-    private final RxFragmentActivity mActivity;
+    private final AppCompatActivity mActivity;
 
-    public ActivityModule(RxFragmentActivity activity) {
+    public ActivityModule(AppCompatActivity activity) {
         mActivity = activity;
     }
 
@@ -43,8 +40,8 @@ public class ActivityModule {
     @PerActivity
     FragmentManager provideFragmentManager() { return mActivity.getSupportFragmentManager(); }
 
-    @Provides
-    @PerActivity
-    Navigator provideNavigator() { return new ActivityNavigator(mActivity); }
+//    @Provides
+//    @PerActivity
+//    Navigator provideNavigator() { return new ActivityNavigator(mActivity); }
 
 }

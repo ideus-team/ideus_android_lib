@@ -4,8 +4,6 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
-import biz.ideus.ideuslib.ui_base.navigator.FragmentNavigator;
-import biz.ideus.ideuslib.ui_base.navigator.Navigator;
 import biz.ideus.ideuslibexample.injection.qualifier.ActivityContext;
 import biz.ideus.ideuslibexample.injection.qualifier.ChildFragmentManager;
 import biz.ideus.ideuslibexample.injection.qualifier.DefaultFragmentManager;
@@ -50,8 +48,8 @@ public class FragmentModule {
     @ChildFragmentManager
     FragmentManager provideChildFragmentManager() { return mFragment.getChildFragmentManager(); }
 
-    @Provides
-    @PerFragment
-    Navigator provideNavigator() { return new FragmentNavigator(mFragment); }
+//    @Provides
+//    @PerFragment
+//    Navigator provideNavigator() { return new FragmentNavigator(mFragment); }
 
 }

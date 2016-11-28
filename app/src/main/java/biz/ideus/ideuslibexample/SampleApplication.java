@@ -3,17 +3,10 @@ package biz.ideus.ideuslibexample;
 import android.app.Application;
 import android.content.res.Resources;
 
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
-import com.twitter.sdk.android.Twitter;
-import com.twitter.sdk.android.core.TwitterAuthConfig;
-
-import biz.ideus.ideuslib.adapter.typeface_adapters.DLibTypefaceAdapter;
 import biz.ideus.ideuslibexample.injection.components.AppComponent;
 import biz.ideus.ideuslibexample.injection.components.DaggerAppComponent;
 import biz.ideus.ideuslibexample.injection.modules.AppModule;
-import biz.ideus.ideuslibexample.utils.Constants;
-import io.fabric.sdk.android.Fabric;
+import io.requery.sql.Configuration;
 
 /**
  * Created by user on 09.11.2016.
@@ -21,10 +14,11 @@ import io.fabric.sdk.android.Fabric;
 
 public class SampleApplication extends Application {
 
+    private Configuration configuration;
 
-    protected void setupFonts() {
-        DLibTypefaceAdapter.addFontDefinition("normal", "fonts/MuseoSansCyrl.otf");
-    }
+//    protected void setupFonts() {
+//        DLibTypefaceAdapter.addFontDefinition("normal", "fonts/MuseoSansCyrl.otf");
+//    }
 
 
     private static SampleApplication sInstance = null;
@@ -47,6 +41,8 @@ public class SampleApplication extends Application {
                 .build();
 
        // if(BuildConfig.DEBUG) { Timber.plant(new Timber.DebugTree()); }
+
+
     }
 
     public static SampleApplication getInstance() { return sInstance; }
@@ -55,19 +51,19 @@ public class SampleApplication extends Application {
 
     public static Resources getRes() { return sInstance.getResources(); }
     
-    //@Override
-    protected void setupFaceBookSDK() {
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
-
-
-    }
-
-    //@Override
-    protected void setupTwitterSDK() {
-        TwitterAuthConfig authConfig = new TwitterAuthConfig(Constants.TWITTER_APP_KEY, Constants.TWITTER_SECRET_KEY);
-        Fabric.with(this, new Twitter(authConfig));
-
-    }
+//    //@Override
+//    protected void setupFaceBookSDK() {
+//        FacebookSdk.sdkInitialize(getApplicationContext());
+//        AppEventsLogger.activateApp(this);
+//
+//
+//    }
+//
+//    //@Override
+//    protected void setupTwitterSDK() {
+//        TwitterAuthConfig authConfig = new TwitterAuthConfig(Constants.TWITTER_APP_KEY, Constants.TWITTER_SECRET_KEY);
+//        Fabric.with(this, new Twitter(authConfig));
+//
+//    }
 
 }

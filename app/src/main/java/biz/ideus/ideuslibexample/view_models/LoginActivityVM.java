@@ -1,35 +1,14 @@
 package biz.ideus.ideuslibexample.view_models;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.databinding.Bindable;
 import android.databinding.ObservableField;
-import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.view.View;
 import android.widget.CheckBox;
 
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.twitter.sdk.android.core.Callback;
-import com.twitter.sdk.android.core.Result;
-import com.twitter.sdk.android.core.TwitterException;
-import com.twitter.sdk.android.core.TwitterSession;
-import com.twitter.sdk.android.core.identity.TwitterAuthClient;
-
-import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
-
-import biz.ideus.ideuslib.Utils.UtilsValidationETFields;
 import biz.ideus.ideuslibexample.R;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
+
 
 
 /**
@@ -38,10 +17,10 @@ import rx.android.schedulers.AndroidSchedulers;
 
 public class LoginActivityVM extends ViewModel {
     private Activity activity;
-    private CallbackManager faceBookCallbackManager;
-    private TwitterAuthClient twitterAuthClient;
-    private GoogleApiClient googleApiClient;
-    private UtilsValidationETFields utilsValidationETFields = new UtilsValidationETFields();
+//    private CallbackManager faceBookCallbackManager;
+//    private TwitterAuthClient twitterAuthClient;
+//    private GoogleApiClient googleApiClient;
+//    private UtilsValidationETFields utilsValidationETFields = new UtilsValidationETFields();
 
     private boolean isValidEmail = false;
     private boolean isValidPassword = false;
@@ -62,18 +41,18 @@ public class LoginActivityVM extends ViewModel {
     public final ObservableField<Boolean> isPasswordShow = new ObservableField<>();
 
 
-    public LoginActivityVM(CallbackManager faceBookCallbackManager
-            , TwitterAuthClient twitterAuthClient
-            , GoogleApiClient googleApiClient
-            , Activity activity) {
-        this.activity = activity;
-        this.faceBookCallbackManager = faceBookCallbackManager;
-        this.twitterAuthClient = twitterAuthClient;
-        this.googleApiClient = googleApiClient;
-        this.visibilityClearEmailImage.set(View.INVISIBLE);
-        this.visibilityClearPasswordImage.set(View.INVISIBLE);
-        this.isPasswordShow.set(true);
-    }
+//    public LoginActivityVM(CallbackManager faceBookCallbackManager
+//            , TwitterAuthClient twitterAuthClient
+//            , GoogleApiClient googleApiClient
+//            , Activity activity) {
+//        this.activity = activity;
+//        this.faceBookCallbackManager = faceBookCallbackManager;
+//        this.twitterAuthClient = twitterAuthClient;
+//        this.googleApiClient = googleApiClient;
+//        this.visibilityClearEmailImage.set(View.INVISIBLE);
+//        this.visibilityClearPasswordImage.set(View.INVISIBLE);
+//        this.isPasswordShow.set(true);
+//    }
 
     public void onClickSignUp(View view) {
         goToSignUp();
@@ -85,17 +64,17 @@ public class LoginActivityVM extends ViewModel {
     }
 
     public void onClickTwitterLogin(View view) {
-        twitterAuthClient.authorize(activity, new Callback<TwitterSession>() {
-            @Override
-            public void success(Result<TwitterSession> twitterSessionResult) {
-                System.out.println("TwitterSession  " + twitterSessionResult.data.getUserName());
-            }
-
-            @Override
-            public void failure(TwitterException e) {
-                System.out.println("TwitterSession   failure");
-            }
-        });
+//        twitterAuthClient.authorize(activity, new Callback<TwitterSession>() {
+//            @Override
+//            public void success(Result<TwitterSession> twitterSessionResult) {
+//                System.out.println("TwitterSession  " + twitterSessionResult.data.getUserName());
+//            }
+//
+//            @Override
+//            public void failure(TwitterException e) {
+//                System.out.println("TwitterSession   failure");
+//            }
+//        });
 
     }
 
@@ -104,29 +83,29 @@ public class LoginActivityVM extends ViewModel {
     }
 
     private void signInWithGooglePlus() {
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
+        //Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
      //   activity.startActivityForResult(signInIntent, LoginActivity.GOOGLE_SIGN_IN);
     }
 
     public void onClickFaceBookLogin(View view) {
-        LoginManager.getInstance().logInWithReadPermissions(activity, Arrays.asList("public_profile", "email"));
-        LoginManager.getInstance().registerCallback(faceBookCallbackManager,
-                new FacebookCallback<LoginResult>() {
-                    @Override
-                    public void onSuccess(LoginResult loginResult) {
-                        System.out.println("facebook  " + loginResult.getAccessToken().getToken());
-                    }
-
-                    @Override
-                    public void onCancel() {
-                        // App code
-                    }
-
-                    @Override
-                    public void onError(FacebookException exception) {
-                        // App code
-                    }
-                });
+//        LoginManager.getInstance().logInWithReadPermissions(activity, Arrays.asList("public_profile", "email"));
+//        LoginManager.getInstance().registerCallback(faceBookCallbackManager,
+//                new FacebookCallback<LoginResult>() {
+//                    @Override
+//                    public void onSuccess(LoginResult loginResult) {
+//                        System.out.println("facebook  " + loginResult.getAccessToken().getToken());
+//                    }
+//
+//                    @Override
+//                    public void onCancel() {
+//                        // App code
+//                    }
+//
+//                    @Override
+//                    public void onError(FacebookException exception) {
+//                        // App code
+//                    }
+//                });
     }
 
     // CheckBox change listener
@@ -146,68 +125,68 @@ public class LoginActivityVM extends ViewModel {
     }
 
     public void onTextChangedEmail(CharSequence s, int start, int before, int count) {
-        Observable.just(s.toString())
-                .debounce(500, TimeUnit.MILLISECONDS)
-                .doOnNext(text -> {
-                    visibilityClearEmailImage.set((!text.equals("")) ? View.VISIBLE : View.INVISIBLE);
-
-                })
-                .flatMap(text -> Observable.just(utilsValidationETFields.validateEmail(text)))
-
-                .map(isValid -> {
-                    titleColorEmail.set((isValid) ? ContextCompat.getColor(activity, R.color.black)
-                            : ContextCompat.getColor(activity, R.color.error_color));
-                    return isValid;
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Boolean>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onNext(Boolean isValid) {
-                        isValidEmail = isValid;
-                    }
-
-                });
+//        Observable.just(s.toString())
+//                .debounce(500, TimeUnit.MILLISECONDS)
+//                .doOnNext(text -> {
+//                    visibilityClearEmailImage.set((!text.equals("")) ? View.VISIBLE : View.INVISIBLE);
+//
+//                })
+//                .flatMap(text -> Observable.just(utilsValidationETFields.validateEmail(text)))
+//
+//                .map(isValid -> {
+//                    titleColorEmail.set((isValid) ? ContextCompat.getColor(activity, R.color.black)
+//                            : ContextCompat.getColor(activity, R.color.error_color));
+//                    return isValid;
+//                })
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Subscriber<Boolean>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    @Override
+//                    public void onNext(Boolean isValid) {
+//                        isValidEmail = isValid;
+//                    }
+//
+//                });
     }
 
     public void onTextChangedPassword(CharSequence s, int start, int before, int count) {
-        Observable.just(s.toString())
-                .debounce(500, TimeUnit.MILLISECONDS)
-                .doOnNext(text -> {
-                    visibilityClearPasswordImage.set((!text.equals("")) ? View.VISIBLE : View.INVISIBLE);})
-                .flatMap(text -> Observable.just(utilsValidationETFields.validatePassword(text)))
-                .map(isValid -> {
-                    titleColorPassword.set((isValid) ? ContextCompat.getColor(activity, R.color.black)
-                            : ContextCompat.getColor(activity, R.color.error_color));
-                    return isValid;
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Boolean>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onNext(Boolean isValid) {
-                        isValidPassword = isValid;
-                    }
-
-                });
+//        Observable.just(s.toString())
+//                .debounce(500, TimeUnit.MILLISECONDS)
+//                .doOnNext(text -> {
+//                    visibilityClearPasswordImage.set((!text.equals("")) ? View.VISIBLE : View.INVISIBLE);})
+//                .flatMap(text -> Observable.just(utilsValidationETFields.validatePassword(text)))
+//                .map(isValid -> {
+//                    titleColorPassword.set((isValid) ? ContextCompat.getColor(activity, R.color.black)
+//                            : ContextCompat.getColor(activity, R.color.error_color));
+//                    return isValid;
+//                })
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Subscriber<Boolean>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    @Override
+//                    public void onNext(Boolean isValid) {
+//                        isValidPassword = isValid;
+//                    }
+//
+//                });
 
     }
     

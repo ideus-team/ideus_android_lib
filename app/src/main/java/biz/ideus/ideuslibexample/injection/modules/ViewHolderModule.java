@@ -6,8 +6,6 @@ import android.view.View;
 
 import com.trello.rxlifecycle.components.support.RxFragmentActivity;
 
-import biz.ideus.ideuslib.ui_base.navigator.ActivityNavigator;
-import biz.ideus.ideuslib.ui_base.navigator.Navigator;
 import biz.ideus.ideuslibexample.injection.qualifier.ActivityContext;
 import biz.ideus.ideuslibexample.injection.scopes.PerViewHolder;
 import dagger.Module;
@@ -44,8 +42,8 @@ public class ViewHolderModule {
     @PerViewHolder
     FragmentManager provideFragmentManager() { return activity.getSupportFragmentManager(); }
 
-    @Provides
-    @PerViewHolder
-    Navigator provideNavigator() { return new ActivityNavigator(activity); }
+//    @Provides
+//    @PerViewHolder
+//    Navigator provideNavigator() { return new ActivityNavigator(activity); }
 
 }

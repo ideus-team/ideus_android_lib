@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import okhttp3.logging.HttpLoggingInterceptor;
 
 import biz.ideus.ideuslibexample.BuildConfig;
-import biz.ideus.ideuslibexample.data.remote.CountryApi;
+import biz.ideus.ideuslibexample.data.remote.NetApi;
 import biz.ideus.ideuslibexample.injection.scopes.PerApplication;
 import dagger.Module;
 import dagger.Provides;
@@ -53,7 +53,7 @@ public class NetModule {
 
     @Provides
     @PerApplication
-    static CountryApi provideCountryApi(Gson gson, OkHttpClient okHttpClient) {
+    static NetApi provideCountryApi(Gson gson, OkHttpClient okHttpClient) {
         OkHttpClient.Builder httpClientBuilder = okHttpClient.newBuilder();
 
         if(BuildConfig.DEBUG) {
@@ -67,6 +67,6 @@ public class NetModule {
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(Schedulers.io()))
                 .callFactory(httpClientBuilder.build())
-                .build().create(CountryApi.class);
+                .build().create(NetApi.class);
     }
 }

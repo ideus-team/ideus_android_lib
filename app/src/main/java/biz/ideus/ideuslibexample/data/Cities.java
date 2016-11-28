@@ -1,4 +1,4 @@
-package biz.ideus.ideuslib;
+package biz.ideus.ideuslibexample.data;
 
 import android.databinding.Bindable;
 import android.databinding.Observable;

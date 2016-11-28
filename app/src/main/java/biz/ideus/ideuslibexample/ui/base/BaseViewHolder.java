@@ -1,20 +1,5 @@
 package biz.ideus.ideuslibexample.ui.base;
 
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-
-import javax.inject.Inject;
-
-import biz.ideus.ideuslib.ui_base.view.MvvmView;
-import biz.ideus.ideuslib.ui_base.viewmodel.MvvmViewModel;
-import biz.ideus.ideuslibexample.SampleApplication;
-import biz.ideus.ideuslibexample.injection.components.DaggerViewHolderComponent;
-import biz.ideus.ideuslibexample.injection.components.ViewHolderComponent;
-import biz.ideus.ideuslibexample.injection.modules.ViewHolderModule;
-
 /* Copyright 2016 Patrick Löwenstein
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -42,46 +27,46 @@ import biz.ideus.ideuslibexample.injection.modules.ViewHolderModule;
  *
  * Your subclass must implement the MvvmView implementation that you use in your
  * view model. */
-public abstract class BaseViewHolder<B extends ViewDataBinding, V extends MvvmViewModel> extends RecyclerView.ViewHolder {
-
-    protected B binding;
-    @Inject protected V viewModel;
-
-    private ViewHolderComponent viewHolderComponent;
-
-    private View itemView = null;
-
-    public BaseViewHolder(View itemView) {
-        super(itemView);
-        this.itemView = itemView;
-    }
-
-    protected final ViewHolderComponent viewHolderComponent() {
-        if(viewHolderComponent == null) {
-            viewHolderComponent = DaggerViewHolderComponent.builder()
-                    .appComponent(SampleApplication.getAppComponent())
-                    .viewHolderModule(new ViewHolderModule(itemView))
-                    .build();
-
-            itemView = null;
-        }
-
-        return viewHolderComponent;
-    }
-
-    /* Use this method to create the binding for the ViewHolder. This method also handles
-     * setting the view model on the binding and attaching the view. */
-    protected final void bindContentView(@NonNull View view) {
-        if(viewModel == null) { throw new IllegalStateException("viewModel must not be null and should be injected via viewHolderComponent().inject(this)"); }
-        binding = DataBindingUtil.bind(view);
-        //binding.setVariable(BR.vm, viewModel);
-        //noinspection unchecked
-        viewModel.attachView((MvvmView) this, null);
-    }
-
-    public final V viewModel() { return viewModel; }
-
-    public final void executePendingBindings() {
-        if(binding != null) { binding.executePendingBindings(); }
-    }
-}
+//public abstract class BaseViewHolder<B extends ViewDataBinding, V extends MvvmViewModel> extends RecyclerView.ViewHolder {
+//
+//    protected B binding;
+//    @Inject protected V viewModel;
+//
+//    private ViewHolderComponent viewHolderComponent;
+//
+//    private View itemView = null;
+//
+//    public BaseViewHolder(View itemView) {
+//        super(itemView);
+//        this.itemView = itemView;
+//    }
+//
+//    protected final ViewHolderComponent viewHolderComponent() {
+//        if(viewHolderComponent == null) {
+//            viewHolderComponent = DaggerViewHolderComponent.builder()
+//                    .appComponent(SampleApplication.getAppComponent())
+//                    .viewHolderModule(new ViewHolderModule(itemView))
+//                    .build();
+//
+//            itemView = null;
+//        }
+//
+//        return viewHolderComponent;
+//    }
+//
+//    /* Use this method to create the binding for the ViewHolder. This method also handles
+//     * setting the view model on the binding and attaching the view. */
+//    protected final void bindContentView(@NonNull View view) {
+//        if(viewModel == null) { throw new IllegalStateException("viewModel must not be null and should be injected via viewHolderComponent().inject(this)"); }
+//        binding = DataBindingUtil.bind(view);
+//        //binding.setVariable(BR.vm, viewModel);
+//        //noinspection unchecked
+//        viewModel.attachView((MvvmView) this, null);
+//    }
+//
+//    public final V viewModel() { return viewModel; }
+//
+//    public final void executePendingBindings() {
+//        if(binding != null) { binding.executePendingBindings(); }
+//    }
+//}
