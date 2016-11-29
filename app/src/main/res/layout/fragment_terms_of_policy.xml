@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+            <import type="android.view.View" />
+
+            <variable
+                name="vm"
+
+                type="biz.ideus.ideuslibexample.ui.fragments.terms_privacy_fragment.TermsPolicyVM" />
+    </data>
+
+    <LinearLayout
+        android:clickable="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:orientation="vertical" >
+                <!--<WebView-->
+                    <!--android:id="@+id/webView"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"/>-->
+
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+</layout>

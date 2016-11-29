@@ -23,6 +23,8 @@ import dagger.Component;
 @PerActivity
 @Component(dependencies = AppComponent.class, modules = {ActivityModule.class, ViewModelModule.class})
 public interface ActivityComponent {
+   // void inject(StartActivity activity);
+//   void inject(TutorialActivity activity);
+//   void inject(MainActivity activity);
     void inject(StartActivity activity);
-//    void inject(DetailActivity activity);
 }

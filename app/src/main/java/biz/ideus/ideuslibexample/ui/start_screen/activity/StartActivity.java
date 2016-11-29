@@ -1,12 +1,16 @@
 package biz.ideus.ideuslibexample.ui.start_screen.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.android.databinding.library.baseAdapters.BR;
+import com.facebook.CallbackManager;
 
 import javax.inject.Inject;
 
+import biz.ideus.ideuslib.mvvm_lifecycle.binding.ViewModelBaseSampleBindingActivity;
+import biz.ideus.ideuslib.mvvm_lifecycle.binding.ViewModelBindingConfig;
+import biz.ideus.ideuslibexample.BR;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.SampleApplication;
 import biz.ideus.ideuslibexample.data.local.RequeryApi;
@@ -15,18 +19,16 @@ import biz.ideus.ideuslibexample.databinding.ActivityStartBinding;
 import biz.ideus.ideuslibexample.injection.components.ActivityComponent;
 import biz.ideus.ideuslibexample.injection.components.DaggerActivityComponent;
 import biz.ideus.ideuslibexample.injection.modules.ActivityModule;
-import biz.ideus.ideuslibexample.ui.start_screen.ITestStartView;
+import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.ui.start_screen.TestStartBindingViewModel;
-import biz.ideus.ideuslib.mvvm_lifecycle.binding.ViewModelBaseSampleBindingActivity;
-import biz.ideus.ideuslib.mvvm_lifecycle.binding.ViewModelBindingConfig;
 
 
 /**
  * Created by user on 11.11.2016.
  */
 
-public class StartActivity extends ViewModelBaseSampleBindingActivity<ITestStartView, TestStartBindingViewModel, ActivityStartBinding>
-    implements ITestStartView {
+public class StartActivity extends ViewModelBaseSampleBindingActivity<StartView, TestStartBindingViewModel, ActivityStartBinding>
+    implements StartView {
 
     //extends ViewModelBaseBindingFragment<ISampleBindingView, SampleBindingViewModel, FragmentSampleBindingBinding>
 //        implements ISampleBindingView {
@@ -34,8 +36,10 @@ public class StartActivity extends ViewModelBaseSampleBindingActivity<ITestStart
 
         //BaseActivity<ActivityStartBinding, StartMvvm.ViewModel> implements StartMvvm.View {
 
-
-
+    private CallbackManager faceBookCallbackManager;
+    public CallbackManager getFaceBookCallbackManager() {
+        return faceBookCallbackManager;
+    }
     private ActivityComponent mActivityComponent;
 
     @Inject
@@ -62,6 +66,7 @@ public class StartActivity extends ViewModelBaseSampleBindingActivity<ITestStart
 
         activityComponent().inject(this);
         setModelView(this);
+        faceBookCallbackManager = CallbackManager.Factory.create();
         //setAndBindContentView(R.layout.activity_start, savedInstanceState);
 
         //setSupportActionBar(binding.toolbar);
@@ -72,6 +77,11 @@ public class StartActivity extends ViewModelBaseSampleBindingActivity<ITestStart
       //  netApi.getSpecializations().subscribe();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        faceBookCallbackManager.onActivityResult(requestCode, resultCode, data);
+    }
 
     @Nullable
     @Override

@@ -5,7 +5,8 @@
     <color name="colorAccent">#40ffb3</color>
     <color name="green_btn_default">#33cb85</color>
     <color name="green_btn_pressed">#2aa46c</color>
-    <color name="colorSplash">#3776a4</color>
+    <color name="color_main">#3776a4</color>
+    <color name="color_main_pressed">#1f6394</color>
     <color name="colorLoginHolder">#893776a4</color>
     <color name="fb_color_default">#3b5998</color>
     <color name="fb_color_pressed">#3b3c98</color>
@@ -13,9 +14,15 @@
     <color name="twitter_color_pressed">#008abe</color>
     <color name="google_plus_default">#dd4b39</color>
     <color name="google_plus_pressed">#bc1804</color>
+    <color name="red">#bc1804</color>
     <color name="error_color">#d65141</color>
     <color name="black">#030000</color>
+    <color name="dark_gray_text">#292929</color>
     <color name="light_gray">#f5f5f5</color>
     <color name="gray">#b3b3b3</color>
+    <color name="date_gray">#939393</color>
     <color name="dark_gray">#4b4b4b</color>
+    <color name="color_main_light">#6797bb</color>
+    <color name="midle_color_main_light">#5388a6</color>
+
 </resources>

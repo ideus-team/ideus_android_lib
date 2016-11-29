@@ -21,6 +21,11 @@ import dagger.Component;
 @PerFragment
 @Component(dependencies = AppComponent.class, modules = {FragmentModule.class, ViewModelModule.class})
 public interface FragmentComponent {
-    //void inject(AllCountriesFragment fragment);
-    //void inject(FavoriteCountriesFragment fragment);
+//    void inject(TermsAndPrivacyFragment fragment);
+//    void inject(SignUpFragment fragment);
+//    void inject(ForgotPasswordFragment fragment);
+//    void inject(BaseTutorialFragment fragment);
+//    void inject(HomeFragment fragment);
+//    void inject(PeopleFragment fragment);
+//    void inject(SettingsFragment fragment);
 }

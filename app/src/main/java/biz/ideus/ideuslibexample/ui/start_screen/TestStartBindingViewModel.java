@@ -7,13 +7,21 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+
+import java.util.Arrays;
+
 import biz.ideus.ideuslib.mvvm_lifecycle.AbstractViewModel;
+import biz.ideus.ideuslibexample.ui.start_screen.activity.StartActivity;
 
 /**
  * Created by user on 28.11.2016.
  */
 
-public class TestStartBindingViewModel extends AbstractViewModel<ITestStartView> {
+public class TestStartBindingViewModel extends AbstractViewModel<StartView> {
 
     public final ObservableField<String> text = new ObservableField<>();
 
@@ -24,7 +32,7 @@ public class TestStartBindingViewModel extends AbstractViewModel<ITestStartView>
     }
 
     public void onFaceBookClick(View view) {
-
+        onClickFaceBookLogin((StartActivity) getView().getViewModelBindingConfig().getContext());
     }
 
 
@@ -66,5 +74,26 @@ public class TestStartBindingViewModel extends AbstractViewModel<ITestStartView>
     public void onClearPasswordClick(View view) {
 
     }
+
+        protected void onClickFaceBookLogin(StartActivity activity) {
+        LoginManager.getInstance().logInWithReadPermissions(activity, Arrays.asList("public_profile", "email"));
+        LoginManager.getInstance().registerCallback(activity.getFaceBookCallbackManager(),
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        System.out.println("facebook  " + loginResult.getAccessToken().getToken());
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        // App code
+                    }
+
+                    @Override
+                    public void onError(FacebookException exception) {
+                        // App code
+                    }
+                });
+ }
 
 }

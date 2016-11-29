@@ -8,19 +8,17 @@
 
     <item
 
-        android:drawable="@color/colorPrimary"/>
+        android:drawable="@color/color_main"/>
 
+    <item>
 
+        <bitmap
 
-    <!--<item>-->
+            android:gravity="center"
 
-        <!--<bitmap-->
+            android:src="@drawable/logo_circle"/>
 
-            <!--android:gravity="center"-->
-
-            <!--android:src="@drawable/skybridge"/>-->
-
-    <!--</item>-->
+    </item>
 
     <!--<item>-->
         <!--<rotate-->
@@ -34,20 +32,20 @@
             <!--android:toDegrees="360"/>-->
     <!--</item>-->
 
-    <item>
-        <rotate
-            android:fromDegrees="45"
-            android:toDegrees="45"
-            android:pivotX="50%"
-            android:pivotY="50%" >
-            <shape
-                android:shape="line"
-                android:top="1dip" >
-                <stroke
-                    android:width="1dip"
-                    android:color="#FF0000" />
-            </shape>
-        </rotate>
-    </item>
+    <!--<item>-->
+        <!--<rotate-->
+            <!--android:fromDegrees="45"-->
+            <!--android:toDegrees="45"-->
+            <!--android:pivotX="50%"-->
+            <!--android:pivotY="50%" >-->
+            <!--<shape-->
+                <!--android:shape="line"-->
+                <!--android:top="1dip" >-->
+                <!--<stroke-->
+                    <!--android:width="1dip"-->
+                    <!--android:color="#FF0000" />-->
+            <!--</shape>-->
+        <!--</rotate>-->
+    <!--</item>-->
 
 </layer-list>

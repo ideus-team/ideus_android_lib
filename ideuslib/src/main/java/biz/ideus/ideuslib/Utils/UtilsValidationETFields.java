@@ -8,16 +8,22 @@ import android.text.TextUtils;
 
 public class UtilsValidationETFields {
 
-   private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
-  public boolean validateEmail(String email) {
+    public static boolean validateEmail(String email, String pattern) {
         if (TextUtils.isEmpty(email))
             return false;
-        return email.matches(emailPattern);
+        return email.matches(pattern);
     }
 
-    public boolean validatePassword(String password) {
-        return password.length() > 5;
+    public static boolean validatePassword(String password, int countChars) {
+        return password.length() > countChars;
     }
+    public static boolean validateName(String name, int countChars) {
+        return name.length() > countChars;
+    }
+
+
+
+
 
 }
