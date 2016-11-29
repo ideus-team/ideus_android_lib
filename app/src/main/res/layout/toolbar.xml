@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/tools"
+    xmlns:fontText="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View" />
+    </data>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:background="@color/colorPrimary"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/ivBtnToolbarLeft"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/transparent_btn_selector"
+                    android:contentDescription="@string/space"
+                    android:onClick="@{toolbarLeftListener.onLeftButtonClick}"
+                    android:scaleType="center"
+                    android:src="@{toolbarSettings.leftButtonResource}"
+                    android:visibility="@{toolbarSettings.leftButtonVisibility}" />
+
+                <biz.ideus.secondoc.widget.AutoScaleTextView
+                    android:id="@+id/tvScreenName"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="@{toolbarSettings.screenName}"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    fontText:fontType="MuseoSansCyrl_500" />
+
+
+                <ImageView
+                    android:id="@+id/ivBtnToolbarRight"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/transparent_btn_selector"
+                    android:contentDescription="@string/space"
+                    android:onClick="@{toolbarRightListener.onRightButtonClick}"
+                    android:padding="10dip"
+                    android:src="@{toolbarSettings.rightButtonResource}"
+                    android:visibility="@{toolbarSettings.rightButtonVisibility}" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+</layout>
