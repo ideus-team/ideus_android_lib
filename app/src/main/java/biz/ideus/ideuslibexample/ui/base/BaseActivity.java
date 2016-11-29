@@ -14,6 +14,21 @@ package biz.ideus.ideuslibexample.ui.base;
  * See the License for the specific language governing permissions and
  * limitations under the License. */
 
+import android.databinding.ViewDataBinding;
+import android.os.Bundle;
+import android.support.annotation.CallSuper;
+import android.support.annotation.Nullable;
+
+import org.jetbrains.annotations.NotNull;
+
+import biz.ideus.ideuslib.mvvm_lifecycle.AbstractViewModel;
+import biz.ideus.ideuslib.mvvm_lifecycle.IView;
+import biz.ideus.ideuslib.mvvm_lifecycle.base.ViewModelBaseActivity;
+import biz.ideus.ideuslibexample.SampleApplication;
+import biz.ideus.ideuslibexample.injection.components.ActivityComponent;
+import biz.ideus.ideuslibexample.injection.components.DaggerActivityComponent;
+import biz.ideus.ideuslibexample.injection.modules.ActivityModule;
+
 /* Base class for Activities when using a view model with data binding.
  * This class provides the binding and the view model to the subclass. The
  * view model is injected and the binding is created when the content view is set.
@@ -28,56 +43,59 @@ package biz.ideus.ideuslibexample.ui.base;
  *
  * Your subclass must implement the MvvmView implementation that you use in your
  * view model. */
-//public abstract class BaseActivity<B extends ViewDataBinding, V extends MvvmViewModel> extends RxFragmentActivity {
-//
-//    protected B binding;
-//    @Inject protected V viewModel;
-//
-//    // Always open a Realm in an Activity for avoiding open/close
-//    // overhead (a Realm instance is cached for each thread)
-////    @Inject Realm realm;
-//
-//    private ActivityComponent mActivityComponent;
-//
-//    /* Use this method to set the content view on your Activity. This method also handles
-//     * creating the binding, setting the view model on the binding and attaching the view. */
+public abstract class BaseActivity<T extends IView, R extends AbstractViewModel<T>, B extends ViewDataBinding>
+extends ViewModelBaseActivity<T, R>
+implements IView {
+
+    protected B binding;
+//    @Inject
+//    protected R viewModel;
+    private ActivityComponent mActivityComponent;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mViewModeHelper.performBinding(this);
+
+    }
+
+    @SuppressWarnings("unused")
+    @NotNull
+    public B getBinding() {
+        try {
+            return (B) mViewModeHelper.getBinding();
+        } catch (ClassCastException ex) {
+            throw new IllegalStateException("Method getViewModelBindingConfig() has to return same " +
+                    "ViewDataBinding type as it is set to base Fragment");
+        }
+    }
+    /* Use this method to set the content view on your Activity. This method also handles
+     * creating the binding, setting the view model on the binding and attaching the view. */
 //    protected final void setAndBindContentView(@LayoutRes int layoutResId, @Nullable Bundle savedInstanceState) {
 //        if(viewModel == null) { throw new IllegalStateException("viewModel must not be null and should be injected via activityComponent().inject(this)"); }
 //        binding = DataBindingUtil.setContentView(this, layoutResId);
 //        binding.setVariable(BR.vm, viewModel);
-//        Log.d("HASH", viewModel.hashCode()+"");
-//        //noinspection unchecked
-//        viewModel.attachView((MvvmView) this, savedInstanceState);
+//
 //    }
-//
-//    protected final ActivityComponent activityComponent() {
-//        if(mActivityComponent == null) {
-//            mActivityComponent = DaggerActivityComponent.builder()
-//                    .appComponent(SampleApplication.getAppComponent())
-//                    .activityModule(new ActivityModule(this))
-//                    .build();
-//        }
-//
-//        return mActivityComponent;
-//    }
-//
-//    @Override
-//    @CallSuper
-//    protected void onSaveInstanceState(Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//        if(viewModel != null) { viewModel.saveInstanceState(outState); }
-//    }
-//
-//    @Override
-//    @CallSuper
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        if(viewModel != null) { viewModel.detachView(); }
-////        if(realm != null) { realm.close(); }
+
+    protected final ActivityComponent activityComponent() {
+        if(mActivityComponent == null) {
+            mActivityComponent = DaggerActivityComponent.builder()
+                    .appComponent(SampleApplication.getAppComponent())
+                    .activityModule(new ActivityModule(this))
+                    .build();
+        }
+
+        return mActivityComponent;
+    }
+
+    @Override
+    @CallSuper
+    public void onDestroy() {
+        super.onDestroy();
+//        if(viewModel != null) { viewModel.onDestroy(); }
 //        binding = null;
 //        viewModel = null;
-//        mActivityComponent = null;
-////        realm = null;
-//
-//    }
-//}
+        mActivityComponent = null;
+    }
+}

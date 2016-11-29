@@ -1,11 +1,10 @@
-package biz.ideus.ideuslibexample.ui.start_activity;
+package biz.ideus.ideuslibexample.ui.activities.start_activity;
 
 /**
  * Created by user on 18.11.2016.
  */
 //@PerActivity
-public class StartActivityVM {}
-        //extends AutorisationVM implements BaseMvvmInterface.StartActivityVmListener, OnValidateField {
+//public class StartActivityVM extends AutorisationVM implements BaseMvvmInterface.StartActivityVmListener, OnValidateField {
 //
 //    private final Context ctx;
 //    private boolean isValidEmail = false;

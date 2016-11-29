@@ -10,7 +10,7 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 
-public abstract class AbstractViewModel<T extends IView> {
+public abstract class AbstractViewModel<T extends IView>{
 
     @Nullable
     private String mUniqueIdentifier;

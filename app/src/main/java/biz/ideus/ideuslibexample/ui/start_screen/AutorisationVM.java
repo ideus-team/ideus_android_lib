@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.ui.start_activity;
+package biz.ideus.ideuslibexample.ui.activities.start_activity;
 
 /**
  * Created by blackmamba on 16.11.16.

@@ -21,6 +21,7 @@ public abstract class ViewModelBaseSampleBindingActivity <T extends IView, R ext
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         mViewModeHelper.performBinding(this);
 //        final ViewDataBinding binding = mViewModeHelper.getBinding();
 //        if (binding != null) {
@@ -41,6 +42,7 @@ public abstract class ViewModelBaseSampleBindingActivity <T extends IView, R ext
 //            throw new IllegalStateException("Binding cannot be null. Perform binding before calling getBinding()");
 //        }
 //    }
+
 
     @SuppressWarnings("unused")
     @NotNull
