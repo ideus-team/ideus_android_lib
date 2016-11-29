@@ -1,31 +1,5 @@
 package biz.ideus.ideuslibexample.ui.base;
 
-import android.content.Intent;
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
-import android.os.Bundle;
-import android.support.annotation.CallSuper;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
-
-import com.android.databinding.library.baseAdapters.BR;
-import com.trello.rxlifecycle.components.support.RxFragmentActivity;
-
-import javax.inject.Inject;
-
-import biz.ideus.ideuslib.ui_base.view.MvvmView;
-import biz.ideus.ideuslib.ui_base.viewmodel.MvvmViewModel;
-import biz.ideus.ideuslibexample.R;
-import biz.ideus.ideuslibexample.SampleApplication;
-import biz.ideus.ideuslibexample.databinding.ActivityBaseBinding;
-import biz.ideus.ideuslibexample.injection.components.ActivityComponent;
-import biz.ideus.ideuslibexample.injection.components.DaggerActivityComponent;
-import biz.ideus.ideuslibexample.injection.modules.ActivityModule;
-import biz.ideus.ideuslibexample.interfaces.OnActivityResultInterface;
-import biz.ideus.ideuslibexample.ui.toolbar.ToolbarSettingsPower;
-import biz.ideus.ideuslibexample.ui.toolbar.ToolbarType;
-
-
 /* Copyright 2016 Patrick Löwenstein
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -54,107 +28,56 @@ import biz.ideus.ideuslibexample.ui.toolbar.ToolbarType;
  *
  * Your subclass must implement the MvvmView implementation that you use in your
  * view model. */
-public abstract class BaseActivity<B extends ViewDataBinding, V extends MvvmViewModel> extends RxFragmentActivity {
-private OnActivityResultInterface onActivityResultInterface;
-    private ToolbarSettingsPower toolbarSettingsPower;
-    public void setOnActivityResultInterface(OnActivityResultInterface onActivityResultInterface) {
-        this.onActivityResultInterface = onActivityResultInterface;
-    }
-   protected ActivityBaseBinding activityBaseBinding;
-    protected B binding;
-    @Inject protected V viewModel;
-
-    // Always open a Realm in an Activity for avoiding open/close
-    // overhead (a Realm instance is cached for each thread)
-//    @Inject Realm realm;
-
-    private ActivityComponent mActivityComponent;
-
-    /* Use this method to set the content view on your Activity. This method also handles
-     * creating the binding, setting the view model on the binding and attaching the view. */
-    protected final void setAndBindContentView(@LayoutRes int layoutResId, @Nullable Bundle savedInstanceState) {
-        if(viewModel == null) { throw new IllegalStateException("viewModel must not be null and should be injected via activityComponent().inject(this)"); }
-        binding = DataBindingUtil.setContentView(this, layoutResId);
-    activityBaseBinding = DataBindingUtil.setContentView(this, R.layout.activity_base);
-
-        activityBaseBinding.containterActivity.removeAllViewsInLayout();
-        activityBaseBinding.containterActivity.addView(binding.getRoot());
-        binding.setVariable(BR.vm, viewModel);
-        //noinspection unchecked
-        viewModel.attachView((MvvmView) this, savedInstanceState);
-
-        if (getToolbarName() != null) {
-            instantiateToolbar();
-        }
-
-    }
-
-    protected final ActivityComponent activityComponent() {
-        if(mActivityComponent == null) {
-            mActivityComponent = DaggerActivityComponent.builder()
-                    .appComponent(SampleApplication.getAppComponent())
-                    .activityModule(new ActivityModule(this))
-                    .build();
-        }
-
-        return mActivityComponent;
-    }
-
-    @Override
-    public void startActivityForResult(Intent intent, int requestCode) {
-        super.startActivityForResult(intent, requestCode);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(onActivityResultInterface != null)
-        onActivityResultInterface.onActivityResultCurrentActivity(requestCode, resultCode, data);
-    }
-
-    @Override
-    @CallSuper
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if(viewModel != null) { viewModel.saveInstanceState(outState); }
-    }
-
-    @Override
-    @CallSuper
-    protected void onDestroy() {
-        super.onDestroy();
-        if(viewModel != null) { viewModel.detachView(); }
-//        if(realm != null) { realm.close(); }
-        binding = null;
-        viewModel = null;
-        mActivityComponent = null;
-//        realm = null;
-
-    }
-
-
-    private void instantiateToolbar() {
-        toolbarSettingsPower = fetchToolbarSettings();
-        toolbarSettingsPower.init(this, activityBaseBinding.toolbarPower, getToolbarName());
-    }
-
-    private ToolbarSettingsPower fetchToolbarSettings() {
-        ToolbarSettingsPower priorityToolbarSettings = getToolbarSettings();
-        if (priorityToolbarSettings != null) {
-            return priorityToolbarSettings;
-        }
-        return getToolbarType().getToolbarSettingsPower();
-    }
-
-    protected ToolbarType getToolbarType() {
-        return ToolbarType.DEFAULT;
-    }
-
-    protected ToolbarSettingsPower getToolbarSettings() {
-        return null;
-    }
-
-    protected String getToolbarName(){
-        return null;
-    };
-}
+//public abstract class BaseActivity<B extends ViewDataBinding, V extends MvvmViewModel> extends RxFragmentActivity {
+//
+//    protected B binding;
+//    @Inject protected V viewModel;
+//
+//    // Always open a Realm in an Activity for avoiding open/close
+//    // overhead (a Realm instance is cached for each thread)
+////    @Inject Realm realm;
+//
+//    private ActivityComponent mActivityComponent;
+//
+//    /* Use this method to set the content view on your Activity. This method also handles
+//     * creating the binding, setting the view model on the binding and attaching the view. */
+//    protected final void setAndBindContentView(@LayoutRes int layoutResId, @Nullable Bundle savedInstanceState) {
+//        if(viewModel == null) { throw new IllegalStateException("viewModel must not be null and should be injected via activityComponent().inject(this)"); }
+//        binding = DataBindingUtil.setContentView(this, layoutResId);
+//        binding.setVariable(BR.vm, viewModel);
+//        Log.d("HASH", viewModel.hashCode()+"");
+//        //noinspection unchecked
+//        viewModel.attachView((MvvmView) this, savedInstanceState);
+//    }
+//
+//    protected final ActivityComponent activityComponent() {
+//        if(mActivityComponent == null) {
+//            mActivityComponent = DaggerActivityComponent.builder()
+//                    .appComponent(SampleApplication.getAppComponent())
+//                    .activityModule(new ActivityModule(this))
+//                    .build();
+//        }
+//
+//        return mActivityComponent;
+//    }
+//
+//    @Override
+//    @CallSuper
+//    protected void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        if(viewModel != null) { viewModel.saveInstanceState(outState); }
+//    }
+//
+//    @Override
+//    @CallSuper
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        if(viewModel != null) { viewModel.detachView(); }
+////        if(realm != null) { realm.close(); }
+//        binding = null;
+//        viewModel = null;
+//        mActivityComponent = null;
+////        realm = null;
+//
+//    }
+//}

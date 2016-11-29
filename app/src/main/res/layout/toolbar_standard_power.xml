@@ -25,17 +25,17 @@
                 android:layout_width="@dimen/toolbar_height"
                 android:layout_height="match_parent"/>
 
-            <biz.ideus.ideuslib.widget.AutoScaleTextView
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:singleLine="true"
-                android:text="@{toolbarPower.title}"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/font_size_20"
-                android:layout_width="0dp" />
+            <!--<biz.ideus.ideuslib.widget.AutoScaleTextView-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:ellipsize="end"-->
+                <!--android:gravity="center"-->
+                <!--android:layout_weight="1"-->
+                <!--android:singleLine="true"-->
+                <!--android:text="@{toolbarPower.title}"-->
+                <!--android:textColor="@android:color/white"-->
+                <!--android:textSize="@dimen/font_size_20"-->
+                <!--android:layout_width="0dp" />-->
 
 
             <LinearLayout

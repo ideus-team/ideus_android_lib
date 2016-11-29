@@ -1,32 +1,5 @@
 package biz.ideus.ideuslibexample.ui.base;
 
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
-import android.os.Bundle;
-import android.support.annotation.CallSuper;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.android.databinding.library.baseAdapters.BR;
-
-import javax.inject.Inject;
-
-import biz.ideus.ideuslib.ui_base.view.MvvmView;
-import biz.ideus.ideuslib.ui_base.viewmodel.MvvmViewModel;
-import biz.ideus.ideuslibexample.R;
-import biz.ideus.ideuslibexample.SampleApplication;
-import biz.ideus.ideuslibexample.databinding.FragmentBaseBinding;
-import biz.ideus.ideuslibexample.injection.components.DaggerFragmentComponent;
-import biz.ideus.ideuslibexample.injection.components.FragmentComponent;
-import biz.ideus.ideuslibexample.injection.modules.FragmentModule;
-import biz.ideus.ideuslibexample.ui.toolbar.ToolbarSettingsPower;
-import biz.ideus.ideuslibexample.ui.toolbar.ToolbarType;
-
 /* Copyright 2016 Patrick Löwenstein
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -55,88 +28,55 @@ import biz.ideus.ideuslibexample.ui.toolbar.ToolbarType;
  *
  * Your subclass must implement the MvvmView implementation that you use in your
  * view model. */
-public abstract class BaseFragment<B extends ViewDataBinding, V extends MvvmViewModel> extends Fragment {
-
-    protected B binding;
-    private ToolbarSettingsPower toolbarSettingsPower;
-    private FragmentBaseBinding fragmentBaseBinding;
-    @Inject protected V viewModel;
-
-    private FragmentComponent mFragmentComponent;
-
-    protected final FragmentComponent fragmentComponent() {
-        if(mFragmentComponent == null) {
-            mFragmentComponent = DaggerFragmentComponent.builder()
-                    .appComponent(SampleApplication.getAppComponent())
-                    .fragmentModule(new FragmentModule(this))
-                    .build();
-        }
-
-        return mFragmentComponent;
-    }
-
-    /* Use this method to inflate the content view for your Fragment. This method also handles
-     * creating the binding, setting the view model on the binding and attaching the view. */
-    protected final View setAndBindContentView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @LayoutRes int layoutResId, Bundle savedInstanceState) {
-        if(viewModel == null) { throw new IllegalStateException("viewModel must not be null and should be injected via fragmentComponent().inject(this)"); }
-        fragmentBaseBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_base, container, false);
-        binding = DataBindingUtil.inflate(inflater, layoutResId, container, false);
-        fragmentBaseBinding.container.removeAllViews();
-        fragmentBaseBinding.container.addView(binding.getRoot());
-        binding.setVariable(BR.vm, viewModel);
-        //noinspection unchecked
-        viewModel.attachView((MvvmView) this, savedInstanceState);
-        if (getToolbarName() != null) {
-            instantiateToolbar();
-        }
-        return fragmentBaseBinding.getRoot();
-    }
-
-    @Override
-    @CallSuper
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if(viewModel != null) { viewModel.saveInstanceState(outState); }
-    }
-
-    @Override
-    @CallSuper
-    public void onDestroyView() {
-        super.onDestroyView();
-        if(viewModel != null) { viewModel.detachView(); }
-        binding = null;
-        viewModel = null;
-    }
-
-    @Override
-    @CallSuper
-    public void onDestroy() {
-        mFragmentComponent = null;
-        super.onDestroy();
-    }
-
-    private void instantiateToolbar() {
-        toolbarSettingsPower = fetchToolbarSettings();
-        toolbarSettingsPower.init((BaseActivity) getActivity(), fragmentBaseBinding.toolbarPower, getToolbarName());
-    }
-
-    private ToolbarSettingsPower fetchToolbarSettings() {
-        ToolbarSettingsPower priorityToolbarSettings = getToolbarSettings();
-        if (priorityToolbarSettings != null) {
-            return priorityToolbarSettings;
-        }
-        return getToolbarType().getToolbarSettingsPower();
-    }
-
-    protected ToolbarType getToolbarType() {
-        return ToolbarType.DEFAULT;
-    }
-
-    protected ToolbarSettingsPower getToolbarSettings() {
-        return null;
-    }
-
-    protected String getToolbarName(){
-        return null;
-    }
-}
+//public abstract class BaseFragment<B extends ViewDataBinding, V extends MvvmViewModel> extends Fragment {
+//
+//    protected B binding;
+//    @Inject protected V viewModel;
+//
+//    private FragmentComponent mFragmentComponent;
+//
+//    protected final FragmentComponent fragmentComponent() {
+//        if(mFragmentComponent == null) {
+//            mFragmentComponent = DaggerFragmentComponent.builder()
+//                    .appComponent(SampleApplication.getAppComponent())
+//                    .fragmentModule(new FragmentModule(this))
+//                    .build();
+//        }
+//
+//        return mFragmentComponent;
+//    }
+//
+//    /* Use this method to inflate the content view for your Fragment. This method also handles
+//     * creating the binding, setting the view model on the binding and attaching the view. */
+//    protected final View setAndBindContentView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @LayoutRes int layoutResId, Bundle savedInstanceState) {
+//        if(viewModel == null) { throw new IllegalStateException("viewModel must not be null and should be injected via fragmentComponent().inject(this)"); }
+//        binding = DataBindingUtil.inflate(inflater, layoutResId, container, false);
+//        //binding.setVariable(BR.vm, viewModel);
+//        //noinspection unchecked
+//        viewModel.attachView((MvvmView) this, savedInstanceState);
+//        return binding.getRoot();
+//    }
+//
+//    @Override
+//    @CallSuper
+//    public void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        if(viewModel != null) { viewModel.saveInstanceState(outState); }
+//    }
+//
+//    @Override
+//    @CallSuper
+//    public void onDestroyView() {
+//        super.onDestroyView();
+//        if(viewModel != null) { viewModel.detachView(); }
+//        binding = null;
+//        viewModel = null;
+//    }
+//
+//    @Override
+//    @CallSuper
+//    public void onDestroy() {
+//        mFragmentComponent = null;
+//        super.onDestroy();
+//    }
+//}

@@ -4,9 +4,7 @@ package biz.ideus.ideuslibexample.injection.components;
 import biz.ideus.ideuslibexample.injection.modules.ActivityModule;
 import biz.ideus.ideuslibexample.injection.modules.ViewModelModule;
 import biz.ideus.ideuslibexample.injection.scopes.PerActivity;
-import biz.ideus.ideuslibexample.ui.activities.main_activity.MainActivity;
-import biz.ideus.ideuslibexample.ui.activities.start_activity.StartActivity;
-import biz.ideus.ideuslibexample.ui.activities.tutorial_activity.TutorialActivity;
+import biz.ideus.ideuslibexample.ui.start_screen.activity.StartActivity;
 import dagger.Component;
 
 /* Copyright 2016 Patrick Löwenstein
@@ -25,7 +23,8 @@ import dagger.Component;
 @PerActivity
 @Component(dependencies = AppComponent.class, modules = {ActivityModule.class, ViewModelModule.class})
 public interface ActivityComponent {
+   // void inject(StartActivity activity);
+//   void inject(TutorialActivity activity);
+//   void inject(MainActivity activity);
     void inject(StartActivity activity);
-   void inject(TutorialActivity activity);
-   void inject(MainActivity activity);
 }

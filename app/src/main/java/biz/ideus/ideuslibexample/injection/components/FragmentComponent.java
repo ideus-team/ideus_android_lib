@@ -3,13 +3,6 @@ package biz.ideus.ideuslibexample.injection.components;
 import biz.ideus.ideuslibexample.injection.modules.FragmentModule;
 import biz.ideus.ideuslibexample.injection.modules.ViewModelModule;
 import biz.ideus.ideuslibexample.injection.scopes.PerFragment;
-import biz.ideus.ideuslibexample.ui.fragments.forgot_pass_fragment.ForgotPasswordFragment;
-import biz.ideus.ideuslibexample.ui.fragments.home_fragments.home_fragment.HomeFragment;
-import biz.ideus.ideuslibexample.ui.fragments.home_fragments.people_fragment.PeopleFragment;
-import biz.ideus.ideuslibexample.ui.fragments.home_fragments.settings_fragment.SettingsFragment;
-import biz.ideus.ideuslibexample.ui.fragments.sign_up_fragment.SignUpFragment;
-import biz.ideus.ideuslibexample.ui.fragments.terms_privacy_fragment.TermsAndPrivacyFragment;
-import biz.ideus.ideuslibexample.ui.fragments.tutorial_fragments.BaseTutorialFragment;
 import dagger.Component;
 
 /* Copyright 2016 Patrick Löwenstein
@@ -28,11 +21,11 @@ import dagger.Component;
 @PerFragment
 @Component(dependencies = AppComponent.class, modules = {FragmentModule.class, ViewModelModule.class})
 public interface FragmentComponent {
-    void inject(TermsAndPrivacyFragment fragment);
-    void inject(SignUpFragment fragment);
-    void inject(ForgotPasswordFragment fragment);
-    void inject(BaseTutorialFragment fragment);
-    void inject(HomeFragment fragment);
-    void inject(PeopleFragment fragment);
-    void inject(SettingsFragment fragment);
+//    void inject(TermsAndPrivacyFragment fragment);
+//    void inject(SignUpFragment fragment);
+//    void inject(ForgotPasswordFragment fragment);
+//    void inject(BaseTutorialFragment fragment);
+//    void inject(HomeFragment fragment);
+//    void inject(PeopleFragment fragment);
+//    void inject(SettingsFragment fragment);
 }
