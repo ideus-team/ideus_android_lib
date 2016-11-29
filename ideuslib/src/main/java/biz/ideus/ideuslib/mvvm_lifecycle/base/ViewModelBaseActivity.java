@@ -8,17 +8,21 @@ import android.support.annotation.Nullable;
 import biz.ideus.ideuslib.mvvm_lifecycle.AbstractViewModel;
 import biz.ideus.ideuslib.mvvm_lifecycle.IView;
 import biz.ideus.ideuslib.mvvm_lifecycle.ViewModelHelper;
+import biz.ideus.ideuslib.mvvm_lifecycle.ViewModelProvider;
 
 
 public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractViewModel<T>> extends ViewModelBaseEmptyActivity implements IView  {
 
     @NonNull
     protected final ViewModelHelper<T, R> mViewModeHelper = new ViewModelHelper<>();
-
+    @Nullable
+    private ViewModelProvider mViewModelProvider;
     @CallSuper
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
+        mViewModelProvider = ViewModelProvider.newInstance(this);
         super.onCreate(savedInstanceState);
+
         mViewModeHelper.onCreate(this, savedInstanceState, getViewModelClass(), getIntent().getExtras());
     }
 
