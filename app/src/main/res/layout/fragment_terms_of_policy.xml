@@ -4,10 +4,10 @@
     <data>
             <import type="android.view.View" />
 
-            <variable
-                name="vm"
+            <!--<variable-->
+                <!--name="viewModel"-->
 
-                type="biz.ideus.ideuslibexample.ui.fragments.terms_privacy_fragment.TermsPolicyVM" />
+                <!--type="biz.ideus.ideuslibexample.ui.fragments.terms_privacy_fragment.TermsPolicyVM" />-->
     </data>
 
     <LinearLayout

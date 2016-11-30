@@ -17,7 +17,11 @@ package biz.ideus.ideuslibexample.ui.base;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
+import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -46,37 +50,20 @@ import biz.ideus.ideuslibexample.injection.modules.ActivityModule;
 public abstract class BaseActivity<T extends IView, R extends AbstractViewModel<T>, B extends ViewDataBinding>
 extends ViewModelBaseActivity<T, R>
 implements IView {
-
+    private ActivityComponent mActivityComponent;
     protected B binding;
 //    @Inject
-//    protected R viewModel;
-    private ActivityComponent mActivityComponent;
+    protected R viewModel;
+   // private ActivityComponent mActivityComponent;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModeHelper.performBinding(this);
+        binding = getBinding();
+        viewModel = getViewModel();
 
     }
-
-    @SuppressWarnings("unused")
-    @NotNull
-    public B getBinding() {
-        try {
-            return (B) mViewModeHelper.getBinding();
-        } catch (ClassCastException ex) {
-            throw new IllegalStateException("Method getViewModelBindingConfig() has to return same " +
-                    "ViewDataBinding type as it is set to base Fragment");
-        }
-    }
-    /* Use this method to set the content view on your Activity. This method also handles
-     * creating the binding, setting the view model on the binding and attaching the view. */
-//    protected final void setAndBindContentView(@LayoutRes int layoutResId, @Nullable Bundle savedInstanceState) {
-//        if(viewModel == null) { throw new IllegalStateException("viewModel must not be null and should be injected via activityComponent().inject(this)"); }
-//        binding = DataBindingUtil.setContentView(this, layoutResId);
-//        binding.setVariable(BR.vm, viewModel);
-//
-//    }
 
     protected final ActivityComponent activityComponent() {
         if(mActivityComponent == null) {
@@ -89,6 +76,28 @@ implements IView {
         return mActivityComponent;
     }
 
+    @SuppressWarnings("unused")
+    @NotNull
+    public B getBinding() {
+        try {
+            return (B) mViewModeHelper.getBinding();
+        } catch (ClassCastException ex) {
+            throw new IllegalStateException("Method getViewModelBindingConfig() has to return same " +
+                    "ViewDataBinding type as it is set to base Fragment");
+        }
+    }
+    public void addFragmentToBackStack(FragmentManager fm, @IdRes int containerId, Fragment fragment, String fragmentTag, Bundle args, boolean addToBackstack, String backstackTag) {
+        if(args != null) {
+            fragment.setArguments(args);}
+        FragmentTransaction ft = fm.beginTransaction().add(containerId, fragment, fragmentTag);
+        if(addToBackstack) {
+            ft.addToBackStack(backstackTag).commit();
+            fm.executePendingTransactions();
+        } else {
+            ft.commitNow();
+        }
+    }
+
     @Override
     @CallSuper
     public void onDestroy() {
@@ -96,6 +105,6 @@ implements IView {
 //        if(viewModel != null) { viewModel.onDestroy(); }
 //        binding = null;
 //        viewModel = null;
-        mActivityComponent = null;
+     //   mActivityComponent = null;
     }
 }

@@ -1,10 +1,8 @@
 package biz.ideus.ideuslibexample.ui.start_screen.activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -20,10 +18,9 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 
-import java.io.IOException;
-
 import javax.inject.Inject;
 
+import biz.ideus.ideuslib.Utils.Utils;
 import biz.ideus.ideuslib.mvvm_lifecycle.binding.ViewModelBindingConfig;
 import biz.ideus.ideuslibexample.BR;
 import biz.ideus.ideuslibexample.R;
@@ -31,29 +28,25 @@ import biz.ideus.ideuslibexample.data.local.RequeryApi;
 import biz.ideus.ideuslibexample.data.remote.NetApi;
 import biz.ideus.ideuslibexample.databinding.ActivityLoginBinding;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
+import biz.ideus.ideuslibexample.ui.start_screen.view_models.StartActivityVM;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
-import biz.ideus.ideuslibexample.ui.start_screen.TestStartBindingViewModel;
-import biz.ideus.ideuslibexample.utils.UtilsValidation;
 
-import static biz.ideus.ideuslibexample.ui.start_screen.TestStartBindingViewModel.GOOGLE_SIGN_IN;
+import static biz.ideus.ideuslibexample.ui.start_screen.view_models.AutorisationVM.GOOGLE_SIGN_IN;
 
 
 /**
  * Created by user on 11.11.2016.
  */
 
-public class StartActivity extends BaseActivity<StartView, TestStartBindingViewModel, ActivityLoginBinding>
-    implements StartView ,GoogleApiClient.OnConnectionFailedListener{
+public class StartActivity extends BaseActivity<StartView, StartActivityVM, ActivityLoginBinding>
+    implements StartView, GoogleApiClient.OnConnectionFailedListener{
 
     private CallbackManager faceBookCallbackManager;
     private TwitterAuthClient twitterAuthClient;
     private GoogleSignInOptions googleSignInOptions;
     private GoogleApiClient googleApiClient;
-    private UtilsValidation utilsValidation;
 
-    public UtilsValidation getUtilsValidation() {
-        return utilsValidation;
-    }
+
 
     public CallbackManager getFaceBookCallbackManager() {
         return faceBookCallbackManager;
@@ -82,30 +75,11 @@ public class StartActivity extends BaseActivity<StartView, TestStartBindingViewM
         activityComponent().inject(this);
         setModelView(this);
         faceBookCallbackManager = CallbackManager.Factory.create();
-        utilsValidation = new UtilsValidation(this);
         createGoogleSignInOptions();
         createGoogleApiClient();
         twitterAuthClient = new TwitterAuthClient();
-
-        //setAndBindContentView(R.layout.activity_start, savedInstanceState);
-
-        //setSupportActionBar(binding.toolbar);
-
-        //binding.viewPager.setAdapter(adapter);
-        //binding.tabLayout.setupWithViewPager(binding.viewPager);
-     //   requeryApi.getFavoriteChangeObservable().subscribe(a -> Log.d("str", "" + a.length()));
-      //  netApi.getSpecializations().subscribe();
     }
 
-    private Bitmap useImage(Uri uri) {
-        Bitmap bitmap = null;
-        try {
-            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return bitmap;
-    }
 
     private void createGoogleSignInOptions() {
         googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -160,7 +134,7 @@ public class StartActivity extends BaseActivity<StartView, TestStartBindingViewM
                     CropImage.ActivityResult result = CropImage.getActivityResult(intent);
                     Uri resultUri = result.getUri();
 
-                    getBinding().imageViewHeader.setImageBitmap(useImage(resultUri));
+                    getBinding().getViewModel().headerImage.set(Utils.getDrawableImage(getContentResolver(), resultUri));
                     break;
                 case CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE:
                     break;
@@ -171,8 +145,8 @@ public class StartActivity extends BaseActivity<StartView, TestStartBindingViewM
 
     @Nullable
     @Override
-    public Class<TestStartBindingViewModel> getViewModelClass() {
-        return TestStartBindingViewModel.class;
+    public Class<StartActivityVM> getViewModelClass() {
+        return StartActivityVM.class;
     }
 
     @Nullable

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/tools">
 
     <data>
@@ -8,8 +7,8 @@
         <import type="android.view.View" />
 
         <variable
-            name="vm"
-            type="biz.ideus.ideuslibexample.ui.fragments.sign_up_fragment.SignUpFragmentVM" />
+            name="viewModel"
+            type="biz.ideus.ideuslibexample.ui.start_screen.view_models.SignUpFragmentVM" />
     </data>
 
     <RelativeLayout
@@ -54,7 +53,7 @@
                         android:paddingEnd="@dimen/font_size_15"
                         android:paddingStart="@dimen/font_size_15">
 
-                        <!--android:onClick="@{vm.onClickFaceBookLogin}"-->
+
                         <Button
                             android:id="@+id/btn_login_fb"
                             android:layout_width="wrap_content"
@@ -63,23 +62,24 @@
                             android:layout_marginStart="5dp"
                             android:layout_weight="1"
                             android:background="@drawable/facebook_btn_selector"
-
+                            android:onClick="@{viewModel::onClickFaceBookLogin}"
                             android:text="@string/facebook"
                             android:textAllCaps="false"
                             android:textColor="@android:color/white" />
 
-                        <!--android:onClick="@{vm.onClickTwitterLogin}"-->
+
                         <Button
                             android:id="@+id/btn_login_twitter"
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
                             android:layout_weight="1"
                             android:background="@drawable/twitter_btn_selector"
+                            android:onClick="@{viewModel::onClickTwitterLogin}"
                             android:text="@string/twitter"
                             android:textAllCaps="false"
                             android:textColor="@android:color/white" />
 
-                        <!--android:onClick="@{vm.onClickGooglePlus}"-->
+
                         <Button
                             android:id="@+id/btn_login_google_plus"
                             android:layout_width="wrap_content"
@@ -88,7 +88,7 @@
                             android:layout_marginStart="5dp"
                             android:layout_weight="1"
                             android:background="@drawable/google_btn_selector"
-
+                            android:onClick="@{viewModel::onClickGooglePlus}"
                             android:text="@string/google_plus"
                             android:textAllCaps="false"
                             android:textColor="@android:color/white" />
@@ -155,32 +155,30 @@
                             android:layout_height="match_parent"
                             android:orientation="horizontal">
 
-                            <!--android:onClick="@{vm.onClickClearFieldImage}"-->
-                            <!--android:src="@drawable/ic_cancel"-->
-                            <!--android:visibility="@{vm.visibilityClearNameImage}"-->
+
                             <ImageView
                                 android:id="@+id/iv_cancel_name"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
                                 android:layout_alignParentRight="true"
                                 android:layout_centerInParent="true"
-                               />
+                                android:onClick="@{viewModel::onClickClearFieldImage}"
+                                android:src="@drawable/ic_cancel"
+                                android:visibility="@{viewModel.visibilityClearNameImage}" />
 
-                            <!--android:onTextChanged="@{vm.onTextChangedName}"-->
-                            <!--android:text="@{vm.name}"-->
-                            <!--android:textColor="@{ (int)vm.titleColorName}"-->
                             <EditText
                                 android:id="@+id/et_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
                                 android:layout_marginBottom="@dimen/font_size_15"
-                                android:layout_weight="1"
                                 android:background="@null"
                                 android:ems="10"
                                 android:hint="@string/your_name"
                                 android:inputType="text"
-                                />
+                                android:onTextChanged="@{viewModel::onTextChangedName}"
+                                android:text="@{viewModel.name}"
+                                android:textColor="@{ (int)viewModel.titleColorName}" />
                         </RelativeLayout>
 
                         <View
@@ -196,32 +194,30 @@
                             android:orientation="horizontal">
 
 
-                            <!--android:onClick="@{vm.onClickClearFieldImage}"-->
-                            <!--android:src="@drawable/ic_cancel"-->
-                            <!--android:visibility="@{vm.visibilityClearEmailImage}"-->
                             <ImageView
                                 android:id="@+id/iv_cancel_email"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
                                 android:layout_alignParentRight="true"
                                 android:layout_centerInParent="true"
-                                />
+                                android:onClick="@{viewModel::onClickClearFieldImage}"
+                                android:src="@drawable/ic_cancel"
+                                android:visibility="@{viewModel.visibilityClearEmailImage}" />
 
-                            <!--android:onTextChanged="@{vm.onTextChangedEmail}"-->
-                            <!--android:text="@{vm.email}"-->
-                            <!--android:textColor="@{ (int)vm.titleColorEmail}"-->
+
                             <EditText
                                 android:id="@+id/et_login"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
                                 android:layout_marginBottom="@dimen/font_size_15"
-                                android:layout_weight="1"
                                 android:background="@null"
                                 android:ems="10"
                                 android:hint="@string/enter_email"
                                 android:inputType="textEmailAddress"
-                                />
+                                android:onTextChanged="@{viewModel::onTextChangedEmail}"
+                                android:text="@{viewModel.email}"
+                                android:textColor="@{ (int)viewModel.titleColorEmail}" />
                         </RelativeLayout>
 
                         <View
@@ -236,21 +232,18 @@
                             android:layout_height="match_parent"
                             android:orientation="horizontal">
 
-                            <!--android:onClick="@{vm.onClickClearFieldImage}"-->
-                            <!--android:src="@drawable/ic_cancel"-->
-                            <!--android:visibility="@{vm.visibilityClearPasswordImage}"-->
+
                             <ImageView
                                 android:id="@+id/iv_cancel_password"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
                                 android:layout_alignParentRight="true"
                                 android:layout_centerInParent="true"
-                               />
+                                android:onClick="@{viewModel::onClickClearFieldImage}"
+                                android:src="@drawable/ic_cancel"
+                                android:visibility="@{viewModel.visibilityClearPasswordImage}" />
 
-                            <!--android:onTextChanged="@{vm.onTextChangedPassword}"-->
-                            <!--android:password="@{vm.isPasswordShow}"-->
-                            <!--android:text="@{vm.password}"-->
-                            <!--android:textColor="@{(int)vm.titleColorPassword}"-->
+
                             <EditText
                                 android:id="@+id/et_create_password"
                                 android:layout_width="wrap_content"
@@ -259,12 +252,14 @@
                                 android:layout_centerInParent="false"
                                 android:layout_centerVertical="true"
                                 android:layout_marginTop="@dimen/font_size_10"
-                                android:layout_weight="1"
                                 android:background="@null"
                                 android:ems="10"
                                 android:hint="@string/create_password"
                                 android:inputType="textPassword"
-                               />
+                                android:onTextChanged="@{viewModel::onTextChangedPassword}"
+                                android:password="@{viewModel.isPasswordShow}"
+                                android:text="@{viewModel.password}"
+                                android:textColor="@{(int)viewModel.titleColorPassword}" />
                         </RelativeLayout>
                     </LinearLayout>
 
@@ -274,25 +269,26 @@
                         android:layout_height="wrap_content"
                         android:padding="@dimen/font_size_15">
 
-                        <!--android:onClick="@{vm.onCheckedChanged}"-->
+
                         <CheckBox
                             android:id="@+id/cb_show_pass"
                             style="@style/checkBoxComponent"
                             android:layout_alignParentLeft="true"
                             android:layout_centerInParent="true"
                             android:checked="false"
-
+                            android:onClick="@{viewModel::onCheckedChanged}"
                             android:text="@string/show_password" />
 
                     </RelativeLayout>
 
-                    <!--android:background="@{vm.isValidFields ? @drawable/green_btn_selector : @drawable/create_account_btn_selector}"-->
-                    <!--android:onClick="@{vm.onCreateAccountClick}"-->
-                    <!--android:textColor="@{vm.isValidFields ? @android:color/white : @color/gray}"-->
+
                     <Button
                         android:id="@+id/btn_Crate_account"
                         style="@style/ButtonTransparentStyle"
-                        android:text="@string/create_account" />
+                        android:background="@{viewModel.isValidFields ? @drawable/green_btn_selector : @drawable/create_account_btn_selector}"
+                        android:onClick="@{viewModel::onCreateAccountClick}"
+                        android:text="@string/create_account"
+                        android:textColor="@{viewModel.isValidFields ? @android:color/white : @color/gray}" />
 
                     <TextView
                         android:id="@+id/textView7"
@@ -309,22 +305,22 @@
                         android:orientation="vertical"
                         android:padding="@dimen/font_size_10">
 
-                        <!--android:onClick="@{vm.onCheckedChangedTermAndPolicy}"-->
+
                         <CheckBox
                             android:id="@+id/checkBox_privacy_policy"
                             style="@style/checkBoxComponent"
                             android:layout_width="match_parent"
                             android:layout_alignParentLeft="true"
                             android:layout_centerInParent="true"
-
+                            android:onClick="@{viewModel::onCheckedChangedTermAndPolicy}"
                             android:text="@string/by_creating_account" />
 
-                        <!--android:onClick="@{vm.onClickTermsAndPolicy}"-->
+
                         <TextView
                             android:id="@+id/tv_privacy_policy"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-
+                            android:onClick="@{viewModel::onClickTermsAndPolicy}"
                             android:text="@string/terms_and_privacy_policy"
                             android:textColor="@color/green_btn_default"
                             android:textSize="@dimen/font_size_15"
@@ -336,20 +332,19 @@
 
             </LinearLayout>
         </ScrollView>
-        <!--android:visibility="@{vm.visibilityLoadingPage}"-->
+        <!--android:visibility="@{viewModel.visibilityLoadingPage}"-->
         <FrameLayout
             android:id="@+id/loading_screen_container"
-           android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
 
-            <!--app:title="@{vm.titleAutorisationScreen}"-->
-            <!--app:aboutTitle="@{vm.aboutTitleAutorisationScreen}"-->
             <include
-
                 android:id="@+id/loading_autorisation_page"
-                layout="@layout/loading_autorisation_screen" />
+                layout="@layout/loading_autorisation_screen"
+                app:aboutTitle="@{viewModel.aboutTitleAutorisationScreen}"
+                app:title="@{viewModel.titleAutorisationScreen}" />
         </FrameLayout>
     </RelativeLayout>
 </layout>

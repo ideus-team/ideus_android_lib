@@ -2,66 +2,67 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-    <import type="android.view.View" />
 
-    <variable
-        name="vm"
-        type="biz.ideus.ideuslibexample.ui.fragments.tutorial_fragments.TutorialFragmentVM" />
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="biz.ideus.ideuslibexample.ui.tutorial_screen.view_models.TutorialFragmentVM" />
     </data>
-    <LinearLayout
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/color_main"
-    android:orientation="vertical"
-    android:gravity="center_horizontal">
-
 
     <LinearLayout
-        android:layout_marginTop="50dp"
-        android:background="@drawable/circle_tutorial_midle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_main"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
 
         <LinearLayout
-            android:background="@drawable/main_circle_tutorial"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/circle_tutorial_midle"
             android:orientation="horizontal">
 
-            <biz.ideus.ideuslib.widget.CircleImageView
-                android:id="@+id/imageViewCircle"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:layout_margin="40dp"
-                android:layout_centerInParent="true" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:background="@drawable/main_circle_tutorial"
+                android:orientation="horizontal">
 
+                <biz.ideus.ideuslib.widget.CircleImageView
+                    android:id="@+id/imageViewCircle"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="40dp" />
+
+            </LinearLayout>
         </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text=""
+            android:textColor="@color/light_gray"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tv_about"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/font_size_20"
+            android:layout_marginStart="@dimen/font_size_20"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text=""
+            android:textColor="@color/light_gray" />
+
     </LinearLayout>
-
-
-    <TextView
-        android:text=""
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_title"
-        android:textSize="20sp"
-        android:textColor="@color/light_gray"
-        android:layout_marginTop="20dp"
-        android:gravity="center" />
-
-    <TextView
-        android:text=""
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_about"
-        android:textColor="@color/light_gray"
-        android:layout_marginStart="@dimen/font_size_20"
-        android:layout_marginEnd="@dimen/font_size_20"
-        android:layout_marginTop="20dp"
-        android:gravity="center" />
-
-</LinearLayout>
-    </layout>
+</layout>

@@ -7,22 +7,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 
-import biz.ideus.ideuslib.mvvm_lifecycle.binding.ViewModelBaseSampleBindingActivity;
 import biz.ideus.ideuslibexample.databinding.DialogInfoBinding;
+import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 
 /**
  * Created by blackmamba on 18.11.16.
  */
 
 public class CustomAttentionDialog {
-    private ViewModelBaseSampleBindingActivity activity;
+    private BaseActivity activity;
     private DialogInfoBinding binding;
 
     View.OnClickListener onBtnDialogClickListener, onCloseListener;
     Dialog dialog;
 
 
-    public CustomAttentionDialog(ViewModelBaseSampleBindingActivity activity) {
+    public CustomAttentionDialog(BaseActivity activity) {
         this.activity = activity;
         dialog = new Dialog(activity, R.style.customDialog);
         dialog.setCancelable(true);
