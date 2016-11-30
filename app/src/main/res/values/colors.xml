@@ -24,5 +24,6 @@
     <color name="dark_gray">#4b4b4b</color>
     <color name="color_main_light">#6797bb</color>
     <color name="midle_color_main_light">#5388a6</color>
+    <color name="white">#ffffff</color>
 
 </resources>

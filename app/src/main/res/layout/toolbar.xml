@@ -7,17 +7,9 @@
         <import type="android.view.View" />
     </data>
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_height"
-        android:background="@color/colorPrimary"
-        app:contentInsetLeft="0dp"
-        app:contentInsetStart="0dp">
-
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/toolbar_height"
             android:background="@color/colorPrimary"
             android:orientation="horizontal">
 
@@ -31,13 +23,15 @@
                     android:layout_width="40dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/transparent_btn_selector"
-                    android:contentDescription="@string/space"
-                    android:onClick="@{toolbarLeftListener.onLeftButtonClick}"
                     android:scaleType="center"
-                    android:src="@{toolbarSettings.leftButtonResource}"
-                    android:visibility="@{toolbarSettings.leftButtonVisibility}" />
+                    />
 
-                <biz.ideus.secondoc.widget.AutoScaleTextView
+                <!--android:onClick="@{toolbarLeftListener.onLeftButtonClick}"-->
+                <!--android:src="@{toolbarSettings.leftButtonResource}"-->
+                <!--android:visibility="@{toolbarSettings.leftButtonVisibility}"-->
+
+
+                <biz.ideus.ideuslib.widget.AutoScaleTextView
                     android:id="@+id/tvScreenName"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -45,11 +39,12 @@
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:gravity="center"
-                    android:singleLine="true"
-                    android:text="@{toolbarSettings.screenName}"
+                    android:maxLines="1"
                     android:textColor="@color/white"
                     android:textSize="16sp"
-                    fontText:fontType="MuseoSansCyrl_500" />
+                    />
+
+                <!--android:text="@{toolbarSettings.screenName}"-->
 
 
                 <ImageView
@@ -58,13 +53,14 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/transparent_btn_selector"
                     android:contentDescription="@string/space"
-                    android:onClick="@{toolbarRightListener.onRightButtonClick}"
                     android:padding="10dip"
-                    android:src="@{toolbarSettings.rightButtonResource}"
-                    android:visibility="@{toolbarSettings.rightButtonVisibility}" />
+                    />
+
+                <!--android:onClick="@{toolbarRightListener.onRightButtonClick}"-->
+                <!--android:src="@{toolbarSettings.rightButtonResource}"-->
+                <!--android:visibility="@{toolbarSettings.rightButtonVisibility}"-->
 
             </LinearLayout>
 
         </RelativeLayout>
-    </android.support.v7.widget.Toolbar>
 </layout>
