@@ -25,8 +25,6 @@ public class TutorialActivity extends BaseActivity<TutorialView, TutorialActivit
     @Inject
    TutorialPagerAdapter adapter;
 
-    TutorialActivityVM vm;
-
     @Inject
     RequeryApi requeryApi;
 

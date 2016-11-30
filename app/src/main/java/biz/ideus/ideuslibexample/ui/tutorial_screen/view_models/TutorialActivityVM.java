@@ -64,9 +64,7 @@ public class TutorialActivityVM extends AbstractViewModel<TutorialView> implemen
     }
 
     private void checkCurrentRadioBtn(int positionPage) {
-        Observable.from(radioBtnCheckList).map(item -> {
-            if (radioBtnCheckList.indexOf(item) == positionPage) item.set(true);
-            else item.set(false);
+        Observable.from(radioBtnCheckList).map(item -> {item.set(radioBtnCheckList.indexOf(item) == positionPage);
             return item;})
                 .subscribe();
     }
