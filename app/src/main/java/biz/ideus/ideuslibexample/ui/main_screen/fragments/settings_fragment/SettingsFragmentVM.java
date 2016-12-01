@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.ui.fragments.home_fragments.settings_fragment;
+package biz.ideus.ideuslibexample.ui.main_screen.fragments.settings_fragment;
 
 /**
  * Created by blackmamba on 25.11.16.

@@ -20,8 +20,8 @@ public class PagerBindingAdapters {
         viewPager.setAdapter(adapter);
     }
 
-    @BindingAdapter({"app:onPageChange"})
-    public static void addOnPageChangeListener(ViewPager viewPager, ViewPager.OnPageChangeListener listener) {
-        viewPager.addOnPageChangeListener(listener);
-    }
+//    @BindingAdapter({"app:onPageChange"})
+//    public static void addOnPageChangeListener(ViewPager viewPager, ViewPager.OnPageChangeListener listener) {
+//        viewPager.addOnPageChangeListener(listener);
+//    }
 }

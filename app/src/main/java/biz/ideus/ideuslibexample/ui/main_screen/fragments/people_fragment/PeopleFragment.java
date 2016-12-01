@@ -1,14 +1,13 @@
-package biz.ideus.ideuslibexample.ui.fragments.home_fragments.home_fragment;
+package biz.ideus.ideuslibexample.ui.main_screen.fragments.people_fragment;
 
 /**
  * Created by blackmamba on 25.11.16.
  */
-//
-//public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeFragmentVM> implements MvvmView {
-//
+
+//public class PeopleFragment extends BaseFragment<FragmentPeopleBinding, PeopleFragmentVM> implements MvvmView {
 //    @Override
 //    public String getToolbarName(){
-//        return getString(R.string.home);
+//        return getString(R.string.people);
 //    }
 //
 //    @Override
@@ -19,6 +18,6 @@ package biz.ideus.ideuslibexample.ui.fragments.home_fragments.home_fragment;
 //    @Override
 //    public android.view.View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 //        fragmentComponent().inject(this);
-//        return setAndBindContentView(inflater, container, R.layout.fragment_home, savedInstanceState);
+//        return setAndBindContentView(inflater, container, R.layout.fragment_people, savedInstanceState);
 //    }
 //}

@@ -22,8 +22,8 @@
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_height="0dp"
-            app:adapter="@{viewModel.pagerAdapter}"
              />
+        <!--app:adapter="@{viewModel.pagerAdapter}"-->
 
         <com.ashokvarma.bottomnavigation.BottomNavigationBar
             android:id="@+id/ab_bottom_navigation_bar"
