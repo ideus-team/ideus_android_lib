@@ -1,6 +1,5 @@
 package biz.ideus.ideuslibexample.ui.start_screen.view_models;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -9,9 +8,10 @@ import android.widget.CheckBox;
 
 import biz.ideus.ideuslib.interfaces.OnValidateSignUpScreen;
 import biz.ideus.ideuslibexample.R;
+import biz.ideus.ideuslibexample.dialogs.DialogModel;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.start_screen.activity.StartActivity;
-import biz.ideus.ideuslibexample.ui.tutorial_screen.activity.TutorialActivity;
+import biz.ideus.ideuslibexample.utils.RxBusShowDialog;
 
 /**
  * Created by blackmamba on 16.11.16.
@@ -50,7 +50,8 @@ public class SignUpFragmentVM extends AutorisationVM implements OnValidateSignUp
 
     private boolean isValidData(BaseActivity activity) {
         if (!(isValidEmail && isValidPassword && isValidName)) {
-            showAttentionDialog(activity, context.getString(R.string.invalidate_sign_in_text));
+            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.SIGN_IN_ATTENTION);
+          //  showAttentionDialog(activity, context.getString(R.string.invalidate_sign_in_text));
         }
         return isValidEmail && isValidPassword && isValidName;
 
@@ -59,11 +60,11 @@ public class SignUpFragmentVM extends AutorisationVM implements OnValidateSignUp
     public void onCreateAccountClick(View view) {
         StartActivity startActivity = (StartActivity) view.getContext();
         if (isValidData(startActivity)) {
-
+            showLoadingPage(startActivity.getString(R.string.creating_an_account), startActivity.getString(R.string.about_creating_account), View.VISIBLE);
+//            startActivity.startActivity(new Intent(startActivity, TutorialActivity.class));
+//            startActivity.finish();
         }
 
-        // showLoadingPage(ctx.getString(R.string.creating_an_account), ctx.getString(R.string.about_creating_account), View.VISIBLE);
-        startActivity.startActivity(new Intent(startActivity, TutorialActivity.class));
     }
 
     public void onCheckedChangedTermAndPolicy(View v) {

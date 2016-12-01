@@ -76,6 +76,8 @@ implements IView {
         return mActivityComponent;
     }
 
+
+
     @SuppressWarnings("unused")
     @NotNull
     public B getBinding() {

@@ -3,7 +3,6 @@ package biz.ideus.ideuslibexample.ui.start_screen.view_models;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.ObservableField;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -27,9 +26,6 @@ import biz.ideus.ideuslib.Utils.UtilsValidationETFields;
 import biz.ideus.ideuslib.interfaces.OnValidateField;
 import biz.ideus.ideuslib.interfaces.OnValidateSignUpScreen;
 import biz.ideus.ideuslib.mvvm_lifecycle.AbstractViewModel;
-import biz.ideus.ideuslibexample.CustomAttentionDialog;
-import biz.ideus.ideuslibexample.R;
-import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.ui.start_screen.activity.StartActivity;
 import biz.ideus.ideuslibexample.utils.Constants;
@@ -80,11 +76,16 @@ public abstract class AutorisationVM extends AbstractViewModel<StartView> {
 
     public final ObservableField<Boolean> isValidFields = new ObservableField<>();
 
+
+
     @Override
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
         super.onCreate(arguments, savedInstanceState);
         visibilityLoadingPage.set(View.GONE);
         isValidFields.set(false);
+
+
+
 
     }
 
@@ -92,6 +93,7 @@ public abstract class AutorisationVM extends AbstractViewModel<StartView> {
     public void onBindView(@NonNull StartView view) {
         super.onBindView(view);
         context = getView().getViewModelBindingConfig().getContext();
+
     }
 
     public void onTextChangedEmail(CharSequence text) {
@@ -168,18 +170,13 @@ public abstract class AutorisationVM extends AbstractViewModel<StartView> {
         visibilityLoadingPage.set(visibility);
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
 
-    public void showAttentionDialog(BaseActivity activity, String dialogMessage) {
-        CustomAttentionDialog dialog = new CustomAttentionDialog(activity);
-        dialog.setOnBtnDialogClickListener(view1 -> dialog.hide())
-                .setOnCloseClickListener(view12 -> dialog.hide())
-                .setAboutActionText(dialogMessage)
-                .setVisbilityStatusImage(View.VISIBLE)
-                .setColorTitle(Color.RED)
-                .setBtnName(activity.getString(R.string.try_again))
-                .setTitle(activity.getString(R.string.error))
-                .show();
     }
+
+
 
     protected void signInWithGooglePlus(StartActivity activity) {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(activity.getGoogleApiClient());

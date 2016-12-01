@@ -332,7 +332,7 @@
 
             </LinearLayout>
         </ScrollView>
-        <!--android:visibility="@{viewModel.visibilityLoadingPage}"-->
+
         <FrameLayout
             android:id="@+id/loading_screen_container"
             android:layout_width="match_parent"

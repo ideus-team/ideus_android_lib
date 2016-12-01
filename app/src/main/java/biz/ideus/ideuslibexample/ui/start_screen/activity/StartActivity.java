@@ -27,9 +27,12 @@ import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.data.local.RequeryApi;
 import biz.ideus.ideuslibexample.data.remote.NetApi;
 import biz.ideus.ideuslibexample.databinding.ActivityLoginBinding;
+import biz.ideus.ideuslibexample.dialogs.DialogFactory;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
-import biz.ideus.ideuslibexample.ui.start_screen.view_models.StartActivityVM;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
+import biz.ideus.ideuslibexample.ui.start_screen.view_models.StartActivityVM;
+import biz.ideus.ideuslibexample.utils.RxBusShowDialog;
+import rx.Subscription;
 
 import static biz.ideus.ideuslibexample.ui.start_screen.view_models.AutorisationVM.GOOGLE_SIGN_IN;
 
@@ -39,14 +42,14 @@ import static biz.ideus.ideuslibexample.ui.start_screen.view_models.Autorisation
  */
 
 public class StartActivity extends BaseActivity<StartView, StartActivityVM, ActivityLoginBinding>
-    implements StartView, GoogleApiClient.OnConnectionFailedListener{
+        implements StartView, GoogleApiClient.OnConnectionFailedListener {
 
     private CallbackManager faceBookCallbackManager;
     private TwitterAuthClient twitterAuthClient;
     private GoogleSignInOptions googleSignInOptions;
     private GoogleApiClient googleApiClient;
-
-
+    private DialogFactory dialogFactory;
+    protected Subscription rxBusSubscription;
 
     public CallbackManager getFaceBookCallbackManager() {
         return faceBookCallbackManager;
@@ -60,14 +63,12 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
         return googleApiClient;
     }
 
-
     @Inject
     RequeryApi requeryApi;
 
     @Inject
     NetApi netApi;
-
-
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
@@ -78,8 +79,22 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
         createGoogleSignInOptions();
         createGoogleApiClient();
         twitterAuthClient = new TwitterAuthClient();
+        dialogFactory = new DialogFactory(this);
+        rxBusSubscription = startRxBusShowDialogSubscription();
     }
 
+
+    public Subscription startRxBusShowDialogSubscription() {
+        return RxBusShowDialog.instanceOf().getEvents().filter(s -> s != null)
+                .subscribe(dialogModel -> dialogFactory.getDialog(dialogModel));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (rxBusSubscription != null && !rxBusSubscription.isUnsubscribed())
+            rxBusSubscription.unsubscribe();
+    }
 
     private void createGoogleSignInOptions() {
         googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

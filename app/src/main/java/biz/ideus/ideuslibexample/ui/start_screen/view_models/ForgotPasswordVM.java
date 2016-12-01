@@ -2,7 +2,6 @@ package biz.ideus.ideuslibexample.ui.start_screen.view_models;
 
 import android.content.Context;
 import android.databinding.ObservableField;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,11 +13,11 @@ import java.util.concurrent.TimeUnit;
 import biz.ideus.ideuslib.Utils.Utils;
 import biz.ideus.ideuslib.Utils.UtilsValidationETFields;
 import biz.ideus.ideuslib.mvvm_lifecycle.AbstractViewModel;
-import biz.ideus.ideuslibexample.CustomAttentionDialog;
 import biz.ideus.ideuslibexample.R;
+import biz.ideus.ideuslibexample.dialogs.DialogModel;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
-import biz.ideus.ideuslibexample.ui.start_screen.activity.StartActivity;
 import biz.ideus.ideuslibexample.utils.Constants;
+import biz.ideus.ideuslibexample.utils.RxBusShowDialog;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 
@@ -74,20 +73,11 @@ public class ForgotPasswordVM extends AbstractViewModel<StartView> {
 
     public void onClickSendPassword(View view) {
         if (isValidData()) {
-            showSuccessDialog((StartActivity) view.getContext());
+            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.CHANGE_PASSWORD_SUCCESS);
         }
     }
 
-    public void showSuccessDialog(StartActivity activity) {
-        CustomAttentionDialog dialog = new CustomAttentionDialog(activity);
-        dialog.setOnBtnDialogClickListener(view1 -> dialog.hide())
-                .setOnCloseClickListener(view12 -> dialog.hide())
-                .setAboutActionText(context.getString(R.string.password_reset_title))
-                .setVisbilityStatusImage(View.INVISIBLE)
-                .setColorTitle(Color.BLACK)
-                .setBtnName(context.getString(R.string.ok))
-                .setTitle(context.getString(R.string.password_reset))
-                .show();
-    }
+
+
 
 }

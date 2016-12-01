@@ -48,7 +48,6 @@ public class TutorialActivityVM extends AbstractViewModel<TutorialView> implemen
         isBtnActive.set(false);
         addItemsRadioBtnCheckList();
         checkCurrentRadioBtn(ABOUT_APP);
-
     }
 
     @Override
