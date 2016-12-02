@@ -12,6 +12,7 @@ import android.view.View;
 
 public abstract class AbstractViewModel<T extends IView>{
 
+
     @Nullable
     private String mUniqueIdentifier;
 
@@ -23,6 +24,8 @@ public abstract class AbstractViewModel<T extends IView>{
     void setUniqueIdentifier(@NonNull final String uniqueIdentifier) {
         mUniqueIdentifier = uniqueIdentifier;
     }
+
+
 
     /**
      *

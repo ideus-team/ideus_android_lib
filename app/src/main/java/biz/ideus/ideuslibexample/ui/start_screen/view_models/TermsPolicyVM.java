@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.ui.fragments.terms_privacy_fragment;
+package biz.ideus.ideuslibexample.ui.start_screen.view_models;
 
 /**
  * Created by blackmamba on 22.11.16.

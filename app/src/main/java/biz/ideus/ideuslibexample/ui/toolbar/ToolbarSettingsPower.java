@@ -35,7 +35,7 @@ public abstract class ToolbarSettingsPower {}
 //        return title;
 //    }
 //
-//    public void setTitle(String title) {
+//    public void getTitle(String title) {
 //        this.title = title;
 //        notifyPropertyChanged(BR.title);
 //    }
