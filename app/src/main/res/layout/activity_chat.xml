@@ -5,9 +5,9 @@
 
         <import type="android.view.View" />
 
-        <variable
-            name="viewModel"
-            type="biz.ideus.ideuslibexample.ui.fragments.home_fragments.people_fragment.PeopleFragmentVM" />
+        <!--<variable-->
+            <!--name="vm"-->
+            <!--type="biz.ideus.ideuslibexample.ui.fragments.home_fragments.people_fragment.PeopleFragmentVM" />-->
     </data>
 
     <RelativeLayout

@@ -47,9 +47,7 @@ import biz.ideus.ideuslibexample.injection.modules.FragmentModule;
  * view model. */
 public abstract class BaseFragment<T extends IView, R extends AbstractViewModel<T>, B extends ViewDataBinding>
         extends ViewModelBaseFragment<T, R>
-        implements IView{
-    protected B binding;
-
+        implements IView {
 
     private FragmentComponent mFragmentComponent;
 
@@ -92,4 +90,62 @@ public abstract class BaseFragment<T extends IView, R extends AbstractViewModel<
                     "ViewDataBinding type as it is set to base Fragment");
         }
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mFragmentComponent = null;
+    }
 }
+
+//
+//    protected B binding;
+//    @Inject protected V viewModel;
+//
+//    private FragmentComponent mFragmentComponent;
+//
+//    protected final FragmentComponent fragmentComponent() {
+//        if(mFragmentComponent == null) {
+//            mFragmentComponent = DaggerFragmentComponent.builder()
+//                    .appComponent(SampleApplication.getAppComponent())
+//                    .fragmentModule(new FragmentModule(this))
+//                    .build();
+//        }
+//
+//        return mFragmentComponent;
+//    }
+//
+//    /* Use this method to inflate the content view for your Fragment. This method also handles
+//     * creating the binding, setting the view model on the binding and attaching the view. */
+//    protected final View setAndBindContentView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @LayoutRes int layoutResId, Bundle savedInstanceState) {
+//        if(viewModel == null) { throw new IllegalStateException("viewModel must not be null and should be injected via fragmentComponent().inject(this)"); }
+//        binding = DataBindingUtil.inflate(inflater, layoutResId, container, false);
+//        //binding.setVariable(BR.vm, viewModel);
+//        //noinspection unchecked
+//        viewModel.attachView((MvvmView) this, savedInstanceState);
+//        return binding.getRoot();
+//    }
+//
+//    @Override
+//    @CallSuper
+//    public void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        if(viewModel != null) { viewModel.saveInstanceState(outState); }
+//    }
+//
+//    @Override
+//    @CallSuper
+//    public void onDestroyView() {
+//        super.onDestroyView();
+//        if(viewModel != null) { viewModel.detachView(); }
+//        binding = null;
+//        viewModel = null;
+//    }
+//
+//    @Override
+//    @CallSuper
+//    public void onDestroy() {
+//        mFragmentComponent = null;
+//        super.onDestroy();
+//    }
+//}

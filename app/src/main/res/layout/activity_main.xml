@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:simple="http://schemas.android.com/tools">
 
     <data>
         <import type="android.view.View" />
         <variable
             name="viewModel"
-            type="biz.ideus.ideuslibexample.ui.activities.main_activity.MainActivityVM"  />
+            type="biz.ideus.ideuslibexample.ui.main_screen.activity.MainActivityVM"  />
 
 
     </data>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -19,19 +20,27 @@
         <android.support.v4.view.ViewPager
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/tab_layout" />
+            android:layout_weight="1"
+            android:layout_height="0dp"
+             />
+        <!--app:adapter="@{viewModel.pagerAdapter}"-->
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tab_layout"
+        <com.ashokvarma.bottomnavigation.BottomNavigationBar
+            android:id="@+id/ab_bottom_navigation_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabMode="fixed"
-            app:tabGravity="fill"
-            android:background="@android:color/white"
-            app:tabIndicatorColor="@color/color_main"
-            android:layout_alignParentBottom="true">
-        </android.support.design.widget.TabLayout>
+            android:layout_gravity="bottom"/>
 
-    </RelativeLayout>
+        <!--<android.support.design.widget.TabLayout-->
+            <!--android:id="@+id/tab_layout"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--app:tabMode="fixed"-->
+            <!--app:tabGravity="fill"-->
+            <!--android:background="@android:color/white"-->
+            <!--app:tabIndicatorColor="@color/color_main"-->
+            <!--android:layout_alignParentBottom="true">-->
+        <!--</android.support.design.widget.TabLayout>-->
+
+    </LinearLayout>
 </layout>

@@ -5,10 +5,10 @@
 
         <import type="android.view.View" />
 
-        <variable
-            name="viewModel"
+        <!--<variable-->
+            <!--name="vm"-->
 
-            type="biz.ideus.ideuslibexample.ui.fragments.home_fragments.people_fragment.PeopleFragmentVM" />
+            <!--type="biz.ideus.ideuslibexample.ui.fragments.home_fragments.people_fragment.PeopleFragmentVM" />-->
     </data>
 
 <LinearLayout
