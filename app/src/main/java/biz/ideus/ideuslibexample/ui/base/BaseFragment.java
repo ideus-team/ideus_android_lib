@@ -58,6 +58,7 @@ public abstract class BaseFragment<T extends IView, R extends AbstractViewModel<
                     .fragmentModule(new FragmentModule(this))
                     .build();
         }
+
         return mFragmentComponent;
     }
 

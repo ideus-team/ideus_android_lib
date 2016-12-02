@@ -29,10 +29,12 @@
                 <!--<category android:name="android.intent.category.LAUNCHER" />-->
             <!--</intent-filter>-->
         </activity>
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
 
-        <!--<activity-->
-            <!--android:name=".ui.activities.tutorial_activity.TutorialActivity"-->
-            <!--android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />-->
+        <activity
+            android:name=".ui.tutorial_screen.activity.TutorialActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
 
         <activity
             android:name=".ui.main_screen.activity.MainActivity" >

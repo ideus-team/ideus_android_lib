@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/tools">
 
     <data>
@@ -10,7 +9,7 @@
         <variable
             name="viewModel"
 
-            type="biz.ideus.ideuslibexample.ui.start_screen.TestStartBindingViewModel" />
+            type="biz.ideus.ideuslibexample.ui.start_screen.view_models.StartActivityVM" />
     </data>
 
     <RelativeLayout
@@ -40,9 +39,10 @@
                         android:id="@+id/imageView_header"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
+                        android:background="@drawable/skybridge"
                         android:onClick="@{viewModel::onClickSelectPhoto}"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/skybridge" />
+                        android:src="@{viewModel.headerImage}" />
 
                     <TextView
                         android:id="@+id/textView2"
@@ -106,7 +106,7 @@
                             android:layout_height="40dp"
                             android:layout_weight="1"
                             android:background="@drawable/twitter_btn_selector"
-                            android:onClick="@{viewModel.onTwitterClick}"
+                            android:onClick="@{viewModel::onTwitterClick}"
                             android:text="@string/twitter"
                             android:textAllCaps="false"
                             android:textColor="@android:color/white" />
@@ -119,7 +119,7 @@
                             android:layout_marginStart="5dp"
                             android:layout_weight="1"
                             android:background="@drawable/google_btn_selector"
-                            android:onClick="@{viewModel.onGoogleClick}"
+                            android:onClick="@{viewModel::onGoogleClick}"
                             android:text="@string/google_plus"
                             android:textAllCaps="false"
                             android:textColor="@android:color/white" />
@@ -192,7 +192,7 @@
                                 android:layout_height="20dp"
                                 android:layout_alignParentRight="true"
                                 android:layout_centerInParent="true"
-                                android:onClick="@{viewModel.onClearEmailClick}"
+                                android:onClick="@{viewModel::onClearEmailClick}"
                                 android:src="@drawable/ic_cancel"
                                 android:visibility="@{viewModel.visibilityClearEmailImage}" />
 
@@ -203,12 +203,11 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
                                 android:layout_marginBottom="@dimen/font_size_15"
-                                android:layout_weight="1"
                                 android:background="@null"
                                 android:ems="10"
                                 android:hint="@string/enter_email"
                                 android:inputType="textEmailAddress"
-                                android:onTextChanged="@{viewModel.onTextChangedEmail}"
+                                android:onTextChanged="@{viewModel::onTextChangedEmail}"
                                 android:text="@{viewModel.email}"
                                 android:textColor="@{ (int)viewModel.titleColorEmail}" />
                         </RelativeLayout>
@@ -231,7 +230,7 @@
                                 android:layout_height="20dp"
                                 android:layout_alignParentRight="true"
                                 android:layout_centerInParent="true"
-                                android:onClick="@{viewModel.onClearPasswordClick}"
+                                android:onClick="@{viewModel::onClearPasswordClick}"
                                 android:src="@drawable/ic_cancel"
                                 android:visibility="@{viewModel.visibilityClearPasswordImage}" />
 
@@ -244,12 +243,11 @@
                                 android:layout_centerInParent="false"
                                 android:layout_centerVertical="true"
                                 android:layout_marginTop="@dimen/font_size_10"
-                                android:layout_weight="1"
                                 android:background="@null"
                                 android:ems="10"
                                 android:hint="@string/password"
                                 android:inputType="textPassword"
-                                android:onTextChanged="@{viewModel.onTextChangedPassword}"
+                                android:onTextChanged="@{viewModel::onTextChangedPassword}"
                                 android:password="@{viewModel.isPasswordShow}"
                                 android:text="@{viewModel.password}"
                                 android:textColor="@{(int)viewModel.titleColorPassword}" />
@@ -270,7 +268,7 @@
                             android:layout_alignParentLeft="true"
                             android:layout_centerInParent="true"
                             android:checked="false"
-                            android:onClick="@{viewModel.onShowPasswordClick}"
+                            android:onClick="@{viewModel::onShowPasswordClick}"
                             android:text="@string/show_password"
                             android:textSize="@dimen/font_size_15"
                             android:theme="@style/checkBoxComponent" />
@@ -281,7 +279,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_centerInParent="true"
-                            android:onClick="@{viewModel.onForgotPasswordClick}"
+                            android:onClick="@{viewModel::onForgotPasswordClick}"
                             android:padding="5dp"
                             android:text="@string/forgot_password"
                             android:textSize="@dimen/font_size_15" />
@@ -291,9 +289,9 @@
                         android:id="@+id/btn_sing_in"
                         style="@style/ButtonTransparentStyle"
                         android:background="@{viewModel.isValidFields ? @drawable/green_btn_selector : @drawable/create_account_btn_selector}"
-                        android:onClick="@{viewModel.onSignInClick}"
-                        android:textColor="@{viewModel.isValidFields ? @android:color/white : @color/gray}"
-                        android:text="@string/sign_in" />
+                        android:onClick="@{viewModel::onSignInClick}"
+                        android:text="@string/sign_in"
+                        android:textColor="@{viewModel.isValidFields ? @android:color/white : @color/gray}" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -314,7 +312,7 @@
                             android:id="@+id/tv_sign_up"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:onClick="@{viewModel.onSignUpClick}"
+                            android:onClick="@{viewModel::onSignUpClick}"
                             android:padding="10dp"
                             android:text="@string/sign_up"
                             android:textColor="@color/green_btn_default"
@@ -328,15 +326,15 @@
         <!--android:visibility="@{viewModel.visibilityLoadingPage}"-->
         <FrameLayout
             android:id="@+id/loading_screen_container"
-            android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
             <include
-                app:title="@{viewModel.titleAutorisationScreen}"
-                app:aboutTitle="@{viewModel.aboutTitleAutorisationScreen}"
                 android:id="@+id/loading_autorisation_page"
-                layout="@layout/loading_autorisation_screen" />
+                layout="@layout/loading_autorisation_screen"
+                app:aboutTitle="@{viewModel.aboutTitleAutorisationScreen}"
+                app:title="@{viewModel.titleAutorisationScreen}" />
         </FrameLayout>
     </RelativeLayout>
 </layout>
