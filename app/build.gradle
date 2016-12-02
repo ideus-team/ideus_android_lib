@@ -32,6 +32,7 @@ ext.daggerVersion = '2.7'
 ext.okHttpVersion = '3.4.1'
 ext.requeryVersion = '1.0.2'
 ext.retrofitVersion = '2.1.0'
+ext.parcelerVersion = '1.1.6'
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -52,7 +53,8 @@ dependencies {
     compile "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
     compile "com.squareup.retrofit2:adapter-rxjava:${retrofitVersion}"
     compile 'com.squareup.okhttp:logging-interceptor:2.6.0'
-
+    compile "org.parceler:parceler-api:${parcelerVersion}"
+    apt "org.parceler:parceler:${parcelerVersion}"
 
     // for android
     apt "io.requery:requery-processor:${requeryVersion}"

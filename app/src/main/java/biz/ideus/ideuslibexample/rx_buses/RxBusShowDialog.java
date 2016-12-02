@@ -1,8 +1,8 @@
-package biz.ideus.ideuslibexample.utils;
+package biz.ideus.ideuslibexample.rx_buses;
 
 import biz.ideus.ideuslibexample.dialogs.DialogModel;
 import rx.Observable;
-import rx.subjects.BehaviorSubject;
+import rx.subjects.PublishSubject;
 
 /**
  * Created by blackmamba on 01.12.16.
@@ -11,7 +11,7 @@ import rx.subjects.BehaviorSubject;
 public class RxBusShowDialog {
     private static RxBusShowDialog instance;
 
-    private BehaviorSubject<DialogModel> subject = BehaviorSubject.create();
+    private PublishSubject<DialogModel> subject = PublishSubject.create();
 
     public static RxBusShowDialog instanceOf() {
         if (instance == null) {

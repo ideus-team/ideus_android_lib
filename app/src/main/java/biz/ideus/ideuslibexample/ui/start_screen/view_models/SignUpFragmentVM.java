@@ -11,7 +11,7 @@ import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.dialogs.DialogModel;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.start_screen.activity.StartActivity;
-import biz.ideus.ideuslibexample.utils.RxBusShowDialog;
+import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 
 /**
  * Created by blackmamba on 16.11.16.

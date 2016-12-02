@@ -15,13 +15,13 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import biz.ideus.ideuslib.interfaces.OnValidateField;
 import biz.ideus.ideuslibexample.dialogs.DialogModel;
 import biz.ideus.ideuslibexample.interfaces.BaseMvvmInterface;
+import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.ui.start_screen.activity.StartActivity;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.ForgotPasswordFragment;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.SignUpFragment;
 import biz.ideus.ideuslibexample.utils.Constants;
-import biz.ideus.ideuslibexample.utils.RxBusShowDialog;
 
 /**
  * Created by user on 28.11.2016.
@@ -49,6 +49,10 @@ public class StartActivityVM extends AutorisationVM implements BaseMvvmInterface
         super.onBindView(view);
 //        if(isShowingDialog)
 //            showAttentionDialog((StartActivity) view.getViewModelBindingConfig().getContext(), context.getString(R.string.invalidate_login_text));
+    }
+
+    public void onTestClick(View view){
+        RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.EDIT_TEXT_DIALOG);
     }
 
     private boolean isValidData(View view) {

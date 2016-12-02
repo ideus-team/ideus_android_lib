@@ -17,7 +17,7 @@ import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.dialogs.DialogModel;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.utils.Constants;
-import biz.ideus.ideuslibexample.utils.RxBusShowDialog;
+import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 
