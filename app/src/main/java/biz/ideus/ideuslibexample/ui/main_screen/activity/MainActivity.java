@@ -23,14 +23,12 @@ import biz.ideus.ideuslibexample.utils.Constants;
 // * Created by blackmamba on 24.11.16.
 // */
 //
+
 public class MainActivity extends BaseActivity<StartView, MainActivityVM, ActivityMainBinding>
         implements StartView {
 
     private BottomNavigationBar bottomNavigationBar;
     @Inject MainFragmentPagerAdapter pagerAdapter;
-
-//    @Inject
-//    MainPagerAdapter mainAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

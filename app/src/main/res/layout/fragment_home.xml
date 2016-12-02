@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/tools">
 
     <data>
 
@@ -15,10 +16,15 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-<TextView
-    android:text="@{viewModel.text}"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+        <include
+            layout="@layout/toolbar"
+            bind:viewModel="@{viewModel}">
+        </include>
+
+        <TextView
+            android:text="@{viewModel.text}"
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
         <!--<android.support.v7.widget.RecyclerView-->
             <!--android:background="@color/black"-->
             <!--android:id="@+id/rViewPeople"-->

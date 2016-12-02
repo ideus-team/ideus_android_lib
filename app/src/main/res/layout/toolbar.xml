@@ -5,6 +5,11 @@
 
     <data>
         <import type="android.view.View" />
+        <variable
+            name="viewModel"
+            type="biz.ideus.ideuslibexample.ui.common.toolbar.IToolBar">
+        </variable>
+
     </data>
 
         <RelativeLayout
@@ -24,6 +29,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/transparent_btn_selector"
                     android:scaleType="center"
+                    android:visibility="@{viewModel.leftBtnVisible ? View.VISIBLE : View.GONE}"
                     />
 
                 <!--android:onClick="@{toolbarLeftListener.onLeftButtonClick}"-->
@@ -42,6 +48,7 @@
                     android:maxLines="1"
                     android:textColor="@color/white"
                     android:textSize="16sp"
+                    android:text="@{viewModel.toolbarTitle}"
                     />
 
                 <!--android:text="@{toolbarSettings.screenName}"-->
@@ -54,6 +61,7 @@
                     android:background="@drawable/transparent_btn_selector"
                     android:contentDescription="@string/space"
                     android:padding="10dip"
+                    android:visibility="@{viewModel.leftBtnVisible ? View.VISIBLE : View.GONE}"
                     />
 
                 <!--android:onClick="@{toolbarRightListener.onRightButtonClick}"-->

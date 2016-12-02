@@ -6,14 +6,14 @@ import android.support.annotation.Nullable;
 
 import java.util.UUID;
 
-import biz.ideus.ideuslib.mvvm_lifecycle.AbstractViewModel;
+import biz.ideus.ideuslibexample.ui.common.toolbar.AbstractViewModelToolbar;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 
 /**
  * Created by blackmamba on 25.11.16.
  */
 
-public class HomeFragmentVM extends AbstractViewModel<StartView> {
+public class HomeFragmentVM extends AbstractViewModelToolbar<StartView> {
 
     public final ObservableField<String> text = new ObservableField<>("00");
 
@@ -22,6 +22,16 @@ public class HomeFragmentVM extends AbstractViewModel<StartView> {
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
         super.onCreate(arguments, savedInstanceState);
         text.set(UUID.randomUUID().toString());
+    }
+
+    @Override
+    public String getToolbarTitle() {
+        return "Home";
+    }
+
+    @Override
+    public boolean isLeftBtnVisible() {
+        return true;
     }
 }
 
