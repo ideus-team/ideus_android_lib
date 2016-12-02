@@ -15,4 +15,10 @@ public class Constants {
     public static final String SIGN_UP_FRAGMENT = "SIGN_UP_FRAGMENT";
     public static final String FORGOT_PASSWORD_FRAGMENT = "FORGOT_PASSWORD_FRAGMENT";
 
+    public static final int MAIN_SCREEN_PAGES_COUNT = 3;
+
+    public static final int HOME_TAB_POSITION = 0;
+    public static final int PEOPLE_TAB_POSITION = 1;
+    public static final int SETTINGS_TAB_POSITION = 2;
+
 }

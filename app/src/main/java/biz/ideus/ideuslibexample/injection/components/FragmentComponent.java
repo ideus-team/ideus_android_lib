@@ -3,6 +3,7 @@ package biz.ideus.ideuslibexample.injection.components;
 import biz.ideus.ideuslibexample.injection.modules.FragmentModule;
 import biz.ideus.ideuslibexample.injection.modules.ViewModelModule;
 import biz.ideus.ideuslibexample.injection.scopes.PerFragment;
+import biz.ideus.ideuslibexample.ui.main_screen.fragments.home_fragment.HomeFragment;
 import dagger.Component;
 
 /* Copyright 2016 Patrick Löwenstein
@@ -25,7 +26,7 @@ public interface FragmentComponent {
 //    void inject(SignUpFragment fragment);
 //    void inject(ForgotPasswordFragment fragment);
 //    void inject(BaseTutorialFragment fragment);
-//    void inject(HomeFragment fragment);
+    void inject(HomeFragment fragment);
 //    void inject(PeopleFragment fragment);
 //    void inject(SettingsFragment fragment);
 }

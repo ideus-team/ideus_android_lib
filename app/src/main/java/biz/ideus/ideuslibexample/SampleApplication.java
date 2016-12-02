@@ -8,6 +8,7 @@ import com.facebook.appevents.AppEventsLogger;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 
+import biz.ideus.ideuslib.adapter.typeface_adapters.DLibTypefaceAdapter;
 import biz.ideus.ideuslibexample.injection.components.AppComponent;
 import biz.ideus.ideuslibexample.injection.components.DaggerAppComponent;
 import biz.ideus.ideuslibexample.injection.modules.AppModule;
@@ -23,9 +24,9 @@ public class SampleApplication extends Application {
 
     private Configuration configuration;
 
-//    protected void setupFonts() {
-//        DLibTypefaceAdapter.addFontDefinition("normal", "fonts/MuseoSansCyrl.otf");
-//    }
+    protected void setupFonts() {
+        DLibTypefaceAdapter.addFontDefinition("normal", "fonts/MuseoSansCyrl.otf");
+    }
 
 
     private static SampleApplication sInstance = null;
