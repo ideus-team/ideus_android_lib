@@ -1,9 +1,11 @@
 package biz.ideus.ideuslibexample.ui.main_screen.activity;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
+import android.view.inputmethod.InputMethodManager;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
@@ -47,9 +49,12 @@ public class MainActivity extends BaseActivity<StartView, MainActivityVM, Activi
 
             }
 
+
+
             @Override
             public void onPageSelected(int position) {
                 bottomNavigationBar.selectTab(position);
+              hideKeyboard(MainActivity.this);
             }
 
             @Override
@@ -62,6 +67,8 @@ public class MainActivity extends BaseActivity<StartView, MainActivityVM, Activi
     }
 
 
+
+
     private void initBottomBar() {
         bottomNavigationBar = getBinding().abBottomNavigationBar;
 
@@ -71,17 +78,17 @@ public class MainActivity extends BaseActivity<StartView, MainActivityVM, Activi
         bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_DEFAULT);
 
         bottomNavigationBar
-                .addItem(new BottomNavigationItem(R.drawable.ic_android_white_24dp
+                .addItem(new BottomNavigationItem(R.drawable.ic_home_disactive
                         , R.string.home)
-                        .setActiveColorResource(android.R.color.darker_gray)
+                        .setActiveColorResource(R.color.midle_color_main_light)
                 )
-                .addItem(new BottomNavigationItem(R.drawable.ic_bug_report_white_24dp
+                .addItem(new BottomNavigationItem(R.drawable.ic_people_disactive
                         , R.string.people)
-                        .setActiveColorResource(android.R.color.holo_green_dark)
+                        .setActiveColorResource(R.color.color_main)
                 )
-                .addItem(new BottomNavigationItem(R.drawable.ic_pets_white_24dp
+                .addItem(new BottomNavigationItem(R.drawable.ic_settings_disactive
                         , R.string.settings)
-                        .setActiveColorResource(android.R.color.holo_orange_dark)
+                        .setActiveColorResource(android.R.color.holo_blue_dark)
                 )
                 .initialise();
 

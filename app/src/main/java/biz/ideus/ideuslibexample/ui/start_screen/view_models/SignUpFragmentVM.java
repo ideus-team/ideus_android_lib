@@ -1,6 +1,8 @@
 package biz.ideus.ideuslibexample.ui.start_screen.view_models;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.view.View;
@@ -9,9 +11,10 @@ import android.widget.CheckBox;
 import biz.ideus.ideuslib.interfaces.OnValidateSignUpScreen;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.dialogs.DialogModel;
-import biz.ideus.ideuslibexample.ui.base.BaseActivity;
-import biz.ideus.ideuslibexample.ui.start_screen.activity.StartActivity;
 import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
+import biz.ideus.ideuslibexample.ui.start_screen.StartView;
+import biz.ideus.ideuslibexample.ui.start_screen.activity.StartActivity;
+import biz.ideus.ideuslibexample.ui.tutorial_screen.activity.TutorialActivity;
 
 /**
  * Created by blackmamba on 16.11.16.
@@ -32,6 +35,12 @@ public class SignUpFragmentVM extends AutorisationVM implements OnValidateSignUp
         visibilityClearNameImage.set(View.INVISIBLE);
         isPasswordShow.set(true);
         setOnValidateField(this);
+
+    }
+
+    @Override
+    public void onBindView(@NonNull StartView view) {
+        super.onBindView(view);
     }
 
     public void onClickClearFieldImage(View view) {
@@ -48,21 +57,19 @@ public class SignUpFragmentVM extends AutorisationVM implements OnValidateSignUp
         }
     }
 
-    private boolean isValidData(BaseActivity activity) {
-        if (!(isValidEmail && isValidPassword && isValidName)) {
-            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.SIGN_IN_ATTENTION);
-          //  showAttentionDialog(activity, context.getString(R.string.invalidate_sign_in_text));
-        }
-        return isValidEmail && isValidPassword && isValidName;
-
+    private boolean isValidData(StartActivity activity) {
+//        return isValidEmail && isValidPassword && isValidName;
+        return true;
     }
 
     public void onCreateAccountClick(View view) {
         StartActivity startActivity = (StartActivity) view.getContext();
         if (isValidData(startActivity)) {
             showLoadingPage(startActivity.getString(R.string.creating_an_account), startActivity.getString(R.string.about_creating_account), View.VISIBLE);
-//            startActivity.startActivity(new Intent(startActivity, TutorialActivity.class));
-//            startActivity.finish();
+            startActivity.startActivity(new Intent(startActivity, TutorialActivity.class));
+            startActivity.finish();
+        } else {
+            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.SIGN_IN_ATTENTION);
         }
 
     }
@@ -154,5 +161,14 @@ public class SignUpFragmentVM extends AutorisationVM implements OnValidateSignUp
     @Override
     public void setTitleColorName(int color) {
         titleColorName.set(color);
+    }
+
+    @Override
+    public String getToolbarTitle() {
+        return context.getString(R.string.sign_up);
+    }
+    @Override
+    public boolean isLeftBtnVisible() {
+        return true;
     }
 }

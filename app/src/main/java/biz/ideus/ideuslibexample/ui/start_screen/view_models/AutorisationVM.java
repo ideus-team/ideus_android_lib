@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 import biz.ideus.ideuslib.Utils.UtilsValidationETFields;
 import biz.ideus.ideuslib.interfaces.OnValidateField;
 import biz.ideus.ideuslib.interfaces.OnValidateSignUpScreen;
-import biz.ideus.ideuslib.mvvm_lifecycle.AbstractViewModel;
+import biz.ideus.ideuslibexample.ui.common.toolbar.AbstractViewModelToolbar;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.ui.start_screen.activity.StartActivity;
 import biz.ideus.ideuslibexample.utils.Constants;
@@ -36,7 +36,7 @@ import rx.android.schedulers.AndroidSchedulers;
  * Created by blackmamba on 16.11.16.
  */
 
-public abstract class AutorisationVM extends AbstractViewModel<StartView> {
+public abstract class AutorisationVM extends AbstractViewModelToolbar<StartView> {
     protected Context context;
     public static final int GOOGLE_SIGN_IN = 2222;
     public static final int MIN_COUNT_CHARACTER_NAME = 3;
@@ -175,8 +175,6 @@ public abstract class AutorisationVM extends AbstractViewModel<StartView> {
         super.onStop();
 
     }
-
-
 
     protected void signInWithGooglePlus(StartActivity activity) {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(activity.getGoogleApiClient());

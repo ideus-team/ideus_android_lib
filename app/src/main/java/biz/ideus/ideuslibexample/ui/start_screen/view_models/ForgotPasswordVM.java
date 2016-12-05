@@ -12,12 +12,12 @@ import java.util.concurrent.TimeUnit;
 
 import biz.ideus.ideuslib.Utils.Utils;
 import biz.ideus.ideuslib.Utils.UtilsValidationETFields;
-import biz.ideus.ideuslib.mvvm_lifecycle.AbstractViewModel;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.dialogs.DialogModel;
+import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
+import biz.ideus.ideuslibexample.ui.common.toolbar.AbstractViewModelToolbar;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.utils.Constants;
-import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 
@@ -25,7 +25,7 @@ import rx.android.schedulers.AndroidSchedulers;
  * Created by blackmamba on 16.11.16.
  */
 //@PerFragment
-public class ForgotPasswordVM extends AbstractViewModel<StartView> {
+public class ForgotPasswordVM extends AbstractViewModelToolbar<StartView> {
     private Context context;
     private boolean isValidEmail = false;
 
@@ -77,7 +77,14 @@ public class ForgotPasswordVM extends AbstractViewModel<StartView> {
         }
     }
 
-
-
-
+    @Override
+    public String getToolbarTitle() {
+        return context.getString(R.string.sign_up);
+    }
+    @Override
+    public boolean isLeftBtnVisible() {
+        return true;
+    }
 }
+
+

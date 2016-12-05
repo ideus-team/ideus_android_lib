@@ -167,4 +167,9 @@ public class StartActivityVM extends AutorisationVM implements BaseMvvmInterface
         isValidPassword = isValid;
     }
 
+    @Override
+    public String getToolbarTitle() {
+        return null;
+    }
+
 }

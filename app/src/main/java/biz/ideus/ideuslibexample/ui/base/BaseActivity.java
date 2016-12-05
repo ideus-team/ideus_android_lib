@@ -14,6 +14,7 @@ package biz.ideus.ideuslibexample.ui.base;
  * See the License for the specific language governing permissions and
  * limitations under the License. */
 
+import android.app.Activity;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
@@ -22,6 +23,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -86,6 +89,15 @@ implements IView {
                 .subscribe(dialogModel -> {
                     CustomAttentionDialog.instance(dialogModel, null).show(this.getFragmentManager(), "Dialog");
                 });
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        View view = activity.getCurrentFocus();
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
 
