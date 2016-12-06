@@ -1,23 +1,49 @@
 package biz.ideus.ideuslibexample.ui.main_screen.fragments.people_fragment;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.View;
+
+import biz.ideus.ideuslib.mvvm_lifecycle.binding.ViewModelBindingConfig;
+import biz.ideus.ideuslibexample.BR;
+import biz.ideus.ideuslibexample.R;
+import biz.ideus.ideuslibexample.databinding.FragmentPeopleBinding;
+import biz.ideus.ideuslibexample.ui.base.BaseFragment;
+import biz.ideus.ideuslibexample.ui.start_screen.StartView;
+
 /**
  * Created by blackmamba on 25.11.16.
  */
 
-//public class PeopleFragment extends BaseFragment<FragmentPeopleBinding, PeopleFragmentVM> implements MvvmView {
-//    @Override
-//    public String getToolbarName(){
-//        return getString(R.string.people);
-//    }
-//
-//    @Override
-//    protected ToolbarType getToolbarType() {
-//        return ToolbarType.DEFAULT;
-//    }
-//    @Nullable
-//    @Override
-//    public android.view.View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        fragmentComponent().inject(this);
-//        return setAndBindContentView(inflater, container, R.layout.fragment_people, savedInstanceState);
-//    }
-//}
+public class PeopleFragment extends BaseFragment<StartView, PeopleFragmentVM, FragmentPeopleBinding>
+
+        implements StartView {
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        fragmentComponent().inject(this);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setModelView(this);
+    }
+
+
+    @Nullable
+    @Override
+    public ViewModelBindingConfig getViewModelBindingConfig() {
+        return new ViewModelBindingConfig(R.layout.fragment_people, BR.viewModel, getActivity());
+    }
+
+    @Nullable
+    @Override
+    public Class<PeopleFragmentVM> getViewModelClass() {
+        return PeopleFragmentVM.class;
+    }
+
+
+}

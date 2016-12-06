@@ -1,6 +1,7 @@
 package biz.ideus.ideuslibexample.ui.tutorial_screen.view_models;
 
 
+import android.content.Intent;
 import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,7 +12,9 @@ import java.util.List;
 
 import biz.ideus.ideuslib.mvvm_lifecycle.AbstractViewModel;
 import biz.ideus.ideuslibexample.interfaces.BaseMvvmInterface;
+import biz.ideus.ideuslibexample.ui.main_screen.activity.MainActivity;
 import biz.ideus.ideuslibexample.ui.tutorial_screen.TutorialView;
+import biz.ideus.ideuslibexample.ui.tutorial_screen.activity.TutorialActivity;
 import biz.ideus.ideuslibexample.ui.tutorial_screen.adapters.TutorialPagerAdapter;
 import rx.Observable;
 
@@ -58,7 +61,7 @@ public class TutorialActivityVM extends AbstractViewModel<TutorialView> implemen
     @Override
     public void onGetStartedClick(View view) {
         if (isBtnActive.get()) {
-            //  navigator.get().startActivity(new Intent(((TutorialActivity) view.getContext()), MainActivity.class));
+            ((TutorialActivity)view.getContext()).startActivity(new Intent(((TutorialActivity) view.getContext()), MainActivity.class));
         }
     }
 

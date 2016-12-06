@@ -54,6 +54,7 @@
                         android:id="@+id/imageViewCircle"
                         android:layout_width="120dp"
                         android:layout_height="120dp"
+                        android:onClick="@{viewModel.onTestClick}"
                         android:layout_centerInParent="true"
                         android:src="@drawable/logo_temp_app" />
 

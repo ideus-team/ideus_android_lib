@@ -15,7 +15,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/toolbar_height"
-            android:background="@color/colorPrimary"
+            android:background="@color/color_main"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -27,9 +27,11 @@
                     android:id="@+id/ivBtnToolbarLeft"
                     android:layout_width="40dp"
                     android:layout_height="match_parent"
-                    android:background="@drawable/transparent_btn_selector"
+                    android:background="@drawable/toolbar_btn_selector"
                     android:scaleType="center"
-                    android:visibility="@{viewModel.leftBtnVisible ? View.VISIBLE : View.GONE}"
+                    android:src="@{viewModel.setImageLeftBtn}"
+                    android:onClick="@{viewModel.onClickLeftBtn}"
+                    android:visibility="@{viewModel.leftBtnVisible ? View.VISIBLE : View.INVISIBLE}"
                     />
 
                 <!--android:onClick="@{toolbarLeftListener.onLeftButtonClick}"-->
@@ -41,7 +43,6 @@
                     android:id="@+id/tvScreenName"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:gravity="center"
@@ -59,10 +60,12 @@
                     android:id="@+id/ivBtnToolbarRight"
                     android:layout_width="40dp"
                     android:layout_height="match_parent"
-                    android:background="@drawable/transparent_btn_selector"
                     android:contentDescription="@string/space"
+                    android:background="@drawable/toolbar_btn_selector"
                     android:padding="10dip"
-                    android:visibility="@{viewModel.leftBtnVisible ? View.VISIBLE : View.GONE}"
+                    android:src="@{viewModel.setImageRightBtn}"
+                    android:onClick="@{viewModel.onClickRightBtn}"
+                    android:visibility="@{viewModel.rightBtnVisible ? View.VISIBLE : View.INVISIBLE}"
                     />
 
                 <!--android:onClick="@{toolbarRightListener.onRightButtonClick}"-->

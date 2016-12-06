@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fontText="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="visibility"
+            type="java.lang.Integer" />
+        <variable
+            name="isFocus"
+            type="java.lang.Boolean" />
+
+
+        <variable
+            name="viewModel"
+            type="biz.ideus.ideuslibexample.interfaces.SearchBar"></variable>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:background="@color/color_main"
+        android:clickable="true"
+        android:orientation="horizontal"
+        android:visibility="@{(int)visibility}">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/font_size_10"
+            android:background="@drawable/corners_layout_gray_10dp"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/tv_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="false"
+                android:layout_alignParentLeft="false"
+                android:layout_alignParentRight="true"
+                android:layout_centerHorizontal="false"
+                android:layout_centerInParent="true"
+                android:layout_margin="10dp"
+                android:onClick="@{viewModel::onCancelClick}"
+                android:text="@string/cancel" />
+
+            <EditText
+                android:id="@+id/et_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="false"
+                android:layout_toLeftOf="@+id/tv_cancel"
+                android:layout_toRightOf="@+id/imageView6"
+                android:background="@null"
+                android:singleLine="true"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:gravity="center"
+                android:hint="@string/name"
+                app:focus="@{(boolean)isFocus}"
+                android:onTextChanged="@{viewModel::onTextChangedSearch}">
+
+            <requestFocus />
+        </EditText>
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="false"
+                android:layout_centerInParent="false"
+                android:layout_centerVertical="true"
+                android:layout_margin="10dp"
+                android:layout_toEndOf="@+id/tvScreenName"
+                android:layout_toRightOf="@+id/tvScreenName"
+                fontText:srcCompat="@drawable/ic_search_gray" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</layout>

@@ -22,6 +22,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -29,9 +31,12 @@ import biz.ideus.ideuslib.mvvm_lifecycle.AbstractViewModel;
 import biz.ideus.ideuslib.mvvm_lifecycle.IView;
 import biz.ideus.ideuslib.mvvm_lifecycle.base.ViewModelBaseActivity;
 import biz.ideus.ideuslibexample.SampleApplication;
+import biz.ideus.ideuslibexample.dialogs.CustomAttentionDialog;
 import biz.ideus.ideuslibexample.injection.components.ActivityComponent;
 import biz.ideus.ideuslibexample.injection.components.DaggerActivityComponent;
 import biz.ideus.ideuslibexample.injection.modules.ActivityModule;
+import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
+import rx.Subscription;
 
 /* Base class for Activities when using a view model with data binding.
  * This class provides the binding and the view model to the subclass. The
@@ -54,6 +59,7 @@ implements IView {
     protected B binding;
 //    @Inject
     protected R viewModel;
+    protected Subscription rxBusShowDialogSubscription;
    // private ActivityComponent mActivityComponent;
 
     @Override
@@ -62,6 +68,7 @@ implements IView {
         mViewModeHelper.performBinding(this);
         binding = getBinding();
         viewModel = getViewModel();
+        rxBusShowDialogSubscription = startRxBusShowDialogSubscription();
 
     }
 
@@ -76,6 +83,21 @@ implements IView {
         return mActivityComponent;
     }
 
+    public Subscription startRxBusShowDialogSubscription() {
+        return RxBusShowDialog.instanceOf().getEvents().filter(s -> s != null)
+                .subscribe(dialogModel -> {
+                    CustomAttentionDialog.instance(dialogModel, null).show(this.getFragmentManager(), "Dialog");
+                });
+    }
+
+    public void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) this.getSystemService(this.INPUT_METHOD_SERVICE);
+        View view = this.getCurrentFocus();
+        if (view == null) {
+            view = new View(this);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
 
 
     @SuppressWarnings("unused")
@@ -104,6 +126,8 @@ implements IView {
     @CallSuper
     public void onDestroy() {
         super.onDestroy();
+        if (rxBusShowDialogSubscription != null && !rxBusShowDialogSubscription.isUnsubscribed())
+            rxBusShowDialogSubscription.unsubscribe();
 //        if(viewModel != null) { viewModel.onDestroy(); }
 //        binding = null;
 //        viewModel = null;

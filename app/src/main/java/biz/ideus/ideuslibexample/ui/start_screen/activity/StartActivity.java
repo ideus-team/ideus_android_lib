@@ -27,11 +27,10 @@ import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.data.local.RequeryApi;
 import biz.ideus.ideuslibexample.data.remote.NetApi;
 import biz.ideus.ideuslibexample.databinding.ActivityLoginBinding;
-import biz.ideus.ideuslibexample.dialogs.DialogFactory;
+import biz.ideus.ideuslibexample.rx_buses.RxBusActionDialogBtn;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.ui.start_screen.view_models.StartActivityVM;
-import biz.ideus.ideuslibexample.utils.RxBusShowDialog;
 import rx.Subscription;
 
 import static biz.ideus.ideuslibexample.ui.start_screen.view_models.AutorisationVM.GOOGLE_SIGN_IN;
@@ -48,8 +47,7 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
     private TwitterAuthClient twitterAuthClient;
     private GoogleSignInOptions googleSignInOptions;
     private GoogleApiClient googleApiClient;
-    private DialogFactory dialogFactory;
-    protected Subscription rxBusSubscription;
+    protected Subscription RxBusActionDialogBtnSubscription;
 
     public CallbackManager getFaceBookCallbackManager() {
         return faceBookCallbackManager;
@@ -79,21 +77,7 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
         createGoogleSignInOptions();
         createGoogleApiClient();
         twitterAuthClient = new TwitterAuthClient();
-        dialogFactory = new DialogFactory(this);
-        rxBusSubscription = startRxBusShowDialogSubscription();
-    }
-
-
-    public Subscription startRxBusShowDialogSubscription() {
-        return RxBusShowDialog.instanceOf().getEvents().filter(s -> s != null)
-                .subscribe(dialogModel -> dialogFactory.getDialog(dialogModel));
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (rxBusSubscription != null && !rxBusSubscription.isUnsubscribed())
-            rxBusSubscription.unsubscribe();
+        RxBusActionDialogBtnSubscription = startRxBusActionDialogBtnSubscription();
     }
 
     private void createGoogleSignInOptions() {
@@ -108,6 +92,26 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions)
                 .build();
+    }
+
+    public Subscription startRxBusActionDialogBtnSubscription() {
+        return RxBusActionDialogBtn.instanceOf().getEvents()
+                .subscribe(dialogCommand -> {
+                    switch (dialogCommand.getDialogCommandModel()){
+                        case COPY_TEXT:
+                            Log.d("dialogCommand", "COPY_TEXT:");
+                            break;
+                        case EDIT:
+                            Log.d("dialogCommand", "EDIT:");
+                            break;
+                        case DETAILS:
+                            Log.d("dialogCommand", "DETAILS:");
+                            break;
+                        case DELETE:
+                            Log.d("dialogCommand", "DELETE:");
+                            break;
+                    }
+                });
     }
 
 
@@ -157,6 +161,12 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (RxBusActionDialogBtnSubscription != null && !RxBusActionDialogBtnSubscription.isUnsubscribed())
+            RxBusActionDialogBtnSubscription.unsubscribe();
+    }
 
     @Nullable
     @Override

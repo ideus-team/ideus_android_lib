@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="android.view.View" />
+        <import type="biz.ideus.ideuslibexample.dialogs.DialogCommandModel"/>
+
+        <variable
+            name="customVM"
+            type="biz.ideus.ideuslibexample.dialogs.CustomAttentionDialog" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="40dp"
+        android:background="@drawable/background_favorites_item"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="1dip"
+     >
+
+            <ImageView
+                android:id="@+id/iv_close"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_margin="5dp"
+                android:padding="5dp"
+                android:onClick="@{customVM.onClick}"
+                android:src="@drawable/ic_cancel"
+                android:layout_gravity="right" />
+
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dip"
+            android:textStyle="bold"
+            android:text="@{customVM.title}"
+            android:textColor="@color/dark_gray_text"
+            android:textSize="@dimen/font_size_20" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/gray" />
+
+        <TextView
+            android:tag="@{DialogCommandModel.COPY_TEXT}"
+            android:id="@+id/tv_copy_text"
+            android:onClick="@{customVM.onClick}"
+          style="@style/DialogEditTextBtn"
+            android:text="@string/copy_text" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/gray" />
+
+        <TextView
+            android:id="@+id/tv_details"
+            android:tag="@{DialogCommandModel.DETAILS}"
+            android:onClick="@{customVM.onClick}"
+            style="@style/DialogEditTextBtn"
+            android:text="@string/details"
+           />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/gray" />
+
+        <TextView
+            android:id="@+id/tv_edit"
+            android:text="@string/edit"
+            android:onClick="@{customVM.onClick}"
+            android:tag="@{DialogCommandModel.EDIT}"
+            style="@style/DialogEditTextBtn"
+           />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/gray" />
+
+        <TextView
+            style="@style/DialogEditTextBtn"
+            android:id="@+id/tv_delete"
+            android:onClick="@{customVM.onClick}"
+            android:tag="@{DialogCommandModel.DELETE}"
+            android:text="@string/delete"
+          />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+       />
+
+    </LinearLayout>
+</layout>

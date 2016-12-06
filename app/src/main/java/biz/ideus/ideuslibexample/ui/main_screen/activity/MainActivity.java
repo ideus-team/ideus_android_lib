@@ -47,16 +47,18 @@ public class MainActivity extends BaseActivity<StartView, MainActivityVM, Activi
 
             }
 
+
             @Override
             public void onPageSelected(int position) {
                 bottomNavigationBar.selectTab(position);
+                hideKeyboard();
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
 
             }
-        } ;
+        };
         getBinding().viewPager.setAdapter(pagerAdapter);
         getBinding().viewPager.addOnPageChangeListener(pageListeneer);
     }
