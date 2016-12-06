@@ -63,6 +63,7 @@ public class MainActivity extends BaseActivity<StartView, MainActivityVM, Activi
 
 
     private void initBottomBar() {
+        int buttonsColorResource = R.color.color_main;
         bottomNavigationBar = getBinding().abBottomNavigationBar;
 
         bottomNavigationBar.setMode(BottomNavigationBar.MODE_SHIFTING);
@@ -73,15 +74,15 @@ public class MainActivity extends BaseActivity<StartView, MainActivityVM, Activi
         bottomNavigationBar
                 .addItem(new BottomNavigationItem(R.drawable.ic_android_white_24dp
                         , R.string.home)
-                        .setActiveColorResource(android.R.color.darker_gray)
+                        .setActiveColorResource(buttonsColorResource)
                 )
                 .addItem(new BottomNavigationItem(R.drawable.ic_bug_report_white_24dp
                         , R.string.people)
-                        .setActiveColorResource(android.R.color.holo_green_dark)
+                        .setActiveColorResource(buttonsColorResource)
                 )
                 .addItem(new BottomNavigationItem(R.drawable.ic_pets_white_24dp
                         , R.string.settings)
-                        .setActiveColorResource(android.R.color.holo_orange_dark)
+                        .setActiveColorResource(buttonsColorResource)
                 )
                 .initialise();
 

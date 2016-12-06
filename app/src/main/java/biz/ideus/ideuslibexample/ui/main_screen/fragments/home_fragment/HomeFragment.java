@@ -18,6 +18,7 @@ import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 public class HomeFragment extends BaseFragment<StartView, HomeFragmentVM, FragmentHomeBinding>
 implements StartView {
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

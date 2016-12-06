@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bind="http://schemas.android.com/tools">
+    xmlns:bind="http://schemas.android.com/tools"
+    xmlns:circular="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -22,9 +23,22 @@
         </include>
 
         <TextView
+            android:id="@+id/text"
             android:text="@{viewModel.text}"
             android:layout_width="match_parent"
-            android:layout_height="30dp" />
+            android:layout_height="wrap_content" />
+
+        <me.angrybyte.circularslider.CircularSlider
+            android:id="@+id/circular"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="30dp"
+            circular:angle="3.14"
+            circular:border_color="#505090"
+            circular:border_thickness="14dp"
+            circular:thumb_color="#30AEFF"
+            circular:thumb_size="24dp" />
         <!--<android.support.v7.widget.RecyclerView-->
             <!--android:background="@color/black"-->
             <!--android:id="@+id/rViewPeople"-->
