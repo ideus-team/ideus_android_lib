@@ -1,11 +1,9 @@
 package biz.ideus.ideuslibexample.ui.main_screen.activity;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
-import android.view.inputmethod.InputMethodManager;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
@@ -30,7 +28,8 @@ public class MainActivity extends BaseActivity<StartView, MainActivityVM, Activi
         implements StartView {
 
     private BottomNavigationBar bottomNavigationBar;
-    @Inject MainFragmentPagerAdapter pagerAdapter;
+    @Inject
+    MainFragmentPagerAdapter pagerAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,23 +49,20 @@ public class MainActivity extends BaseActivity<StartView, MainActivityVM, Activi
             }
 
 
-
             @Override
             public void onPageSelected(int position) {
                 bottomNavigationBar.selectTab(position);
-              hideKeyboard(MainActivity.this);
+                hideKeyboard();
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
 
             }
-        } ;
+        };
         getBinding().viewPager.setAdapter(pagerAdapter);
         getBinding().viewPager.addOnPageChangeListener(pageListeneer);
     }
-
-
 
 
     private void initBottomBar() {

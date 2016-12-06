@@ -11,12 +11,15 @@
             type="biz.ideus.ideuslibexample.ui.tutorial_screen.view_models.TutorialActivityVM" />
     </data>
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/color_main"
         android:clickable="true"
         android:orientation="vertical">
+
+
 
         <android.support.v4.view.ViewPager
             android:id="@+id/view_flipper"

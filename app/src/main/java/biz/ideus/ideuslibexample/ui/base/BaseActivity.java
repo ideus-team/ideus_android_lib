@@ -14,7 +14,6 @@ package biz.ideus.ideuslibexample.ui.base;
  * See the License for the specific language governing permissions and
  * limitations under the License. */
 
-import android.app.Activity;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
@@ -91,11 +90,11 @@ implements IView {
                 });
     }
 
-    public static void hideKeyboard(Activity activity) {
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        View view = activity.getCurrentFocus();
+    public void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) this.getSystemService(this.INPUT_METHOD_SERVICE);
+        View view = this.getCurrentFocus();
         if (view == null) {
-            view = new View(activity);
+            view = new View(this);
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }

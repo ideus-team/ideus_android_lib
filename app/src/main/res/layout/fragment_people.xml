@@ -30,6 +30,7 @@
             android:id="@+id/item_search"
             layout="@layout/item_search"
             app:visibility="@{viewModel.visibilitySearch}"
+            app:isFocus="@{viewModel.isSearchFieldFocus}"
             bind:viewModel="@{viewModel}">
         </include>
     </RelativeLayout>

@@ -8,6 +8,7 @@ import biz.ideus.ideuslibexample.ui.main_screen.fragments.people_fragment.People
 import biz.ideus.ideuslibexample.ui.main_screen.fragments.settings_fragment.SettingsFragment;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.ForgotPasswordFragment;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.SignUpFragment;
+import biz.ideus.ideuslibexample.ui.start_screen.fragments.TermsOfServiceFragment;
 import biz.ideus.ideuslibexample.ui.tutorial_screen.fragments.BaseTutorialFragment;
 import dagger.Component;
 
@@ -27,7 +28,7 @@ import dagger.Component;
 @PerFragment
 @Component(dependencies = AppComponent.class, modules = {FragmentModule.class, ViewModelModule.class})
 public interface FragmentComponent {
-//    void inject(TermsAndPrivacyFragment fragment);
+    void inject(TermsOfServiceFragment fragment);
    void inject(SignUpFragment fragment);
    void inject(ForgotPasswordFragment fragment);
    void inject(BaseTutorialFragment fragment);

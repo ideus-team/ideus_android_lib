@@ -328,7 +328,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:onClick="@{viewModel::onClickTermsAndPolicy}"
-                            android:text="@string/terms_and_privacy_policy"
+                            android:text="@string/terms_of_service"
                             android:textColor="@color/green_btn_default"
                             android:textSize="@dimen/font_size_15"
                             android:textStyle="bold" />
