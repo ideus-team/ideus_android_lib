@@ -100,7 +100,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/font_size_10"
-                        android:layout_marginStart="@dimen/font_size_10"
+                        android:layout_marginLeft="@dimen/font_size_10"
                         android:text="Bob Jack"
                         android:textColor="@color/dark_gray_text"
                         android:textSize="@dimen/font_size_18" />
@@ -126,7 +126,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/font_size_10"
-                        android:layout_marginStart="@dimen/font_size_10"
+                        android:layout_marginLeft="@dimen/font_size_10"
                         android:text="bobJack72@gmail.com"
                         android:textColor="@color/dark_gray_text"
                         android:textSize="@dimen/font_size_18" />
@@ -202,7 +202,7 @@
                         android:id="@+id/tv_status_connect"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:padding="@dimen/font_size_10"
                         android:text="@string/disconnect"
@@ -236,8 +236,7 @@
                         android:textSize="@dimen/font_size_17"
                         android:layout_alignBaseline="@+id/switch1"
                         android:layout_alignBottom="@+id/switch1"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true" />
+                        android:layout_alignParentLeft="true" />
                 </RelativeLayout>
 
                 <TextView
@@ -287,7 +286,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
                         android:layout_marginTop="@dimen/font_size_10"
-                        android:layout_marginStart="@dimen/font_size_10"
+                        android:layout_marginLeft="@dimen/font_size_10"
                         android:text="@string/logout"
                         android:textColor="@color/dark_gray_text"
                         android:textSize="@dimen/font_size_18" />

@@ -57,16 +57,16 @@
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
                         android:paddingBottom="@dimen/font_size_15"
-                        android:paddingEnd="@dimen/font_size_15"
-                        android:paddingStart="@dimen/font_size_15">
+                        android:paddingRight="@dimen/font_size_15"
+                        android:paddingLeft="@dimen/font_size_15">
 
 
                         <Button
                             android:id="@+id/btn_login_fb"
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
-                            android:layout_marginEnd="5dp"
-                            android:layout_marginStart="5dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginLeft="5dp"
                             android:layout_weight="1"
                             android:background="@drawable/facebook_btn_selector"
                             android:onClick="@{viewModel::onClickFaceBookLogin}"
@@ -91,8 +91,8 @@
                             android:id="@+id/btn_login_google_plus"
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
-                            android:layout_marginEnd="5dp"
-                            android:layout_marginStart="5dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginLeft="5dp"
                             android:layout_weight="1"
                             android:background="@drawable/google_btn_selector"
                             android:onClick="@{viewModel::onClickGooglePlus}"
@@ -124,8 +124,8 @@
                             android:gravity="center"
                             android:orientation="horizontal"
                             android:paddingBottom="5dp"
-                            android:paddingEnd="20dp"
-                            android:paddingStart="20dp"
+                            android:paddingRight="20dp"
+                            android:paddingLeft="20dp"
                             android:paddingTop="5dp">
 
                             <TextView
@@ -150,8 +150,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginBottom="5dp"
-                        android:layout_marginEnd="@dimen/font_size_15"
-                        android:layout_marginStart="@dimen/font_size_15"
+                        android:layout_marginRight="@dimen/font_size_15"
+                        android:layout_marginLeft="@dimen/font_size_15"
                         android:background="@drawable/corners_layout_gray_10dp"
                         android:orientation="vertical"
                         android:padding="@dimen/font_size_15">
@@ -318,7 +318,6 @@
                             style="@style/checkBoxComponent"
                             android:layout_width="match_parent"
                             android:layout_alignParentLeft="true"
-                            android:layout_centerInParent="true"
                             android:onClick="@{viewModel::onCheckedChangedTermAndPolicy}"
                             android:text="@string/by_creating_account" />
 

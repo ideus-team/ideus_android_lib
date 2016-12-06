@@ -5,7 +5,6 @@ import android.content.res.Resources;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
-
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 
@@ -72,6 +71,7 @@ public class SampleApplication extends Application {
     //@Override
     protected void setupTwitterSDK() {
         TwitterAuthConfig authConfig = new TwitterAuthConfig(Constants.TWITTER_APP_KEY, Constants.TWITTER_SECRET_KEY);
+       // Fabric.with(this, new Twitter(authConfig));
         Fabric.with(this, new Twitter(authConfig));
 
     }

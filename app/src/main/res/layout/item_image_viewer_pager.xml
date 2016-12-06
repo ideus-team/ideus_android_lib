@@ -14,11 +14,11 @@
             android:id="@+id/progressBar2"
             android:layout_centerInParent="true" />
 
-        <!--<biz.ideus.ideuslib.widget.ZoomImageView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:id="@+id/iv_image"-->
-            <!--android:layout_centerInParent="true" />-->
+        <biz.ideus.ideuslib.widget.ZoomImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/iv_image"
+            android:layout_centerInParent="true" />
 
     </RelativeLayout>
 </layout>
