@@ -84,6 +84,12 @@ public static String DIALOG_MODEL_KEY = "DialogModel";
     }
 
     private void setDialogParameters(){
+        title.set(getString(getDialogModel().resDialogName));
+        colorTitle.set(getDialogModel().colorTitle);
+        visibilityAttentionIcon.set(getDialogModel().visibilityIcon);
+        aboutDialogTitle.set(getString(getDialogModel().resAboutDialogText));
+        btnName.set(getString(getDialogModel().resBtnName));
+        /*
         switch (getDialogModel()){
             case LOGIN_ATTENTION:
                 title.set(getString(DialogModel.LOGIN_ATTENTION.resDialogName));
@@ -110,6 +116,7 @@ public static String DIALOG_MODEL_KEY = "DialogModel";
                 title.set(getString(DialogModel.EDIT_TEXT_DIALOG.resDialogName));
                 break;
         }
+        */
     }
 
 
