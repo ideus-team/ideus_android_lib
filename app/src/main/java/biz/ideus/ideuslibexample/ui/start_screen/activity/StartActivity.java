@@ -78,6 +78,7 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
         createGoogleApiClient();
         twitterAuthClient = new TwitterAuthClient();
         RxBusActionDialogBtnSubscription = startRxBusActionDialogBtnSubscription();
+
     }
 
     private void createGoogleSignInOptions() {
@@ -86,6 +87,7 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
                 .build();
 
     }
+
 
     private void createGoogleApiClient() {
         googleApiClient = new GoogleApiClient.Builder(this)

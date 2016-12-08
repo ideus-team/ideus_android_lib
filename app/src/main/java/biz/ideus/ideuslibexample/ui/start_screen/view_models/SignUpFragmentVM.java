@@ -66,7 +66,7 @@ public class SignUpFragmentVM extends AutorisationVM implements OnValidateSignUp
     }
 
     public void onCreateAccountClick(View view) {
-        StartActivity startActivity = (StartActivity) view.getContext();
+        StartActivity startActivity = (StartActivity) context;
         if (isValidData(startActivity)) {
             showLoadingPage(startActivity.getString(R.string.creating_an_account), startActivity.getString(R.string.about_creating_account), View.VISIBLE);
             startActivity.startActivity(new Intent(startActivity, TutorialActivity.class));
@@ -82,15 +82,15 @@ public class SignUpFragmentVM extends AutorisationVM implements OnValidateSignUp
     }
 
     public void onClickGooglePlus(View view) {
-        signInWithGooglePlus((StartActivity) view.getContext());
+        signInWithGooglePlus((StartActivity) context);
     }
 
     public void onClickTwitterLogin(View view) {
-        onClickTwitterLogin((StartActivity) view.getContext());
+        onClickTwitterLogin((StartActivity) context);
     }
 
     public void onClickFaceBookLogin(View view) {
-        onClickFaceBookLogin((StartActivity) view.getContext());
+        onClickFaceBookLogin((StartActivity) context);
     }
 
     public void onClickTermsAndPolicy(View view) {

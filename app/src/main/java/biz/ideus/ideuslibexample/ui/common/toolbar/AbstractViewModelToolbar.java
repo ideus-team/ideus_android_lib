@@ -28,7 +28,7 @@ public abstract class AbstractViewModelToolbar<T extends IView> extends Abstract
 
     @Override
     public void onClickLeftBtn(View view) {
-        ((BaseActivity) view.getContext()).onBackPressed();
+        ((BaseActivity) getView().getViewModelBindingConfig().getContext()).onBackPressed();
     }
 
     @Override

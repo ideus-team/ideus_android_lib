@@ -64,24 +64,24 @@ public class StartActivityVM extends AutorisationVM implements BaseMvvmInterface
     }
 
     public void onClickSelectPhoto(View view) {
-        Intent chooseImageIntent = CropImage.getPickImageChooserIntent((StartActivity) view.getContext());
-        ((StartActivity) view.getContext()).startActivityForResult(chooseImageIntent, CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE);
+        Intent chooseImageIntent = CropImage.getPickImageChooserIntent((StartActivity) context);
+        ((StartActivity) context).startActivityForResult(chooseImageIntent, CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE);
     }
 
 
     @Override
     public void onFaceBookClick(View view) {
-        onClickFaceBookLogin((StartActivity) view.getContext());
+        onClickFaceBookLogin((StartActivity) context);
     }
 
     @Override
     public void onTwitterClick(View view) {
-        onClickTwitterLogin((StartActivity) view.getContext());
+        onClickTwitterLogin((StartActivity) context);
     }
 
     @Override
     public void onGoogleClick(View view) {
-        signInWithGooglePlus((StartActivity) view.getContext());
+        signInWithGooglePlus((StartActivity) context);
     }
 
     @Override
@@ -93,8 +93,8 @@ public class StartActivityVM extends AutorisationVM implements BaseMvvmInterface
 
     @Override
     public void onSignUpClick(View view) {
-        ((BaseActivity) view.getContext())
-                .addFragmentToBackStack(((BaseActivity) view.getContext()).getSupportFragmentManager()
+        ((BaseActivity) context)
+                .addFragmentToBackStack(((BaseActivity) context).getSupportFragmentManager()
                         , android.R.id.content, new SignUpFragment()
                         , Constants.SIGN_UP_FRAGMENT, null, true, null);
     }
@@ -106,8 +106,8 @@ public class StartActivityVM extends AutorisationVM implements BaseMvvmInterface
 
     @Override
     public void onForgotPasswordClick(View view) {
-        ((BaseActivity) view.getContext())
-                .addFragmentToBackStack(((BaseActivity) view.getContext()).getSupportFragmentManager()
+        ((BaseActivity) context)
+                .addFragmentToBackStack(((BaseActivity)context).getSupportFragmentManager()
                         , android.R.id.content, new ForgotPasswordFragment()
                         , Constants.FORGOT_PASSWORD_FRAGMENT, null, true, null);
     }
