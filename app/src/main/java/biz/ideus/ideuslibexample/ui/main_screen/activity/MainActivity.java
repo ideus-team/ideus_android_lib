@@ -28,8 +28,7 @@ public class MainActivity extends BaseActivity<StartView, MainActivityVM, Activi
         implements StartView {
 
     private BottomNavigationBar bottomNavigationBar;
-    @Inject
-    MainFragmentPagerAdapter pagerAdapter;
+    @Inject MainFragmentPagerAdapter pagerAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,6 +65,7 @@ public class MainActivity extends BaseActivity<StartView, MainActivityVM, Activi
 
 
     private void initBottomBar() {
+        int buttonsColorResource = R.color.color_main;
         bottomNavigationBar = getBinding().abBottomNavigationBar;
 
         bottomNavigationBar.setMode(BottomNavigationBar.MODE_SHIFTING);
@@ -74,17 +74,17 @@ public class MainActivity extends BaseActivity<StartView, MainActivityVM, Activi
         bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_DEFAULT);
 
         bottomNavigationBar
-                .addItem(new BottomNavigationItem(R.drawable.ic_home_disactive
+                .addItem(new BottomNavigationItem(R.drawable.ic_android_white_24dp
                         , R.string.home)
-                        .setActiveColorResource(R.color.midle_color_main_light)
+                        .setActiveColorResource(buttonsColorResource)
                 )
-                .addItem(new BottomNavigationItem(R.drawable.ic_people_disactive
+                .addItem(new BottomNavigationItem(R.drawable.ic_bug_report_white_24dp
                         , R.string.people)
-                        .setActiveColorResource(R.color.color_main)
+                        .setActiveColorResource(buttonsColorResource)
                 )
-                .addItem(new BottomNavigationItem(R.drawable.ic_settings_disactive
+                .addItem(new BottomNavigationItem(R.drawable.ic_pets_white_24dp
                         , R.string.settings)
-                        .setActiveColorResource(android.R.color.holo_blue_dark)
+                        .setActiveColorResource(buttonsColorResource)
                 )
                 .initialise();
 
