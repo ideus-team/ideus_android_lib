@@ -11,11 +11,11 @@ import java.util.List;
 import javax.inject.Inject;
 
 import biz.ideus.ideuslibexample.injection.scopes.PerActivity;
-import biz.ideus.ideuslibexample.ui.tutorial_screen.fragments.AboutAppFragment;
-import biz.ideus.ideuslibexample.ui.tutorial_screen.fragments.AccountProtectionFragment;
-import biz.ideus.ideuslibexample.ui.tutorial_screen.fragments.BaseTutorialFragment;
-import biz.ideus.ideuslibexample.ui.tutorial_screen.fragments.CustomisationFragment;
-import biz.ideus.ideuslibexample.ui.tutorial_screen.fragments.PersonalNetworkFragment;
+import biz.ideus.ideuslibexample.ui.tutorial_screen.fragments.tutorial_fragments.AboutAppFragment;
+import biz.ideus.ideuslibexample.ui.tutorial_screen.fragments.tutorial_fragments.AccountProtectionFragment;
+import biz.ideus.ideuslibexample.ui.tutorial_screen.fragments.tutorial_fragments.BaseTutorialFragment;
+import biz.ideus.ideuslibexample.ui.tutorial_screen.fragments.tutorial_fragments.CustomisationFragment;
+import biz.ideus.ideuslibexample.ui.tutorial_screen.fragments.tutorial_fragments.PersonalNetworkFragment;
 
 /**
  * Created by blackmamba on 23.11.16.

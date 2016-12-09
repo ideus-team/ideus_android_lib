@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.ui.tutorial_screen.view_models;
+package biz.ideus.ideuslibexample.ui.tutorial_screen.activity;
 
 
 import android.content.Context;

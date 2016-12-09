@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.ui.start_screen.view_models;
+package biz.ideus.ideuslibexample.ui.start_screen.activity;
 
 import android.content.Context;
 import android.content.Intent;

@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.ui.start_screen.view_models;
+package biz.ideus.ideuslibexample.ui.start_screen.fragments.terms_of_service_fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.ui.start_screen.fragments;
+package biz.ideus.ideuslibexample.ui.start_screen.fragments.terms_of_service_fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,9 +10,6 @@ import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.databinding.FragmentTermsOfServiceBinding;
 import biz.ideus.ideuslibexample.ui.base.BaseFragment;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
-import biz.ideus.ideuslibexample.ui.start_screen.view_models.TermsOfServiceVM;
-
-
 
 
 /**

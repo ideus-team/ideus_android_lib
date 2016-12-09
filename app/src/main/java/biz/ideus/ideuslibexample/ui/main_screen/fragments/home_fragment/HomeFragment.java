@@ -9,16 +9,14 @@ import biz.ideus.ideuslibexample.BR;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.databinding.FragmentHomeBinding;
 import biz.ideus.ideuslibexample.ui.base.BaseFragment;
-import biz.ideus.ideuslibexample.ui.start_screen.StartView;
+import biz.ideus.ideuslibexample.ui.main_screen.MainView;
 
 /**
  * Created by blackmamba on 25.11.16.
  */
 
-public class HomeFragment extends BaseFragment<StartView, HomeFragmentVM, FragmentHomeBinding>
-implements StartView {
-
-
+public class HomeFragment extends BaseFragment<MainView, HomeFragmentVM, FragmentHomeBinding>
+implements MainView {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

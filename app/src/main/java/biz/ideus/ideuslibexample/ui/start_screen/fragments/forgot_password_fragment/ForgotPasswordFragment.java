@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.ui.start_screen.fragments;
+package biz.ideus.ideuslibexample.ui.start_screen.fragments.forgot_password_fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,7 +10,6 @@ import biz.ideus.ideuslibexample.BR;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.databinding.FragmentForgotPasswordBinding;
 import biz.ideus.ideuslibexample.ui.base.BaseFragment;
-import biz.ideus.ideuslibexample.ui.start_screen.view_models.ForgotPasswordVM;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 
 /**

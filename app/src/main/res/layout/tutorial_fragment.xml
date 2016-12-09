@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="biz.ideus.ideuslibexample.ui.tutorial_screen.view_models.TutorialFragmentVM" />
+            type="biz.ideus.ideuslibexample.ui.tutorial_screen.fragments.tutorial_fragments.TutorialFragmentVM" />
     </data>
     <ScrollView
         android:id="@+id/scrollView"

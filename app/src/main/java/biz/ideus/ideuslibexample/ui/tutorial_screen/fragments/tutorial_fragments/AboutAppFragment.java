@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.ui.tutorial_screen.fragments;
+package biz.ideus.ideuslibexample.ui.tutorial_screen.fragments.tutorial_fragments;
 
 import android.graphics.drawable.Drawable;
 

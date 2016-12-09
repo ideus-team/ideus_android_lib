@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.ui.tutorial_screen.fragments;
+package biz.ideus.ideuslibexample.ui.tutorial_screen.fragments.tutorial_fragments;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -12,7 +12,6 @@ import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.databinding.TutorialFragmentBinding;
 import biz.ideus.ideuslibexample.ui.base.BaseFragment;
 import biz.ideus.ideuslibexample.ui.tutorial_screen.TutorialView;
-import biz.ideus.ideuslibexample.ui.tutorial_screen.view_models.TutorialFragmentVM;
 
 /**
  * Created by blackmamba on 23.11.16.

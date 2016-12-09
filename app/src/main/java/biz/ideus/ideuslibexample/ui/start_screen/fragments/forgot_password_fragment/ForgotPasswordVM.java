@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.ui.start_screen.view_models;
+package biz.ideus.ideuslibexample.ui.start_screen.fragments.forgot_password_fragment;
 
 import android.content.Context;
 import android.databinding.ObservableField;

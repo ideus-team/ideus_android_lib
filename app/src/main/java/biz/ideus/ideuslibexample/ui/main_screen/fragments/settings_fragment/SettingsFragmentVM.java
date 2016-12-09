@@ -7,13 +7,13 @@ import android.support.annotation.Nullable;
 
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.ui.common.toolbar.AbstractViewModelToolbar;
-import biz.ideus.ideuslibexample.ui.start_screen.StartView;
+import biz.ideus.ideuslibexample.ui.main_screen.MainView;
 
 /**
  * Created by blackmamba on 25.11.16.
  */
 
-public class SettingsFragmentVM extends AbstractViewModelToolbar<StartView> {
+public class SettingsFragmentVM extends AbstractViewModelToolbar<MainView> {
     private Context context;
 
     @Override
@@ -22,7 +22,7 @@ public class SettingsFragmentVM extends AbstractViewModelToolbar<StartView> {
     }
 
     @Override
-    public void onBindView(@NonNull StartView view) {
+    public void onBindView(@NonNull MainView view) {
         super.onBindView(view);
         context = view.getViewModelBindingConfig().getContext();
     }

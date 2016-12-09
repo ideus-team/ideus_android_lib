@@ -4,7 +4,7 @@ apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "24.0.2"
+    buildToolsVersion '25'
     defaultConfig {
         applicationId "biz.ideus.ideuslibexample"
         minSdkVersion 16
@@ -43,7 +43,6 @@ dependencies {
     })
     compile "io.requery:requery:${requeryVersion}"
     compile "io.requery:requery-android:${requeryVersion}"
-
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'io.reactivex:rxjava:1.2.1'
     compile 'com.trello:rxlifecycle:0.3.0'

@@ -14,7 +14,6 @@ import biz.ideus.ideuslibexample.databinding.ActivityTutorialBinding;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.tutorial_screen.TutorialView;
 import biz.ideus.ideuslibexample.ui.tutorial_screen.adapters.TutorialPagerAdapter;
-import biz.ideus.ideuslibexample.ui.tutorial_screen.view_models.TutorialActivityVM;
 
 /**
  * Created by blackmamba on 18.11.16.

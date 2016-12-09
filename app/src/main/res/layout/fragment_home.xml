@@ -16,33 +16,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-    <RelativeLayout
-        android:id="@+id/toolbar_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
         <include
             layout="@layout/toolbar"
             bind:viewModel="@{viewModel}">
         </include>
 
+
+
         <include
             android:id="@+id/item_search"
             layout="@layout/item_search"
-            app:visibility="@{viewModel.visibilitySearch}"
-            app:isFocus="@{viewModel.isSearchFieldFocus}"
+            app:visibilitySearch="@{viewModel.visibilitySearch}"
+            app:isFocus="@{viewModel.isFocus}"
             bind:viewModel="@{viewModel}">
         </include>
-        </RelativeLayout>
 
-
-        <android.support.v7.widget.RecyclerView
-            android:layout_below="@+id/toolbar_layout"
-            android:background="@color/white"
-            android:id="@+id/rViewPeople"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical" />
+        <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:layout_below="@+id/toolbar_layout"-->
+            <!--android:background="@color/white"-->
+            <!--android:id="@+id/rViewPeople"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:scrollbars="vertical" />-->
 
     </RelativeLayout>
 </layout>

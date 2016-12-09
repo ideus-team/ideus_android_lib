@@ -30,7 +30,7 @@
                     android:background="@drawable/toolbar_btn_selector"
                     android:scaleType="center"
                     android:src="@{viewModel.setImageLeftBtn}"
-                    android:onClick="@{viewModel.onClickLeftBtn}"
+                    android:onClick="@{viewModel::onClickLeftBtn}"
                     android:visibility="@{viewModel.leftBtnVisible ? View.VISIBLE : View.INVISIBLE}"
                     />
 
@@ -63,7 +63,7 @@
                     android:background="@drawable/toolbar_btn_selector"
                     android:padding="10dip"
                     android:src="@{viewModel.setImageRightBtn}"
-                    android:onClick="@{viewModel.onClickRightBtn}"
+                    android:onClick="@{viewModel::onClickRightBtn}"
                     android:visibility="@{viewModel.rightBtnVisible ? View.VISIBLE : View.INVISIBLE}"
                     />
 
