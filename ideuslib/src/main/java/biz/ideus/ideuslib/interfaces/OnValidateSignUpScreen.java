@@ -6,7 +6,7 @@ package biz.ideus.ideuslib.interfaces;
 
 public interface OnValidateSignUpScreen extends OnValidateField{
 
-    void setVisibilityImageName(int visibility);
+    void setVisibilityImageDeleteName(int visibility);
 
     void isValidName(boolean isValid);
 

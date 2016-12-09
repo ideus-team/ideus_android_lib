@@ -32,7 +32,7 @@ import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import rx.Subscription;
 
-import static biz.ideus.ideuslibexample.ui.start_screen.activity.AutorisationVM.GOOGLE_SIGN_IN;
+import static biz.ideus.ideuslibexample.ui.start_screen.activity.BaseValidationVM.GOOGLE_SIGN_IN;
 
 
 /**

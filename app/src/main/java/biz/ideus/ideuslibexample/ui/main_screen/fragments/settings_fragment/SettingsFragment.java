@@ -9,14 +9,14 @@ import biz.ideus.ideuslibexample.BR;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.databinding.FragmentSettingsBinding;
 import biz.ideus.ideuslibexample.ui.base.BaseFragment;
-import biz.ideus.ideuslibexample.ui.main_screen.MainView;
+import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 
 /**
  * Created by blackmamba on 25.11.16.
  */
 
-public class SettingsFragment extends BaseFragment<MainView, SettingsFragmentVM, FragmentSettingsBinding>
-        implements MainView {
+public class SettingsFragment extends BaseFragment<StartView, SettingsFragmentVM, FragmentSettingsBinding>
+        implements StartView {
 
 
 

@@ -15,14 +15,15 @@ import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.databinding.FragmentImageViewerBinding;
 import biz.ideus.ideuslibexample.ui.base.BaseFragment;
 import biz.ideus.ideuslibexample.ui.main_screen.MainView;
+import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 
 
 /**
  * Created by blackmamba on 10.11.16.
  */
 
-public class ImageViewerFragment extends BaseFragment<MainView, ImageViewerVM, FragmentImageViewerBinding>
-        implements MainView {
+public class ImageViewerFragment extends BaseFragment<StartView, ImageViewerVM, FragmentImageViewerBinding>
+        implements StartView {
 
     public static String CURRENT_IMAGE_POSITION = "CURRENT_IMAGE_POSITION";
     public static String URL_LIST = "URL_LIST";

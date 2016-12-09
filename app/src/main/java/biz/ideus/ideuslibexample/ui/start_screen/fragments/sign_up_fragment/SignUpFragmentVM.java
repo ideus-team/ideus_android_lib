@@ -14,7 +14,7 @@ import biz.ideus.ideuslibexample.dialogs.DialogModel;
 import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
-import biz.ideus.ideuslibexample.ui.start_screen.activity.AutorisationVM;
+import biz.ideus.ideuslibexample.ui.start_screen.activity.BaseValidationVM;
 import biz.ideus.ideuslibexample.ui.start_screen.activity.StartActivity;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.terms_of_service_fragment.TermsOfServiceFragment;
 import biz.ideus.ideuslibexample.ui.tutorial_screen.activity.TutorialActivity;
@@ -23,7 +23,7 @@ import biz.ideus.ideuslibexample.ui.tutorial_screen.activity.TutorialActivity;
  * Created by blackmamba on 16.11.16.
  */
 
-public class SignUpFragmentVM extends AutorisationVM implements OnValidateSignUpScreen {
+public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSignUpScreen {
     private boolean isValidName = false;
     private boolean isValidEmail = false;
     private boolean isValidPassword = false;
@@ -117,12 +117,12 @@ public class SignUpFragmentVM extends AutorisationVM implements OnValidateSignUp
     }
 
     @Override
-    public void setVisibilityImageEmail(int visibility) {
+    public void setVisibilityImageDeleteEmail(int visibility) {
         visibilityClearEmailImage.set(visibility);
     }
 
     @Override
-    public void setVisibilityImagePassword(int visibility) {
+    public void setVisibilityImageDeletePassword(int visibility) {
         visibilityClearPasswordImage.set(visibility);
     }
 
@@ -152,7 +152,7 @@ public class SignUpFragmentVM extends AutorisationVM implements OnValidateSignUp
     }
 
     @Override
-    public void setVisibilityImageName(int visibility) {
+    public void setVisibilityImageDeleteName(int visibility) {
         visibilityClearNameImage.set(visibility);
     }
 

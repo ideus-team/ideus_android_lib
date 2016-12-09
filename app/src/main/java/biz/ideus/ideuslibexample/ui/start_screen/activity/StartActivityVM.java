@@ -25,7 +25,7 @@ import biz.ideus.ideuslibexample.ui.start_screen.fragments.sign_up_fragment.Sign
  * Created by user on 28.11.2016.
  */
 
-public class StartActivityVM extends AutorisationVM implements BaseMvvmInterface.StartActivityVmListener, OnValidateField {
+public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterface.StartActivityVmListener, OnValidateField {
     private boolean isValidEmail = false;
     private boolean isValidPassword = false;
 
@@ -125,12 +125,12 @@ public class StartActivityVM extends AutorisationVM implements BaseMvvmInterface
     }
 
     @Override
-    public void setVisibilityImageEmail(int visibility) {
+    public void setVisibilityImageDeleteEmail(int visibility) {
         visibilityClearEmailImage.set(visibility);
     }
 
     @Override
-    public void setVisibilityImagePassword(int visibility) {
+    public void setVisibilityImageDeletePassword(int visibility) {
         visibilityClearPasswordImage.set(visibility);
     }
 

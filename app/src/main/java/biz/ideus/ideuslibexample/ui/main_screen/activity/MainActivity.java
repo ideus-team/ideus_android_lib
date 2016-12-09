@@ -17,6 +17,7 @@ import biz.ideus.ideuslibexample.databinding.ActivityMainBinding;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.main_screen.MainFragmentPagerAdapter;
 import biz.ideus.ideuslibexample.ui.main_screen.MainView;
+import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.utils.Constants;
 
 ///**
@@ -24,8 +25,8 @@ import biz.ideus.ideuslibexample.utils.Constants;
 // */
 //
 
-public class MainActivity extends BaseActivity<MainView, MainActivityVM, ActivityMainBinding>
-        implements MainView {
+public class MainActivity extends BaseActivity<StartView, MainActivityVM, ActivityMainBinding>
+        implements StartView {
 
     private BottomNavigationBar bottomNavigationBar;
     @Inject MainFragmentPagerAdapter pagerAdapter;

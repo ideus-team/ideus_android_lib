@@ -9,13 +9,13 @@ import android.view.View;
 
 import biz.ideus.ideuslib.mvvm_lifecycle.AbstractViewModel;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
-import biz.ideus.ideuslibexample.ui.main_screen.MainView;
+import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 
 /**
  * Created by blackmamba on 08.12.16.
  */
 
-public class ImageViewerVM extends AbstractViewModel<MainView> implements ImageViewerPagerAdapter.PageSelectedlistener {
+public class ImageViewerVM extends AbstractViewModel<StartView> implements ImageViewerPagerAdapter.PageSelectedlistener {
     private Context context;
 private int currentImagePosition;
 
@@ -38,7 +38,7 @@ private int currentImagePosition;
     }
 
     @Override
-    public void onBindView(@NonNull MainView view) {
+    public void onBindView(@NonNull StartView view) {
         super.onBindView(view);
         context = view.getViewModelBindingConfig().getContext();
         adapter.setSelectedlistener(this);

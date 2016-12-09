@@ -15,13 +15,13 @@ import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.interfaces.SearchBar;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.common.toolbar.AbstractViewModelToolbar;
-import biz.ideus.ideuslibexample.ui.main_screen.MainView;
+import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 
 /**
  * Created by blackmamba on 09.12.16.
  */
 
-public class BaseSearchVM extends AbstractViewModelToolbar<MainView> implements SearchBar {
+public class BaseSearchVM extends AbstractViewModelToolbar<StartView> implements SearchBar {
 
     protected Context context;
     public ObservableField<Integer> visibilitySearch = new ObservableField<>();
@@ -47,7 +47,7 @@ public class BaseSearchVM extends AbstractViewModelToolbar<MainView> implements 
 
 
     @Override
-    public void onBindView(@NonNull MainView view) {
+    public void onBindView(@NonNull StartView view) {
         super.onBindView(view);
         context = view.getViewModelBindingConfig().getContext();
     }
