@@ -10,17 +10,17 @@ import biz.ideus.ideuslibexample.R;
 
 public class PersonalNetworkFragment extends BaseTutorialFragment {
     @Override
-    public String setTitle() {
+    public String getTitle() {
         return getString(R.string.tutorial_title_network);
     }
 
     @Override
-    public String setAbout() {
+    public String getAbout() {
         return getString(R.string.about_network);
     }
 
     @Override
-    public Drawable setImage() {
+    public Drawable getImage() {
         return getResources().getDrawable(R.drawable.networking);
     }
 }

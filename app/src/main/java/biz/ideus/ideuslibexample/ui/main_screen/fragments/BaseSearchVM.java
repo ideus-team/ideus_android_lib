@@ -32,7 +32,6 @@ public class BaseSearchVM extends AbstractViewModelToolbar<MainView> implements 
         super.onCreate(arguments, savedInstanceState);
         isFocus.set(false);
         visibilitySearch.set(View.GONE);
-
     }
 
     @BindingAdapter("isFocus")
@@ -44,6 +43,8 @@ public class BaseSearchVM extends AbstractViewModelToolbar<MainView> implements 
             });
         }
     }
+
+
 
     @Override
     public void onBindView(@NonNull MainView view) {

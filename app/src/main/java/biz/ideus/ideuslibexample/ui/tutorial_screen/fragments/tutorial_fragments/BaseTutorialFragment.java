@@ -3,8 +3,7 @@ package biz.ideus.ideuslibexample.ui.tutorial_screen.fragments.tutorial_fragment
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
+import android.view.View;
 
 import biz.ideus.ideuslib.mvvm_lifecycle.binding.ViewModelBindingConfig;
 import biz.ideus.ideuslibexample.BR;
@@ -19,15 +18,16 @@ import biz.ideus.ideuslibexample.ui.tutorial_screen.TutorialView;
 
 public abstract class BaseTutorialFragment extends BaseFragment<TutorialView, TutorialFragmentVM, TutorialFragmentBinding> implements TutorialView{
 
-    @Nullable
+
     @Override
-    public android.view.View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         fragmentComponent().inject(this);
         setModelView(this);
-        getBinding().imageViewCircle.setBackground(setImage());
-        getBinding().tvAbout.setText(setAbout());
-        getBinding().tvTitle.setText(setTitle());
-        return getBinding().getRoot();
+        getBinding().imageViewCircle.setBackground(getImage());
+        getBinding().tvTitle.setText(getTitle());
+        if(getBinding().tvAboutTitle != null)
+        getBinding().tvAboutTitle.setText(getAbout());
     }
 
     @Nullable
@@ -41,10 +41,10 @@ public abstract class BaseTutorialFragment extends BaseFragment<TutorialView, Tu
         return new ViewModelBindingConfig(R.layout.tutorial_fragment, BR.viewModel, getContext());
     }
 
-    public abstract String setTitle();
+    public abstract String getTitle();
 
-    public abstract String setAbout();
+    public abstract String getAbout();
 
-    public abstract Drawable setImage();
+    public abstract Drawable getImage();
 
 }

@@ -10,17 +10,17 @@ import biz.ideus.ideuslibexample.R;
 
 public class CustomisationFragment extends BaseTutorialFragment {
     @Override
-    public String setTitle() {
+    public String getTitle() {
         return getString(R.string.tutorial_title_customisation);
     }
 
     @Override
-    public String setAbout() {
+    public String getAbout() {
         return getString(R.string.about_customisation);
     }
 
     @Override
-    public Drawable setImage() {
+    public Drawable getImage() {
         return getResources().getDrawable(R.drawable.customisation);
     }
 }

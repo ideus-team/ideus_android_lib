@@ -96,6 +96,7 @@ public class CustomAttentionDialog extends DialogFragment {
         } else {
             title.set(getString(getDialogModel().resDialogName));
         }
+
     }
 
 
