@@ -21,18 +21,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <include
-            layout="@layout/toolbar"
-            bind:viewModel="@{viewModel}">
-        </include>
+            <include
+                layout="@layout/toolbar"
+                bind:viewModel="@{viewModel}">
+            </include>
 
-        <include
-            android:id="@+id/item_search"
-            layout="@layout/item_search"
-            app:visibility="@{viewModel.visibilitySearch}"
-            app:isFocus="@{viewModel.isSearchFieldFocus}"
-            bind:viewModel="@{viewModel}">
-        </include>
+            <include
+                android:id="@+id/item_search"
+                layout="@layout/item_search"
+                app:visibilitySearch="@{viewModel.visibilitySearch}"
+                app:isFocus="@{viewModel.isFocus}"
+                bind:viewModel="@{viewModel}">
+            </include>
+
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView

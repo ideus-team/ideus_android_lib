@@ -1,24 +1,45 @@
 package biz.ideus.ideuslibexample.ui.main_screen.fragments.settings_fragment;
 
 import android.content.Context;
+import android.databinding.ObservableField;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.view.View;
 
+import biz.ideus.ideuslib.interfaces.OnValidateSignUpScreen;
 import biz.ideus.ideuslibexample.R;
-import biz.ideus.ideuslibexample.ui.common.toolbar.AbstractViewModelToolbar;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
+import biz.ideus.ideuslibexample.ui.start_screen.activity.BaseValidationVM;
 
 /**
  * Created by blackmamba on 25.11.16.
  */
 
-public class SettingsFragmentVM extends AbstractViewModelToolbar<StartView> {
+public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSignUpScreen {
     private Context context;
+    private boolean isValidName = false;
+    private boolean isValidEmail = false;
+    private boolean isValidCurrentPassword = false;
+    private boolean isValidNewPassword = false;
+
+
+    public final ObservableField<CharSequence> textCurrentPassword = new ObservableField<>();
+    public final ObservableField<Integer> visibilityClearImageCurrentPassword = new ObservableField<>();
+    public final ObservableField<Integer> titleColorCurrentPassword = new ObservableField<>();
 
     @Override
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
         super.onCreate(arguments, savedInstanceState);
+        titleColorCurrentPassword.set(Color.BLACK);
+        visibilityClearEmailImage.set(View.GONE);
+        visibilityClearPasswordImage.set(View.GONE);
+        visibilityClearNameImage.set(View.GONE);
+        visibilityClearImageCurrentPassword.set(View.GONE);
+
+        setOnValidateField(this);
     }
 
     @Override
@@ -38,5 +59,100 @@ public class SettingsFragmentVM extends AbstractViewModelToolbar<StartView> {
     }
 
 
+    public void onClickClearFieldImage(View view) {
+        switch (view.getId()) {
+            case R.id.iv_cancel_email:
+                email.set(Editable.Factory.getInstance().newEditable(""));
+                break;
+            case R.id.iv_cancel_password:
+                password.set(Editable.Factory.getInstance().newEditable(""));
+                break;
+            case R.id.iv_cancel_current_password:
+                textCurrentPassword.set(Editable.Factory.getInstance().newEditable(""));
+                break;
+            case R.id.iv_cancel_name:
+                name.set(Editable.Factory.getInstance().newEditable(""));
+                break;
+        }
+    }
+
+    public void onTextChangedEmail(CharSequence text, int start, int before, int count) {
+        onTextChangedEmail(text);
+    }
+
+    public void onTextChangedNewPassword(CharSequence text, int start, int before, int count) {
+        onTextChangedPassword(text);
+
+    }
+
+    public void onTextChangedName(CharSequence text, int start, int before, int count) {
+        onTextChangedName(text);
+
+    }
+
+    public void onTextChangedCurrentPassword(CharSequence text, int start, int before, int count) {
+        textCurrentPassword.set(text);
+        visibilityClearImageCurrentPassword.set(getVisibility(text.toString()));
+//        Observable.just(text.toString())
+//                .debounce(500, TimeUnit.MILLISECONDS)
+//                .doOnNext(currentText -> {
+//                    visibilityClearImageCurrentPassword.set(getVisibility(currentText));
+//                })
+////                .flatMap(currentText -> Observable.just(UtilsValidationETFields.validatePassword(currentText, MIN_COUNT_CHARACTER_PASSWORD)))
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(aBoolean -> {
+//                    isValidCurrentPassword = aBoolean;
+//                    titleColorCurrentPassword.set(getColor(aBoolean, context));
+//                });
+    }
+
+    @Override
+    public void setVisibilityImageDeleteEmail(int visibility) {
+        visibilityClearEmailImage.set(visibility);
+    }
+
+    @Override
+    public void setVisibilityImageDeletePassword(int visibility) {
+        visibilityClearPasswordImage.set(visibility);
+    }
+
+    @Override
+    public void setTitleColorEmail(int color) {
+        titleColorEmail.set(color);
+    }
+
+    @Override
+    public void setValidAutorisationBtn() {
+    }
+
+    @Override
+    public void setTitleColorPassword(int color) {
+        titleColorPassword.set(color);
+    }
+
+    @Override
+    public void isValidEmail(boolean isValid) {
+        isValidEmail = isValid;
+    }
+
+    @Override
+    public void isValidPassword(boolean isValid) {
+        isValidNewPassword = isValid;
+    }
+
+    @Override
+    public void setVisibilityImageDeleteName(int visibility) {
+        visibilityClearNameImage.set(visibility);
+    }
+
+    @Override
+    public void isValidName(boolean isValid) {
+        isValidName = isValid;
+    }
+
+    @Override
+    public void setTitleColorName(int color) {
+        titleColorName.set(color);
+    }
 
 }

@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.ui.start_screen.view_models;
+package biz.ideus.ideuslibexample.ui.start_screen.fragments.sign_up_fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,16 +14,16 @@ import biz.ideus.ideuslibexample.dialogs.DialogModel;
 import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
+import biz.ideus.ideuslibexample.ui.start_screen.activity.BaseValidationVM;
 import biz.ideus.ideuslibexample.ui.start_screen.activity.StartActivity;
-import biz.ideus.ideuslibexample.ui.start_screen.fragments.TermsOfServiceFragment;
+import biz.ideus.ideuslibexample.ui.start_screen.fragments.terms_of_service_fragment.TermsOfServiceFragment;
 import biz.ideus.ideuslibexample.ui.tutorial_screen.activity.TutorialActivity;
-import biz.ideus.ideuslibexample.utils.Constants;
 
 /**
  * Created by blackmamba on 16.11.16.
  */
 
-public class SignUpFragmentVM extends AutorisationVM implements OnValidateSignUpScreen {
+public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSignUpScreen {
     private boolean isValidName = false;
     private boolean isValidEmail = false;
     private boolean isValidPassword = false;
@@ -94,10 +94,7 @@ public class SignUpFragmentVM extends AutorisationVM implements OnValidateSignUp
     }
 
     public void onClickTermsAndPolicy(View view) {
-        ((BaseActivity) context)
-                .addFragmentToBackStack( ((BaseActivity) context).getSupportFragmentManager()
-                        , android.R.id.content, new TermsOfServiceFragment()
-                        , Constants.TERMS_OF_SERVICE_FRAGMENT, null, true, null);
+        ((BaseActivity) context).addFragmentToBackStack(new TermsOfServiceFragment(), null, true, null);
     }
 
     // CheckBox change listener
@@ -120,12 +117,12 @@ public class SignUpFragmentVM extends AutorisationVM implements OnValidateSignUp
     }
 
     @Override
-    public void setVisibilityImageEmail(int visibility) {
+    public void setVisibilityImageDeleteEmail(int visibility) {
         visibilityClearEmailImage.set(visibility);
     }
 
     @Override
-    public void setVisibilityImagePassword(int visibility) {
+    public void setVisibilityImageDeletePassword(int visibility) {
         visibilityClearPasswordImage.set(visibility);
     }
 
@@ -155,7 +152,7 @@ public class SignUpFragmentVM extends AutorisationVM implements OnValidateSignUp
     }
 
     @Override
-    public void setVisibilityImageName(int visibility) {
+    public void setVisibilityImageDeleteName(int visibility) {
         visibilityClearNameImage.set(visibility);
     }
 

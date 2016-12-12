@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.ui.start_screen.view_models;
+package biz.ideus.ideuslibexample.ui.start_screen.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -27,7 +27,6 @@ import biz.ideus.ideuslib.interfaces.OnValidateField;
 import biz.ideus.ideuslib.interfaces.OnValidateSignUpScreen;
 import biz.ideus.ideuslibexample.ui.common.toolbar.AbstractViewModelToolbar;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
-import biz.ideus.ideuslibexample.ui.start_screen.activity.StartActivity;
 import biz.ideus.ideuslibexample.utils.Constants;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -36,7 +35,7 @@ import rx.android.schedulers.AndroidSchedulers;
  * Created by blackmamba on 16.11.16.
  */
 
-public abstract class AutorisationVM extends AbstractViewModelToolbar<StartView> {
+public abstract class BaseValidationVM extends AbstractViewModelToolbar<StartView> {
     protected Context context;
     public static final int GOOGLE_SIGN_IN = 2222;
     public static final int MIN_COUNT_CHARACTER_NAME = 3;
@@ -54,14 +53,13 @@ public abstract class AutorisationVM extends AbstractViewModelToolbar<StartView>
 
     public final ObservableField<Integer> titleColorName = new ObservableField<>();
 
-    public final ObservableField<Integer> visibilityClearNameImage = new ObservableField<>();
-
     public final ObservableField<Boolean> isTermAndPolicy = new ObservableField<>();
 
     public final ObservableField<Integer> titleColorEmail = new ObservableField<>();
 
     public final ObservableField<Integer> titleColorPassword = new ObservableField<>();
 
+    public final ObservableField<Integer>  visibilityClearNameImage = new ObservableField<>();
     public final ObservableField<Integer> visibilityClearEmailImage = new ObservableField<>();
 
     public final ObservableField<Integer> visibilityClearPasswordImage = new ObservableField<>();
@@ -84,9 +82,6 @@ public abstract class AutorisationVM extends AbstractViewModelToolbar<StartView>
         visibilityLoadingPage.set(View.GONE);
         isValidFields.set(false);
 
-
-
-
     }
 
     @Override
@@ -101,16 +96,13 @@ public abstract class AutorisationVM extends AbstractViewModelToolbar<StartView>
         Observable.just(text.toString())
                 .debounce(500, TimeUnit.MILLISECONDS)
                 .doOnNext(currentText -> {
-                    onValidateField.setVisibilityImageEmail(getVisibility(currentText));
+                    onValidateField.setVisibilityImageDeleteEmail(getVisibility(currentText));
                 })
                 .flatMap(currentText -> Observable.just(UtilsValidationETFields.validateEmail(currentText, Constants.EMAIL_PATTERN)))
-                .map(isValid -> {
-                    onValidateField.setTitleColorEmail(getColor(isValid, context));
-                    return isValid;
-                })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aBoolean -> {
                     onValidateField.isValidEmail(aBoolean);
+                    onValidateField.setTitleColorEmail(getColor(aBoolean, context));
                     onValidateField.setValidAutorisationBtn();
                 });
     }
@@ -120,47 +112,42 @@ public abstract class AutorisationVM extends AbstractViewModelToolbar<StartView>
         Observable.just(text.toString())
                 .debounce(500, TimeUnit.MILLISECONDS)
                 .doOnNext(currentText -> {
-                    onValidateField.setVisibilityImagePassword(getVisibility(currentText));
+                    onValidateField.setVisibilityImageDeletePassword(getVisibility(currentText));
                 })
                 .flatMap(currentText -> Observable.just(UtilsValidationETFields.validatePassword(currentText, MIN_COUNT_CHARACTER_PASSWORD)))
-                .map(isValid -> {
-                    onValidateField.setTitleColorPassword(getColor(isValid, context));
-                    return isValid;
-                })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aBoolean -> {
                     onValidateField.isValidPassword(aBoolean);
+                    onValidateField.setTitleColorPassword(getColor(aBoolean, context));
                     onValidateField.setValidAutorisationBtn();
                 });
     }
+
 
     public void onTextChangedName(CharSequence text) {
         name.set(text);
         Observable.just(text.toString())
                 .debounce(500, TimeUnit.MILLISECONDS)
                 .doOnNext(currentText -> {
-                    ((OnValidateSignUpScreen) onValidateField).setVisibilityImageName(getVisibility(currentText));
+                    ((OnValidateSignUpScreen) onValidateField).setVisibilityImageDeleteName(getVisibility(currentText));
                 })
                 .flatMap(currentText -> Observable.just(UtilsValidationETFields.validateName(currentText, MIN_COUNT_CHARACTER_NAME)))
-                .map(isValid -> {
-                    ((OnValidateSignUpScreen) onValidateField).setTitleColorName(getColor(isValid, context));
-                    return isValid;
-                })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aBoolean -> {
                     ((OnValidateSignUpScreen) onValidateField).isValidName(aBoolean);
+                    ((OnValidateSignUpScreen) onValidateField).setTitleColorName(getColor(aBoolean, context));
                     onValidateField.setValidAutorisationBtn();
                 });
 
     }
 
-    private int getColor(Boolean isValid, Context context) {
+    public static int getColor(Boolean isValid, Context context) {
         return (isValid) ? ContextCompat.getColor(context, biz.ideus.ideuslib.R.color.black)
                 : ContextCompat.getColor(context, biz.ideus.ideuslib.R.color.error_color);
     }
 
-    private int getVisibility(String currentText) {
-        return (!currentText.equals("")) ? View.VISIBLE : View.INVISIBLE;
+    public static int getVisibility(String currentText) {
+        return (!currentText.equals("")) ? View.VISIBLE : View.GONE;
     }
 
 
@@ -216,4 +203,5 @@ public abstract class AutorisationVM extends AbstractViewModelToolbar<StartView>
                     }
                 });
     }
+
 }

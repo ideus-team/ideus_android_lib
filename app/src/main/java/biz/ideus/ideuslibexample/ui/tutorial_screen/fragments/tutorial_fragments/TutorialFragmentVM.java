@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.ui.tutorial_screen.view_models;
+package biz.ideus.ideuslibexample.ui.tutorial_screen.fragments.tutorial_fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

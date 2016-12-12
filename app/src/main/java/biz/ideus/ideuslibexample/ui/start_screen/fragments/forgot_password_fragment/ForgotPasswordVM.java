@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.ui.start_screen.view_models;
+package biz.ideus.ideuslibexample.ui.start_screen.fragments.forgot_password_fragment;
 
 import android.content.Context;
 import android.databinding.ObservableField;
@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.text.Editable;
 import android.view.View;
 
 import java.util.concurrent.TimeUnit;
@@ -31,6 +32,8 @@ public class ForgotPasswordVM extends AbstractViewModelToolbar<StartView> {
 
 
     public final ObservableField<Integer> titleColorEmail = new ObservableField<>();
+    public final ObservableField<Integer> visibilityClearEmailImage = new ObservableField<>();
+    public final ObservableField<CharSequence> email = new ObservableField<>();
 
 
     public final ObservableField<Boolean> isValidField = new ObservableField<>();
@@ -40,6 +43,7 @@ public class ForgotPasswordVM extends AbstractViewModelToolbar<StartView> {
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
         super.onCreate(arguments, savedInstanceState);
         isValidField.set(false);
+        visibilityClearEmailImage.set(View.GONE);
     }
 
 
@@ -49,19 +53,23 @@ public class ForgotPasswordVM extends AbstractViewModelToolbar<StartView> {
         context = view.getViewModelBindingConfig().getContext();
     }
 
+    public void onClickClearFieldImage(View view) {
+                email.set(Editable.Factory.getInstance().newEditable(""));
+
+    }
+
     public void onTextChangedEmail(CharSequence s, int start, int before, int count) {
         Observable.just(s.toString())
                 .debounce(500, TimeUnit.MILLISECONDS)
-                .flatMap(text -> Observable.just(UtilsValidationETFields.validateEmail(text, Constants.EMAIL_PATTERN)))
-                .map(isValid -> {
-                    titleColorEmail.set((isValid) ? ContextCompat.getColor(context, biz.ideus.ideuslib.R.color.black)
-                            : ContextCompat.getColor(context, biz.ideus.ideuslib.R.color.error_color));
-                    return isValid;
+                .doOnNext(currentText -> {
+                    visibilityClearEmailImage.set(getVisibility(currentText));
                 })
+                .flatMap(text -> Observable.just(UtilsValidationETFields.validateEmail(text, Constants.EMAIL_PATTERN)))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aBoolean -> {
                     isValidEmail = aBoolean;
                     isValidField.set(aBoolean);
+                    titleColorEmail.set(getColor(aBoolean, context));
                 });
     }
 
@@ -76,10 +84,18 @@ public class ForgotPasswordVM extends AbstractViewModelToolbar<StartView> {
             RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.CHANGE_PASSWORD_SUCCESS);
         }
     }
+    private int getColor(Boolean isValid, Context context) {
+        return (isValid) ? ContextCompat.getColor(context, biz.ideus.ideuslib.R.color.black)
+                : ContextCompat.getColor(context, biz.ideus.ideuslib.R.color.error_color);
+    }
+
+    private int getVisibility(String currentText) {
+        return (!currentText.equals("")) ? View.VISIBLE : View.INVISIBLE;
+    }
 
     @Override
     public String getToolbarTitle() {
-        return context.getString(R.string.sign_up);
+        return context.getString(R.string.forgot_password);
     }
     @Override
     public boolean isLeftBtnVisible() {

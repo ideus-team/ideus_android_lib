@@ -16,10 +16,10 @@
         android:layout_height="match_parent"
         android:background="@android:color/white"
         android:orientation="vertical">
+
         <include
             layout="@layout/toolbar"
-            bind:viewModel="@{viewModel}">
-        </include>
+            bind:viewModel="@{viewModel}"></include>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -81,101 +81,189 @@
                     style="@style/SettingsTextTitleStyle"
                     android:text="@string/general_info" />
 
-                <LinearLayout
-                    android:id="@+id/ll_name"
+
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/white"
-                    android:orientation="vertical">
+                    android:orientation="horizontal"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp">
 
 
-                    <TextView
+                    <ImageView
+                        android:id="@+id/iv_cancel_name"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:layout_margin="10dp"
+                        android:onClick="@{viewModel::onClickClearFieldImage}"
+                        android:src="@drawable/ic_cancel"
+                        android:visibility="@{(int)viewModel.visibilityClearNameImage}" />
+
+                    <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/font_size_10"
-                        android:text="@string/name"
-                        android:textColor="@color/dark_gray_text" />
+                        android:layout_toLeftOf="@+id/iv_cancel_name"
+                        android:layout_toStartOf="@+id/iv_cancel_name"
+                        android:orientation="horizontal"
+                        android:theme="@style/TextLabelSettings">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/font_size_10"
-                        android:layout_marginLeft="@dimen/font_size_10"
-                        android:text="Bob Jack"
-                        android:textColor="@color/dark_gray_text"
-                        android:textSize="@dimen/font_size_18" />
+                        <EditText
+                            android:id="@+id/et_name"
+                            style="@style/EditTextSettings"
+                            android:hint="@string/name"
+                            android:inputType="text"
+                            android:onTextChanged="@{viewModel::onTextChangedName}"
+                            android:text="@{viewModel.name}"
+                            android:textColor="@{ (int)viewModel.titleColorName}" />
 
-                </LinearLayout>
+                    </android.support.design.widget.TextInputLayout>
+                </RelativeLayout>
 
-                <LinearLayout
+
+                <RelativeLayout
                     android:id="@+id/ii_email"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
                     android:background="@android:color/white"
-                    android:orientation="vertical">
+                    android:orientation="horizontal"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp">
 
-                    <TextView
+
+                    <ImageView
+                        android:id="@+id/iv_cancel_email"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:layout_margin="10dp"
+                        android:onClick="@{viewModel::onClickClearFieldImage}"
+                        android:src="@drawable/ic_cancel"
+                        android:visibility="@{(int)viewModel.visibilityClearEmailImage}" />
+
+                    <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/font_size_10"
-                        android:text="@string/email"
-                        android:textColor="@color/dark_gray_text" />
+                        android:layout_toLeftOf="@+id/iv_cancel_email"
+                        android:orientation="horizontal"
+                        android:theme="@style/TextLabelSettings">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/font_size_10"
-                        android:layout_marginLeft="@dimen/font_size_10"
-                        android:text="bobJack72@gmail.com"
-                        android:textColor="@color/dark_gray_text"
-                        android:textSize="@dimen/font_size_18" />
+                        <EditText
+                            android:id="@+id/et_email"
+                            style="@style/EditTextSettings"
+                            android:hint="@string/email"
+                            android:inputType="textEmailAddress"
+                            android:onTextChanged="@{viewModel::onTextChangedEmail}"
+                            android:text="@{viewModel.email}"
+                            android:textColor="@{ (int)viewModel.titleColorEmail}"
 
-                </LinearLayout>
+                            />
+
+                    </android.support.design.widget.TextInputLayout>
+                </RelativeLayout>
+
 
                 <TextView
                     style="@style/SettingsTextTitleStyle"
                     android:text="@string/password" />
 
-                <LinearLayout
-                    android:id="@+id/ll_current_password"
+
+                <RelativeLayout
+                    android:id="@+id/rl_currentPassword"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
                     android:background="@android:color/white"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="horizontal"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp">
 
-                    <TextView
-                        style="@style/SettingsTextPasswordStyle"
-                        android:text="@string/current_password" />
+                    <ImageView
+                        android:id="@+id/iv_cancel_current_password"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:layout_margin="10dp"
+                        android:onClick="@{viewModel::onClickClearFieldImage}"
+                        android:src="@drawable/ic_cancel"
+                        android:visibility="@{(int)viewModel.visibilityClearImageCurrentPassword}" />
 
-                </LinearLayout>
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@+id/iv_cancel_current_password"
+                        android:orientation="horizontal"
+                        android:theme="@style/TextLabelSettings">
 
-                <LinearLayout
-                    android:id="@+id/ll_new_password"
+                        <EditText
+                            android:id="@+id/tv_required_password"
+                            style="@style/EditTextSettings"
+                            android:hint="@string/current_password"
+                            android:inputType="textPassword"
+                            android:onTextChanged="@{viewModel::onTextChangedCurrentPassword}"
+                            android:text="@{viewModel.textCurrentPassword}"
+                            android:textColor="@{ (int)viewModel.titleColorCurrentPassword}" />
+
+                    </android.support.design.widget.TextInputLayout>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/rl_newPassword"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
                     android:background="@android:color/white"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="horizontal"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp">
 
-                    <TextView
-                        style="@style/SettingsTextPasswordStyle"
-                        android:text="@string/new_password" />
+                    <ImageView
+                        android:id="@+id/iv_cancel_password"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:layout_margin="10dp"
+                        android:onClick="@{viewModel::onClickClearFieldImage}"
+                        android:src="@drawable/ic_cancel"
+                        android:visibility="@{(int)viewModel.visibilityClearPasswordImage}" />
 
-                </LinearLayout>
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@+id/iv_cancel_password"
+                        android:orientation="horizontal"
+                        android:theme="@style/TextLabelSettings">
+
+                        <EditText
+                            android:id="@+id/et_new_password"
+                            style="@style/EditTextSettings"
+                            android:hint="@string/new_password"
+                            android:inputType="textPassword"
+                            android:onTextChanged="@{viewModel::onTextChangedNewPassword}"
+                            android:text="@{viewModel.password}"
+                            android:textColor="@{ (int)viewModel.titleColorPassword}" />
+
+                    </android.support.design.widget.TextInputLayout>
+                </RelativeLayout>
+
 
                 <TextView
                     style="@style/SettingsTextTitleStyle"
                     android:text="@string/facebook" />
 
                 <RelativeLayout
+                    android:id="@+id/rl_facebook"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="1dp"
-                    android:background="@android:color/white"
-                    android:id="@+id/rl_facebook">
+                    android:background="@android:color/white">
 
                     <ImageView
                         android:id="@+id/imageView3"
@@ -189,14 +277,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:singleLine="true"
+                        android:layout_toLeftOf="@+id/tv_status_connect"
+                        android:layout_toRightOf="@+id/imageView3"
                         android:ellipsize="end"
+                        android:singleLine="true"
                         android:text="Bob Jack"
-                        android:textStyle="bold"
                         android:textColor="@color/fb_color_default"
                         android:textSize="@dimen/font_size_17"
-                        android:layout_toLeftOf="@+id/tv_status_connect"
-                        android:layout_toRightOf="@+id/imageView3" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tv_status_connect"
@@ -210,33 +298,33 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:background="@android:color/white"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white">
 
                     <Switch
-                       style="@style/SwitchGreenStyle"
-                        android:checked="true"
+                        android:id="@+id/switch1"
+                        style="@style/SwitchGreenStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/switch1"
-                        android:padding="@dimen/font_size_10"
-                        android:layout_centerInParent="false"
-                        android:layout_centerHorizontal="false"
                         android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true" />
+                        android:layout_centerHorizontal="false"
+                        android:layout_centerInParent="false"
+                        android:layout_centerVertical="true"
+                        android:checked="true"
+                        android:padding="@dimen/font_size_10" />
 
                     <TextView
-                        android:text="@string/visible_on_profile"
+                        android:id="@+id/textView9"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/textView9"
-                        android:textColor="@color/dark_gray_text"
-                        android:padding="@dimen/font_size_10"
-                        android:textSize="@dimen/font_size_17"
                         android:layout_alignBaseline="@+id/switch1"
                         android:layout_alignBottom="@+id/switch1"
-                        android:layout_alignParentLeft="true" />
+                        android:layout_alignParentLeft="true"
+                        android:padding="@dimen/font_size_10"
+                        android:text="@string/visible_on_profile"
+                        android:textColor="@color/dark_gray_text"
+                        android:textSize="@dimen/font_size_17" />
                 </RelativeLayout>
 
                 <TextView
@@ -244,11 +332,11 @@
                     android:text="@string/twitter" />
 
                 <RelativeLayout
+                    android:id="@+id/rl_twitter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="1dp"
-                    android:background="@android:color/white"
-                    android:id="@+id/rl_twitter">
+                    android:background="@android:color/white">
 
                     <ImageView
                         android:id="@+id/imageView4"
@@ -262,31 +350,31 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="@string/connect_twitter_account"
-                        android:textStyle="bold"
-                        android:singleLine="true"
+                        android:layout_toRightOf="@+id/imageView4"
                         android:ellipsize="end"
+                        android:singleLine="true"
+                        android:text="@string/connect_twitter_account"
                         android:textColor="@color/twitter_color_default"
                         android:textSize="@dimen/font_size_17"
-                        android:layout_toRightOf="@+id/imageView4" />
+                        android:textStyle="bold" />
                 </RelativeLayout>
 
-                <TextView
-                    style="@style/SettingsTextTitleStyle" />
+                <TextView style="@style/SettingsTextTitleStyle" />
 
                 <LinearLayout
                     android:id="@+id/ll_logout"
-                    android:layout_marginBottom="40dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginBottom="40dp"
                     android:background="@android:color/white"
                     android:orientation="vertical">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
-                        android:layout_marginTop="@dimen/font_size_10"
                         android:layout_marginLeft="@dimen/font_size_10"
+                        android:layout_marginTop="@dimen/font_size_10"
                         android:text="@string/logout"
                         android:textColor="@color/dark_gray_text"
                         android:textSize="@dimen/font_size_18" />
@@ -294,11 +382,10 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/font_size_10"
                         android:layout_marginBottom="@dimen/font_size_10"
+                        android:layout_marginLeft="@dimen/font_size_10"
                         android:text="Signed in as Bob Jack"
                         android:textColor="@color/gray" />
-
 
 
                 </LinearLayout>

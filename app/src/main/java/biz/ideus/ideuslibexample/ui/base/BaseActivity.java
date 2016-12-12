@@ -17,7 +17,6 @@ package biz.ideus.ideuslibexample.ui.base;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
-import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -110,16 +109,27 @@ implements IView {
                     "ViewDataBinding type as it is set to base Fragment");
         }
     }
-    public void addFragmentToBackStack(FragmentManager fm, @IdRes int containerId, Fragment fragment, String fragmentTag, Bundle args, boolean addToBackstack, String backstackTag) {
-        if(args != null) {
-            fragment.setArguments(args);}
-        FragmentTransaction ft = fm.beginTransaction().add(containerId, fragment, fragmentTag);
-        if(addToBackstack) {
-            ft.addToBackStack(backstackTag).commit();
-            fm.executePendingTransactions();
-        } else {
-            ft.commitNow();
+    public void addFragmentToBackStack(Fragment fragment, Bundle args, boolean addToBackstack, String backstackTag) {
+FragmentManager fragmentManager = getSupportFragmentManager();
+        if (!isAlreadyAddedFragment(fragmentManager, fragment.getClass().getSimpleName())) {
+            if (args != null) {
+                fragment.setArguments(args);
+            }
+            FragmentTransaction ft = fragmentManager.beginTransaction()
+                    .setCustomAnimations(biz.ideus.ideuslib.R.anim.slide_up, biz.ideus.ideuslib.R.anim.slide_down
+                            , biz.ideus.ideuslib.R.anim.slide_up, biz.ideus.ideuslib.R.anim.slide_down)
+                    .add(android.R.id.content, fragment, fragment.getClass().getSimpleName());
+            if (addToBackstack) {
+                ft.addToBackStack(backstackTag).commit();
+                fragmentManager.executePendingTransactions();
+            } else {
+                ft.commit();
+            }
         }
+    }
+
+    private boolean isAlreadyAddedFragment(FragmentManager fragmentManager, String fragmentTag){
+        return fragmentManager.popBackStackImmediate(fragmentTag , 0) && fragmentManager.findFragmentByTag(fragmentTag) == null;
     }
 
     @Override

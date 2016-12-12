@@ -9,7 +9,7 @@
             <variable
                 name="viewModel"
 
-                type="biz.ideus.ideuslibexample.ui.start_screen.view_models.TermsOfServiceVM" />
+                type="biz.ideus.ideuslibexample.ui.start_screen.fragments.terms_of_service_fragment.TermsOfServiceVM" />
     </data>
 
     <LinearLayout

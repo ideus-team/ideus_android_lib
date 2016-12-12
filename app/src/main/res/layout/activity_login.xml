@@ -9,7 +9,7 @@
         <variable
             name="viewModel"
 
-            type="biz.ideus.ideuslibexample.ui.start_screen.view_models.StartActivityVM" />
+            type="biz.ideus.ideuslibexample.ui.start_screen.activity.StartActivityVM" />
     </data>
 
     <RelativeLayout
@@ -54,8 +54,8 @@
                         android:id="@+id/imageViewCircle"
                         android:layout_width="120dp"
                         android:layout_height="120dp"
-                        android:onClick="@{viewModel.onTestClick}"
                         android:layout_centerInParent="true"
+                        android:onClick="@{viewModel::onTestClick}"
                         android:src="@drawable/logo_temp_app" />
 
                 </RelativeLayout>
@@ -91,8 +91,8 @@
                             android:id="@+id/btn_login_fb"
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
-                            android:layout_marginRight="5dp"
                             android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
                             android:layout_weight="1"
                             android:background="@drawable/facebook_btn_selector"
                             android:onClick="@{viewModel::onFaceBookClick}"
@@ -116,8 +116,8 @@
                             android:id="@+id/btn_login_google_plus"
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
-                            android:layout_marginRight="5dp"
                             android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
                             android:layout_weight="1"
                             android:background="@drawable/google_btn_selector"
                             android:onClick="@{viewModel::onGoogleClick}"
@@ -142,15 +142,15 @@
                             android:id="@+id/ll_login_with_email"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="10dp"
                             android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
                             android:background="@drawable/login_with_email_btn_default"
                             android:clickable="true"
                             android:gravity="center"
                             android:orientation="horizontal"
                             android:paddingBottom="5dp"
-                            android:paddingRight="20dp"
                             android:paddingLeft="20dp"
+                            android:paddingRight="20dp"
                             android:paddingTop="5dp">
 
                             <TextView

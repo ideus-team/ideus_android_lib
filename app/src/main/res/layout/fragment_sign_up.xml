@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="biz.ideus.ideuslibexample.ui.start_screen.view_models.SignUpFragmentVM" />
+            type="biz.ideus.ideuslibexample.ui.start_screen.fragments.sign_up_fragment.SignUpFragmentVM" />
     </data>
 
     <RelativeLayout

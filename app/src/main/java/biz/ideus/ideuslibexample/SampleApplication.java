@@ -5,6 +5,9 @@ import android.content.res.Resources;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 
@@ -23,7 +26,8 @@ import io.requery.sql.Configuration;
 public class SampleApplication extends Application {
 
     private Configuration configuration;
-
+   public static DisplayImageOptions ImageLoaderDefaultDisplayOptions;
+public static Application mApplication;
     protected void setupFonts() {
         DLibTypefaceAdapter.addFontDefinition("normal", "fonts/MuseoSansCyrl.otf");
     }
@@ -36,7 +40,7 @@ public class SampleApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        mApplication = this;
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -49,9 +53,22 @@ public class SampleApplication extends Application {
                 .build();
         setupFaceBookSDK();
         setupTwitterSDK();
+        setupUniversalImageLoaderConfig();
        // if(BuildConfig.DEBUG) { Timber.plant(new Timber.DebugTree()); }
 
 
+    }
+
+    private void setupUniversalImageLoaderConfig(){
+        ImageLoaderDefaultDisplayOptions = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .build();
+
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
+                .defaultDisplayImageOptions(ImageLoaderDefaultDisplayOptions)
+                .build();
+        ImageLoader.getInstance().init(config);
     }
 
     public static SampleApplication getInstance() { return sInstance; }

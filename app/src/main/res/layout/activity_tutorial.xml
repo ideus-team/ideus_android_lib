@@ -8,7 +8,7 @@
         <variable
             name="viewModel"
 
-            type="biz.ideus.ideuslibexample.ui.tutorial_screen.view_models.TutorialActivityVM" />
+            type="biz.ideus.ideuslibexample.ui.tutorial_screen.activity.TutorialActivityVM" />
     </data>
 
 

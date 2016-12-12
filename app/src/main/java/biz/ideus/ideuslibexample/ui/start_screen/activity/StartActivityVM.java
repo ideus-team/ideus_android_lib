@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.ui.start_screen.view_models;
+package biz.ideus.ideuslibexample.ui.start_screen.activity;
 
 import android.content.Intent;
 import android.databinding.ObservableField;
@@ -18,16 +18,14 @@ import biz.ideus.ideuslibexample.interfaces.BaseMvvmInterface;
 import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
-import biz.ideus.ideuslibexample.ui.start_screen.activity.StartActivity;
-import biz.ideus.ideuslibexample.ui.start_screen.fragments.ForgotPasswordFragment;
-import biz.ideus.ideuslibexample.ui.start_screen.fragments.SignUpFragment;
-import biz.ideus.ideuslibexample.utils.Constants;
+import biz.ideus.ideuslibexample.ui.start_screen.fragments.forgot_password_fragment.ForgotPasswordFragment;
+import biz.ideus.ideuslibexample.ui.start_screen.fragments.sign_up_fragment.SignUpFragment;
 
 /**
  * Created by user on 28.11.2016.
  */
 
-public class StartActivityVM extends AutorisationVM implements BaseMvvmInterface.StartActivityVmListener, OnValidateField {
+public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterface.StartActivityVmListener, OnValidateField {
     private boolean isValidEmail = false;
     private boolean isValidPassword = false;
 
@@ -47,12 +45,10 @@ public class StartActivityVM extends AutorisationVM implements BaseMvvmInterface
     @Override
     public void onBindView(@NonNull StartView view) {
         super.onBindView(view);
-//        if(isShowingDialog)
-//            showAttentionDialog((StartActivity) view.getViewModelBindingConfig().getContext(), context.getString(R.string.invalidate_login_text));
     }
 
-    public void onTestClick(View view){
-        RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.EDIT_TEXT_DIALOG);
+    public void onTestClick(View view) {
+       // RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.EDIT_TEXT_DIALOG);
     }
 
     private boolean isValidData(View view) {
@@ -93,10 +89,9 @@ public class StartActivityVM extends AutorisationVM implements BaseMvvmInterface
 
     @Override
     public void onSignUpClick(View view) {
+
         ((BaseActivity) context)
-                .addFragmentToBackStack(((BaseActivity) context).getSupportFragmentManager()
-                        , android.R.id.content, new SignUpFragment()
-                        , Constants.SIGN_UP_FRAGMENT, null, true, null);
+                .addFragmentToBackStack(new SignUpFragment(), null, true, null);
     }
 
     @Override
@@ -107,9 +102,7 @@ public class StartActivityVM extends AutorisationVM implements BaseMvvmInterface
     @Override
     public void onForgotPasswordClick(View view) {
         ((BaseActivity) context)
-                .addFragmentToBackStack(((BaseActivity)context).getSupportFragmentManager()
-                        , android.R.id.content, new ForgotPasswordFragment()
-                        , Constants.FORGOT_PASSWORD_FRAGMENT, null, true, null);
+                .addFragmentToBackStack(new ForgotPasswordFragment(), null, true, null);
     }
 
     @Override
@@ -132,12 +125,12 @@ public class StartActivityVM extends AutorisationVM implements BaseMvvmInterface
     }
 
     @Override
-    public void setVisibilityImageEmail(int visibility) {
+    public void setVisibilityImageDeleteEmail(int visibility) {
         visibilityClearEmailImage.set(visibility);
     }
 
     @Override
-    public void setVisibilityImagePassword(int visibility) {
+    public void setVisibilityImageDeletePassword(int visibility) {
         visibilityClearPasswordImage.set(visibility);
     }
 

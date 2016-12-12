@@ -12,56 +12,25 @@
             type="biz.ideus.ideuslibexample.ui.main_screen.fragments.home_fragment.HomeFragmentVM" />
     </data>
 
-    <io.codetail.widget.RevealLinearLayout
+    <RelativeLayout
     android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-    <RelativeLayout
-        android:id="@+id/toolbar_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
         <include
             layout="@layout/toolbar"
             bind:viewModel="@{viewModel}">
         </include>
 
+
         <include
             android:id="@+id/item_search"
             layout="@layout/item_search"
-            app:visibility="@{viewModel.visibilitySearch}"
-            app:isFocus="@{viewModel.isSearchFieldFocus}"
+            app:visibilitySearch="@{viewModel.visibilitySearch}"
+            app:isFocus="@{viewModel.isFocus}"
             bind:viewModel="@{viewModel}">
         </include>
-    </RelativeLayout>
 
-    <io.codetail.widget.RevealLinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:visibility="visible"
-        android:padding="30dp"
-        android:id="@+id/text"
-        android:elevation="16dp"
-        android:textSize="25sp"
-        android:background="@android:color/holo_purple"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    </io.codetail.widget.RevealLinearLayout>
-
-    <TextView
-        android:padding="30dp"
-        android:id="@+id/btn"
-        android:text="btn"
-        android:textSize="25sp"
-        android:background="@android:color/holo_purple"
-        android:gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
     <android.support.v7.widget.RecyclerView
         android:background="@color/white"
@@ -70,6 +39,5 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:scrollbars="vertical" />
-
-    </io.codetail.widget.RevealLinearLayout>
+    </RelativeLayout>
 </layout>

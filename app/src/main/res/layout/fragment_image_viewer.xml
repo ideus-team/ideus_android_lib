@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data></data>
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="biz.ideus.ideuslibexample.ui.main_screen.fragments.image_viewer_fragment.ImageViewerVM" />
+    </data>
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
@@ -14,13 +20,22 @@
         <android.support.v4.view.ViewPager
             android:id="@+id/pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/ll_counter_image"></android.support.v4.view.ViewPager>
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:onClick="@{viewModel.hideImageViewer}"
+            android:src="@drawable/ic_left_arrow" />
+
 
         <LinearLayout
             android:id="@+id/ll_counter_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_back"
             android:layout_margin="10dp"
             android:orientation="horizontal">
 
@@ -28,19 +43,11 @@
                 android:id="@+id/tv_current_count_images"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:text="4"
+                android:text="@{viewModel.counterImageText}"
                 android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/white"
                 android:textSize="17dp" />
 
-            <TextView
-                android:id="@+id/tv_count_images"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:text="/6"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textSize="17dp" />
         </LinearLayout>
     </RelativeLayout>
 </layout>

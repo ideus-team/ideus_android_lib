@@ -14,14 +14,12 @@ package biz.ideus.ideuslibexample.ui.base;
  * See the License for the specific language governing permissions and
  * limitations under the License. */
 
-import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -100,6 +98,7 @@ public abstract class BaseFragment<T extends IView, R extends AbstractViewModel<
         super.onDestroy();
         mFragmentComponent = null;
     }
+
 }
 
 //

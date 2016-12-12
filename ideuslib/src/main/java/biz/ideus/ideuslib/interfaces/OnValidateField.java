@@ -5,9 +5,9 @@ package biz.ideus.ideuslib.interfaces;
  */
 
 public interface OnValidateField  {
-    void setVisibilityImageEmail(int visibility);
+    void setVisibilityImageDeleteEmail(int visibility);
 
-    void setVisibilityImagePassword(int visibility);
+    void setVisibilityImageDeletePassword(int visibility);
 
     void setTitleColorEmail(int color);
 

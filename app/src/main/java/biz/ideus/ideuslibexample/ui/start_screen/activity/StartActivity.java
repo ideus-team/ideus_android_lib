@@ -30,10 +30,9 @@ import biz.ideus.ideuslibexample.databinding.ActivityLoginBinding;
 import biz.ideus.ideuslibexample.rx_buses.RxBusActionDialogBtn;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
-import biz.ideus.ideuslibexample.ui.start_screen.view_models.StartActivityVM;
 import rx.Subscription;
 
-import static biz.ideus.ideuslibexample.ui.start_screen.view_models.AutorisationVM.GOOGLE_SIGN_IN;
+import static biz.ideus.ideuslibexample.ui.start_screen.activity.BaseValidationVM.GOOGLE_SIGN_IN;
 
 
 /**

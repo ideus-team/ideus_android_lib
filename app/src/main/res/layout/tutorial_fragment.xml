@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="biz.ideus.ideuslibexample.ui.tutorial_screen.view_models.TutorialFragmentVM" />
+            type="biz.ideus.ideuslibexample.ui.tutorial_screen.fragments.tutorial_fragments.TutorialFragmentVM" />
     </data>
     <ScrollView
         android:id="@+id/scrollView"
@@ -64,14 +64,13 @@
                     android:textSize="20sp" />
 
                 <TextView
-                    android:id="@+id/tv_about"
+                    android:id="@+id/tv_about_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/font_size_20"
-                    android:layout_marginStart="@dimen/font_size_20"
+                    android:layout_marginRight="@dimen/font_size_20"
+                    android:layout_marginLeft="@dimen/font_size_20"
                     android:layout_marginTop="20dp"
                     android:gravity="center"
-                    android:text=""
                     android:textColor="@color/light_gray" />
 
             </LinearLayout>

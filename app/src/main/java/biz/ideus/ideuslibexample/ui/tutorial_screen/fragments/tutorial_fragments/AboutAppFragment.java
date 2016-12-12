@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.ui.tutorial_screen.fragments;
+package biz.ideus.ideuslibexample.ui.tutorial_screen.fragments.tutorial_fragments;
 
 import android.graphics.drawable.Drawable;
 
@@ -10,17 +10,17 @@ import biz.ideus.ideuslibexample.R;
 
 public class AboutAppFragment extends BaseTutorialFragment {
     @Override
-    public String setTitle() {
+    public String getTitle() {
         return getString(R.string.tutorial_title_welcome);
     }
 
     @Override
-    public String setAbout() {
+    public String getAbout() {
         return getString(R.string.about_welcome);
     }
 
     @Override
-    public Drawable setImage() {
+    public Drawable getImage() {
         return getResources().getDrawable(R.drawable.logo_circle);
     }
 }

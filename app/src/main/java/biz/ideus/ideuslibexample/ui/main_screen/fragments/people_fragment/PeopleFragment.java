@@ -15,9 +15,7 @@ import biz.ideus.ideuslibexample.ui.start_screen.StartView;
  * Created by blackmamba on 25.11.16.
  */
 
-public class PeopleFragment extends BaseFragment<StartView, PeopleFragmentVM, FragmentPeopleBinding>
-
-        implements StartView {
+public class PeopleFragment extends BaseFragment<StartView, PeopleFragmentVM, FragmentPeopleBinding> implements StartView {
 
 
     @Override
