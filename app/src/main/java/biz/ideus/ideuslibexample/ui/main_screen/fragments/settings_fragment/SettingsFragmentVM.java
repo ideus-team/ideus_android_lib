@@ -86,39 +86,45 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
                 break;
         }
     }
+    public void onMainLayoutClick(View view){
 
-    public EditText.OnFocusChangeListener getFocusListener() {
+    }
+
+    public EditText.OnFocusChangeListener getEditTextFocusListener() {
         return (view, hasFocus) -> {
             if (view.isFocused()) {
                 settingsFieldTag = ((SettingsFieldTag) view.getTag());
                 showingChangeFieldLayout();
-            } else {
-                hiddingChangeLayout();
             }
         };
     }
 
-    public EditText.OnFocusChangeListener getMainFocusListener() {
+    public EditText.OnFocusChangeListener getMainLayoutFocusListener() {
         return (view, hasFocus) -> {
             if (hasFocus) {
-                ((BaseActivity) context).hideKeyboard(view);
+                ((BaseActivity) context).hideKeyboard();
+                visibilityChangeInfoLayout.set(View.GONE);
             }
         };
-    }
-
-    public void onMainLayoutClick(View view) {
     }
 
 
     private void showingChangeFieldLayout() {
-        if (settingsFieldTag != SettingsFieldTag.CURRENT_PASSWORD) {
-            visibilityChangeInfoLayout.set(View.VISIBLE);
-            titleChangeBtn.set(context.getString(settingsFieldTag.nameField));
+        switch (getSettingsFieldTag()){
+            case CURRENT_PASSWORD:
+                visibilityChangeInfoLayout.set(View.GONE);
+                titleChangeBtn.set(context.getString(settingsFieldTag.nameField));
+                break;
+            default:
+                visibilityChangeInfoLayout.set(View.VISIBLE);
+                titleChangeBtn.set(context.getString(settingsFieldTag.nameField));
+                break;
         }
     }
 
     public void onClickCancelChangeInfo(View view) {
         hiddingChangeLayout();
+        ((BaseActivity) context).hideKeyboard();
     }
 
     private void hiddingChangeLayout() {
@@ -163,17 +169,7 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
     public void onTextChangedCurrentPassword(CharSequence text, int start, int before, int count) {
         textCurrentPassword.set(text);
         visibilityClearImageCurrentPassword.set(getVisibility(text.toString()));
-//        Observable.just(text.toString())
-//                .debounce(500, TimeUnit.MILLISECONDS)
-//                .doOnNext(currentText -> {
-//                    visibilityClearImageCurrentPassword.set(getVisibility(currentText));
-//                })
-////                .flatMap(currentText -> Observable.just(UtilsValidationETFields.validatePassword(currentText, MIN_COUNT_CHARACTER_PASSWORD)))
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(aBoolean -> {
-//                    isValidCurrentPassword = aBoolean;
-//                    titleColorCurrentPassword.set(getColor(aBoolean, context));
-//                });
+
     }
 
     @Override

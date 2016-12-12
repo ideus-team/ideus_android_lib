@@ -36,7 +36,7 @@
                 android:focusableInTouchMode="true"
                 android:onClick="@{viewModel.onMainLayoutClick}"
                 android:orientation="vertical"
-                app:onFocusChangeListener="@{viewModel.getMainFocusListener}">
+                app:onFocusChangeListener="@{viewModel.getMainLayoutFocusListener}">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -100,12 +100,13 @@
 
                     <ImageView
                         android:id="@+id/iv_cancel_name"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerInParent="true"
                         android:layout_margin="10dp"
                         android:onClick="@{viewModel::onClickClearFieldImage}"
+                        android:padding="5dp"
                         android:src="@drawable/ic_cancel"
                         android:visibility="@{(int)viewModel.visibilityClearNameImage}" />
 
@@ -126,7 +127,7 @@
                             android:tag="@{SettingsFieldTag.NAME}"
                             android:text="@{viewModel.name}"
                             android:textColor="@{ (int)viewModel.titleColorName}"
-                            app:onFocusChangeListener="@{viewModel.getFocusListener}" />
+                            app:onFocusChangeListener="@{viewModel.getEditTextFocusListener}" />
 
                     </android.support.design.widget.TextInputLayout>
                 </RelativeLayout>
@@ -145,12 +146,13 @@
 
                     <ImageView
                         android:id="@+id/iv_cancel_email"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerInParent="true"
                         android:layout_margin="10dp"
                         android:onClick="@{viewModel::onClickClearFieldImage}"
+                        android:padding="5dp"
                         android:src="@drawable/ic_cancel"
                         android:visibility="@{(int)viewModel.visibilityClearEmailImage}" />
 
@@ -171,7 +173,7 @@
                             android:tag="@{SettingsFieldTag.EMAIL}"
                             android:text="@{viewModel.email}"
                             android:textColor="@{ (int)viewModel.titleColorEmail}"
-                            app:onFocusChangeListener="@{viewModel.getFocusListener}"
+                            app:onFocusChangeListener="@{viewModel.getEditTextFocusListener}"
 
                             />
 
@@ -196,12 +198,13 @@
 
                     <ImageView
                         android:id="@+id/iv_cancel_current_password"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerInParent="true"
                         android:layout_margin="10dp"
                         android:onClick="@{viewModel::onClickClearFieldImage}"
+                        android:padding="5dp"
                         android:src="@drawable/ic_cancel"
                         android:visibility="@{(int)viewModel.visibilityClearImageCurrentPassword}" />
 
@@ -221,7 +224,7 @@
                             android:tag="@{SettingsFieldTag.CURRENT_PASSWORD}"
                             android:text="@{viewModel.textCurrentPassword}"
                             android:textColor="@{ (int)viewModel.titleColorCurrentPassword}"
-                            app:onFocusChangeListener="@{viewModel.getFocusListener}" />
+                            app:onFocusChangeListener="@{viewModel.getEditTextFocusListener}" />
 
                     </android.support.design.widget.TextInputLayout>
                 </RelativeLayout>
@@ -239,12 +242,13 @@
 
                     <ImageView
                         android:id="@+id/iv_cancel_password"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerInParent="true"
                         android:layout_margin="10dp"
                         android:onClick="@{viewModel::onClickClearFieldImage}"
+                        android:padding="5dp"
                         android:src="@drawable/ic_cancel"
                         android:visibility="@{(int)viewModel.visibilityClearPasswordImage}" />
 
@@ -264,7 +268,7 @@
                             android:tag="@{SettingsFieldTag.NEW_PASSWORD}"
                             android:text="@{viewModel.password}"
                             android:textColor="@{ (int)viewModel.titleColorPassword}"
-                            app:onFocusChangeListener="@{viewModel.getFocusListener}" />
+                            app:onFocusChangeListener="@{viewModel.getEditTextFocusListener}" />
 
                     </android.support.design.widget.TextInputLayout>
                 </RelativeLayout>
@@ -411,44 +415,55 @@
         </ScrollView>
 
         <LinearLayout
-            android:id="@+id/ll_change_user_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@android:color/white"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:visibility="@{(int)viewModel.visibilityChangeInfoLayout}">
 
-            <TextView
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:onClick="@{viewModel.onClickCancelChangeInfo}"
-                android:padding="@dimen/font_size_10"
-                android:text="@string/cancel"
-                android:textColor="@drawable/text_color_settings_change_selector"
-                android:textSize="@dimen/font_size_16" />
-
-            <TextView
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_height="1dp"
                 android:background="@color/light_gray" />
 
-            <TextView
+            <LinearLayout
+                android:id="@+id/ll_change_user_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:onClick="@{viewModel.onClickChangeInfo}"
-                android:padding="@dimen/font_size_10"
-                android:text="@{viewModel.titleChangeBtn}"
-                android:textColor="@drawable/text_color_settings_change_selector"
-                android:textSize="@dimen/font_size_16" />
+                android:background="@android:color/white"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:onClick="@{viewModel.onClickCancelChangeInfo}"
+                    android:padding="@dimen/font_size_10"
+                    android:text="@string/cancel"
+                    android:textColor="@drawable/text_color_settings_change_selector"
+                    android:textSize="@dimen/font_size_16" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/light_gray" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:onClick="@{viewModel.onClickChangeInfo}"
+                    android:padding="@dimen/font_size_10"
+                    android:text="@{viewModel.titleChangeBtn}"
+                    android:textColor="@drawable/text_color_settings_change_selector"
+                    android:textSize="@dimen/font_size_16" />
 
 
+            </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
 </layout>
