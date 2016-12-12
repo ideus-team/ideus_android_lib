@@ -98,6 +98,15 @@ implements IView {
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
+    public void hideKeyboard(View view) {
+        {
+            InputMethodManager imm = (InputMethodManager)this.getSystemService(this.INPUT_METHOD_SERVICE);
+            if(imm != null) {
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
+        }
+    }
+
 
     @SuppressWarnings("unused")
     @NotNull

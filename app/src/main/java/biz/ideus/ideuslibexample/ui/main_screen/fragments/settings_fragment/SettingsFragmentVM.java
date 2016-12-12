@@ -7,10 +7,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 
 import biz.ideus.ideuslib.interfaces.OnValidateSignUpScreen;
 import biz.ideus.ideuslibexample.R;
+import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.ui.start_screen.activity.BaseValidationVM;
 
@@ -24,11 +27,17 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
     private boolean isValidEmail = false;
     private boolean isValidCurrentPassword = false;
     private boolean isValidNewPassword = false;
+    private SettingsFieldTag settingsFieldTag;
+    public SettingsFieldTag getSettingsFieldTag() {
+        return settingsFieldTag;
+    }
 
 
     public final ObservableField<CharSequence> textCurrentPassword = new ObservableField<>();
     public final ObservableField<Integer> visibilityClearImageCurrentPassword = new ObservableField<>();
     public final ObservableField<Integer> titleColorCurrentPassword = new ObservableField<>();
+    public final ObservableField<Integer> visibilityChangeInfoLayout = new ObservableField<>();
+    public final ObservableField<String> titleChangeBtn = new ObservableField<>();
 
     @Override
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
@@ -38,9 +47,11 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
         visibilityClearPasswordImage.set(View.GONE);
         visibilityClearNameImage.set(View.GONE);
         visibilityClearImageCurrentPassword.set(View.GONE);
+        visibilityChangeInfoLayout.set(View.GONE);
 
         setOnValidateField(this);
     }
+
 
     @Override
     public void onBindView(@NonNull StartView view) {
@@ -72,6 +83,65 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
                 break;
             case R.id.iv_cancel_name:
                 name.set(Editable.Factory.getInstance().newEditable(""));
+                break;
+        }
+    }
+
+    public EditText.OnFocusChangeListener getFocusListener() {
+        return (view, hasFocus) -> {
+            if (view.isFocused()) {
+                settingsFieldTag = ((SettingsFieldTag) view.getTag());
+                showingChangeFieldLayout();
+            } else {
+                hiddingChangeLayout();
+            }
+        };
+    }
+
+    public EditText.OnFocusChangeListener getMainFocusListener() {
+        return (view, hasFocus) -> {
+            if (hasFocus) {
+                ((BaseActivity) context).hideKeyboard(view);
+            }
+        };
+    }
+
+    public void onMainLayoutClick(View view) {
+    }
+
+
+    private void showingChangeFieldLayout() {
+        if (settingsFieldTag != SettingsFieldTag.CURRENT_PASSWORD) {
+            visibilityChangeInfoLayout.set(View.VISIBLE);
+            titleChangeBtn.set(context.getString(settingsFieldTag.nameField));
+        }
+    }
+
+    public void onClickCancelChangeInfo(View view) {
+        hiddingChangeLayout();
+    }
+
+    private void hiddingChangeLayout() {
+        visibilityChangeInfoLayout.set(View.GONE);
+    }
+
+    public void onClickChangeInfo(View view) {
+        switch (getSettingsFieldTag()) {
+            case NAME:
+                visibilityChangeInfoLayout.set(View.GONE);
+                Log.d("change", context.getString(settingsFieldTag.nameField));
+                break;
+            case EMAIL:
+                visibilityChangeInfoLayout.set(View.GONE);
+                Log.d("change", context.getString(settingsFieldTag.nameField));
+                break;
+//            case CURRENT_PASSWORD:
+//                visibilityChangeInfoLayout.set(View.GONE);
+//                Log.d("change", context.getString(settingsFieldTag.nameField));
+//                break;
+            case NEW_PASSWORD:
+                visibilityChangeInfoLayout.set(View.GONE);
+                Log.d("change", context.getString(settingsFieldTag.nameField));
                 break;
         }
     }

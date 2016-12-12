@@ -1,8 +1,10 @@
 package biz.ideus.ideuslibexample.ui.main_screen.fragments.settings_fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import biz.ideus.ideuslib.mvvm_lifecycle.binding.ViewModelBindingConfig;
 import biz.ideus.ideuslibexample.BR;
@@ -19,11 +21,13 @@ public class SettingsFragment extends BaseFragment<StartView, SettingsFragmentVM
         implements StartView {
 
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fragmentComponent().inject(this);
+        InputMethodManager imm = (InputMethodManager)
+                getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow( getActivity().getWindow().getDecorView().getWindowToken(), 0);
     }
 
     @Override
