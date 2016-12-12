@@ -13,6 +13,9 @@ import android.widget.CheckBox;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import biz.ideus.ideuslib.interfaces.OnValidateField;
+import biz.ideus.ideuslibexample.SampleApplication;
+import biz.ideus.ideuslibexample.data.model.request.LoginModel;
+import biz.ideus.ideuslibexample.data.remote.NetApi;
 import biz.ideus.ideuslibexample.dialogs.DialogModel;
 import biz.ideus.ideuslibexample.interfaces.BaseMvvmInterface;
 import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
@@ -30,6 +33,10 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
     private boolean isValidPassword = false;
 
     public final ObservableField<Drawable> headerImage = new ObservableField<>();
+
+
+    private final NetApi netApi = SampleApplication.getAppComponent().netApi();
+
 
     @Override
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
@@ -49,6 +56,8 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
 
     public void onTestClick(View view) {
        // RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.EDIT_TEXT_DIALOG);
+        LoginModel loginModel = new LoginModel(email.get().toString(), password.get().toString());
+        netApi.login(loginModel).subscribe();
     }
 
     private boolean isValidData(View view) {
