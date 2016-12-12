@@ -25,7 +25,6 @@ import biz.ideus.ideuslib.mvvm_lifecycle.binding.ViewModelBindingConfig;
 import biz.ideus.ideuslibexample.BR;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.data.local.RequeryApi;
-import biz.ideus.ideuslibexample.data.remote.NetApi;
 import biz.ideus.ideuslibexample.databinding.ActivityLoginBinding;
 import biz.ideus.ideuslibexample.rx_buses.RxBusActionDialogBtn;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
@@ -63,8 +62,7 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
     @Inject
     RequeryApi requeryApi;
 
-    @Inject
-    NetApi netApi;
+
     
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -18,4 +18,5 @@ public class Constants {
     public static final int PEOPLE_TAB_POSITION = 1;
     public static final int SETTINGS_TAB_POSITION = 2;
 
+
 }

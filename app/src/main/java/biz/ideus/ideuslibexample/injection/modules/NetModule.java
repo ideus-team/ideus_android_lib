@@ -2,7 +2,6 @@ package biz.ideus.ideuslibexample.injection.modules;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import okhttp3.logging.HttpLoggingInterceptor;
 
 import biz.ideus.ideuslibexample.BuildConfig;
 import biz.ideus.ideuslibexample.data.remote.NetApi;
@@ -10,6 +9,8 @@ import biz.ideus.ideuslibexample.injection.scopes.PerApplication;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -30,6 +31,10 @@ import rx.schedulers.Schedulers;
  * limitations under the License. */
 @Module
 public class NetModule {
+
+    public static final String URL = "http://46.101.254.89/";
+    public static final String API_VERSION = "api/v1/";
+    //http://46.101.254.89/api/v1/user/login
 
     @Provides
     @PerApplication
@@ -62,11 +67,21 @@ public class NetModule {
             httpClientBuilder.addInterceptor(loggingInterceptor);
         }
 
+        OkHttpClient defaultHttpClient = httpClientBuilder.addInterceptor(
+                chain -> {
+                    Request request = chain.request().newBuilder()
+                            .addHeader("Content-Type", "application/x-www-form-urlencoded").build();
+                    return chain.proceed(request);
+                }).build();
+
+
+
+
         return new Retrofit.Builder()
-                .baseUrl("https://restcountries.eu/")
+                .baseUrl(URL + API_VERSION)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(Schedulers.io()))
-                .callFactory(httpClientBuilder.build())
+                .callFactory(defaultHttpClient)
                 .build().create(NetApi.class);
     }
 }

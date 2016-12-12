@@ -1,6 +1,9 @@
 package biz.ideus.ideuslibexample.data.remote;
 
 
+import biz.ideus.ideuslibexample.data.model.request.LoginModel;
+import biz.ideus.ideuslibexample.data.model.response.LoginAnswer;
+import retrofit2.http.Body;
 import retrofit2.http.POST;
 import rx.Observable;
 
@@ -18,8 +21,6 @@ import rx.Observable;
  * See the License for the specific language governing permissions and
  * limitations under the License. */
 public interface NetApi {
-    @POST("list/getSpecializations")
-    Observable<String> getSpecializations();
-//@GET("rest/v1/all")
-//Observable<List<Country>> getAllCountries();
+    @POST("user/login")
+    Observable<LoginAnswer> login(@Body LoginModel loginModel);
 }
