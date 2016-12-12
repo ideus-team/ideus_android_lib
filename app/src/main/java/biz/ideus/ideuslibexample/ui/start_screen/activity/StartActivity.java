@@ -14,6 +14,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.squareup.leakcanary.RefWatcher;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 import com.twitter.sdk.android.core.identity.TwitterAuthClient;
@@ -24,6 +25,7 @@ import biz.ideus.ideuslib.Utils.Utils;
 import biz.ideus.ideuslib.mvvm_lifecycle.binding.ViewModelBindingConfig;
 import biz.ideus.ideuslibexample.BR;
 import biz.ideus.ideuslibexample.R;
+import biz.ideus.ideuslibexample.SampleApplication;
 import biz.ideus.ideuslibexample.data.local.RequeryApi;
 import biz.ideus.ideuslibexample.databinding.ActivityLoginBinding;
 import biz.ideus.ideuslibexample.rx_buses.RxBusActionDialogBtn;
@@ -165,6 +167,7 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
         super.onDestroy();
         if (RxBusActionDialogBtnSubscription != null && !RxBusActionDialogBtnSubscription.isUnsubscribed())
             RxBusActionDialogBtnSubscription.unsubscribe();
+
     }
 
     @Nullable

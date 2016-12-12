@@ -24,6 +24,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.squareup.leakcanary.RefWatcher;
+
 import org.jetbrains.annotations.NotNull;
 
 import biz.ideus.ideuslib.mvvm_lifecycle.AbstractViewModel;
@@ -138,6 +140,9 @@ FragmentManager fragmentManager = getSupportFragmentManager();
         super.onDestroy();
         if (rxBusShowDialogSubscription != null && !rxBusShowDialogSubscription.isUnsubscribed())
             rxBusShowDialogSubscription.unsubscribe();
+
+        RefWatcher refWatcher = SampleApplication.getRefWatcher(this);
+        refWatcher.watch(this);
 //        if(viewModel != null) { viewModel.onDestroy(); }
 //        binding = null;
 //        viewModel = null;

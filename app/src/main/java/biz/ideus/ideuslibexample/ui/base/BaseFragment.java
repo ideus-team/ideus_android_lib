@@ -21,6 +21,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.squareup.leakcanary.RefWatcher;
+
 import org.jetbrains.annotations.NotNull;
 
 import biz.ideus.ideuslib.mvvm_lifecycle.AbstractViewModel;
@@ -97,6 +99,8 @@ public abstract class BaseFragment<T extends IView, R extends AbstractViewModel<
     public void onDestroy() {
         super.onDestroy();
         mFragmentComponent = null;
+        RefWatcher refWatcher = SampleApplication.getRefWatcher(getActivity());
+        refWatcher.watch(this);
     }
 
 }
