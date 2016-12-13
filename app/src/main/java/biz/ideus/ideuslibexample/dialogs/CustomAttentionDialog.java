@@ -6,12 +6,15 @@ import android.databinding.ObservableField;
 import android.databinding.ViewDataBinding;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+
+import com.race604.drawable.wave.WaveDrawable;
 
 import biz.ideus.ideuslibexample.BR;
 import biz.ideus.ideuslibexample.R;
@@ -24,6 +27,7 @@ import static biz.ideus.ideuslibexample.dialogs.DialogModel.EDIT_TEXT_DIALOG;
  */
 
 public class CustomAttentionDialog extends DialogFragment {
+    public Drawable mWaveDrawable = new WaveDrawable(this.getActivity().getResources().getDrawable(R.drawable.logo_circle));
     private ViewDataBinding binding;
     public static String LAYOUT_KEY = "layout";
     public static String DIALOG_MODEL_KEY = "DialogModel";
@@ -85,17 +89,22 @@ public class CustomAttentionDialog extends DialogFragment {
     }
 
     private void setDialogParameters() {
+        title.set(getString(getDialogModel().resDialogName));
+
         if (!getDialogModel().equals(EDIT_TEXT_DIALOG)) {
-            title.set(getString(getDialogModel().resDialogName));
             colorTitle.set(getDialogModel().colorTitle);
             visibilityAttentionIcon.set(getDialogModel().visibilityIcon);
             aboutDialogTitle.set(getString(getDialogModel().resAboutDialogText));
             btnName.set(getString(getDialogModel().resBtnName));
-        } else {
-            title.set(getString(getDialogModel().resDialogName));
         }
 
+
     }
+
+//    @BindingAdapter("android:src")
+//    public static void setImageDrawable(ImageView view, Drawable drawable) {
+//        view.setImageDrawable(drawable);
+//    }
 
 
     public void onClick(View view) {
