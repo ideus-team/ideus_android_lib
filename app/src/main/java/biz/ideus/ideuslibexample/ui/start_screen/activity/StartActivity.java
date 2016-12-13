@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.facebook.CallbackManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -32,6 +31,7 @@ import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import rx.Subscription;
 
 import static biz.ideus.ideuslibexample.ui.start_screen.SocialsLogin.GOOGLE_SIGN_IN;
+import static biz.ideus.ideuslibexample.ui.start_screen.SocialsLogin.faceBookCallbackManager;
 
 
 /**
@@ -41,14 +41,14 @@ import static biz.ideus.ideuslibexample.ui.start_screen.SocialsLogin.GOOGLE_SIGN
 public class StartActivity extends BaseActivity<StartView, StartActivityVM, ActivityLoginBinding>
         implements StartView, GoogleApiClient.OnConnectionFailedListener {
 
-    private CallbackManager faceBookCallbackManager;
     private TwitterAuthClient twitterAuthClient;
     private GoogleSignInOptions googleSignInOptions;
     private GoogleApiClient googleApiClient;
     protected Subscription RxBusActionEditDialogBtnSubscription;
+    private GoogleAutorisationListener googleAutorisationListener;
 
-    public CallbackManager getFaceBookCallbackManager() {
-        return faceBookCallbackManager;
+    public void setGoogleAutorisationListener(GoogleAutorisationListener googleAutorisationListener) {
+        this.googleAutorisationListener = googleAutorisationListener;
     }
 
     public TwitterAuthClient getTwitterAuthClient() {
@@ -63,14 +63,12 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
     RequeryApi requeryApi;
 
 
-    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         activityComponent().inject(this);
         setModelView(this);
-        faceBookCallbackManager = CallbackManager.Factory.create();
         createGoogleSignInOptions();
         createGoogleApiClient();
         twitterAuthClient = new TwitterAuthClient();
@@ -80,7 +78,6 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
     private void createGoogleSignInOptions() {
         googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.google_web_client_id))
-                .requestEmail()
                 .requestEmail()
                 .build();
 
@@ -97,7 +94,7 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
     public Subscription startRxBusActionEditDialogBtnSubscription() {
         return RxBusActionEditDialogBtn.instanceOf().getEvents()
                 .subscribe(dialogCommand -> {
-                    switch (dialogCommand.getDialogCommandModel()){
+                    switch (dialogCommand.getDialogCommandModel()) {
                         case COPY_TEXT:
                             Log.d("dialogCommand", "COPY_TEXT:");
                             break;
@@ -114,7 +111,6 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
                 });
     }
 
-
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
@@ -124,7 +120,8 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
         Log.d("googleSignIn", "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
             GoogleSignInAccount acct = result.getSignInAccount();
-            Log.d("googleSignIn", "handleSignInResult:" + acct.getIdToken());
+            if (googleAutorisationListener != null)
+                googleAutorisationListener.getGoogleToken(acct.getIdToken());
         }
     }
 
@@ -177,5 +174,9 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
     @Override
     public ViewModelBindingConfig getViewModelBindingConfig() {
         return new ViewModelBindingConfig(R.layout.activity_login, BR.viewModel, this);
+    }
+
+    public interface GoogleAutorisationListener {
+        void getGoogleToken(String googleAuthToken);
     }
 }

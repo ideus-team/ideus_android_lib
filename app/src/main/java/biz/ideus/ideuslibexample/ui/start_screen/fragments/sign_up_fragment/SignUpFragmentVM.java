@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 
@@ -24,11 +25,11 @@ import biz.ideus.ideuslibexample.ui.tutorial_screen.activity.TutorialActivity;
  * Created by blackmamba on 16.11.16.
  */
 
-public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSignUpScreen {
+public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSignUpScreen, SocialsLogin.TokenListener, StartActivity.GoogleAutorisationListener {
     private boolean isValidName = false;
     private boolean isValidEmail = false;
     private boolean isValidPassword = false;
-    private SocialsLogin socialsLogin = new SocialsLogin();
+    private SocialsLogin socialsLogin = new SocialsLogin(this);
 
 
     @Override
@@ -41,11 +42,15 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
         isPasswordShow.set(true);
         setOnValidateField(this);
 
+
     }
 
     @Override
     public void onBindView(@NonNull StartView view) {
         super.onBindView(view);
+        ((StartActivity)context).setGoogleAutorisationListener(this);
+
+
     }
 
     public void onClickClearFieldImage(View view) {
@@ -175,5 +180,20 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
     @Override
     public boolean isLeftBtnVisible() {
         return true;
+    }
+
+    @Override
+    public void getTwitterToken(String twitterAuthToken) {
+
+    }
+
+    @Override
+    public void getFacebookToken(String facebookAuthToken) {
+
+    }
+
+    @Override
+    public void getGoogleToken(String googleAuthToken) {
+        Log.d("googleSignIn", "handleSignInResult:" + googleAuthToken);
     }
 }
