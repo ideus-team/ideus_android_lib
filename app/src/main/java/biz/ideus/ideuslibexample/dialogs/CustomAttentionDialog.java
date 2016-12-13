@@ -15,7 +15,7 @@ import android.view.Window;
 
 import biz.ideus.ideuslibexample.BR;
 import biz.ideus.ideuslibexample.R;
-import biz.ideus.ideuslibexample.rx_buses.RxBusActionDialogBtn;
+import biz.ideus.ideuslibexample.rx_buses.RxBusActionEditDialogBtn;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 
 import static biz.ideus.ideuslibexample.dialogs.DialogModel.EDIT_TEXT_DIALOG;
@@ -103,7 +103,7 @@ public class CustomAttentionDialog extends DialogFragment {
     public void onClick(View view) {
         DialogCommandModel dialogCommandModel = (DialogCommandModel) view.getTag();
         if (dialogCommandModel != null) {
-            RxBusActionDialogBtn.instanceOf().setDialogCommand(new DialogCommand(dialogCommandModel, null));
+            RxBusActionEditDialogBtn.instanceOf().setDialogCommand(new DialogCommand(dialogCommandModel, null));
             dismiss();
         } else {
             dismiss();

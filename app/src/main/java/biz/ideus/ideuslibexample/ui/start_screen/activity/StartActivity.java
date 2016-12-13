@@ -26,7 +26,7 @@ import biz.ideus.ideuslibexample.BR;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.data.local.RequeryApi;
 import biz.ideus.ideuslibexample.databinding.ActivityLoginBinding;
-import biz.ideus.ideuslibexample.rx_buses.RxBusActionDialogBtn;
+import biz.ideus.ideuslibexample.rx_buses.RxBusActionEditDialogBtn;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import rx.Subscription;
@@ -45,7 +45,7 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
     private TwitterAuthClient twitterAuthClient;
     private GoogleSignInOptions googleSignInOptions;
     private GoogleApiClient googleApiClient;
-    protected Subscription RxBusActionDialogBtnSubscription;
+    protected Subscription RxBusActionEditDialogBtnSubscription;
 
     public CallbackManager getFaceBookCallbackManager() {
         return faceBookCallbackManager;
@@ -74,7 +74,7 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
         createGoogleSignInOptions();
         createGoogleApiClient();
         twitterAuthClient = new TwitterAuthClient();
-        RxBusActionDialogBtnSubscription = startRxBusActionDialogBtnSubscription();
+        RxBusActionEditDialogBtnSubscription = startRxBusActionEditDialogBtnSubscription();
 
     }
 
@@ -93,8 +93,8 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
                 .build();
     }
 
-    public Subscription startRxBusActionDialogBtnSubscription() {
-        return RxBusActionDialogBtn.instanceOf().getEvents()
+    public Subscription startRxBusActionEditDialogBtnSubscription() {
+        return RxBusActionEditDialogBtn.instanceOf().getEvents()
                 .subscribe(dialogCommand -> {
                     switch (dialogCommand.getDialogCommandModel()){
                         case COPY_TEXT:
@@ -163,8 +163,8 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (RxBusActionDialogBtnSubscription != null && !RxBusActionDialogBtnSubscription.isUnsubscribed())
-            RxBusActionDialogBtnSubscription.unsubscribe();
+        if (RxBusActionEditDialogBtnSubscription != null && !RxBusActionEditDialogBtnSubscription.isUnsubscribed())
+            RxBusActionEditDialogBtnSubscription.unsubscribe();
     }
 
     @Nullable
