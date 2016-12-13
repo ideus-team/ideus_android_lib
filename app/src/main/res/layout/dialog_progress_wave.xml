@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/tools">
 
     <data>
         <import type="android.view.View" />
@@ -18,11 +19,11 @@
 
             <ImageView
                 android:id="@+id/iv_wave"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_centerInParent="true"
-                android:scaleType="center"
-                android:src="@{customVM.mWaveDrawable}" />
+                android:scaleType="centerCrop"
+                bind:waveImage="@{customVM.mWaveDrawable}" />
         </RelativeLayout>
 
 </layout>

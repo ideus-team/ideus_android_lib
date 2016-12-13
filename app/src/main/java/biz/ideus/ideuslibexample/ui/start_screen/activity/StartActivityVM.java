@@ -56,7 +56,7 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
 
     @DebugLog
     public void onTestClick(View view) {
-        //RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.PROGRESS_WAVE);
+        RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.PROGRESS_WAVE);
 
 //        LoginModel loginModel = new LoginModel(email.get().toString(), password.get().toString());
 //        netApi.login(loginModel).subscribe(new Subscriber<LoginAnswer>() {

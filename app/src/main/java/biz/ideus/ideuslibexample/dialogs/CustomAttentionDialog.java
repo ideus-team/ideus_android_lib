@@ -1,6 +1,8 @@
 package biz.ideus.ideuslibexample.dialogs;
 
 import android.app.DialogFragment;
+import android.app.FragmentManager;
+import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableField;
 import android.databinding.ViewDataBinding;
@@ -13,12 +15,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ImageView;
 
 import com.race604.drawable.wave.WaveDrawable;
 
 import biz.ideus.ideuslibexample.BR;
 import biz.ideus.ideuslibexample.R;
+import biz.ideus.ideuslibexample.SampleApplication;
 import biz.ideus.ideuslibexample.rx_buses.RxBusActionEditDialogBtn;
+import hugo.weaving.DebugLog;
 
 import static biz.ideus.ideuslibexample.dialogs.DialogModel.EDIT_TEXT_DIALOG;
 
@@ -27,7 +32,8 @@ import static biz.ideus.ideuslibexample.dialogs.DialogModel.EDIT_TEXT_DIALOG;
  */
 
 public class CustomAttentionDialog extends DialogFragment{
-    public Drawable mWaveDrawable = new WaveDrawable(this.getActivity().getResources().getDrawable(R.drawable.logo_circle));
+    //public WaveDrawable mWaveDrawable = new WaveDrawable(SampleApplication.getInstance().getApplicationContext().getResources().getDrawable(R.drawable.logo_circle));
+    public WaveDrawable mWaveDrawable = new WaveDrawable(SampleApplication.getInstance().getApplicationContext(), R.drawable.earth);
     private ViewDataBinding binding;
     public static String LAYOUT_KEY = "layout";
     public static String DIALOG_MODEL_KEY = "DialogModel";
@@ -77,7 +83,17 @@ public class CustomAttentionDialog extends DialogFragment{
         binding = DataBindingUtil.inflate(inflater, layout, container, true);
         binding.setVariable(BR.customVM, this);
         setDialogParameters();
+
+
         return binding.getRoot();
+    }
+
+
+    @Override
+    public void show(FragmentManager manager, String tag) {
+        super.show(manager, tag);
+
+
     }
 
     @Override
@@ -100,10 +116,17 @@ public class CustomAttentionDialog extends DialogFragment{
 
     }
 
-//    @BindingAdapter("android:src")
-//    public static void setImageDrawable(ImageView view, Drawable drawable) {
-//        view.setImageDrawable(drawable);
-//    }
+    @BindingAdapter("bind:waveImage")
+    @DebugLog
+    public static void waveImage(ImageView view, Drawable drawable) {
+        view.setImageDrawable(drawable);
+        ((WaveDrawable)drawable).setWaveAmplitude(100);
+        ((WaveDrawable)drawable).setWaveLength(270);
+        ((WaveDrawable)drawable).setWaveSpeed(8);
+        ((WaveDrawable)drawable).setLevel(5000);
+        ((WaveDrawable)drawable).invalidateSelf();
+        drawable.invalidateSelf();
+    }
 
 
     public void onClick(View view) {
