@@ -46,7 +46,7 @@ public class CustomAttentionDialog extends DialogFragment{
 
     private Object dialogIntent;
     private DialogModel dialogModel;
-
+     private static CustomDialog customDialog;
     public DialogModel getDialogModel() {
         return dialogModel;
     }
@@ -57,12 +57,12 @@ public class CustomAttentionDialog extends DialogFragment{
     public final ObservableField<Integer> colorTitle = new ObservableField<>();
     public final ObservableField<Integer> visibilityAttentionIcon = new ObservableField<>();
 
-    public static CustomAttentionDialog instance(DialogModel dialogModel, @Nullable Object dialogIntent) {
-        CustomAttentionDialog customAttentionDialog = new CustomAttentionDialog();
-        customAttentionDialog.layout = dialogModel.layoutId;
-        customAttentionDialog.dialogIntent = dialogIntent;
-        customAttentionDialog.dialogModel = dialogModel;
-        return customAttentionDialog;
+    public static CustomDialog instance(DialogModel dialogModel, @Nullable Object dialogIntent) {
+        customDialog = new CustomDialog();
+        customDialog.layout = dialogModel.layoutId;
+        customDialog.dialogIntent = dialogIntent;
+        customDialog.dialogModel = dialogModel;
+        return customDialog;
     }
 
 
@@ -83,17 +83,7 @@ public class CustomAttentionDialog extends DialogFragment{
         binding = DataBindingUtil.inflate(inflater, layout, container, true);
         binding.setVariable(BR.customVM, this);
         setDialogParameters();
-
-
         return binding.getRoot();
-    }
-
-
-    @Override
-    public void show(FragmentManager manager, String tag) {
-        super.show(manager, tag);
-
-
     }
 
     @Override
@@ -104,13 +94,19 @@ public class CustomAttentionDialog extends DialogFragment{
     }
 
     private void setDialogParameters() {
-        title.set(getString(getDialogModel().resDialogName));
-
-        if (!getDialogModel().equals(EDIT_TEXT_DIALOG)) {
-            colorTitle.set(getDialogModel().colorTitle);
-            visibilityAttentionIcon.set(getDialogModel().visibilityIcon);
-            aboutDialogTitle.set(getString(getDialogModel().resAboutDialogText));
-            btnName.set(getString(getDialogModel().resBtnName));
+        switch (getDialogModel()){
+            case EDIT_TEXT_DIALOG:
+                title.set(getString(getDialogModel().resDialogName));
+                break;
+            case SHOW_LOADING_DIALOG:
+                customDialog.setCancelable(false);
+                break;
+            default:
+                title.set(getString(getDialogModel().resDialogName));
+                colorTitle.set(getDialogModel().colorTitle);
+                visibilityAttentionIcon.set(getDialogModel().visibilityIcon);
+                aboutDialogTitle.set(getString(getDialogModel().resAboutDialogText));
+                btnName.set(getString(getDialogModel().resBtnName));
         }
 
 

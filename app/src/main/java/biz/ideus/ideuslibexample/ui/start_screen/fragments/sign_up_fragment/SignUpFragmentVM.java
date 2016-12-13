@@ -13,6 +13,7 @@ import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.dialogs.DialogModel;
 import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
+import biz.ideus.ideuslibexample.ui.start_screen.SocialsLogin;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.ui.start_screen.activity.BaseValidationVM;
 import biz.ideus.ideuslibexample.ui.start_screen.activity.StartActivity;
@@ -27,6 +28,7 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
     private boolean isValidName = false;
     private boolean isValidEmail = false;
     private boolean isValidPassword = false;
+    private SocialsLogin socialsLogin = new SocialsLogin();
 
 
     @Override
@@ -82,15 +84,15 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
     }
 
     public void onClickGooglePlus(View view) {
-        signInWithGooglePlus((StartActivity) context);
+        socialsLogin.signInWithGooglePlus((StartActivity) context);
     }
 
     public void onClickTwitterLogin(View view) {
-        onClickTwitterLogin((StartActivity) context);
+        socialsLogin.onClickTwitterLogin((StartActivity) context);
     }
 
     public void onClickFaceBookLogin(View view) {
-        onClickFaceBookLogin((StartActivity) context);
+        socialsLogin.onClickFaceBookLogin((StartActivity) context);
     }
 
     public void onClickTermsAndPolicy(View view) {
