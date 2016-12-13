@@ -1,6 +1,7 @@
 package biz.ideus.ideuslibexample;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.res.Resources;
 
 import com.facebook.FacebookSdk;
@@ -8,6 +9,8 @@ import com.facebook.appevents.AppEventsLogger;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 
@@ -25,9 +28,10 @@ import io.requery.sql.Configuration;
 
 public class SampleApplication extends Application {
 
+    private RefWatcher refWatcher;
     private Configuration configuration;
-   public static DisplayImageOptions ImageLoaderDefaultDisplayOptions;
-public static Application mApplication;
+    public static DisplayImageOptions ImageLoaderDefaultDisplayOptions;
+    public static Application mApplication;
     protected void setupFonts() {
         DLibTypefaceAdapter.addFontDefinition("normal", "fonts/MuseoSansCyrl.otf");
     }
@@ -40,6 +44,7 @@ public static Application mApplication;
     @Override
     public void onCreate() {
         super.onCreate();
+        refWatcher = LeakCanary.install(this);
         mApplication = this;
         try {
             Thread.sleep(1000);
@@ -90,7 +95,11 @@ public static Application mApplication;
         TwitterAuthConfig authConfig = new TwitterAuthConfig(Constants.TWITTER_APP_KEY, Constants.TWITTER_SECRET_KEY);
        // Fabric.with(this, new Twitter(authConfig));
         Fabric.with(this, new Twitter(authConfig));
+    }
 
+    public static RefWatcher getRefWatcher(Context context) {
+        SampleApplication application = (SampleApplication) context.getApplicationContext();
+        return application.refWatcher;
     }
 
 }

@@ -16,7 +16,6 @@ import android.view.Window;
 import biz.ideus.ideuslibexample.BR;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.rx_buses.RxBusActionDialogBtn;
-import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 
 import static biz.ideus.ideuslibexample.dialogs.DialogModel.EDIT_TEXT_DIALOG;
 
@@ -25,7 +24,6 @@ import static biz.ideus.ideuslibexample.dialogs.DialogModel.EDIT_TEXT_DIALOG;
  */
 
 public class CustomAttentionDialog extends DialogFragment {
-    protected BaseActivity activity;
     private ViewDataBinding binding;
     public static String LAYOUT_KEY = "layout";
     public static String DIALOG_MODEL_KEY = "DialogModel";
