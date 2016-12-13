@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.View;
 
 import com.facebook.CallbackManager;
 import com.google.android.gms.auth.api.Auth;
@@ -28,14 +27,11 @@ import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.data.local.RequeryApi;
 import biz.ideus.ideuslibexample.databinding.ActivityLoginBinding;
 import biz.ideus.ideuslibexample.rx_buses.RxBusActionEditDialogBtn;
-import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import rx.Subscription;
 
-import static biz.ideus.ideuslibexample.dialogs.DialogModel.HIDE_LOADING_DIALOG;
-import static biz.ideus.ideuslibexample.dialogs.DialogModel.SHOW_LOADING_DIALOG;
-import static biz.ideus.ideuslibexample.ui.start_screen.activity.BaseValidationVM.GOOGLE_SIGN_IN;
+import static biz.ideus.ideuslibexample.ui.start_screen.SocialsLogin.GOOGLE_SIGN_IN;
 
 
 /**
@@ -79,19 +75,6 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
         createGoogleApiClient();
         twitterAuthClient = new TwitterAuthClient();
         RxBusActionEditDialogBtnSubscription = startRxBusActionEditDialogBtnSubscription();
-        binding.button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                RxBusShowDialog.instanceOf().setRxBusShowDialog(SHOW_LOADING_DIALOG);
-            }
-        });
-        binding.button3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                RxBusShowDialog.instanceOf().setRxBusShowDialog(HIDE_LOADING_DIALOG);
-            }
-        });
-
     }
 
     private void createGoogleSignInOptions() {
@@ -139,9 +122,7 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
         Log.d("googleSignIn", "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
             GoogleSignInAccount acct = result.getSignInAccount();
-            Log.d("googleSignIn", "handleSignInResult:" + acct.getDisplayName());
-        } else {
-
+            Log.d("googleSignIn", "handleSignInResult:" +acct.getIdToken());
         }
     }
 

@@ -21,7 +21,7 @@ import biz.ideus.ideuslibexample.rx_buses.RxBusActionEditDialogBtn;
  * Created by blackmamba on 18.11.16.
  */
 
-public class CustomAttentionDialog extends DialogFragment{
+public class CustomDialog extends DialogFragment{
     private ViewDataBinding binding;
     public static String LAYOUT_KEY = "layout";
     public static String DIALOG_MODEL_KEY = "DialogModel";
@@ -34,7 +34,7 @@ public class CustomAttentionDialog extends DialogFragment{
 
     private Object dialogIntent;
     private DialogModel dialogModel;
-
+     private static CustomDialog customDialog;
     public DialogModel getDialogModel() {
         return dialogModel;
     }
@@ -45,12 +45,12 @@ public class CustomAttentionDialog extends DialogFragment{
     public final ObservableField<Integer> colorTitle = new ObservableField<>();
     public final ObservableField<Integer> visibilityAttentionIcon = new ObservableField<>();
 
-    public static CustomAttentionDialog instance(DialogModel dialogModel, @Nullable Object dialogIntent) {
-        CustomAttentionDialog customAttentionDialog = new CustomAttentionDialog();
-        customAttentionDialog.layout = dialogModel.layoutId;
-        customAttentionDialog.dialogIntent = dialogIntent;
-        customAttentionDialog.dialogModel = dialogModel;
-        return customAttentionDialog;
+    public static CustomDialog instance(DialogModel dialogModel, @Nullable Object dialogIntent) {
+        customDialog = new CustomDialog();
+        customDialog.layout = dialogModel.layoutId;
+        customDialog.dialogIntent = dialogIntent;
+        customDialog.dialogModel = dialogModel;
+        return customDialog;
     }
 
 
@@ -82,16 +82,21 @@ public class CustomAttentionDialog extends DialogFragment{
     }
 
     private void setDialogParameters() {
-        if (!getDialogModel().equals(DialogModel.EDIT_TEXT_DIALOG)) {
-            title.set(getString(getDialogModel().resDialogName));
-            colorTitle.set(getDialogModel().colorTitle);
-            visibilityAttentionIcon.set(getDialogModel().visibilityIcon);
-            aboutDialogTitle.set(getString(getDialogModel().resAboutDialogText));
-            btnName.set(getString(getDialogModel().resBtnName));
-        } else {
-            title.set(getString(getDialogModel().resDialogName));
+        switch (getDialogModel()){
+            case EDIT_TEXT_DIALOG:
+                title.set(getString(getDialogModel().resDialogName));
+                break;
+            case SHOW_LOADING_DIALOG:
+                customDialog.setCancelable(false);
+                break;
+            default:
+                title.set(getString(getDialogModel().resDialogName));
+                colorTitle.set(getDialogModel().colorTitle);
+                visibilityAttentionIcon.set(getDialogModel().visibilityIcon);
+                aboutDialogTitle.set(getString(getDialogModel().resAboutDialogText));
+                btnName.set(getString(getDialogModel().resBtnName));
+                break;
         }
-
     }
 
 

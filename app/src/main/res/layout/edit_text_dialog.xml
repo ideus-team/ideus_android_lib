@@ -7,7 +7,7 @@
 
         <variable
             name="customVM"
-            type="biz.ideus.ideuslibexample.dialogs.CustomAttentionDialog" />
+            type="biz.ideus.ideuslibexample.dialogs.CustomDialog" />
     </data>
 
     <LinearLayout

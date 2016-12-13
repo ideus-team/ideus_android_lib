@@ -21,6 +21,7 @@ import biz.ideus.ideuslibexample.dialogs.DialogModel;
 import biz.ideus.ideuslibexample.interfaces.BaseMvvmInterface;
 import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
+import biz.ideus.ideuslibexample.ui.start_screen.SocialsLogin;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.forgot_password_fragment.ForgotPasswordFragment;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.sign_up_fragment.SignUpFragment;
@@ -33,7 +34,7 @@ import rx.Subscriber;
 public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterface.StartActivityVmListener, OnValidateField {
     private boolean isValidEmail = false;
     private boolean isValidPassword = false;
-
+    private SocialsLogin socialsLogin = new SocialsLogin();
     public final ObservableField<Drawable> headerImage = new ObservableField<>();
 
 
@@ -95,17 +96,18 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
 
     @Override
     public void onFaceBookClick(View view) {
-        onClickFaceBookLogin((StartActivity) context);
+        socialsLogin.onClickFaceBookLogin((StartActivity) context);
     }
 
     @Override
     public void onTwitterClick(View view) {
-        onClickTwitterLogin((StartActivity) context);
+        socialsLogin.onClickTwitterLogin((StartActivity) context);
     }
 
     @Override
     public void onGoogleClick(View view) {
-        signInWithGooglePlus((StartActivity) context);
+        socialsLogin.signInWithGooglePlus((StartActivity) context);
+
     }
 
     @Override

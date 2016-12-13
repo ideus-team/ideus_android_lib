@@ -1,7 +1,6 @@
 package biz.ideus.ideuslibexample.ui.start_screen.activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,17 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
-import com.google.android.gms.auth.api.Auth;
-import com.twitter.sdk.android.core.Callback;
-import com.twitter.sdk.android.core.Result;
-import com.twitter.sdk.android.core.TwitterException;
-import com.twitter.sdk.android.core.TwitterSession;
-
-import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 import biz.ideus.ideuslib.Utils.UtilsValidationETFields;
@@ -37,7 +25,6 @@ import rx.android.schedulers.AndroidSchedulers;
 
 public abstract class BaseValidationVM extends AbstractViewModelToolbar<StartView> {
     protected Context context;
-    public static final int GOOGLE_SIGN_IN = 2222;
     public static final int MIN_COUNT_CHARACTER_NAME = 3;
     public static final int MIN_COUNT_CHARACTER_PASSWORD = 6;
     private OnValidateField onValidateField;
@@ -155,53 +142,6 @@ public abstract class BaseValidationVM extends AbstractViewModelToolbar<StartVie
         titleAutorisationScreen.set(title);
         aboutTitleAutorisationScreen.set(aboutTitle);
         visibilityLoadingPage.set(visibility);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-    }
-
-    protected void signInWithGooglePlus(StartActivity activity) {
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(activity.getGoogleApiClient());
-        activity.startActivityForResult(signInIntent, GOOGLE_SIGN_IN);
-    }
-
-    protected void onClickTwitterLogin(StartActivity activity) {
-        activity.getTwitterAuthClient().authorize(activity, new Callback<TwitterSession>() {
-            @Override
-            public void success(Result<TwitterSession> twitterSessionResult) {
-                System.out.println("TwitterSession  " + twitterSessionResult.data.getUserName());
-            }
-
-            @Override
-            public void failure(TwitterException e) {
-                System.out.println("TwitterSession   failure");
-            }
-        });
-
-    }
-
-    protected void onClickFaceBookLogin(StartActivity activity) {
-        LoginManager.getInstance().logInWithReadPermissions(activity, Arrays.asList("public_profile", "email"));
-        LoginManager.getInstance().registerCallback(activity.getFaceBookCallbackManager(),
-                new FacebookCallback<LoginResult>() {
-                    @Override
-                    public void onSuccess(LoginResult loginResult) {
-                        System.out.println("facebook  " + loginResult.getAccessToken().getToken());
-                    }
-
-                    @Override
-                    public void onCancel() {
-                        // App code
-                    }
-
-                    @Override
-                    public void onError(FacebookException exception) {
-                        // App code
-                    }
-                });
     }
 
 }

@@ -75,6 +75,8 @@
     <string name="set_current_password">Set Password </string>
     <string name="your_email">Your Email </string>
     <string name="your_password">Your Password </string>
+    <string name="no_internet_connection">No internet connection! </string>
+    <string name="retry">Retry </string>
 
 
 

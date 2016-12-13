@@ -1,24 +1,11 @@
 package biz.ideus.ideuslibexample.ui.base;
 
-/* Copyright 2016 Patrick Löwenstein
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License. */
-
 import android.app.DialogFragment;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -33,38 +20,25 @@ import biz.ideus.ideuslib.mvvm_lifecycle.AbstractViewModel;
 import biz.ideus.ideuslib.mvvm_lifecycle.IView;
 import biz.ideus.ideuslib.mvvm_lifecycle.base.ViewModelBaseActivity;
 import biz.ideus.ideuslibexample.SampleApplication;
-import biz.ideus.ideuslibexample.dialogs.CustomAttentionDialog;
-import biz.ideus.ideuslibexample.dialogs.LoadingDialog;
+import biz.ideus.ideuslibexample.dialogs.CustomDialog;
 import biz.ideus.ideuslibexample.injection.components.ActivityComponent;
 import biz.ideus.ideuslibexample.injection.components.DaggerActivityComponent;
 import biz.ideus.ideuslibexample.injection.modules.ActivityModule;
 import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import rx.Subscription;
 
-/* Base class for Activities when using a view model with data binding.
- * This class provides the binding and the view model to the subclass. The
- * view model is injected and the binding is created when the content view is set.
- * Each subclass therefore has to call the following code in onCreate():
- *    activityComponent().inject(this);
- *    setAndBindContentView(R.layout.my_activity_layout, savedInstanceState);
- *
- * After calling these methods, the binding and the view model is initialized.
- * saveInstanceState() and restoreInstanceState() methods of the view model
- * are automatically called in the appropriate lifecycle events when above calls
- * are made.
- *
- * Your subclass must implement the MvvmView implementation that you use in your
- * view model. */
+import static biz.ideus.ideuslibexample.dialogs.DialogModel.NO_INTERNET_CONNECTION;
+
 public abstract class BaseActivity<T extends IView, R extends AbstractViewModel<T>, B extends ViewDataBinding>
 extends ViewModelBaseActivity<T, R>
 implements IView {
     protected DialogFragment dialog;
+   private Snackbar snackbar;
     private ActivityComponent mActivityComponent;
     protected B binding;
-//    @Inject
+
     protected R viewModel;
     protected Subscription rxBusShowDialogSubscription;
-   // private ActivityComponent mActivityComponent;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,17 +68,28 @@ implements IView {
                         dialog.dismiss();
                     switch (dialogModel){
                         case SHOW_LOADING_DIALOG:
-                            dialog = LoadingDialog.instance(dialogModel);
+                            dialog = CustomDialog.instance(dialogModel, null);
                             dialog.show(getFragmentManager(), "Dialog");
                             break;
+                        case NO_INTERNET_CONNECTION:
+                            showNoInternetDialog(NO_INTERNET_CONNECTION.resDialogName);
+                            break;
                         default:
-                    dialog = CustomAttentionDialog.instance(dialogModel, null);
+                    dialog = CustomDialog.instance(dialogModel, null);
                             dialog.show(getFragmentManager(), "Dialog");
                             break;
                     }
                     RxBusShowDialog.instanceOf().setRxBusShowDialog(null);
 
                 });
+    }
+
+    private void showNoInternetDialog(int title){
+         snackbar = Snackbar
+                .make(binding.getRoot(), getString(title), Snackbar.LENGTH_LONG)
+                 .setActionTextColor(getResources().getColor(biz.ideus.ideuslibexample.R.color.color_main))
+                .setAction(getString(biz.ideus.ideuslibexample.R.string.retry), view -> snackbar.dismiss());
+        snackbar.show();
     }
 
 
