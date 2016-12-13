@@ -27,6 +27,8 @@ public class SocialsLogin {
     public void signInWithGooglePlus(StartActivity activity) {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(activity.getGoogleApiClient());
         activity.startActivityForResult(signInIntent, GOOGLE_SIGN_IN);
+
+
     }
 
     public void onClickTwitterLogin(StartActivity activity) {

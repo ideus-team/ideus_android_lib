@@ -79,6 +79,8 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
 
     private void createGoogleSignInOptions() {
         googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.google_web_client_id))
+                .requestEmail()
                 .requestEmail()
                 .build();
 
@@ -122,7 +124,7 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
         Log.d("googleSignIn", "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
             GoogleSignInAccount acct = result.getSignInAccount();
-            Log.d("googleSignIn", "handleSignInResult:" +acct.getIdToken());
+            Log.d("googleSignIn", "handleSignInResult:" + acct.getIdToken());
         }
     }
 

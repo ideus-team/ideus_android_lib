@@ -1,6 +1,7 @@
 <resources>
     <string name="faceBookAppID">1244074645651715</string>
     <string name="google_client_id">509396066324-muum3kceqo16d382ufa72usklbgm6js8.apps.googleusercontent.com</string>
+    <string name="google_web_client_id">509396066324-0463glkte4s01tf9g8ljh7j2gjnhbace.apps.googleusercontent.com</string>
 
     <string name="app_name">IdeusLibExample</string>
     <string name="invalid_email">Invalid email</string>
