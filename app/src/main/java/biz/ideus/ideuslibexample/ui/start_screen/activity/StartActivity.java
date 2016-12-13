@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.View;
 
 import com.facebook.CallbackManager;
 import com.google.android.gms.auth.api.Auth;
@@ -14,7 +15,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.squareup.leakcanary.RefWatcher;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 import com.twitter.sdk.android.core.identity.TwitterAuthClient;
@@ -25,14 +25,16 @@ import biz.ideus.ideuslib.Utils.Utils;
 import biz.ideus.ideuslib.mvvm_lifecycle.binding.ViewModelBindingConfig;
 import biz.ideus.ideuslibexample.BR;
 import biz.ideus.ideuslibexample.R;
-import biz.ideus.ideuslibexample.SampleApplication;
 import biz.ideus.ideuslibexample.data.local.RequeryApi;
 import biz.ideus.ideuslibexample.databinding.ActivityLoginBinding;
-import biz.ideus.ideuslibexample.rx_buses.RxBusActionDialogBtn;
+import biz.ideus.ideuslibexample.rx_buses.RxBusActionEditDialogBtn;
+import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import rx.Subscription;
 
+import static biz.ideus.ideuslibexample.dialogs.DialogModel.HIDE_LOADING_DIALOG;
+import static biz.ideus.ideuslibexample.dialogs.DialogModel.SHOW_LOADING_DIALOG;
 import static biz.ideus.ideuslibexample.ui.start_screen.activity.BaseValidationVM.GOOGLE_SIGN_IN;
 
 
@@ -47,7 +49,7 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
     private TwitterAuthClient twitterAuthClient;
     private GoogleSignInOptions googleSignInOptions;
     private GoogleApiClient googleApiClient;
-    protected Subscription RxBusActionDialogBtnSubscription;
+    protected Subscription RxBusActionEditDialogBtnSubscription;
 
     public CallbackManager getFaceBookCallbackManager() {
         return faceBookCallbackManager;
@@ -76,7 +78,19 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
         createGoogleSignInOptions();
         createGoogleApiClient();
         twitterAuthClient = new TwitterAuthClient();
-        RxBusActionDialogBtnSubscription = startRxBusActionDialogBtnSubscription();
+        RxBusActionEditDialogBtnSubscription = startRxBusActionEditDialogBtnSubscription();
+        binding.button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RxBusShowDialog.instanceOf().setRxBusShowDialog(SHOW_LOADING_DIALOG);
+            }
+        });
+        binding.button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RxBusShowDialog.instanceOf().setRxBusShowDialog(HIDE_LOADING_DIALOG);
+            }
+        });
 
     }
 
@@ -95,8 +109,8 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
                 .build();
     }
 
-    public Subscription startRxBusActionDialogBtnSubscription() {
-        return RxBusActionDialogBtn.instanceOf().getEvents()
+    public Subscription startRxBusActionEditDialogBtnSubscription() {
+        return RxBusActionEditDialogBtn.instanceOf().getEvents()
                 .subscribe(dialogCommand -> {
                     switch (dialogCommand.getDialogCommandModel()){
                         case COPY_TEXT:
@@ -165,8 +179,8 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (RxBusActionDialogBtnSubscription != null && !RxBusActionDialogBtnSubscription.isUnsubscribed())
-            RxBusActionDialogBtnSubscription.unsubscribe();
+        if (RxBusActionEditDialogBtnSubscription != null && !RxBusActionEditDialogBtnSubscription.isUnsubscribed())
+            RxBusActionEditDialogBtnSubscription.unsubscribe();
 
     }
 

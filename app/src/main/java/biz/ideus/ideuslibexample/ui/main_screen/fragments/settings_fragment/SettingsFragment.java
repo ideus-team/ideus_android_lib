@@ -19,7 +19,6 @@ public class SettingsFragment extends BaseFragment<StartView, SettingsFragmentVM
         implements StartView {
 
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

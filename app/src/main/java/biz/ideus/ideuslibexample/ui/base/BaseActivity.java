@@ -14,6 +14,7 @@ package biz.ideus.ideuslibexample.ui.base;
  * See the License for the specific language governing permissions and
  * limitations under the License. */
 
+import android.app.DialogFragment;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
@@ -33,6 +34,7 @@ import biz.ideus.ideuslib.mvvm_lifecycle.IView;
 import biz.ideus.ideuslib.mvvm_lifecycle.base.ViewModelBaseActivity;
 import biz.ideus.ideuslibexample.SampleApplication;
 import biz.ideus.ideuslibexample.dialogs.CustomAttentionDialog;
+import biz.ideus.ideuslibexample.dialogs.LoadingDialog;
 import biz.ideus.ideuslibexample.injection.components.ActivityComponent;
 import biz.ideus.ideuslibexample.injection.components.DaggerActivityComponent;
 import biz.ideus.ideuslibexample.injection.modules.ActivityModule;
@@ -56,6 +58,7 @@ import rx.Subscription;
 public abstract class BaseActivity<T extends IView, R extends AbstractViewModel<T>, B extends ViewDataBinding>
 extends ViewModelBaseActivity<T, R>
 implements IView {
+    protected DialogFragment dialog;
     private ActivityComponent mActivityComponent;
     protected B binding;
 //    @Inject
@@ -87,9 +90,23 @@ implements IView {
     public Subscription startRxBusShowDialogSubscription() {
         return RxBusShowDialog.instanceOf().getEvents().filter(s -> s != null)
                 .subscribe(dialogModel -> {
-                    CustomAttentionDialog.instance(dialogModel, null).show(this.getFragmentManager(), "Dialog");
+                    if(dialog != null)
+                        dialog.dismiss();
+                    switch (dialogModel){
+                        case SHOW_LOADING_DIALOG:
+                            dialog = LoadingDialog.instance(dialogModel);
+                            dialog.show(getFragmentManager(), "Dialog");
+                            break;
+                        default:
+                    dialog = CustomAttentionDialog.instance(dialogModel, null);
+                            dialog.show(getFragmentManager(), "Dialog");
+                            break;
+                    }
+                    RxBusShowDialog.instanceOf().setRxBusShowDialog(null);
+
                 });
     }
+
 
     public void hideKeyboard() {
         InputMethodManager imm = (InputMethodManager) this.getSystemService(this.INPUT_METHOD_SERVICE);

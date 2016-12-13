@@ -69,6 +69,13 @@
     <string name="edit">Edit </string>
     <string name="delete">Delete </string>
     <string name="cancel">Cancel </string>
+    <string name="change_name">Change Name </string>
+    <string name="change_email">Change Email </string>
+    <string name="change_password">Change Password </string>
+    <string name="set_current_password">Set Password </string>
+    <string name="your_email">Your Email </string>
+    <string name="your_password">Your Password </string>
+
 
 
     <string name="about_welcome">While most people enjoy casino gambling, sports betting, lottery and bingo playing for the fun and excitement it provides</string>

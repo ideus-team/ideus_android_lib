@@ -5,13 +5,6 @@ package biz.ideus.ideuslibexample.dialogs;
  */
 
 public enum DialogCommandModel {
-    COPY_TEXT,EDIT,DELETE,DETAILS
+    COPY_TEXT, EDIT, DELETE, DETAILS, HIDE_LOADING
 
-
-//    public static DialogModel getDialogModelByValue(int state){
-//        for(DialogModel dm : DialogModel.values()) {
-//            if (dm.resDialogName == state) return dm;
-//        }
-//        return null;
-//    }
 }

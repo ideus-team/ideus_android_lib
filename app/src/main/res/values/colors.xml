@@ -25,5 +25,6 @@
     <color name="color_main_light">#6797bb</color>
     <color name="midle_color_main_light">#5388a6</color>
     <color name="white">#ffffff</color>
+    <color name="half_transparent_grey">#79979797</color>
 
 </resources>

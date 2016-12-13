@@ -18,7 +18,7 @@ import com.race604.drawable.wave.WaveDrawable;
 
 import biz.ideus.ideuslibexample.BR;
 import biz.ideus.ideuslibexample.R;
-import biz.ideus.ideuslibexample.rx_buses.RxBusActionDialogBtn;
+import biz.ideus.ideuslibexample.rx_buses.RxBusActionEditDialogBtn;
 
 import static biz.ideus.ideuslibexample.dialogs.DialogModel.EDIT_TEXT_DIALOG;
 
@@ -26,7 +26,7 @@ import static biz.ideus.ideuslibexample.dialogs.DialogModel.EDIT_TEXT_DIALOG;
  * Created by blackmamba on 18.11.16.
  */
 
-public class CustomAttentionDialog extends DialogFragment {
+public class CustomAttentionDialog extends DialogFragment{
     public Drawable mWaveDrawable = new WaveDrawable(this.getActivity().getResources().getDrawable(R.drawable.logo_circle));
     private ViewDataBinding binding;
     public static String LAYOUT_KEY = "layout";
@@ -68,7 +68,6 @@ public class CustomAttentionDialog extends DialogFragment {
             layout = savedInstanceState.getInt(LAYOUT_KEY);
             dialogModel = (DialogModel) savedInstanceState.getSerializable(DIALOG_MODEL_KEY);
         }
-        setRetainInstance(false);
     }
 
     @Override
@@ -110,7 +109,7 @@ public class CustomAttentionDialog extends DialogFragment {
     public void onClick(View view) {
         DialogCommandModel dialogCommandModel = (DialogCommandModel) view.getTag();
         if (dialogCommandModel != null) {
-            RxBusActionDialogBtn.instanceOf().setDialogCommand(new DialogCommand(dialogCommandModel, null));
+            RxBusActionEditDialogBtn.instanceOf().setDialogCommand(new DialogCommand(dialogCommandModel, null));
             dismiss();
         } else {
             dismiss();
