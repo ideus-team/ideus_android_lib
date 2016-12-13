@@ -14,7 +14,8 @@ public enum DialogModel {
     LOGIN_ATTENTION(R.string.error,R.string.invalidate_login_text, R.layout.dialog_info, View.VISIBLE, Color.RED,R.string.try_again),
     SIGN_IN_ATTENTION(R.string.error,R.string.invalidate_sign_in_text,  R.layout.dialog_info, View.VISIBLE, Color.RED,R.string.try_again),
     CHANGE_PASSWORD_SUCCESS(R.string.password_reset,R.string.password_reset_title,  R.layout.dialog_info, View.GONE, Color.BLACK,R.string.ok),
-    EDIT_TEXT_DIALOG(R.string.message,0, R.layout.edit_text_dialog);
+    EDIT_TEXT_DIALOG(R.string.message,0, R.layout.edit_text_dialog),
+    SHOW_LOADING_DIALOG, HIDE_LOADING_DIALOG;
 
     public int resDialogName;
     public int resAboutDialogText;
@@ -23,6 +24,7 @@ public enum DialogModel {
     public int resBtnName;
     public int visibilityIcon;
 
+    DialogModel(){}
     DialogModel(int resDialogName, int resAboutDialogText, int layoutId,int visibilityIcon,int colorTitle,int resBtnName){
         this.resDialogName = resDialogName;
         this.resAboutDialogText = resAboutDialogText;

@@ -211,6 +211,14 @@
                                 android:onTextChanged="@{viewModel::onTextChangedEmail}"
                                 android:text="@{viewModel.email}"
                                 android:textColor="@{ (int)viewModel.titleColorEmail}" />
+
+                            <Button
+                                android:text="show"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentTop="true"
+                                android:layout_centerHorizontal="true"
+                                android:id="@+id/button2" />
                         </RelativeLayout>
 
                         <View
@@ -218,6 +226,12 @@
                             android:layout_height="1dp"
                             android:layout_margin="@dimen/font_size_15"
                             android:background="@color/gray" />
+
+                        <Button
+                            android:text="hide"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/button3" />
 
                         <RelativeLayout
                             android:id="@+id/ll_password"

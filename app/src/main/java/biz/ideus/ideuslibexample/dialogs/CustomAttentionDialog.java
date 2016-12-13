@@ -16,16 +16,12 @@ import android.view.Window;
 import biz.ideus.ideuslibexample.BR;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.rx_buses.RxBusActionEditDialogBtn;
-import biz.ideus.ideuslibexample.ui.base.BaseActivity;
-
-import static biz.ideus.ideuslibexample.dialogs.DialogModel.EDIT_TEXT_DIALOG;
 
 /**
  * Created by blackmamba on 18.11.16.
  */
 
-public class CustomAttentionDialog extends DialogFragment {
-    protected BaseActivity activity;
+public class CustomAttentionDialog extends DialogFragment{
     private ViewDataBinding binding;
     public static String LAYOUT_KEY = "layout";
     public static String DIALOG_MODEL_KEY = "DialogModel";
@@ -66,7 +62,6 @@ public class CustomAttentionDialog extends DialogFragment {
             layout = savedInstanceState.getInt(LAYOUT_KEY);
             dialogModel = (DialogModel) savedInstanceState.getSerializable(DIALOG_MODEL_KEY);
         }
-        setRetainInstance(false);
     }
 
     @Override
@@ -87,7 +82,7 @@ public class CustomAttentionDialog extends DialogFragment {
     }
 
     private void setDialogParameters() {
-        if (!getDialogModel().equals(EDIT_TEXT_DIALOG)) {
+        if (!getDialogModel().equals(DialogModel.EDIT_TEXT_DIALOG)) {
             title.set(getString(getDialogModel().resDialogName));
             colorTitle.set(getDialogModel().colorTitle);
             visibilityAttentionIcon.set(getDialogModel().visibilityIcon);
