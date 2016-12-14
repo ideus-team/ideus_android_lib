@@ -63,12 +63,15 @@ implements IView {
     public Subscription startRxBusShowDialogSubscription() {
         return RxBusShowDialog.instanceOf().getEvents().filter(s -> s != null)
                 .subscribe(dialogModel -> {
-                    if(dialog != null)
+                    if(dialog != null && dialog.isVisible())
                         dialog.dismiss();
                     switch (dialogModel){
                         case PROGRESS_DIALOG:
                             dialog = CustomDialog.instance(dialogModel, null);
                             dialog.show(getFragmentManager(), "Dialog");
+                            break;
+                        case HIDE_PROGRESS_DIALOG:
+                            dialog.dismiss();
                             break;
                         case NO_INTERNET_CONNECTION:
                             showNoInternetDialog(NO_INTERNET_CONNECTION.resDialogName);

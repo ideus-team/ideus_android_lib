@@ -7,31 +7,38 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 
 import com.facebook.login.LoginResult;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterSession;
 
 import biz.ideus.ideuslib.interfaces.OnValidateField;
-import biz.ideus.ideuslibexample.SampleApplication;
 import biz.ideus.ideuslibexample.data.model.request.LoginModel;
+import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationModel;
 import biz.ideus.ideuslibexample.data.model.response.LoginAnswer;
-import biz.ideus.ideuslibexample.data.remote.NetApi;
-import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
-import biz.ideus.ideuslibexample.data.remote.NetSubscriberSettings;
+import biz.ideus.ideuslibexample.data.model.response.SocialsAutorisationAnswer;
 import biz.ideus.ideuslibexample.dialogs.DialogModel;
 import biz.ideus.ideuslibexample.interfaces.BaseMvvmInterface;
 import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
+import biz.ideus.ideuslibexample.ui.main_screen.activity.MainActivity;
 import biz.ideus.ideuslibexample.ui.start_screen.SocialsLogin;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.forgot_password_fragment.ForgotPasswordFragment;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.sign_up_fragment.SignUpFragment;
 import hugo.weaving.DebugLog;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
+import static biz.ideus.ideuslibexample.data.model.SocialNetworks.FACEBOOK_NET;
+import static biz.ideus.ideuslibexample.data.model.SocialNetworks.GOOGLE_PLUS_NET;
+import static biz.ideus.ideuslibexample.data.model.SocialNetworks.TWITTER_NET;
+
 
 /**
  * Created by user on 28.11.2016.
@@ -43,9 +50,6 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
     private boolean isValidPassword = false;
     private SocialsLogin socialsLogin = new SocialsLogin(this);
     public final ObservableField<Drawable> headerImage = new ObservableField<>();
-
-
-    private final NetApi netApi = SampleApplication.getAppComponent().netApi();
 
 
     @Override
@@ -66,18 +70,11 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
     @DebugLog
     public void onTestClick(View view) {
         // RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.EDIT_TEXT_DIALOG);
-      //RxBusShowDialog.instanceOf().setRxBusShowDialog(PROGRESS_DIALOG);
-        LoginModel loginModel = new LoginModel(email.get().toString(), password.get().toString());
 
-        NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
 
-        netApi.login(loginModel).subscribe(new NetSubscriber<LoginAnswer>(netSubscriberSettings));
     }
 
-    private boolean isValidData(View view) {
-        if (!(isValidEmail && isValidPassword)) {
-            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.LOGIN_ATTENTION);
-        }
+    private boolean isValidFields() {
         return isValidEmail && isValidPassword;
 
     }
@@ -106,10 +103,66 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
 
     @Override
     public void onSignInClick(View view) {
-        if (isValidData(view)) {
+        if (isValidFields()) {
+            loginUser();
+        } else {
+            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.LOGIN_ATTENTION);
         }
-        // showLoadingPage(context.getString(R.string.logging_to_app_temp), context.getString(R.string.about_logining_account), View.VISIBLE);
+
     }
+
+    private void loginUser() {
+        LoginModel loginModel = new LoginModel(email.get().toString(), password.get().toString());
+        netApi.login(loginModel)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<LoginAnswer>() {
+            @Override
+            public void onStart() {
+                super.onStart();
+                showProgress();
+//                showLoadingPage(context.getString(R.string.logging_to_app_temp)
+//                        , context.getString(R.string.about_logining_account)
+//                        , View.VISIBLE);
+            }
+
+            @Override
+            public void onCompleted() {
+               // hideProgress();
+               // hideLoadingPage(View.GONE);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                hideProgress();
+                RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.LOGIN_ATTENTION);
+               // hideLoadingPage(View.GONE);
+               // RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.LOGIN_ATTENTION);
+
+
+            }
+
+            @Override
+            public void onNext(LoginAnswer loginAnswer) {
+                if(!loginAnswer.message.isEmpty()){
+                    hideProgress();
+                    RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.LOGIN_ATTENTION);
+                }else {
+
+                }
+
+            }
+        });
+    }
+
+    protected void goToMainScreen(){
+        StartActivity startActivity = (StartActivity) context;
+        startActivity.startActivity(new Intent(startActivity, MainActivity.class));
+        startActivity.finish();
+    }
+
+
+
 
     @Override
     public void onSignUpClick(View view) {
@@ -191,17 +244,62 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
 
 
     @Override
-    public void getGoogleToken(String googleAuthToken) {
-        Log.d("googleSignIn", "handleSignInResult:" + googleAuthToken);
+    public void getGoogleToken(GoogleSignInAccount googleAcc) {
+        autorisationSocial(googleAcc.getIdToken(), GOOGLE_PLUS_NET.networkName);
     }
 
     @Override
     public void getTwitterToken(Result<TwitterSession> twitterSessionResult) {
-
+        autorisationSocial(twitterSessionResult.data.getAuthToken().token, TWITTER_NET.networkName);
     }
 
     @Override
     public void getFacebookToken(LoginResult loginResult) {
+        autorisationSocial(loginResult.getAccessToken().getToken(), FACEBOOK_NET.networkName);
+    }
 
+
+    private void autorisationSocial(String socialToken, String socialName) {
+        SocialsAutorisationModel sotialAuthModel = new SocialsAutorisationModel(socialToken, socialName);
+        netApi.autorisationSocial(sotialAuthModel)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<SocialsAutorisationAnswer>() {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        showProgress();
+//                showLoadingPage(context.getString(R.string.logging_to_app_temp)
+//                        , context.getString(R.string.about_logining_account)
+//                        , View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        hideProgress();
+                        // hideLoadingPage(View.GONE);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        hideProgress();
+                        RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.LOGIN_ATTENTION);
+                        // hideLoadingPage(View.GONE);
+                        // RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.LOGIN_ATTENTION);
+
+
+                    }
+
+                    @Override
+                    public void onNext(SocialsAutorisationAnswer socialsAutorisationAnswer) {
+                        if(!socialsAutorisationAnswer.message.isEmpty()){
+                            hideProgress();
+                            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.LOGIN_ATTENTION);
+                        }else {
+
+                        }
+
+                    }
+                });
     }
 }

@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+
 import biz.ideus.ideuslibexample.BR;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.rx_buses.RxBusActionEditDialogBtn;
@@ -26,6 +27,7 @@ public class CustomDialog extends DialogFragment{
     private ViewDataBinding binding;
     public static String LAYOUT_KEY = "layout";
     public static String DIALOG_MODEL_KEY = "DialogModel";
+    public static int RESOURCE_EMPTY = 0;
 
     private int layout;
 
@@ -48,11 +50,15 @@ public class CustomDialog extends DialogFragment{
 
 
     public static CustomDialog instance(DialogModel dialogModel, @Nullable Object dialogIntent) {
-       CustomDialog customDialog = new CustomDialog();
-        customDialog.layout = dialogModel.layoutId;
-        customDialog.dialogIntent = dialogIntent;
-        customDialog.dialogModel = dialogModel;
-        return customDialog;
+        if(dialogModel.layoutId != RESOURCE_EMPTY) {
+            CustomDialog customDialog = new CustomDialog();
+            customDialog.layout = dialogModel.layoutId;
+            customDialog.dialogIntent = dialogIntent;
+            customDialog.dialogModel = dialogModel;
+            return customDialog;
+        } else {
+            return null;
+        }
     }
 
 

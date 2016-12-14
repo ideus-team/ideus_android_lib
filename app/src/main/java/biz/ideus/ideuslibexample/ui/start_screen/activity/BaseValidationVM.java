@@ -13,6 +13,8 @@ import java.util.concurrent.TimeUnit;
 import biz.ideus.ideuslib.Utils.UtilsValidationETFields;
 import biz.ideus.ideuslib.interfaces.OnValidateField;
 import biz.ideus.ideuslib.interfaces.OnValidateSignUpScreen;
+import biz.ideus.ideuslibexample.SampleApplication;
+import biz.ideus.ideuslibexample.data.remote.NetApi;
 import biz.ideus.ideuslibexample.ui.common.toolbar.AbstractViewModelToolbar;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.utils.Constants;
@@ -28,6 +30,8 @@ public abstract class BaseValidationVM extends AbstractViewModelToolbar<StartVie
     public static final int MIN_COUNT_CHARACTER_NAME = 3;
     public static final int MIN_COUNT_CHARACTER_PASSWORD = 6;
     private OnValidateField onValidateField;
+
+    protected final NetApi netApi = SampleApplication.getAppComponent().netApi();
 
     public void setOnValidateField(OnValidateField onValidateField) {
         this.onValidateField = onValidateField;
@@ -141,6 +145,10 @@ public abstract class BaseValidationVM extends AbstractViewModelToolbar<StartVie
     public void showLoadingPage(String title, String aboutTitle, int visibility) {
         titleAutorisationScreen.set(title);
         aboutTitleAutorisationScreen.set(aboutTitle);
+        visibilityLoadingPage.set(visibility);
+    }
+
+    public void hideLoadingPage(int visibility) {
         visibilityLoadingPage.set(visibility);
     }
 

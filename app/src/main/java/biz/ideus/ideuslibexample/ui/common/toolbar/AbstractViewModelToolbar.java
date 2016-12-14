@@ -6,6 +6,8 @@ import android.view.View;
 import biz.ideus.ideuslib.mvvm_lifecycle.AbstractViewModel;
 import biz.ideus.ideuslib.mvvm_lifecycle.IView;
 import biz.ideus.ideuslibexample.R;
+import biz.ideus.ideuslibexample.dialogs.DialogModel;
+import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 
 /**
@@ -44,6 +46,13 @@ public abstract class AbstractViewModelToolbar<T extends IView> extends Abstract
     @Override
     public Drawable setImageLeftBtn() {
         return getView().getViewModelBindingConfig().getContext().getResources().getDrawable(R.drawable.ic_left_arrow);
+    }
+
+    public void showProgress(){
+        RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.PROGRESS_DIALOG);
+    }
+    public void hideProgress(){
+        RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.HIDE_PROGRESS_DIALOG);
     }
 
 }

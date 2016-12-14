@@ -7,6 +7,9 @@ import java.io.IOException;
 import biz.ideus.ideuslib.Utils.NetworkUtil;
 import biz.ideus.ideuslib.Utils.Utils;
 import biz.ideus.ideuslibexample.SampleApplication;
+
+import biz.ideus.ideuslibexample.dialogs.DialogModel;
+
 import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscriber;
@@ -27,6 +30,7 @@ public class NetSubscriber <T> extends Subscriber<T> {
         super();
         this.subscriberSettings = subscriberSettings;
     }
+
 
     @Override
     public void onStart() {
@@ -100,6 +104,7 @@ public class NetSubscriber <T> extends Subscriber<T> {
 
     @Override
     public void onNext(T t) {
+
         Log.d("CustomSubscriber", "onNext");
     }
 

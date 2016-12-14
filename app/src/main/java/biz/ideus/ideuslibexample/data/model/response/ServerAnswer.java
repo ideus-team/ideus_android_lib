@@ -15,7 +15,7 @@ public abstract class ServerAnswer<T> {
     public T data;
     @SerializedName("errors")
     public List errors = new ArrayList<BaseError>();
-
+    @SerializedName("message")
     public String message;
 
     public ServerAnswer(T data) {

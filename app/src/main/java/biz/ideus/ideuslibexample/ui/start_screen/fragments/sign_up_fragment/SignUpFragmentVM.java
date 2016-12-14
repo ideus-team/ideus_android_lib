@@ -5,16 +5,20 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 
 import com.facebook.login.LoginResult;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterSession;
 
 import biz.ideus.ideuslib.interfaces.OnValidateSignUpScreen;
 import biz.ideus.ideuslibexample.R;
+import biz.ideus.ideuslibexample.data.model.request.SignUpModel;
+import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationModel;
+import biz.ideus.ideuslibexample.data.model.response.SignUpAnswer;
+import biz.ideus.ideuslibexample.data.model.response.SocialsAutorisationAnswer;
 import biz.ideus.ideuslibexample.dialogs.DialogModel;
 import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
@@ -24,6 +28,13 @@ import biz.ideus.ideuslibexample.ui.start_screen.activity.BaseValidationVM;
 import biz.ideus.ideuslibexample.ui.start_screen.activity.StartActivity;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.terms_of_service_fragment.TermsOfServiceFragment;
 import biz.ideus.ideuslibexample.ui.tutorial_screen.activity.TutorialActivity;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
+import static biz.ideus.ideuslibexample.data.model.SocialNetworks.FACEBOOK_NET;
+import static biz.ideus.ideuslibexample.data.model.SocialNetworks.GOOGLE_PLUS_NET;
+import static biz.ideus.ideuslibexample.data.model.SocialNetworks.TWITTER_NET;
 
 /**
  * Created by blackmamba on 16.11.16.
@@ -71,19 +82,15 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
         }
     }
 
-    private boolean isValidData(StartActivity activity) {
-//        return isValidEmail && isValidPassword && isValidName;
-        return true;
+    private boolean isValidData() {
+       return isValidEmail && isValidPassword && isValidName;
     }
 
     public void onCreateAccountClick(View view) {
-        StartActivity startActivity = (StartActivity) context;
-        if (isValidData(startActivity)) {
-            showLoadingPage(startActivity.getString(R.string.creating_an_account), startActivity.getString(R.string.about_creating_account), View.VISIBLE);
-            startActivity.startActivity(new Intent(startActivity, TutorialActivity.class));
-            startActivity.finish();
+        if (isValidData()) {
+            signUpUser();
         } else {
-            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.SIGN_IN_ATTENTION);
+            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.SIGN_UP_ATTENTION);
         }
 
     }
@@ -188,17 +195,112 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
 
 
     @Override
-    public void getGoogleToken(String googleAuthToken) {
-        Log.d("googleSignIn", "handleSignInResult:" + googleAuthToken);
+    public void getGoogleToken(GoogleSignInAccount googleAcc) {
+        autorisationSocial(googleAcc.getIdToken(), GOOGLE_PLUS_NET.networkName);
     }
 
     @Override
     public void getTwitterToken(Result<TwitterSession> twitterSessionResult) {
-
+        autorisationSocial(twitterSessionResult.data.getAuthToken().token, TWITTER_NET.networkName);
     }
 
     @Override
     public void getFacebookToken(LoginResult loginResult) {
-
+        autorisationSocial(loginResult.getAccessToken().getToken(), FACEBOOK_NET.networkName);
     }
+
+
+    private void autorisationSocial(String socialToken, String socialName) {
+        SocialsAutorisationModel sotialAuthModel = new SocialsAutorisationModel(socialToken, socialName);
+        netApi.autorisationSocial(sotialAuthModel)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<SocialsAutorisationAnswer>() {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        showProgress();
+//                showLoadingPage(context.getString(R.string.logging_to_app_temp)
+//                        , context.getString(R.string.about_logining_account)
+//                        , View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        hideProgress();
+                        // hideLoadingPage(View.GONE);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        hideProgress();
+                        RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.SIGN_UP_ATTENTION);
+                        // hideLoadingPage(View.GONE);
+                        // RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.LOGIN_ATTENTION);
+
+
+                    }
+
+                    @Override
+                    public void onNext(SocialsAutorisationAnswer socialsAutorisationAnswer) {
+                        if(!socialsAutorisationAnswer.message.isEmpty()){
+                            hideProgress();
+                            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.SIGN_UP_ATTENTION);
+                        }else {
+
+                        }
+
+                    }
+                });
+    }
+
+    private void signUpUser() {
+        SignUpModel signUpModel = new SignUpModel(email.get().toString(), password.get().toString(), name.get().toString());
+        netApi.signUp(signUpModel)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<SignUpAnswer>() {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        showProgress();
+//                showLoadingPage(context.getString(R.string.creating_an_account)
+//                        , context.getString(R.string.about_creating_account)
+//                        , View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        hideProgress();
+                        // hideLoadingPage(View.GONE);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        hideProgress();
+                        RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.SIGN_UP_ATTENTION);
+                        // hideLoadingPage(View.GONE);
+                        // RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.LOGIN_ATTENTION);
+
+
+                    }
+
+                    @Override
+                    public void onNext(SignUpAnswer signUpAnswer) {
+                        if(!signUpAnswer.message.isEmpty()){
+                            hideProgress();
+                            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.SIGN_UP_ATTENTION);
+                        } else {
+                           // goToTutorialScreen();
+                        }
+                    }
+                });
+    }
+
+    protected void goToTutorialScreen(){
+        StartActivity startActivity = (StartActivity) context;
+        startActivity.startActivity(new Intent(startActivity, TutorialActivity.class));
+        startActivity.finish();
+    }
+
 }
