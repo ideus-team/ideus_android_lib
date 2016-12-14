@@ -30,6 +30,10 @@ import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import rx.Subscription;
 
+import static biz.ideus.ideuslibexample.dialogs.DialogCommandModel.COPY_TEXT;
+import static biz.ideus.ideuslibexample.dialogs.DialogCommandModel.DELETE;
+import static biz.ideus.ideuslibexample.dialogs.DialogCommandModel.DETAILS;
+import static biz.ideus.ideuslibexample.dialogs.DialogCommandModel.EDIT;
 import static biz.ideus.ideuslibexample.ui.start_screen.SocialsLogin.GOOGLE_SIGN_IN;
 import static biz.ideus.ideuslibexample.ui.start_screen.SocialsLogin.faceBookCallbackManager;
 
@@ -96,16 +100,16 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
                 .subscribe(dialogCommand -> {
                     switch (dialogCommand.getDialogCommandModel()) {
                         case COPY_TEXT:
-                            Log.d("dialogCommand", "COPY_TEXT:");
+                            Log.d("dialogCommand", COPY_TEXT.name());
                             break;
                         case EDIT:
-                            Log.d("dialogCommand", "EDIT:");
+                            Log.d("dialogCommand", EDIT.name());
                             break;
                         case DETAILS:
-                            Log.d("dialogCommand", "DETAILS:");
+                            Log.d("dialogCommand", DETAILS.name());
                             break;
                         case DELETE:
-                            Log.d("dialogCommand", "DELETE:");
+                            Log.d("dialogCommand", DELETE.name());
                             break;
                     }
                 });

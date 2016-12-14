@@ -11,7 +11,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 
+import com.facebook.login.LoginResult;
 import com.theartofdev.edmodo.cropper.CropImage;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterSession;
 
 import biz.ideus.ideuslib.interfaces.OnValidateField;
 import biz.ideus.ideuslibexample.SampleApplication;
@@ -33,7 +36,7 @@ import rx.Subscriber;
  */
 
 public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterface.StartActivityVmListener
-        , OnValidateField, SocialsLogin.TokenListener, StartActivity.GoogleAutorisationListener {
+        , OnValidateField, SocialsLogin.SocialRegistrationListener, StartActivity.GoogleAutorisationListener {
     private boolean isValidEmail = false;
     private boolean isValidPassword = false;
     private SocialsLogin socialsLogin = new SocialsLogin(this);
@@ -196,18 +199,20 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
         return null;
     }
 
-    @Override
-    public void getTwitterToken(String twitterAuthToken) {
 
-    }
-
-    @Override
-    public void getFacebookToken(String facebookAuthToken) {
-
-    }
 
     @Override
     public void getGoogleToken(String googleAuthToken) {
         Log.d("googleSignIn", "handleSignInResult:" + googleAuthToken);
+    }
+
+    @Override
+    public void getTwitterToken(Result<TwitterSession> twitterSessionResult) {
+
+    }
+
+    @Override
+    public void getFacebookToken(LoginResult loginResult) {
+
     }
 }

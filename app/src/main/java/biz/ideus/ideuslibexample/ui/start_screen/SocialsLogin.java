@@ -23,11 +23,11 @@ import biz.ideus.ideuslibexample.ui.start_screen.activity.StartActivity;
 
 public class SocialsLogin {
     public static final int GOOGLE_SIGN_IN = 2222;
-    private TokenListener tokenListener;
+    private SocialRegistrationListener socialRegistrationListener;
 public static CallbackManager faceBookCallbackManager;
 
-    public SocialsLogin(TokenListener tokenListener){
-        this.tokenListener = tokenListener;
+    public SocialsLogin(SocialRegistrationListener socialRegistrationListener){
+        this.socialRegistrationListener = socialRegistrationListener;
         faceBookCallbackManager = CallbackManager.Factory.create();
 
     }
@@ -44,7 +44,7 @@ public static CallbackManager faceBookCallbackManager;
             @Override
             public void success(Result<TwitterSession> twitterSessionResult) {
                 System.out.println("TwitterSession  " + twitterSessionResult.data.getAuthToken());
-                tokenListener.getTwitterToken(twitterSessionResult.data.getAuthToken().token);
+                socialRegistrationListener.getTwitterToken(twitterSessionResult);
             }
 
             @Override
@@ -61,7 +61,7 @@ public static CallbackManager faceBookCallbackManager;
                     @Override
                     public void onSuccess(LoginResult loginResult) {
                         System.out.println("facebook  " + loginResult.getAccessToken().getToken());
-                        tokenListener.getFacebookToken(loginResult.getAccessToken().getToken());
+                        socialRegistrationListener.getFacebookToken(loginResult);
                     }
 
                     @Override
@@ -76,9 +76,9 @@ public static CallbackManager faceBookCallbackManager;
                 });
     }
 
-    public interface TokenListener{
-        void getTwitterToken(String twitterAuthToken);
-        void getFacebookToken(String facebookAuthToken);
+    public interface SocialRegistrationListener {
+        void getTwitterToken(Result<TwitterSession> twitterSessionResult);
+        void getFacebookToken(LoginResult loginResult);
 
 
 

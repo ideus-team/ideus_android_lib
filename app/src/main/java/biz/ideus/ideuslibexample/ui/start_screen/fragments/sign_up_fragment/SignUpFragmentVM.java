@@ -9,6 +9,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 
+import com.facebook.login.LoginResult;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterSession;
+
 import biz.ideus.ideuslib.interfaces.OnValidateSignUpScreen;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.dialogs.DialogModel;
@@ -25,7 +29,7 @@ import biz.ideus.ideuslibexample.ui.tutorial_screen.activity.TutorialActivity;
  * Created by blackmamba on 16.11.16.
  */
 
-public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSignUpScreen, SocialsLogin.TokenListener, StartActivity.GoogleAutorisationListener {
+public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSignUpScreen, SocialsLogin.SocialRegistrationListener, StartActivity.GoogleAutorisationListener {
     private boolean isValidName = false;
     private boolean isValidEmail = false;
     private boolean isValidPassword = false;
@@ -182,18 +186,19 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
         return true;
     }
 
-    @Override
-    public void getTwitterToken(String twitterAuthToken) {
-
-    }
-
-    @Override
-    public void getFacebookToken(String facebookAuthToken) {
-
-    }
 
     @Override
     public void getGoogleToken(String googleAuthToken) {
         Log.d("googleSignIn", "handleSignInResult:" + googleAuthToken);
+    }
+
+    @Override
+    public void getTwitterToken(Result<TwitterSession> twitterSessionResult) {
+
+    }
+
+    @Override
+    public void getFacebookToken(LoginResult loginResult) {
+
     }
 }
