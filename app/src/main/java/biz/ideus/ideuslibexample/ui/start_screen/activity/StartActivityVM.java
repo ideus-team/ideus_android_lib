@@ -27,6 +27,7 @@ import biz.ideus.ideuslibexample.ui.start_screen.SocialsLogin;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.forgot_password_fragment.ForgotPasswordFragment;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.sign_up_fragment.SignUpFragment;
+import hugo.weaving.DebugLog;
 
 import static biz.ideus.ideuslibexample.dialogs.DialogModel.SHOW_LOADING_DIALOG;
 
@@ -60,6 +61,7 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
         ((StartActivity)context).setGoogleAutorisationListener(this);
     }
 
+    @DebugLog
     public void onTestClick(View view) {
        // RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.EDIT_TEXT_DIALOG);
 RxBusShowDialog.instanceOf().setRxBusShowDialog(SHOW_LOADING_DIALOG);

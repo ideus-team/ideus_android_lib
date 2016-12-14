@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+        <import type="biz.ideus.ideuslibexample.dialogs.DialogCommandModel"/>
+
+        <variable
+            name="customVM"
+            type="biz.ideus.ideuslibexample.dialogs.CustomDialog" />
+    </data>
+
+
+        <RelativeLayout
+            android:background="@color/tw__transparent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!--<ImageView-->
+                <!--android:id="@+id/iv_wave"-->
+                <!--android:layout_width="80dp"-->
+                <!--android:layout_height="80dp"-->
+                <!--android:layout_centerInParent="true"-->
+                <!--android:scaleType="centerCrop"-->
+                <!--bind:waveImage="@{customVM.mWaveDrawable}" />-->
+        </RelativeLayout>
+
+</layout>

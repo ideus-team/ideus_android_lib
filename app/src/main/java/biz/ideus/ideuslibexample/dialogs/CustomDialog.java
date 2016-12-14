@@ -12,16 +12,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-
 import biz.ideus.ideuslibexample.BR;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.rx_buses.RxBusActionEditDialogBtn;
+
 
 /**
  * Created by blackmamba on 18.11.16.
  */
 
 public class CustomDialog extends DialogFragment{
+//    public WaveDrawable mWaveDrawable = new WaveDrawable(SampleApplication.getInstance().getApplicationContext(), R.drawable.earth);
     private ViewDataBinding binding;
     public static String LAYOUT_KEY = "layout";
     public static String DIALOG_MODEL_KEY = "DialogModel";
@@ -99,6 +100,20 @@ public class CustomDialog extends DialogFragment{
                 break;
         }
     }
+
+
+
+//    @BindingAdapter("bind:waveImage")
+//    @DebugLog
+//    public static void waveImage(ImageView view, Drawable drawable) {
+//        view.setImageDrawable(drawable);
+//        ((WaveDrawable)drawable).setWaveAmplitude(100);
+//        ((WaveDrawable)drawable).setWaveLength(270);
+//        ((WaveDrawable)drawable).setWaveSpeed(8);
+//        ((WaveDrawable)drawable).setLevel(5000);
+//        ((WaveDrawable)drawable).invalidateSelf();
+//        drawable.invalidateSelf();
+//    }
 
 
     public void onClick(View view) {
