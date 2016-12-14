@@ -47,7 +47,6 @@ implements IView {
         binding = getBinding();
         viewModel = getViewModel();
         rxBusShowDialogSubscription = startRxBusShowDialogSubscription();
-
     }
 
     protected final ActivityComponent activityComponent() {
