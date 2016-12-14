@@ -6,24 +6,16 @@ import android.databinding.ObservableField;
 import android.databinding.ViewDataBinding;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.ImageView;
-
-import com.race604.drawable.wave.WaveDrawable;
-
 import biz.ideus.ideuslibexample.BR;
 import biz.ideus.ideuslibexample.R;
-import biz.ideus.ideuslibexample.SampleApplication;
 import biz.ideus.ideuslibexample.rx_buses.RxBusActionEditDialogBtn;
-import hugo.weaving.DebugLog;
 
-import static biz.ideus.ideuslibexample.dialogs.DialogModel.EDIT_TEXT_DIALOG;
 
 /**
  * Created by blackmamba on 18.11.16.
@@ -110,7 +102,6 @@ public class CustomDialog extends DialogFragment{
     }
 
 
-    }
 
 //    @BindingAdapter("bind:waveImage")
 //    @DebugLog
