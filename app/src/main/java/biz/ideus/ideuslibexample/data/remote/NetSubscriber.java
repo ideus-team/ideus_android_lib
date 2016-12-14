@@ -7,6 +7,8 @@ import java.io.IOException;
 import biz.ideus.ideuslib.Utils.NetworkUtil;
 import biz.ideus.ideuslib.Utils.Utils;
 import biz.ideus.ideuslibexample.SampleApplication;
+import biz.ideus.ideuslibexample.dialogs.DialogModel;
+import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscriber;
 
@@ -24,17 +26,19 @@ public class NetSubscriber <T> extends Subscriber<T> {
         this.subscriberSettings = subscriberSettings;
     }
 
+
     @Override
     public void onStart() {
         super.onStart();
-//        showProgress();
+       showProgress();
 //        Log.d("hide","show progress");
     }
 
     @Override
     public void onCompleted() {
+
 //        Log.d("CustomSubscriber", "onCompleted");
-//        hideProgress();
+        hideProgress();
 //        Log.d("hide","hide progress");
     }
 
@@ -43,7 +47,7 @@ public class NetSubscriber <T> extends Subscriber<T> {
         Log.d("CustomSubscriber",e.getMessage() + "");
         try {
             Log.d("CustomSubscriber", "onError " + e.getMessage());
-//            hideProgress();
+           hideProgress();
 
             String errorBody;
             int errorCode = 0;
@@ -99,8 +103,19 @@ public class NetSubscriber <T> extends Subscriber<T> {
 
     @Override
     public void onNext(T t) {
+
         Log.d("CustomSubscriber", "onNext");
     }
+
+
+
+    private void showProgress(){
+        RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.PROGRESS_DIALOG);
+    }
+    private void hideProgress(){
+        RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.HIDE_PROGRESS_DIALOG);
+    }
+
 
 //    private void showProgress() {
 //        switch (subscriberSettings.progressType) {

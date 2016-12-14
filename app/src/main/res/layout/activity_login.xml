@@ -246,7 +246,7 @@
                                 android:layout_marginTop="@dimen/font_size_10"
                                 android:background="@null"
                                 android:ems="10"
-                                android:hint="@string/your_email"
+                                android:hint="@string/your_password"
                                 android:inputType="textPassword"
                                 android:onTextChanged="@{viewModel::onTextChangedPassword}"
                                 android:password="@{viewModel.isPasswordShow}"
@@ -324,12 +324,12 @@
 
             </LinearLayout>
         </ScrollView>
-        <!--android:visibility="@{viewModel.visibilityLoadingPage}"-->
+
         <FrameLayout
             android:id="@+id/loading_screen_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone">
+            android:visibility="@{viewModel.visibilityLoadingPage}">
 
             <include
                 android:id="@+id/loading_autorisation_page"

@@ -76,12 +76,10 @@ public static CallbackManager faceBookCallbackManager;
                 });
     }
 
+
     public interface SocialRegistrationListener {
         void getTwitterToken(Result<TwitterSession> twitterSessionResult);
         void getFacebookToken(LoginResult loginResult);
-
-
-
 
     }
 }

@@ -125,7 +125,7 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
         if (result.isSuccess()) {
             GoogleSignInAccount acct = result.getSignInAccount();
             if (googleAutorisationListener != null)
-                googleAutorisationListener.getGoogleToken(acct.getIdToken());
+                googleAutorisationListener.getGoogleToken(acct);
         }
     }
 
@@ -134,28 +134,29 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
         if (requestCode == GOOGLE_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(intent);
             handleSignInResult(result);
-        }
-        faceBookCallbackManager.onActivityResult(requestCode, resultCode, intent);
-        twitterAuthClient.onActivityResult(requestCode, resultCode, intent);
+        } else {
+            faceBookCallbackManager.onActivityResult(requestCode, resultCode, intent);
+            twitterAuthClient.onActivityResult(requestCode, resultCode, intent);
 
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE:
-                    Uri resultPick = CropImage.getPickImageResultUri(this, intent);
-                    if (resultPick != null) {
-                        CropImage.activity(resultPick)
-                                .setGuidelines(CropImageView.Guidelines.ON)
-                                .start(this);
-                    }
-                    break;
-                case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
-                    CropImage.ActivityResult result = CropImage.getActivityResult(intent);
-                    Uri resultUri = result.getUri();
+            if (resultCode == RESULT_OK) {
+                switch (requestCode) {
+                    case CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE:
+                        Uri resultPick = CropImage.getPickImageResultUri(this, intent);
+                        if (resultPick != null) {
+                            CropImage.activity(resultPick)
+                                    .setGuidelines(CropImageView.Guidelines.ON)
+                                    .start(this);
+                        }
+                        break;
+                    case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
+                        CropImage.ActivityResult result = CropImage.getActivityResult(intent);
+                        Uri resultUri = result.getUri();
 
-                    getBinding().getViewModel().headerImage.set(Utils.getDrawableImage(getContentResolver(), resultUri));
-                    break;
-                case CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE:
-                    break;
+                        getBinding().getViewModel().headerImage.set(Utils.getDrawableImage(getContentResolver(), resultUri));
+                        break;
+                    case CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE:
+                        break;
+                }
             }
         }
     }
@@ -181,6 +182,6 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
     }
 
     public interface GoogleAutorisationListener {
-        void getGoogleToken(String googleAuthToken);
+        void getGoogleToken(GoogleSignInAccount acct);
     }
 }

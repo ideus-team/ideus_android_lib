@@ -1,9 +1,8 @@
 package biz.ideus.ideuslibexample.data.model.response.data;
 
 /**
- * Created by user on 12.12.2016.
+ * Created by blackmamba on 14.12.16.
  */
 
-public class LoginData {
-
+public class SignUpData {
 }
