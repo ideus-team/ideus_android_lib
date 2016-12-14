@@ -10,11 +10,7 @@ import android.text.Editable;
 import android.view.View;
 import android.widget.CheckBox;
 
-import com.facebook.login.LoginResult;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.theartofdev.edmodo.cropper.CropImage;
-import com.twitter.sdk.android.core.Result;
-import com.twitter.sdk.android.core.TwitterSession;
 
 import biz.ideus.ideuslib.interfaces.OnValidateField;
 import biz.ideus.ideuslibexample.data.model.request.LoginModel;
@@ -244,18 +240,19 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
 
 
     @Override
-    public void getGoogleToken(GoogleSignInAccount googleAcc) {
-        autorisationSocial(googleAcc.getIdToken(), GOOGLE_PLUS_NET.networkName);
+    public void getGoogleToken(String googlePlusToken) {
+        autorisationSocial(googlePlusToken, GOOGLE_PLUS_NET.networkName);
+    }
+
+
+    @Override
+    public void getTwitterToken(String twitterToken) {
+        autorisationSocial(twitterToken, TWITTER_NET.networkName);
     }
 
     @Override
-    public void getTwitterToken(Result<TwitterSession> twitterSessionResult) {
-        autorisationSocial(twitterSessionResult.data.getAuthToken().token, TWITTER_NET.networkName);
-    }
-
-    @Override
-    public void getFacebookToken(LoginResult loginResult) {
-        autorisationSocial(loginResult.getAccessToken().getToken(), FACEBOOK_NET.networkName);
+    public void getFacebookToken(String facebookToken) {
+        autorisationSocial(facebookToken, FACEBOOK_NET.networkName);
     }
 
 

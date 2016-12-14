@@ -18,5 +18,13 @@ public class Constants {
     public static final int PEOPLE_TAB_POSITION = 1;
     public static final int SETTINGS_TAB_POSITION = 2;
 
-
+// FOR GET GOOGLE TOKEN
+public static final int GOOGLE_SIGN_IN = 2222;
+    private final static String G_PLUS_SCOPE =
+            "oauth2:https://www.googleapis.com/auth/plus.me";
+    private final static String USERINFO_SCOPE =
+            "https://www.googleapis.com/auth/userinfo.profile";
+    private final static String EMAIL_SCOPE =
+            "https://www.googleapis.com/auth/userinfo.email";
+    public final static String GOOGLE_SCOPES = G_PLUS_SCOPE + " " + USERINFO_SCOPE + " " + EMAIL_SCOPE;
 }

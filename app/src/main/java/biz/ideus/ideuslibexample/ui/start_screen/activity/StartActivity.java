@@ -1,18 +1,13 @@
 package biz.ideus.ideuslibexample.ui.start_screen.activity;
 
+import android.accounts.AccountManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.auth.GoogleAuthUtil;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 import com.twitter.sdk.android.core.identity.TwitterAuthClient;
@@ -28,26 +23,27 @@ import biz.ideus.ideuslibexample.databinding.ActivityLoginBinding;
 import biz.ideus.ideuslibexample.rx_buses.RxBusActionEditDialogBtn;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
+import biz.ideus.ideuslibexample.utils.Constants;
+import rx.Observable;
 import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static biz.ideus.ideuslibexample.dialogs.DialogCommandModel.COPY_TEXT;
 import static biz.ideus.ideuslibexample.dialogs.DialogCommandModel.DELETE;
 import static biz.ideus.ideuslibexample.dialogs.DialogCommandModel.DETAILS;
 import static biz.ideus.ideuslibexample.dialogs.DialogCommandModel.EDIT;
-import static biz.ideus.ideuslibexample.ui.start_screen.SocialsLogin.GOOGLE_SIGN_IN;
 import static biz.ideus.ideuslibexample.ui.start_screen.SocialsLogin.faceBookCallbackManager;
+import static biz.ideus.ideuslibexample.utils.Constants.GOOGLE_SIGN_IN;
 
 
 /**
  * Created by user on 11.11.2016.
  */
 
-public class StartActivity extends BaseActivity<StartView, StartActivityVM, ActivityLoginBinding>
-        implements StartView, GoogleApiClient.OnConnectionFailedListener {
+public class StartActivity extends BaseActivity<StartView, StartActivityVM, ActivityLoginBinding> implements StartView {
 
     private TwitterAuthClient twitterAuthClient;
-    private GoogleSignInOptions googleSignInOptions;
-    private GoogleApiClient googleApiClient;
     protected Subscription RxBusActionEditDialogBtnSubscription;
     private GoogleAutorisationListener googleAutorisationListener;
 
@@ -57,10 +53,6 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
 
     public TwitterAuthClient getTwitterAuthClient() {
         return twitterAuthClient;
-    }
-
-    public GoogleApiClient getGoogleApiClient() {
-        return googleApiClient;
     }
 
     @Inject
@@ -73,27 +65,10 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
         super.onCreate(savedInstanceState);
         activityComponent().inject(this);
         setModelView(this);
-        createGoogleSignInOptions();
-        createGoogleApiClient();
         twitterAuthClient = new TwitterAuthClient();
         RxBusActionEditDialogBtnSubscription = startRxBusActionEditDialogBtnSubscription();
     }
 
-    private void createGoogleSignInOptions() {
-        googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.google_web_client_id))
-                .requestEmail()
-                .build();
-
-    }
-
-
-    private void createGoogleApiClient() {
-        googleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this, this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions)
-                .build();
-    }
 
     public Subscription startRxBusActionEditDialogBtnSubscription() {
         return RxBusActionEditDialogBtn.instanceOf().getEvents()
@@ -115,25 +90,29 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
                 });
     }
 
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+    private void getTokenGooglePlus(String accName) {
+        Observable.just("").map(token -> {
+            try {
+                token = GoogleAuthUtil.getToken(this, accName,
+                        Constants.GOOGLE_SCOPES);
+            } catch (Exception transientEx) {
+                Log.e("google", "Google token filed!");
+            }
+            return token;
+        })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(token -> {
+                    if (googleAutorisationListener != null)
+                        googleAutorisationListener.getGoogleToken(token);
+                });
     }
 
-    private void handleSignInResult(GoogleSignInResult result) {
-        Log.d("googleSignIn", "handleSignInResult:" + result.isSuccess());
-        if (result.isSuccess()) {
-            GoogleSignInAccount acct = result.getSignInAccount();
-            if (googleAutorisationListener != null)
-                googleAutorisationListener.getGoogleToken(acct);
-        }
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == GOOGLE_SIGN_IN) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(intent);
-            handleSignInResult(result);
+        if (requestCode == GOOGLE_SIGN_IN && resultCode == RESULT_OK) {
+            getTokenGooglePlus(intent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME));
         } else {
             faceBookCallbackManager.onActivityResult(requestCode, resultCode, intent);
             twitterAuthClient.onActivityResult(requestCode, resultCode, intent);
@@ -182,6 +161,6 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
     }
 
     public interface GoogleAutorisationListener {
-        void getGoogleToken(GoogleSignInAccount acct);
+        void getGoogleToken(String googlePlusToken);
     }
 }
