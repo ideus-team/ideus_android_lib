@@ -27,7 +27,8 @@ import biz.ideus.ideuslibexample.ui.start_screen.SocialsLogin;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.forgot_password_fragment.ForgotPasswordFragment;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.sign_up_fragment.SignUpFragment;
-import hugo.weaving.DebugLog;
+
+import static biz.ideus.ideuslibexample.dialogs.DialogModel.SHOW_LOADING_DIALOG;
 
 /**
  * Created by user on 28.11.2016.
@@ -61,9 +62,10 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
 
     @DebugLog
     public void onTestClick(View view) {
-        RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.PROGRESS_WAVE);
-
+       // RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.EDIT_TEXT_DIALOG);
+RxBusShowDialog.instanceOf().setRxBusShowDialog(SHOW_LOADING_DIALOG);
 //        LoginModel loginModel = new LoginModel(email.get().toString(), password.get().toString());
+//
 //        netApi.login(loginModel).subscribe(new Subscriber<LoginAnswer>() {
 //            @Override
 //            public void onCompleted() {

@@ -1,8 +1,6 @@
 package biz.ideus.ideuslibexample.dialogs;
 
 import android.app.DialogFragment;
-import android.app.FragmentManager;
-import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableField;
 import android.databinding.ViewDataBinding;
@@ -31,9 +29,9 @@ import static biz.ideus.ideuslibexample.dialogs.DialogModel.EDIT_TEXT_DIALOG;
  * Created by blackmamba on 18.11.16.
  */
 
-public class CustomAttentionDialog extends DialogFragment{
+public class CustomDialog extends DialogFragment{
 //    public WaveDrawable mWaveDrawable = new WaveDrawable(SampleApplication.getInstance().getApplicationContext(), R.drawable.earth);
-//    private ViewDataBinding binding;
+    private ViewDataBinding binding;
     public static String LAYOUT_KEY = "layout";
     public static String DIALOG_MODEL_KEY = "DialogModel";
 
@@ -45,7 +43,6 @@ public class CustomAttentionDialog extends DialogFragment{
 
     private Object dialogIntent;
     private DialogModel dialogModel;
-    private static CustomDialog customDialog;
     public DialogModel getDialogModel() {
         return dialogModel;
     }
@@ -56,8 +53,10 @@ public class CustomAttentionDialog extends DialogFragment{
     public final ObservableField<Integer> colorTitle = new ObservableField<>();
     public final ObservableField<Integer> visibilityAttentionIcon = new ObservableField<>();
 
+
+
     public static CustomDialog instance(DialogModel dialogModel, @Nullable Object dialogIntent) {
-        customDialog = new CustomDialog();
+       CustomDialog customDialog = new CustomDialog();
         customDialog.layout = dialogModel.layoutId;
         customDialog.dialogIntent = dialogIntent;
         customDialog.dialogModel = dialogModel;
@@ -98,7 +97,7 @@ public class CustomAttentionDialog extends DialogFragment{
                 title.set(getString(getDialogModel().resDialogName));
                 break;
             case SHOW_LOADING_DIALOG:
-                customDialog.setCancelable(false);
+                this.setCancelable(false);
                 break;
             default:
                 title.set(getString(getDialogModel().resDialogName));
@@ -106,7 +105,9 @@ public class CustomAttentionDialog extends DialogFragment{
                 visibilityAttentionIcon.set(getDialogModel().visibilityIcon);
                 aboutDialogTitle.set(getString(getDialogModel().resAboutDialogText));
                 btnName.set(getString(getDialogModel().resBtnName));
+                break;
         }
+    }
 
 
     }
