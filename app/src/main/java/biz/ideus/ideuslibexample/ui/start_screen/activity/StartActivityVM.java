@@ -17,6 +17,8 @@ import biz.ideus.ideuslibexample.data.model.request.LoginModel;
 import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationModel;
 import biz.ideus.ideuslibexample.data.model.response.LoginAnswer;
 import biz.ideus.ideuslibexample.data.model.response.SocialsAutorisationAnswer;
+import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
+import biz.ideus.ideuslibexample.data.remote.NetSubscriberSettings;
 import biz.ideus.ideuslibexample.dialogs.DialogModel;
 import biz.ideus.ideuslibexample.interfaces.BaseMvvmInterface;
 import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
@@ -66,7 +68,19 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
     @DebugLog
     public void onTestClick(View view) {
         // RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.EDIT_TEXT_DIALOG);
+        LoginModel loginModel = new LoginModel(email.get().toString(), password.get().toString());
 
+        NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
+
+        netApi.login(loginModel)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new NetSubscriber<LoginAnswer>(netSubscriberSettings){
+            @Override
+            public void onNext(LoginAnswer loginAnswer) {
+                super.onNext(loginAnswer);
+            }
+        });
 
     }
 
