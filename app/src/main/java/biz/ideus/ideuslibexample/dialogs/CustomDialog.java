@@ -32,9 +32,8 @@ import static biz.ideus.ideuslibexample.dialogs.DialogModel.EDIT_TEXT_DIALOG;
  */
 
 public class CustomAttentionDialog extends DialogFragment{
-    //public WaveDrawable mWaveDrawable = new WaveDrawable(SampleApplication.getInstance().getApplicationContext().getResources().getDrawable(R.drawable.logo_circle));
-    public WaveDrawable mWaveDrawable = new WaveDrawable(SampleApplication.getInstance().getApplicationContext(), R.drawable.earth);
-    private ViewDataBinding binding;
+//    public WaveDrawable mWaveDrawable = new WaveDrawable(SampleApplication.getInstance().getApplicationContext(), R.drawable.earth);
+//    private ViewDataBinding binding;
     public static String LAYOUT_KEY = "layout";
     public static String DIALOG_MODEL_KEY = "DialogModel";
 
@@ -46,7 +45,7 @@ public class CustomAttentionDialog extends DialogFragment{
 
     private Object dialogIntent;
     private DialogModel dialogModel;
-     private static CustomDialog customDialog;
+    private static CustomDialog customDialog;
     public DialogModel getDialogModel() {
         return dialogModel;
     }
@@ -112,17 +111,17 @@ public class CustomAttentionDialog extends DialogFragment{
 
     }
 
-    @BindingAdapter("bind:waveImage")
-    @DebugLog
-    public static void waveImage(ImageView view, Drawable drawable) {
-        view.setImageDrawable(drawable);
-        ((WaveDrawable)drawable).setWaveAmplitude(100);
-        ((WaveDrawable)drawable).setWaveLength(270);
-        ((WaveDrawable)drawable).setWaveSpeed(8);
-        ((WaveDrawable)drawable).setLevel(5000);
-        ((WaveDrawable)drawable).invalidateSelf();
-        drawable.invalidateSelf();
-    }
+//    @BindingAdapter("bind:waveImage")
+//    @DebugLog
+//    public static void waveImage(ImageView view, Drawable drawable) {
+//        view.setImageDrawable(drawable);
+//        ((WaveDrawable)drawable).setWaveAmplitude(100);
+//        ((WaveDrawable)drawable).setWaveLength(270);
+//        ((WaveDrawable)drawable).setWaveSpeed(8);
+//        ((WaveDrawable)drawable).setLevel(5000);
+//        ((WaveDrawable)drawable).invalidateSelf();
+//        drawable.invalidateSelf();
+//    }
 
 
     public void onClick(View view) {
