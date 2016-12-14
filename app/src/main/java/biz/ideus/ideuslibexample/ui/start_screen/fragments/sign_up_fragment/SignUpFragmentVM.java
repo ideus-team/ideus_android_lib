@@ -5,8 +5,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+
+import com.facebook.login.LoginResult;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterSession;
 
 import biz.ideus.ideuslib.interfaces.OnValidateSignUpScreen;
 import biz.ideus.ideuslibexample.R;
@@ -24,11 +29,11 @@ import biz.ideus.ideuslibexample.ui.tutorial_screen.activity.TutorialActivity;
  * Created by blackmamba on 16.11.16.
  */
 
-public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSignUpScreen {
+public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSignUpScreen, SocialsLogin.SocialRegistrationListener, StartActivity.GoogleAutorisationListener {
     private boolean isValidName = false;
     private boolean isValidEmail = false;
     private boolean isValidPassword = false;
-    private SocialsLogin socialsLogin = new SocialsLogin();
+    private SocialsLogin socialsLogin = new SocialsLogin(this);
 
 
     @Override
@@ -41,11 +46,15 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
         isPasswordShow.set(true);
         setOnValidateField(this);
 
+
     }
 
     @Override
     public void onBindView(@NonNull StartView view) {
         super.onBindView(view);
+        ((StartActivity)context).setGoogleAutorisationListener(this);
+
+
     }
 
     public void onClickClearFieldImage(View view) {
@@ -175,5 +184,21 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
     @Override
     public boolean isLeftBtnVisible() {
         return true;
+    }
+
+
+    @Override
+    public void getGoogleToken(String googleAuthToken) {
+        Log.d("googleSignIn", "handleSignInResult:" + googleAuthToken);
+    }
+
+    @Override
+    public void getTwitterToken(Result<TwitterSession> twitterSessionResult) {
+
+    }
+
+    @Override
+    public void getFacebookToken(LoginResult loginResult) {
+
     }
 }

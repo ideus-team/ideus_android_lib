@@ -7,10 +7,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 
+import com.facebook.login.LoginResult;
 import com.theartofdev.edmodo.cropper.CropImage;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterSession;
 
 import biz.ideus.ideuslib.interfaces.OnValidateField;
 import biz.ideus.ideuslibexample.SampleApplication;
@@ -29,10 +33,11 @@ import hugo.weaving.DebugLog;
  * Created by user on 28.11.2016.
  */
 
-public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterface.StartActivityVmListener, OnValidateField {
+public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterface.StartActivityVmListener
+        , OnValidateField, SocialsLogin.SocialRegistrationListener, StartActivity.GoogleAutorisationListener {
     private boolean isValidEmail = false;
     private boolean isValidPassword = false;
-    private SocialsLogin socialsLogin = new SocialsLogin();
+    private SocialsLogin socialsLogin = new SocialsLogin(this);
     public final ObservableField<Drawable> headerImage = new ObservableField<>();
 
 
@@ -46,13 +51,12 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
         visibilityClearPasswordImage.set(View.INVISIBLE);
         isPasswordShow.set(true);
         setOnValidateField(this);
-
-
     }
 
     @Override
     public void onBindView(@NonNull StartView view) {
         super.onBindView(view);
+        ((StartActivity)context).setGoogleAutorisationListener(this);
     }
 
     @DebugLog
@@ -193,4 +197,20 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
         return null;
     }
 
+
+
+    @Override
+    public void getGoogleToken(String googleAuthToken) {
+        Log.d("googleSignIn", "handleSignInResult:" + googleAuthToken);
+    }
+
+    @Override
+    public void getTwitterToken(Result<TwitterSession> twitterSessionResult) {
+
+    }
+
+    @Override
+    public void getFacebookToken(LoginResult loginResult) {
+
+    }
 }
