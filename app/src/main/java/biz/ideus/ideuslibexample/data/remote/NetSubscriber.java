@@ -7,9 +7,8 @@ import java.io.IOException;
 import biz.ideus.ideuslib.Utils.NetworkUtil;
 import biz.ideus.ideuslib.Utils.Utils;
 import biz.ideus.ideuslibexample.SampleApplication;
-
+import biz.ideus.ideuslibexample.data.model.response.ServerAnswer;
 import biz.ideus.ideuslibexample.dialogs.DialogModel;
-
 import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscriber;
@@ -21,7 +20,7 @@ import static biz.ideus.ideuslibexample.dialogs.DialogModel.PROGRESS_DIALOG;
  * Created by user on 12.12.2016.
  */
 
-public class NetSubscriber <T> extends Subscriber<T> {
+public class NetSubscriber <T extends ServerAnswer> extends Subscriber<T> {
     NetSubscriberSettings subscriberSettings;
     String errorBody, errorMessage;
     int errorCode;
@@ -95,6 +94,7 @@ public class NetSubscriber <T> extends Subscriber<T> {
 //                }
 //                PreferencesUtil.alertWasShowed(PreferencesUtil.NO_INTERNET_CONNECTION, true);
             } else {
+                RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.LOGIN_ATTENTION);
                 Utils.toast(SampleApplication.getInstance().getApplicationContext(), e.getMessage());
             }
         } catch (Exception exMain) {
@@ -104,7 +104,9 @@ public class NetSubscriber <T> extends Subscriber<T> {
 
     @Override
     public void onNext(T t) {
-
+        if (!t.message.isEmpty()){
+            onError(new Throwable(t.message));
+        }
         Log.d("CustomSubscriber", "onNext");
     }
 
