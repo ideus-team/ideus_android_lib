@@ -14,11 +14,13 @@ public enum DialogModel {
     LOGIN_ATTENTION(R.string.error,R.string.invalidate_login_text, R.layout.dialog_info, View.VISIBLE, Color.RED,R.string.try_again),
     SIGN_IN_ATTENTION(R.string.error,R.string.invalidate_sign_in_text,  R.layout.dialog_info, View.VISIBLE, Color.RED,R.string.try_again),
     CHANGE_PASSWORD_SUCCESS(R.string.password_reset,R.string.password_reset_title,  R.layout.dialog_info, View.GONE, Color.BLACK,R.string.ok),
-    EDIT_TEXT_DIALOG(R.string.message,0, R.layout.edit_text_dialog), NO_INTERNET_CONNECTION(R.string.no_internet_connection),
-    SHOW_LOADING_DIALOG(0,0, R.layout.loading_dialog), HIDE_LOADING_DIALOG;
+    EDIT_TEXT_DIALOG(R.string.message,0, R.layout.edit_text_dialog),
+    NO_INTERNET_CONNECTION(R.string.no_internet_connection),
+    SHOW_LOADING_DIALOG(0,0, R.layout.loading_dialog),
+    HIDE_LOADING_DIALOG;
   //  ,PROGRESS_WAVE(R.string.message, R.string.message, R.layout.dialog_progress_wave, View.VISIBLE, Color.RED,R.string.try_again);
 
-    public int resDialogName;
+    public int resDialogName ;
     public int resAboutDialogText;
     public int layoutId;
     public int colorTitle;
