@@ -4,7 +4,7 @@ import biz.ideus.ideuslibexample.injection.modules.FragmentModule;
 import biz.ideus.ideuslibexample.injection.modules.ViewModelModule;
 import biz.ideus.ideuslibexample.injection.scopes.PerFragment;
 import biz.ideus.ideuslibexample.ui.main_screen.fragments.home_fragment.HomeFragment;
-import biz.ideus.ideuslibexample.ui.main_screen.fragments.image_viewer_fragment.ImageViewerFragment;
+import biz.ideus.ideuslibexample.ui.image_viewer_fragment.ImageViewerFragment;
 import biz.ideus.ideuslibexample.ui.main_screen.fragments.people_fragment.PeopleFragment;
 import biz.ideus.ideuslibexample.ui.main_screen.fragments.settings_fragment.SettingsFragment;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.forgot_password_fragment.ForgotPasswordFragment;

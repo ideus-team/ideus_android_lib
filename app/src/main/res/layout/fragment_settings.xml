@@ -34,7 +34,7 @@
                 android:background="@color/light_gray"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                android:onClick="@{viewModel.onMainLayoutClick}"
+                android:onClick="@{viewModel::onMainLayoutClick}"
                 android:orientation="vertical"
                 app:onFocusChangeListener="@{viewModel.getMainLayoutFocusListener}">
 
@@ -438,7 +438,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:onClick="@{viewModel.onClickCancelChangeInfo}"
+                    android:onClick="@{viewModel::onClickCancelChangeInfo}"
                     android:padding="@dimen/font_size_10"
                     android:text="@string/cancel"
                     android:textColor="@drawable/text_color_settings_change_selector"
@@ -456,7 +456,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:onClick="@{viewModel.onClickChangeInfo}"
+                    android:onClick="@{viewModel::onClickChangeInfo}"
                     android:padding="@dimen/font_size_10"
                     android:text="@{viewModel.titleChangeBtn}"
                     android:textColor="@drawable/text_color_settings_change_selector"

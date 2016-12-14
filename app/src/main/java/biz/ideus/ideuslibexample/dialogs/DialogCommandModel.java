@@ -5,6 +5,6 @@ package biz.ideus.ideuslibexample.dialogs;
  */
 
 public enum DialogCommandModel {
-    COPY_TEXT, EDIT, DELETE, DETAILS, HIDE_LOADING
+    COPY_TEXT, EDIT, DELETE, DETAILS
 
 }

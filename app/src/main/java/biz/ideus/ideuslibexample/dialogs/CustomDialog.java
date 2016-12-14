@@ -84,21 +84,13 @@ public class CustomDialog extends DialogFragment{
     }
 
     private void setDialogParameters() {
-        switch (getDialogModel()){
-            case EDIT_TEXT_DIALOG:
-                title.set(getString(getDialogModel().resDialogName));
-                break;
-            case SHOW_LOADING_DIALOG:
-                this.setCancelable(false);
-                break;
-            default:
                 title.set(getString(getDialogModel().resDialogName));
                 colorTitle.set(getDialogModel().colorTitle);
                 visibilityAttentionIcon.set(getDialogModel().visibilityIcon);
                 aboutDialogTitle.set(getString(getDialogModel().resAboutDialogText));
                 btnName.set(getString(getDialogModel().resBtnName));
-                break;
-        }
+                this.setCancelable(false);
+
     }
 
 

@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.ui.main_screen.fragments.image_viewer_fragment;
+package biz.ideus.ideuslibexample.ui.image_viewer_fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -14,7 +14,6 @@ import biz.ideus.ideuslibexample.BR;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.databinding.FragmentImageViewerBinding;
 import biz.ideus.ideuslibexample.ui.base.BaseFragment;
-import biz.ideus.ideuslibexample.ui.main_screen.MainView;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 
 

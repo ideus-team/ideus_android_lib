@@ -56,7 +56,6 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
     @Override
     public void onBindView(@NonNull StartView view) {
         super.onBindView(view);
-        context = view.getViewModelBindingConfig().getContext();
     }
 
     @Override

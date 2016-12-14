@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.ui.main_screen.fragments.image_viewer_fragment;
+package biz.ideus.ideuslibexample.ui.image_viewer_fragment;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;

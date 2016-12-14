@@ -29,7 +29,7 @@ import biz.ideus.ideuslibexample.ui.start_screen.fragments.forgot_password_fragm
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.sign_up_fragment.SignUpFragment;
 import hugo.weaving.DebugLog;
 
-import static biz.ideus.ideuslibexample.dialogs.DialogModel.SHOW_LOADING_DIALOG;
+import static biz.ideus.ideuslibexample.dialogs.DialogModel.PROGRESS_DIALOG;
 
 /**
  * Created by user on 28.11.2016.
@@ -58,13 +58,13 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
     @Override
     public void onBindView(@NonNull StartView view) {
         super.onBindView(view);
-        ((StartActivity)context).setGoogleAutorisationListener(this);
+        ((StartActivity) context).setGoogleAutorisationListener(this);
     }
 
     @DebugLog
     public void onTestClick(View view) {
-       // RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.EDIT_TEXT_DIALOG);
-RxBusShowDialog.instanceOf().setRxBusShowDialog(SHOW_LOADING_DIALOG);
+        // RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.EDIT_TEXT_DIALOG);
+      RxBusShowDialog.instanceOf().setRxBusShowDialog(PROGRESS_DIALOG);
 //        LoginModel loginModel = new LoginModel(email.get().toString(), password.get().toString());
 //
 //        netApi.login(loginModel).subscribe(new Subscriber<LoginAnswer>() {
@@ -199,7 +199,6 @@ RxBusShowDialog.instanceOf().setRxBusShowDialog(SHOW_LOADING_DIALOG);
     public String getToolbarTitle() {
         return null;
     }
-
 
 
     @Override

@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="biz.ideus.ideuslibexample.ui.main_screen.fragments.image_viewer_fragment.ImageViewerVM" />
+            type="biz.ideus.ideuslibexample.ui.image_viewer_fragment.ImageViewerVM" />
     </data>
 
     <RelativeLayout
@@ -17,25 +17,56 @@
         android:paddingBottom="10dp"
         android:paddingTop="10dp">
 
+        <RelativeLayout
+            android:id="@+id/rl_toolbar_image"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_height">
+
+            <TextView
+                android:text="@string/photo"
+                android:layout_width="wrap_content"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_name"
+                android:layout_centerInParent="true"
+                android:layout_margin="10dp" />
+
+            <TextView
+                android:text="@string/delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:onClick="@{viewModel::onClickDelete}"
+                android:id="@+id/tv_delete"
+                android:layout_centerInParent="true"
+                android:layout_alignParentRight="true"
+                android:layout_margin="10dp" />
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:onClick="@{viewModel.hideImageViewer}"
+                android:src="@drawable/ic_left_arrow"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerHorizontal="false"
+                android:layout_centerInParent="true" />
+        </RelativeLayout>
+
         <android.support.v4.view.ViewPager
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-
-        <ImageView
-            android:id="@+id/iv_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:onClick="@{viewModel.hideImageViewer}"
-            android:src="@drawable/ic_left_arrow" />
 
 
         <LinearLayout
             android:id="@+id/ll_counter_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/iv_back"
+            android:layout_below="@+id/rl_toolbar_image"
             android:layout_margin="10dp"
             android:orientation="horizontal">
 

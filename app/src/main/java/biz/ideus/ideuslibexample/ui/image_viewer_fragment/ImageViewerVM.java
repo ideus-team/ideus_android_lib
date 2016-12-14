@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.ui.main_screen.fragments.image_viewer_fragment;
+package biz.ideus.ideuslibexample.ui.image_viewer_fragment;
 
 import android.content.Context;
 import android.databinding.ObservableField;
@@ -43,6 +43,8 @@ private int currentImagePosition;
         context = view.getViewModelBindingConfig().getContext();
         adapter.setSelectedlistener(this);
     }
+
+    public void onClickDelete(View view){}
 
     public void hideImageViewer(View view){
         ((BaseActivity)context).onBackPressed();

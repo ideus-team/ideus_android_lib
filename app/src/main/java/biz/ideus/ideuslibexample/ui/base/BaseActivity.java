@@ -67,7 +67,7 @@ implements IView {
                     if(dialog != null)
                         dialog.dismiss();
                     switch (dialogModel){
-                        case SHOW_LOADING_DIALOG:
+                        case PROGRESS_DIALOG:
                             dialog = CustomDialog.instance(dialogModel, null);
                             dialog.show(getFragmentManager(), "Dialog");
                             break;
