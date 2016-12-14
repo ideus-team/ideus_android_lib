@@ -7,10 +7,15 @@ import java.io.IOException;
 import biz.ideus.ideuslib.Utils.NetworkUtil;
 import biz.ideus.ideuslib.Utils.Utils;
 import biz.ideus.ideuslibexample.SampleApplication;
+
 import biz.ideus.ideuslibexample.dialogs.DialogModel;
+
 import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscriber;
+
+import static biz.ideus.ideuslibexample.dialogs.DialogModel.HIDE_PROGRESS_DIALOG;
+import static biz.ideus.ideuslibexample.dialogs.DialogModel.PROGRESS_DIALOG;
 
 /**
  * Created by user on 12.12.2016.
@@ -30,16 +35,12 @@ public class NetSubscriber <T> extends Subscriber<T> {
     @Override
     public void onStart() {
         super.onStart();
-       showProgress();
-//        Log.d("hide","show progress");
+        showProgress();
     }
 
     @Override
     public void onCompleted() {
-
-//        Log.d("CustomSubscriber", "onCompleted");
         hideProgress();
-//        Log.d("hide","hide progress");
     }
 
     @Override
@@ -47,7 +48,7 @@ public class NetSubscriber <T> extends Subscriber<T> {
         Log.d("CustomSubscriber",e.getMessage() + "");
         try {
             Log.d("CustomSubscriber", "onError " + e.getMessage());
-           hideProgress();
+            hideProgress();
 
             String errorBody;
             int errorCode = 0;
@@ -107,45 +108,37 @@ public class NetSubscriber <T> extends Subscriber<T> {
         Log.d("CustomSubscriber", "onNext");
     }
 
+    private void showProgress() {
 
-
-    private void showProgress(){
-        RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.PROGRESS_DIALOG);
-    }
-    private void hideProgress(){
-        RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.HIDE_PROGRESS_DIALOG);
-    }
-
-
-//    private void showProgress() {
-//        switch (subscriberSettings.progressType) {
-//            case CIRCULAR: {
-//                subscriberSettings.showCircularProgress();
-//                break;
-//            }
+        switch (subscriberSettings.getProgressType()) {
+            case CIRCULAR: {
+                RxBusShowDialog.instanceOf().setRxBusShowDialog(PROGRESS_DIALOG);
+                break;
+            }
 //            case LINEAR: {
 //                subscriberSettings.showLinearProgress();
 //                break;
 //            }
-//        }
-//    }
-//
-//    private void hideProgress() {
-//        switch (subscriberSettings.progressType) {
-//            case CIRCULAR: {
-//                subscriberSettings.hideCircularProgress();
-//                break;
-//            }
+        }
+    }
+
+
+    private void hideProgress() {
+        switch (subscriberSettings.getProgressType()) {
+            case CIRCULAR: {
+                RxBusShowDialog.instanceOf().setRxBusShowDialog(HIDE_PROGRESS_DIALOG);
+                break;
+            }
 //            case LINEAR: {
 //                subscriberSettings.hideLinearProgress();
 //                break;
 //            }
-//        }
-//    }
-//
-//    public enum ProgressType {
-//        NONE,
-//        LINEAR,
-//        CIRCULAR
-//    }
+        }
+    }
+
+    public enum ProgressType {
+        NONE,
+        LINEAR,
+        CIRCULAR
+    }
 }

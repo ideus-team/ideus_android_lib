@@ -39,6 +39,7 @@ import static biz.ideus.ideuslibexample.data.model.SocialNetworks.FACEBOOK_NET;
 import static biz.ideus.ideuslibexample.data.model.SocialNetworks.GOOGLE_PLUS_NET;
 import static biz.ideus.ideuslibexample.data.model.SocialNetworks.TWITTER_NET;
 
+
 /**
  * Created by user on 28.11.2016.
  */
@@ -69,6 +70,7 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
     @DebugLog
     public void onTestClick(View view) {
         // RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.EDIT_TEXT_DIALOG);
+
 
     }
 
@@ -126,7 +128,7 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
 
             @Override
             public void onCompleted() {
-                hideProgress();
+               // hideProgress();
                // hideLoadingPage(View.GONE);
             }
 
