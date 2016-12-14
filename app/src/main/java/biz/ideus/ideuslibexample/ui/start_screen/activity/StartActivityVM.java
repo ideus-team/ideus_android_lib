@@ -18,7 +18,11 @@ import com.twitter.sdk.android.core.TwitterSession;
 
 import biz.ideus.ideuslib.interfaces.OnValidateField;
 import biz.ideus.ideuslibexample.SampleApplication;
+import biz.ideus.ideuslibexample.data.model.request.LoginModel;
+import biz.ideus.ideuslibexample.data.model.response.LoginAnswer;
 import biz.ideus.ideuslibexample.data.remote.NetApi;
+import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
+import biz.ideus.ideuslibexample.data.remote.NetSubscriberSettings;
 import biz.ideus.ideuslibexample.dialogs.DialogModel;
 import biz.ideus.ideuslibexample.interfaces.BaseMvvmInterface;
 import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
@@ -28,8 +32,6 @@ import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.forgot_password_fragment.ForgotPasswordFragment;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.sign_up_fragment.SignUpFragment;
 import hugo.weaving.DebugLog;
-
-import static biz.ideus.ideuslibexample.dialogs.DialogModel.PROGRESS_DIALOG;
 
 /**
  * Created by user on 28.11.2016.
@@ -64,25 +66,12 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
     @DebugLog
     public void onTestClick(View view) {
         // RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.EDIT_TEXT_DIALOG);
-      RxBusShowDialog.instanceOf().setRxBusShowDialog(PROGRESS_DIALOG);
-//        LoginModel loginModel = new LoginModel(email.get().toString(), password.get().toString());
-//
-//        netApi.login(loginModel).subscribe(new Subscriber<LoginAnswer>() {
-//            @Override
-//            public void onCompleted() {
-//
-//            }
-//
-//            @Override
-//            public void onError(Throwable e) {
-//
-//            }
-//
-//            @Override
-//            public void onNext(LoginAnswer loginAnswer) {
-//
-//            }
-//        });
+      //RxBusShowDialog.instanceOf().setRxBusShowDialog(PROGRESS_DIALOG);
+        LoginModel loginModel = new LoginModel(email.get().toString(), password.get().toString());
+
+        NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
+
+        netApi.login(loginModel).subscribe(new NetSubscriber<LoginAnswer>(netSubscriberSettings));
     }
 
     private boolean isValidData(View view) {
