@@ -14,6 +14,8 @@ import biz.ideus.ideuslibexample.data.model.request.SignUpModel;
 import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationModel;
 import biz.ideus.ideuslibexample.data.model.response.SignUpAnswer;
 import biz.ideus.ideuslibexample.data.model.response.SocialsAutorisationAnswer;
+import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
+import biz.ideus.ideuslibexample.data.remote.NetSubscriberSettings;
 import biz.ideus.ideuslibexample.dialogs.DialogModel;
 import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
@@ -23,7 +25,6 @@ import biz.ideus.ideuslibexample.ui.start_screen.activity.BaseValidationVM;
 import biz.ideus.ideuslibexample.ui.start_screen.activity.StartActivity;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.terms_of_service_fragment.TermsOfServiceFragment;
 import biz.ideus.ideuslibexample.ui.tutorial_screen.activity.TutorialActivity;
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -209,78 +210,33 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
 
     private void autorisationSocial(String socialToken, String socialName) {
         SocialsAutorisationModel sotialAuthModel = new SocialsAutorisationModel(socialToken, socialName);
+        NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
+
         netApi.autorisationSocial(sotialAuthModel)
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<SocialsAutorisationAnswer>() {
-                    @Override
-                    public void onStart() {
-                        super.onStart();
-                        showProgress();
-//                showLoadingPage(context.getString(R.string.logging_to_app_temp)
-//                        , context.getString(R.string.about_logining_account)
-//                        , View.VISIBLE);
-                    }
-
-                    @Override
-                    public void onCompleted() {
-                        hideProgress();
-                        // hideLoadingPage(View.GONE);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        hideProgress();
-                        RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.SIGN_UP_ATTENTION);
-                        // hideLoadingPage(View.GONE);
-                        // RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.LOGIN_ATTENTION);
-
-
-                    }
-
+                .subscribe(new NetSubscriber<SocialsAutorisationAnswer>(netSubscriberSettings) {
                     @Override
                     public void onNext(SocialsAutorisationAnswer socialsAutorisationAnswer) {
-                        if(!socialsAutorisationAnswer.message.isEmpty()){
+                        if (!socialsAutorisationAnswer.message.isEmpty()) {
                             hideProgress();
-                            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.SIGN_UP_ATTENTION);
-                        }else {
+                            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.LOGIN_ATTENTION);
+                        } else {
 
                         }
-
                     }
                 });
     }
 
     private void signUpUser() {
+
         SignUpModel signUpModel = new SignUpModel(email.get().toString(), password.get().toString(), name.get().toString());
+        NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
+
         netApi.signUp(signUpModel)
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<SignUpAnswer>() {
-                    @Override
-                    public void onStart() {
-                        super.onStart();
-                        showProgress();
-//                showLoadingPage(context.getString(R.string.creating_an_account)
-//                        , context.getString(R.string.about_creating_account)
-//                        , View.VISIBLE);
-                    }
-
-                    @Override
-                    public void onCompleted() {
-                        hideProgress();
-                        // hideLoadingPage(View.GONE);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        hideProgress();
-                        RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.SIGN_UP_ATTENTION);
-                        // hideLoadingPage(View.GONE);
-                        // RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.LOGIN_ATTENTION);
-
-
-                    }
+                .subscribe(new NetSubscriber<SignUpAnswer>(netSubscriberSettings){
 
                     @Override
                     public void onNext(SignUpAnswer signUpAnswer) {
@@ -288,7 +244,7 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
                             hideProgress();
                             RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.SIGN_UP_ATTENTION);
                         } else {
-                           // goToTutorialScreen();
+                            // goToTutorialScreen();
                         }
                     }
                 });

@@ -29,7 +29,6 @@ import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.forgot_password_fragment.ForgotPasswordFragment;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.sign_up_fragment.SignUpFragment;
 import hugo.weaving.DebugLog;
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -123,46 +122,23 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
 
     private void loginUser() {
         LoginModel loginModel = new LoginModel(email.get().toString(), password.get().toString());
+        NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
+
         netApi.login(loginModel)
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<LoginAnswer>() {
-            @Override
-            public void onStart() {
-                super.onStart();
-                showProgress();
-//                showLoadingPage(context.getString(R.string.logging_to_app_temp)
-//                        , context.getString(R.string.about_logining_account)
-//                        , View.VISIBLE);
-            }
+                .subscribe(new NetSubscriber<LoginAnswer>(netSubscriberSettings){
+                    @Override
+                    public void onNext(LoginAnswer loginAnswer) {
+                        super.onNext(loginAnswer);
+                        if(!loginAnswer.message.isEmpty()){
+                            hideProgress();
+                            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.LOGIN_ATTENTION);
+                        }else {
 
-            @Override
-            public void onCompleted() {
-               // hideProgress();
-               // hideLoadingPage(View.GONE);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                hideProgress();
-                RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.LOGIN_ATTENTION);
-               // hideLoadingPage(View.GONE);
-               // RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.LOGIN_ATTENTION);
-
-
-            }
-
-            @Override
-            public void onNext(LoginAnswer loginAnswer) {
-                if(!loginAnswer.message.isEmpty()){
-                    hideProgress();
-                    RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.LOGIN_ATTENTION);
-                }else {
-
-                }
-
-            }
-        });
+                        }
+                    }
+                });
     }
 
     protected void goToMainScreen(){
@@ -271,45 +247,22 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
 
 
     private void autorisationSocial(String socialToken, String socialName) {
+
         SocialsAutorisationModel sotialAuthModel = new SocialsAutorisationModel(socialToken, socialName);
+        NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
+
         netApi.autorisationSocial(sotialAuthModel)
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<SocialsAutorisationAnswer>() {
-                    @Override
-                    public void onStart() {
-                        super.onStart();
-                        showProgress();
-//                showLoadingPage(context.getString(R.string.logging_to_app_temp)
-//                        , context.getString(R.string.about_logining_account)
-//                        , View.VISIBLE);
-                    }
-
-                    @Override
-                    public void onCompleted() {
-                        hideProgress();
-                        // hideLoadingPage(View.GONE);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        hideProgress();
-                        RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.LOGIN_ATTENTION);
-                        // hideLoadingPage(View.GONE);
-                        // RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.LOGIN_ATTENTION);
-
-
-                    }
-
+                .subscribe(new NetSubscriber<SocialsAutorisationAnswer>(netSubscriberSettings) {
                     @Override
                     public void onNext(SocialsAutorisationAnswer socialsAutorisationAnswer) {
-                        if(!socialsAutorisationAnswer.message.isEmpty()){
+                        if (!socialsAutorisationAnswer.message.isEmpty()) {
                             hideProgress();
                             RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.LOGIN_ATTENTION);
-                        }else {
+                        } else {
 
                         }
-
                     }
                 });
     }
