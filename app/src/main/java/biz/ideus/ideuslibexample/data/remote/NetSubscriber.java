@@ -11,8 +11,8 @@ import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscriber;
 
-import static biz.ideus.ideuslibexample.dialogs.DialogModel.HIDE_LOADING_DIALOG;
-import static biz.ideus.ideuslibexample.dialogs.DialogModel.SHOW_LOADING_DIALOG;
+import static biz.ideus.ideuslibexample.dialogs.DialogModel.HIDE_PROGRESS_DIALOG;
+import static biz.ideus.ideuslibexample.dialogs.DialogModel.PROGRESS_DIALOG;
 
 /**
  * Created by user on 12.12.2016.
@@ -107,7 +107,7 @@ public class NetSubscriber <T> extends Subscriber<T> {
 
         switch (subscriberSettings.getProgressType()) {
             case CIRCULAR: {
-                RxBusShowDialog.instanceOf().setRxBusShowDialog(SHOW_LOADING_DIALOG);
+                RxBusShowDialog.instanceOf().setRxBusShowDialog(PROGRESS_DIALOG);
                 break;
             }
 //            case LINEAR: {
@@ -121,7 +121,7 @@ public class NetSubscriber <T> extends Subscriber<T> {
     private void hideProgress() {
         switch (subscriberSettings.getProgressType()) {
             case CIRCULAR: {
-                RxBusShowDialog.instanceOf().setRxBusShowDialog(HIDE_LOADING_DIALOG);
+                RxBusShowDialog.instanceOf().setRxBusShowDialog(HIDE_PROGRESS_DIALOG);
                 break;
             }
 //            case LINEAR: {
