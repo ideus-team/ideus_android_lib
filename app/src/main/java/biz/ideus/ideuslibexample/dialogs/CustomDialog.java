@@ -34,7 +34,6 @@ public class CustomDialog extends DialogFragment{
 
     private Object dialogIntent;
     private DialogModel dialogModel;
-     private static CustomDialog customDialog;
     public DialogModel getDialogModel() {
         return dialogModel;
     }
@@ -45,8 +44,10 @@ public class CustomDialog extends DialogFragment{
     public final ObservableField<Integer> colorTitle = new ObservableField<>();
     public final ObservableField<Integer> visibilityAttentionIcon = new ObservableField<>();
 
+
+
     public static CustomDialog instance(DialogModel dialogModel, @Nullable Object dialogIntent) {
-        customDialog = new CustomDialog();
+       CustomDialog customDialog = new CustomDialog();
         customDialog.layout = dialogModel.layoutId;
         customDialog.dialogIntent = dialogIntent;
         customDialog.dialogModel = dialogModel;
@@ -87,7 +88,7 @@ public class CustomDialog extends DialogFragment{
                 title.set(getString(getDialogModel().resDialogName));
                 break;
             case SHOW_LOADING_DIALOG:
-                customDialog.setCancelable(false);
+                this.setCancelable(false);
                 break;
             default:
                 title.set(getString(getDialogModel().resDialogName));

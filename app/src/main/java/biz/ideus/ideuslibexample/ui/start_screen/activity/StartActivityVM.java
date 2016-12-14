@@ -18,8 +18,6 @@ import com.twitter.sdk.android.core.TwitterSession;
 
 import biz.ideus.ideuslib.interfaces.OnValidateField;
 import biz.ideus.ideuslibexample.SampleApplication;
-import biz.ideus.ideuslibexample.data.model.request.LoginModel;
-import biz.ideus.ideuslibexample.data.model.response.LoginAnswer;
 import biz.ideus.ideuslibexample.data.remote.NetApi;
 import biz.ideus.ideuslibexample.dialogs.DialogModel;
 import biz.ideus.ideuslibexample.interfaces.BaseMvvmInterface;
@@ -29,7 +27,8 @@ import biz.ideus.ideuslibexample.ui.start_screen.SocialsLogin;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.forgot_password_fragment.ForgotPasswordFragment;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.sign_up_fragment.SignUpFragment;
-import rx.Subscriber;
+
+import static biz.ideus.ideuslibexample.dialogs.DialogModel.SHOW_LOADING_DIALOG;
 
 /**
  * Created by user on 28.11.2016.
@@ -63,25 +62,25 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
 
     public void onTestClick(View view) {
        // RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.EDIT_TEXT_DIALOG);
-
-        LoginModel loginModel = new LoginModel(email.get().toString(), password.get().toString());
-
-        netApi.login(loginModel).subscribe(new Subscriber<LoginAnswer>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(LoginAnswer loginAnswer) {
-
-            }
-        });
+RxBusShowDialog.instanceOf().setRxBusShowDialog(SHOW_LOADING_DIALOG);
+//        LoginModel loginModel = new LoginModel(email.get().toString(), password.get().toString());
+//
+//        netApi.login(loginModel).subscribe(new Subscriber<LoginAnswer>() {
+//            @Override
+//            public void onCompleted() {
+//
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//
+//            }
+//
+//            @Override
+//            public void onNext(LoginAnswer loginAnswer) {
+//
+//            }
+//        });
     }
 
     private boolean isValidData(View view) {
