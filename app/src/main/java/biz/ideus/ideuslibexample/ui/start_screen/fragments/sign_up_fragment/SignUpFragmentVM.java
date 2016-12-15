@@ -218,12 +218,7 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
                 .subscribe(new NetSubscriber<SocialsAutorisationAnswer>(netSubscriberSettings) {
                     @Override
                     public void onNext(SocialsAutorisationAnswer socialsAutorisationAnswer) {
-                        if (!socialsAutorisationAnswer.message.isEmpty()) {
-                            hideProgress();
-                            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.LOGIN_ATTENTION);
-                        } else {
-
-                        }
+                        super.onNext(socialsAutorisationAnswer);
                     }
                 });
     }
@@ -240,12 +235,7 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
 
                     @Override
                     public void onNext(SignUpAnswer signUpAnswer) {
-                        if(!signUpAnswer.message.isEmpty()){
-                            hideProgress();
-                            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.SIGN_UP_ATTENTION);
-                        } else {
-                            // goToTutorialScreen();
-                        }
+                        super.onNext(signUpAnswer);
                     }
                 });
     }

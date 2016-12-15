@@ -9,6 +9,8 @@ import com.facebook.appevents.AppEventsLogger;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.orhanobut.hawk.Hawk;
+import com.orhanobut.hawk.NoEncryption;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 import com.twitter.sdk.android.Twitter;
@@ -59,6 +61,9 @@ public class SampleApplication extends Application {
         setupFaceBookSDK();
         setupTwitterSDK();
         setupUniversalImageLoaderConfig();
+        Hawk.init(this)
+                .setEncryption(new NoEncryption())
+                .build();
        // if(BuildConfig.DEBUG) { Timber.plant(new Timber.DebugTree()); }
 
 

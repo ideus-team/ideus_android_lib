@@ -131,12 +131,6 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
                     @Override
                     public void onNext(LoginAnswer loginAnswer) {
                         super.onNext(loginAnswer);
-                        if(!loginAnswer.message.isEmpty()){
-                            hideProgress();
-                            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.LOGIN_ATTENTION);
-                        }else {
-
-                        }
                     }
                 });
     }
@@ -257,12 +251,7 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
                 .subscribe(new NetSubscriber<SocialsAutorisationAnswer>(netSubscriberSettings) {
                     @Override
                     public void onNext(SocialsAutorisationAnswer socialsAutorisationAnswer) {
-                        if (!socialsAutorisationAnswer.message.isEmpty()) {
-                            hideProgress();
-                            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.LOGIN_ATTENTION);
-                        } else {
-
-                        }
+                        super.onNext(socialsAutorisationAnswer);
                     }
                 });
     }
