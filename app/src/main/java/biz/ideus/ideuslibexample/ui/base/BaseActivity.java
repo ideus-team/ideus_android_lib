@@ -88,7 +88,7 @@ implements IView {
 
     private void showNoInternetDialog(int title){
          snackbar = Snackbar
-                .make(binding.getRoot(), getString(title), Snackbar.LENGTH_LONG)
+                .make(binding.getRoot(), getString(title), Snackbar.LENGTH_INDEFINITE)
                  .setActionTextColor(getResources().getColor(biz.ideus.ideuslibexample.R.color.color_main))
                 .setAction(getString(biz.ideus.ideuslibexample.R.string.retry), view -> snackbar.dismiss());
         snackbar.show();
