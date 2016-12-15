@@ -7,7 +7,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.AccountPicker;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterException;
@@ -17,12 +17,14 @@ import java.util.Arrays;
 
 import biz.ideus.ideuslibexample.ui.start_screen.activity.StartActivity;
 
+import static biz.ideus.ideuslibexample.utils.Constants.GOOGLE_SIGN_IN;
+
 /**
  * Created by blackmamba on 13.12.16.
  */
 
 public class SocialsLogin {
-    public static final int GOOGLE_SIGN_IN = 2222;
+
     private SocialRegistrationListener socialRegistrationListener;
 public static CallbackManager faceBookCallbackManager;
 
@@ -33,18 +35,16 @@ public static CallbackManager faceBookCallbackManager;
     }
 
     public void signInWithGooglePlus(StartActivity activity) {
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(activity.getGoogleApiClient());
-        activity.startActivityForResult(signInIntent, GOOGLE_SIGN_IN);
-
-
+        Intent intent = AccountPicker.newChooseAccountIntent(null, null, new String[]{"com.google"},
+                false, null, null, null, null);
+        activity.startActivityForResult(intent, GOOGLE_SIGN_IN);
     }
 
     public void onClickTwitterLogin(StartActivity activity) {
         activity.getTwitterAuthClient().authorize(activity, new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> twitterSessionResult) {
-                System.out.println("TwitterSession  " + twitterSessionResult.data.getAuthToken());
-                socialRegistrationListener.getTwitterToken(twitterSessionResult);
+                socialRegistrationListener.getTwitterToken(twitterSessionResult.data.getAuthToken().token);
             }
 
             @Override
@@ -60,26 +60,24 @@ public static CallbackManager faceBookCallbackManager;
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        System.out.println("facebook  " + loginResult.getAccessToken().getToken());
-                        socialRegistrationListener.getFacebookToken(loginResult);
+                        socialRegistrationListener.getFacebookToken(loginResult.getAccessToken().getToken());
                     }
 
                     @Override
                     public void onCancel() {
-                        System.out.println("facebook  " + "eada");
+
                     }
 
                     @Override
                     public void onError(FacebookException exception) {
-                        System.out.println("facebook  " + exception.getMessage());
                     }
                 });
     }
 
 
     public interface SocialRegistrationListener {
-        void getTwitterToken(Result<TwitterSession> twitterSessionResult);
-        void getFacebookToken(LoginResult loginResult);
+        void getTwitterToken(String twitterToken);
+        void getFacebookToken(String facebookToken);
 
     }
 }
