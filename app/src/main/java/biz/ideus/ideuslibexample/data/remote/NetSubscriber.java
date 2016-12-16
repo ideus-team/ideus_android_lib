@@ -25,6 +25,7 @@ public class NetSubscriber <T extends ServerAnswer> extends Subscriber<T> {
     NetSubscriberSettings subscriberSettings;
     String errorBody, errorMessage;
     int errorCode;
+    boolean isSucces;
 
     public NetSubscriber(NetSubscriberSettings subscriberSettings) {
         super();
@@ -35,17 +36,18 @@ public class NetSubscriber <T extends ServerAnswer> extends Subscriber<T> {
     @Override
     public void onStart() {
         super.onStart();
+        isSucces = true;
         showProgress();
     }
 
     @Override
     public void onCompleted() {
-        hideProgress();
+        if (isSucces) hideProgress();
     }
 
     @Override
     public void onError(Throwable e) {
-        //hideProgress();
+        hideProgress();
         Log.d("NetSubscriber",e.getMessage() + "");
         try {
             Log.d("NetSubscriber", "onError " + e.getMessage());
@@ -111,10 +113,12 @@ public class NetSubscriber <T extends ServerAnswer> extends Subscriber<T> {
 
     @Override
     public void onNext(T t) {
+        Log.d("NetSubscriber", "onNext");
         if (!t.message.isEmpty()){
             onError(new Throwable(t.message));
+            isSucces = false;
         }
-        Log.d("NetSubscriber", "onNext");
+
     }
 
     private void showProgress() {
