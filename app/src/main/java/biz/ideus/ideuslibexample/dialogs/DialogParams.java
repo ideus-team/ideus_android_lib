@@ -18,7 +18,8 @@ public class DialogParams {
     private boolean hasText;
 
     @ParcelConstructor
-    public DialogParams(DialogModel dialogModel, Integer dialogIntent, boolean hasIntent, String dialogHeader, boolean hasHeader, String dialogText, boolean hasText) {
+    public DialogParams(DialogModel dialogModel, Integer dialogIntent, boolean hasIntent
+            , String dialogHeader, boolean hasHeader, String dialogText, boolean hasText) {
         this.dialogModel = dialogModel;
         this.dialogIntent = dialogIntent;
         this.hasIntent = hasIntent;

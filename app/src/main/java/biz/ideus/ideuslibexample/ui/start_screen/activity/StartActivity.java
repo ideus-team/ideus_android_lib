@@ -67,7 +67,11 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
         setModelView(this);
         twitterAuthClient = new TwitterAuthClient();
         RxBusActionEditDialogBtnSubscription = startRxBusActionEditDialogBtnSubscription();
+
+
+
     }
+
 
 
     public Subscription startRxBusActionEditDialogBtnSubscription() {

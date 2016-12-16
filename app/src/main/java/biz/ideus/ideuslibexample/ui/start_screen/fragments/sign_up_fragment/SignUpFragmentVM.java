@@ -8,12 +8,15 @@ import android.text.Editable;
 import android.view.View;
 import android.widget.CheckBox;
 
+import com.orhanobut.hawk.Hawk;
+
 import biz.ideus.ideuslib.interfaces.OnValidateSignUpScreen;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.data.model.request.SignUpModel;
 import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationModel;
 import biz.ideus.ideuslibexample.data.model.response.SignUpAnswer;
 import biz.ideus.ideuslibexample.data.model.response.SocialsAutorisationAnswer;
+import biz.ideus.ideuslibexample.data.remote.CheckError;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriberSettings;
 import biz.ideus.ideuslibexample.dialogs.DialogModel;
@@ -31,6 +34,8 @@ import rx.schedulers.Schedulers;
 import static biz.ideus.ideuslibexample.data.model.SocialNetworks.FACEBOOK_NET;
 import static biz.ideus.ideuslibexample.data.model.SocialNetworks.GOOGLE_PLUS_NET;
 import static biz.ideus.ideuslibexample.data.model.SocialNetworks.TWITTER_NET;
+import static biz.ideus.ideuslibexample.utils.Constants.USER_ID;
+import static biz.ideus.ideuslibexample.utils.Constants.USER_TOKEN;
 
 /**
  * Created by blackmamba on 16.11.16.
@@ -218,7 +223,9 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
                 .subscribe(new NetSubscriber<SocialsAutorisationAnswer>(netSubscriberSettings) {
                     @Override
                     public void onNext(SocialsAutorisationAnswer socialsAutorisationAnswer) {
-                        super.onNext(socialsAutorisationAnswer);
+                        Hawk.put(USER_TOKEN, socialsAutorisationAnswer.data.getUserToken());
+                        Hawk.put(USER_ID, socialsAutorisationAnswer.data.getUserId());
+                        goToTutorialScreen();
                     }
                 });
     }
@@ -229,13 +236,15 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
         NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
 
         netApi.signUp(signUpModel)
+                .lift(new CheckError<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new NetSubscriber<SignUpAnswer>(netSubscriberSettings){
-
                     @Override
                     public void onNext(SignUpAnswer signUpAnswer) {
-                        super.onNext(signUpAnswer);
+                        Hawk.put(USER_TOKEN, signUpAnswer.data.getUserToken());
+                        Hawk.put(USER_ID, signUpAnswer.data.getUserId());
+                        goToTutorialScreen();
                     }
                 });
     }

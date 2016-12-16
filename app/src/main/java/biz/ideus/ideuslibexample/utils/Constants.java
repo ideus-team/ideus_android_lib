@@ -27,4 +27,8 @@ public static final int GOOGLE_SIGN_IN = 2222;
     private final static String EMAIL_SCOPE =
             "https://www.googleapis.com/auth/userinfo.email";
     public final static String GOOGLE_SCOPES = G_PLUS_SCOPE + " " + USERINFO_SCOPE + " " + EMAIL_SCOPE;
+
+
+    public static final String USER_ID ="USER_ID";
+    public static final String USER_TOKEN ="USER_TOKEN";
 }
