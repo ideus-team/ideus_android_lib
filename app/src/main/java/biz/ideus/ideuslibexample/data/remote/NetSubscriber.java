@@ -5,10 +5,11 @@ import android.util.Log;
 import java.io.IOException;
 
 import biz.ideus.ideuslib.Utils.NetworkUtil;
-import biz.ideus.ideuslib.Utils.Utils;
 import biz.ideus.ideuslibexample.SampleApplication;
 import biz.ideus.ideuslibexample.data.model.response.ServerAnswer;
 import biz.ideus.ideuslibexample.dialogs.DialogModel;
+import biz.ideus.ideuslibexample.dialogs.DialogParams;
+import biz.ideus.ideuslibexample.dialogs.DialogParamsBuilder;
 import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscriber;
@@ -44,10 +45,11 @@ public class NetSubscriber <T extends ServerAnswer> extends Subscriber<T> {
 
     @Override
     public void onError(Throwable e) {
-        Log.d("CustomSubscriber",e.getMessage() + "");
+        //hideProgress();
+        Log.d("NetSubscriber",e.getMessage() + "");
         try {
-            Log.d("CustomSubscriber", "onError " + e.getMessage());
-            hideProgress();
+            Log.d("NetSubscriber", "onError " + e.getMessage());
+
 
             String errorBody;
             int errorCode = 0;
@@ -94,8 +96,13 @@ public class NetSubscriber <T extends ServerAnswer> extends Subscriber<T> {
 //                }
 //                PreferencesUtil.alertWasShowed(PreferencesUtil.NO_INTERNET_CONNECTION, true);
             } else {
-                RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.LOGIN_ATTENTION);
-                Utils.toast(SampleApplication.getInstance().getApplicationContext(), e.getMessage());
+                Log.d("NetSubscriber", "DialogParams " );
+                DialogParams dialogParams = new DialogParamsBuilder()
+                        .setDialogModel(DialogModel.LOGIN_ATTENTION)
+                        .setDialogText(e.getMessage())
+                        .createDialogParams();
+                RxBusShowDialog.instanceOf().setRxBusShowDialog(dialogParams);
+//                Utils.toast(SampleApplication.getInstance().getApplicationContext(), e.getMessage());
             }
         } catch (Exception exMain) {
             exMain.printStackTrace();
@@ -107,7 +114,7 @@ public class NetSubscriber <T extends ServerAnswer> extends Subscriber<T> {
         if (!t.message.isEmpty()){
             onError(new Throwable(t.message));
         }
-        Log.d("CustomSubscriber", "onNext");
+        Log.d("NetSubscriber", "onNext");
     }
 
     private void showProgress() {

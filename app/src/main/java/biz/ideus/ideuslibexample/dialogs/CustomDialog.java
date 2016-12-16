@@ -7,12 +7,13 @@ import android.databinding.ViewDataBinding;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
+import org.parceler.Parcels;
 import biz.ideus.ideuslibexample.BR;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.rx_buses.RxBusActionEditDialogBtn;
@@ -29,37 +30,45 @@ public class CustomDialog extends DialogFragment{
     public static String DIALOG_MODEL_KEY = "DialogModel";
     public static int RESOURCE_EMPTY = 0;
 
-    private int layout;
+//    private int layout;
 
-    public void setLayout(int layout) {
-        this.layout = layout;
-    }
+//    private Object dialogIntent;
+//    private DialogModel dialogModel;
+    private DialogParams dialogParams;
+//    public DialogModel getDialogModel() {        return dialogModel;    }
 
-    private Object dialogIntent;
-    private DialogModel dialogModel;
-    public DialogModel getDialogModel() {
-        return dialogModel;
-    }
-
-    public final ObservableField<String> title = new ObservableField<>();
-    public final ObservableField<String> aboutDialogTitle = new ObservableField<>();
+    public final ObservableField<String> headerText = new ObservableField<>();
+    public final ObservableField<String> messageText = new ObservableField<>();
     public final ObservableField<String> btnName = new ObservableField<>();
     public final ObservableField<Integer> colorTitle = new ObservableField<>();
     public final ObservableField<Integer> visibilityAttentionIcon = new ObservableField<>();
 
 
 
-    public static CustomDialog instance(DialogModel dialogModel, @Nullable Object dialogIntent) {
-        if(dialogModel.layoutId != RESOURCE_EMPTY) {
-            CustomDialog customDialog = new CustomDialog();
-            customDialog.layout = dialogModel.layoutId;
-            customDialog.dialogIntent = dialogIntent;
-            customDialog.dialogModel = dialogModel;
-            return customDialog;
-        } else {
-            return null;
+//    public static CustomDialog instance(DialogModel dialogModel) {
+//        if(dialogModel.layoutId != RESOURCE_EMPTY) {
+//            CustomDialog customDialog = new CustomDialog();
+//            customDialog.layout = dialogModel.layoutId;
+//            customDialog.dialogModel = dialogModel;
+//            return customDialog;
+//        } else {
+//            return null;
+//        }
+//    }
+
+    public static CustomDialog instance(DialogParams dialogParams) {
+        CustomDialog customDialog = null;
+        if(dialogParams.getDialogModel().layoutId != RESOURCE_EMPTY) {
+            customDialog = new CustomDialog();
+            //customDialog.layout = dialogParams.getDialogModel().layoutId;
+            customDialog.dialogParams = dialogParams;
         }
+        return customDialog;
     }
+
+
+
+//    public void setLayout(int layout) {        this.layout = layout;    }
 
 
     @Override
@@ -67,8 +76,9 @@ public class CustomDialog extends DialogFragment{
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, R.style.DialogStyle);
         if (savedInstanceState != null) {
-            layout = savedInstanceState.getInt(LAYOUT_KEY);
-            dialogModel = (DialogModel) savedInstanceState.getSerializable(DIALOG_MODEL_KEY);
+            dialogParams = Parcels.unwrap(savedInstanceState.getParcelable(DIALOG_MODEL_KEY));
+           // layout = savedInstanceState.getInt(LAYOUT_KEY);
+           // dialogParams.setDialogModel((DialogModel) savedInstanceState.getSerializable(DIALOG_MODEL_KEY));
         }
     }
 
@@ -76,7 +86,7 @@ public class CustomDialog extends DialogFragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        binding = DataBindingUtil.inflate(inflater, layout, container, true);
+        binding = DataBindingUtil.inflate(inflater, dialogParams.getDialogModel().layoutId, container, true);
         binding.setVariable(BR.customVM, this);
         setDialogParameters();
         return binding.getRoot();
@@ -85,18 +95,24 @@ public class CustomDialog extends DialogFragment{
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(LAYOUT_KEY, layout);
-        outState.putSerializable(DIALOG_MODEL_KEY, dialogModel);
+        Parcelable wrapped = Parcels.wrap(dialogParams);
+        outState.putParcelable(DIALOG_MODEL_KEY, wrapped);
+
+//        outState.putInt(LAYOUT_KEY, layout);
+//        outState.putSerializable(DIALOG_MODEL_KEY, dialogParams);
     }
 
     private void setDialogParameters() {
-                title.set(getString(getDialogModel().resDialogName));
-                colorTitle.set(getDialogModel().colorTitle);
-                visibilityAttentionIcon.set(getDialogModel().visibilityIcon);
-                aboutDialogTitle.set(getString(getDialogModel().resAboutDialogText));
-                btnName.set(getString(getDialogModel().resBtnName));
-                this.setCancelable(false);
+        String header = dialogParams.isHasHeader() ? dialogParams.getDialogHeader() : getString(dialogParams.getDialogModel().resDialogName);
+        headerText.set(header);
 
+        String text = dialogParams.isHasText() ? dialogParams.getDialogText() : getString(dialogParams.getDialogModel().resAboutDialogText);
+        messageText.set(text);
+
+        colorTitle.set(dialogParams.getDialogModel().colorTitle);
+        visibilityAttentionIcon.set(dialogParams.getDialogModel().visibilityIcon);
+        btnName.set(getString(dialogParams.getDialogModel().resBtnName));
+        this.setCancelable(false);
     }
 
 
@@ -117,27 +133,9 @@ public class CustomDialog extends DialogFragment{
     public void onClick(View view) {
         DialogCommandModel dialogCommandModel = (DialogCommandModel) view.getTag();
         if (dialogCommandModel != null) {
-            RxBusActionEditDialogBtn.instanceOf().setDialogCommand(new DialogCommand(dialogCommandModel, null));
-            dismiss();
-        } else {
-            dismiss();
+            RxBusActionEditDialogBtn.instanceOf().setDialogCommand(new DialogCommand(dialogCommandModel, dialogParams.getDialogIntent()));
         }
-
-    }
-
-    public class DialogCommand {
-        private DialogCommandModel dialogCommandModel;
-        private Object dialogIntent;
-
-
-        public DialogCommandModel getDialogCommandModel() {
-            return dialogCommandModel;
-        }
-
-        public DialogCommand(DialogCommandModel dialogCommandModel, Object dialogIntent) {
-            this.dialogCommandModel = dialogCommandModel;
-            this.dialogIntent = dialogIntent;
-        }
+        dismiss();
     }
 
 }

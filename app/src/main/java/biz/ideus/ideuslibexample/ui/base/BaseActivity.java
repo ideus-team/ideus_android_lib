@@ -62,12 +62,12 @@ implements IView {
 
     public Subscription startRxBusShowDialogSubscription() {
         return RxBusShowDialog.instanceOf().getEvents().filter(s -> s != null)
-                .subscribe(dialogModel -> {
+                .subscribe(dialogParams -> {
                     if(dialog != null && dialog.isVisible())
                         dialog.dismiss();
-                        switch (dialogModel) {
+                        switch (dialogParams.getDialogModel()) {
                             case PROGRESS_DIALOG:
-                                dialog = CustomDialog.instance(dialogModel, null);
+                                dialog = CustomDialog.instance(dialogParams);
                                 dialog.show(getFragmentManager(), "Dialog");
                                 break;
                             case HIDE_PROGRESS_DIALOG:
@@ -78,11 +78,11 @@ implements IView {
                                 showNoInternetDialog(NO_INTERNET_CONNECTION.resDialogName);
                                 break;
                             default:
-                                dialog = CustomDialog.instance(dialogModel, null);
+                                dialog = CustomDialog.instance(dialogParams);
                                 dialog.show(getFragmentManager(), "Dialog");
                                 break;
                         }
-                        RxBusShowDialog.instanceOf().setRxBusShowDialog(null);
+                        RxBusShowDialog.instanceOf().setRxBusCommit();
 
                 });
 
@@ -90,7 +90,7 @@ implements IView {
 
     private void showNoInternetDialog(int title){
          snackbar = Snackbar
-                .make(binding.getRoot(), getString(title), Snackbar.LENGTH_LONG)
+                .make(binding.getRoot(), getString(title), Snackbar.LENGTH_INDEFINITE)
                  .setActionTextColor(getResources().getColor(biz.ideus.ideuslibexample.R.color.color_main))
                 .setAction(getString(biz.ideus.ideuslibexample.R.string.retry), view -> snackbar.dismiss());
         snackbar.show();

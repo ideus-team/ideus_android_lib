@@ -66,7 +66,15 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
 
     @DebugLog
     public void onTestClick(View view) {
-        // RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.EDIT_TEXT_DIALOG);
+        // RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.NO_INTERNET_CONNECTION);
+
+//        DialogParams dialogParams = new DialogParamsBuilder()
+//                .setDialogModel(DialogModel.LOGIN_ATTENTION)
+//                .setDialogText("чото тут напишем")
+//                .createDialogParams();
+//        RxBusShowDialog.instanceOf().setRxBusShowDialog(dialogParams);
+
+
         LoginModel loginModel = new LoginModel(email.get().toString(), password.get().toString());
 
         NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
@@ -132,8 +140,8 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
                     public void onNext(LoginAnswer loginAnswer) {
                         super.onNext(loginAnswer);
                         if(!loginAnswer.message.isEmpty()){
-                            hideProgress();
-                            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.LOGIN_ATTENTION);
+//                            hideProgress();
+//                            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.LOGIN_ATTENTION);
                         }else {
 
                         }
