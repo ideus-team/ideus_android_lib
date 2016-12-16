@@ -82,8 +82,7 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
 
         netApi.login(loginModel)
                 .lift(new CheckError<>())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .compose(NetSubscriber.applySchedulers())
                 .subscribe(new NetSubscriber<LoginAnswer>(netSubscriberSettings){
             @Override
             public void onNext(LoginAnswer loginAnswer) {
