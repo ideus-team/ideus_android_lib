@@ -12,7 +12,10 @@ import biz.ideus.ideuslibexample.dialogs.DialogParams;
 import biz.ideus.ideuslibexample.dialogs.DialogParamsBuilder;
 import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import retrofit2.adapter.rxjava.HttpException;
+import rx.Observable;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static biz.ideus.ideuslibexample.dialogs.DialogModel.HIDE_PROGRESS_DIALOG;
 import static biz.ideus.ideuslibexample.dialogs.DialogModel.PROGRESS_DIALOG;
@@ -150,9 +153,17 @@ public class NetSubscriber <T extends ServerAnswer> extends Subscriber<T> {
         }
     }
 
+    public static <T> Observable.Transformer<T, T> applySchedulers() {
+        return observable -> observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
     public enum ProgressType {
         NONE,
         LINEAR,
         CIRCULAR
     }
+
+
 }
