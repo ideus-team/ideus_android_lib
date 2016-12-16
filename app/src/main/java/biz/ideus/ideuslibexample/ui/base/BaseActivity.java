@@ -9,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -63,6 +64,7 @@ implements IView {
     public Subscription startRxBusShowDialogSubscription() {
         return RxBusShowDialog.instanceOf().getEvents().filter(s -> s != null)
                 .subscribe(dialogParams -> {
+                    Log.d("getEvents()", dialogParams.getDialogModel().toString());
                     if(dialog != null && dialog.isVisible())
                         dialog.dismiss();
                         switch (dialogParams.getDialogModel()) {
