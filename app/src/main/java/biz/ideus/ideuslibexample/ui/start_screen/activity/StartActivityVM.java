@@ -17,6 +17,7 @@ import biz.ideus.ideuslibexample.data.model.request.LoginModel;
 import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationModel;
 import biz.ideus.ideuslibexample.data.model.response.LoginAnswer;
 import biz.ideus.ideuslibexample.data.model.response.SocialsAutorisationAnswer;
+import biz.ideus.ideuslibexample.data.remote.CheckError;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriberSettings;
 import biz.ideus.ideuslibexample.dialogs.DialogModel;
@@ -80,6 +81,7 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
         NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
 
         netApi.login(loginModel)
+                .lift(new CheckError<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new NetSubscriber<LoginAnswer>(netSubscriberSettings){
