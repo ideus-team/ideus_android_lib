@@ -62,12 +62,12 @@ implements IView {
 
     public Subscription startRxBusShowDialogSubscription() {
         return RxBusShowDialog.instanceOf().getEvents().filter(s -> s != null)
-                .subscribe(dialogModel -> {
+                .subscribe(dialogParams -> {
                     if(dialog != null && dialog.isVisible())
                         dialog.dismiss();
-                        switch (dialogModel) {
+                        switch (dialogParams.getDialogModel()) {
                             case PROGRESS_DIALOG:
-                                dialog = CustomDialog.instance(dialogModel, null);
+                                dialog = CustomDialog.instance(dialogParams);
                                 dialog.show(getFragmentManager(), "Dialog");
                                 break;
                             case HIDE_PROGRESS_DIALOG:
@@ -78,11 +78,11 @@ implements IView {
                                 showNoInternetDialog(NO_INTERNET_CONNECTION.resDialogName);
                                 break;
                             default:
-                                dialog = CustomDialog.instance(dialogModel, null);
+                                dialog = CustomDialog.instance(dialogParams);
                                 dialog.show(getFragmentManager(), "Dialog");
                                 break;
                         }
-                        RxBusShowDialog.instanceOf().setRxBusShowDialog(null);
+                        RxBusShowDialog.instanceOf().setRxBusCommit();
 
                 });
 
