@@ -25,7 +25,6 @@ import biz.ideus.ideuslibexample.data.remote.NetSubscriberSettings;
 import biz.ideus.ideuslibexample.dialogs.DialogModel;
 import biz.ideus.ideuslibexample.interfaces.BaseMvvmInterface;
 import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
-import biz.ideus.ideuslibexample.rx_buses.RxChatMessageEvent;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.main_screen.activity.MainActivity;
 import biz.ideus.ideuslibexample.ui.start_screen.SocialsLogin;
@@ -33,7 +32,6 @@ import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.forgot_password_fragment.ForgotPasswordFragment;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.sign_up_fragment.SignUpFragment;
 import hugo.weaving.DebugLog;
-import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -55,7 +53,7 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
     private boolean isValidPassword = false;
     private SocialsLogin socialsLogin = new SocialsLogin(this);
     public final ObservableField<Drawable> headerImage = new ObservableField<>();
-    protected Subscription testSubscription;
+ //   protected Subscription testSubscription;
     @Override
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
         super.onCreate(arguments, savedInstanceState);
@@ -64,7 +62,7 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
         isPasswordShow.set(true);
         setOnValidateField(this);
 
-        testSubscription = chatEventSubscribe();
+//        testSubscription = chatEventSubscribe();
 
 
     }
@@ -284,27 +282,27 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
     }
 
 
-    private Subscription chatEventSubscribe(){
-
-        return RxChatMessageEvent.instanceOf().getEvents()
-                .subscribe(new Subscriber<String>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(String message) {
-                        email.set(message);
-                    }
-                });
-
-    }
+//    private Subscription chatEventSubscribe(){
+//
+//        return RxChatMessageEvent.instanceOf().getEvents()
+//                .subscribe(new Subscriber<String>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(String message) {
+//                        email.set(message);
+//                    }
+//                });
+//
+//    }
 
     @Override
     public void onDestroy() {

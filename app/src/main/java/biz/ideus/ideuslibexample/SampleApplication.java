@@ -8,7 +8,6 @@ import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.neovisionaries.ws.client.ProxySettings;
 import com.neovisionaries.ws.client.WebSocket;
-import com.neovisionaries.ws.client.WebSocketAdapter;
 import com.neovisionaries.ws.client.WebSocketFactory;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -20,16 +19,12 @@ import com.squareup.leakcanary.RefWatcher;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-
 import javax.net.ssl.SSLContext;
 
 import biz.ideus.ideuslib.adapter.typeface_adapters.DLibTypefaceAdapter;
 import biz.ideus.ideuslibexample.injection.components.AppComponent;
 import biz.ideus.ideuslibexample.injection.components.DaggerAppComponent;
 import biz.ideus.ideuslibexample.injection.modules.AppModule;
-import biz.ideus.ideuslibexample.rx_buses.RxChatMessageEvent;
 import biz.ideus.ideuslibexample.utils.Constants;
 import io.fabric.sdk.android.Fabric;
 import io.requery.sql.Configuration;
@@ -75,34 +70,32 @@ public class SampleApplication extends Application {
 
 
         //Web socket
-        factory = new WebSocketFactory();
-        try {
-            sslContext = SSLContext.getInstance("TLS");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        factory.setSSLContext(sslContext);
-        factory.setConnectionTimeout(1000);
-
-
-//        ProxySettings settings = factory.getProxySettings();
-//        proxySettings.setServer("ws://46.101.254.89:8080");
-        try {
-            webSocket = new WebSocketFactory().createSocket("ws://46.101.254.89:8080");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-            webSocket.connectAsynchronously();
-
-
-        webSocket.addListener(new WebSocketAdapter() {
-            @Override
-            public void onTextMessage(WebSocket websocket, String message) throws Exception {
-                // Received a text message.
-                RxChatMessageEvent.instanceOf().setRxChatMessageEvent(message);
-            }
-        });
+//        factory = new WebSocketFactory();
+//        try {
+//            sslContext = SSLContext.getInstance("TLS");
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//        }
+//        factory.setSSLContext(sslContext);
+//        factory.setConnectionTimeout(1000);
+//
+//        try {
+//            webSocket = new WebSocketFactory().createSocket("ws://46.101.254.89:8080");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//        webSocket.connectAsynchronously();
+//
+//
+//        webSocket.addListener(new WebSocketAdapter() {
+//            @Override
+//            public void onTextMessage(WebSocket websocket, String text) throws Exception {
+//                RxChatMessageEvent.instanceOf().setRxChatMessageEvent(text);
+//            }
+//        });
+        //
 
         sInstance = this;
         sAppComponent = DaggerAppComponent.builder()
@@ -119,11 +112,6 @@ public class SampleApplication extends Application {
 
     }
 
-    @Override
-    public void onTerminate() {
-        super.onTerminate();
-        webSocket.disconnect();
-    }
 
     private void setupUniversalImageLoaderConfig(){
         ImageLoaderDefaultDisplayOptions = new DisplayImageOptions.Builder()
