@@ -14,7 +14,6 @@ import com.orhanobut.hawk.Hawk;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import biz.ideus.ideuslib.interfaces.OnValidateField;
-import biz.ideus.ideuslibexample.SampleApplication;
 import biz.ideus.ideuslibexample.data.model.request.LoginModel;
 import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationModel;
 import biz.ideus.ideuslibexample.data.model.response.LoginAnswer;
@@ -32,7 +31,6 @@ import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.forgot_password_fragment.ForgotPasswordFragment;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.sign_up_fragment.SignUpFragment;
 import hugo.weaving.DebugLog;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -76,7 +74,7 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
 
     @DebugLog
     public void onTestClick(View view) {
-        SampleApplication.getInstance().getWebSocket().sendText("wwwwwwww");
+     //   SampleApplication.getInstance().getWebSocket().sendText("wwwwwwww");
 
 //
 //        LoginModel loginModel = new LoginModel(email.get().toString(), password.get().toString());
@@ -304,12 +302,12 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
 //
 //    }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (testSubscription != null && !testSubscription.isUnsubscribed())
-            testSubscription.unsubscribe();
-    }
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//        if (testSubscription != null && !testSubscription.isUnsubscribed())
+//            testSubscription.unsubscribe();
+//    }
 
 
 }
