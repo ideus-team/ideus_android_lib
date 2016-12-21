@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="requery-android-1.0.2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../app/build/intermediates/exploded-aar/io.requery/requery-android/1.0.2/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../app/build/intermediates/exploded-aar/io.requery/requery-android/1.0.2/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.requery/requery-android/1.0.2/b883b9827d1dacab84972b852c74c07ab9a9bc76/requery-android-1.0.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
