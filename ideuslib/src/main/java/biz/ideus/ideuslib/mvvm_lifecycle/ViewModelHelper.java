@@ -35,7 +35,7 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
     private boolean mOnSaveInstanceCalled;
 
     /**
-     * Call from {@link android.app.Activity#onCreate(android.os.Bundle)} or
+     * Call from {@link android.app.Activity#onCreate(android.os.Bundle)} or 
      * {@link android.support.v4.app.Fragment#onCreate(android.os.Bundle)}
      *
      * @param activity           parent activity

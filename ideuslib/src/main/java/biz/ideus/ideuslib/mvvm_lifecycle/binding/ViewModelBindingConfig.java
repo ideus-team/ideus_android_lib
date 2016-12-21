@@ -37,7 +37,7 @@ public class ViewModelBindingConfig {
      * Create a ViewModelBinding Config object for an Activity/Fragment
      * Use this constructor if the binding variable is named viewModel
      *
-     * @param layoutResource Layout resource ID
+     * param layoutResource Layout resource ID
      */
 //    public ViewModelBindingConfig(@LayoutRes int layoutResource, @NonNull Context context) {
 //        this(layoutResource, BR.viewModel, context);
