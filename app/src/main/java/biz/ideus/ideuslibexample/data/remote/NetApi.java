@@ -4,9 +4,7 @@ package biz.ideus.ideuslibexample.data.remote;
 import biz.ideus.ideuslibexample.data.model.request.LoginModel;
 import biz.ideus.ideuslibexample.data.model.request.SignUpModel;
 import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationModel;
-import biz.ideus.ideuslibexample.data.model.response.LoginAnswer;
-import biz.ideus.ideuslibexample.data.model.response.SignUpAnswer;
-import biz.ideus.ideuslibexample.data.model.response.SocialsAutorisationAnswer;
+import biz.ideus.ideuslibexample.data.model.response.AutorisationAnswer;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 import rx.Observable;
@@ -14,11 +12,11 @@ import rx.Observable;
 
 public interface NetApi {
     @POST("user/login")
-    Observable<LoginAnswer> login(@Body LoginModel loginModel);
+    Observable<AutorisationAnswer> login(@Body LoginModel loginModel);
 
     @POST("user/signup")
-    Observable<SignUpAnswer> signUp(@Body SignUpModel signUpModel);
+    Observable<AutorisationAnswer> signUp(@Body SignUpModel signUpModel);
 
     @POST("user/loginSocial")
-    Observable<SocialsAutorisationAnswer> autorisationSocial(@Body SocialsAutorisationModel socialsAutorisationModel);
+    Observable<AutorisationAnswer> autorisationSocial(@Body SocialsAutorisationModel socialsAutorisationModel);
 }

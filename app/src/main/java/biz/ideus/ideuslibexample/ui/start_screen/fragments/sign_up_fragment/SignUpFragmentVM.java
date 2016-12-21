@@ -14,8 +14,7 @@ import biz.ideus.ideuslib.interfaces.OnValidateSignUpScreen;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.data.model.request.SignUpModel;
 import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationModel;
-import biz.ideus.ideuslibexample.data.model.response.SignUpAnswer;
-import biz.ideus.ideuslibexample.data.model.response.SocialsAutorisationAnswer;
+import biz.ideus.ideuslibexample.data.model.response.AutorisationAnswer;
 import biz.ideus.ideuslibexample.data.remote.CheckError;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriberSettings;
@@ -195,40 +194,44 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
     }
 
 
+
     @Override
     public void getGoogleToken(String googlePlusToken) {
-        autorisationSocial(googlePlusToken, GOOGLE_PLUS_NET.networkName);
+        autorisationSocial(googlePlusToken, GOOGLE_PLUS_NET.networkName, null);
     }
 
 
     @Override
-    public void getTwitterToken(String twitterToken) {
-        autorisationSocial(twitterToken, TWITTER_NET.networkName);
+    public void getTwitterAutorisationData(String userName, String twitterToken) {
+        autorisationSocial(twitterToken, TWITTER_NET.networkName, userName);
     }
 
     @Override
     public void getFacebookToken(String facebookToken) {
-        autorisationSocial(facebookToken, FACEBOOK_NET.networkName);
+        autorisationSocial(facebookToken, FACEBOOK_NET.networkName, null);
     }
 
 
 
-    private void autorisationSocial(String socialToken, String socialName) {
+    private void autorisationSocial(String socialToken, String socialName, @Nullable String twitterUserName){
         SocialsAutorisationModel sotialAuthModel = new SocialsAutorisationModel(socialToken, socialName);
         NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
-
+        if(socialToken.equals(TWITTER_NET.networkName)){
+            sotialAuthModel.setTwitterUsername(twitterUserName);
+        }
         netApi.autorisationSocial(sotialAuthModel)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new NetSubscriber<SocialsAutorisationAnswer>(netSubscriberSettings) {
+                .subscribe(new NetSubscriber<AutorisationAnswer>(netSubscriberSettings) {
                     @Override
-                    public void onNext(SocialsAutorisationAnswer socialsAutorisationAnswer) {
-                        Hawk.put(USER_TOKEN, socialsAutorisationAnswer.data.getUserToken());
-                        Hawk.put(USER_ID, socialsAutorisationAnswer.data.getUserId());
+                    public void onNext(AutorisationAnswer autorisationAnswer) {
+                        Hawk.put(USER_TOKEN, autorisationAnswer.data.getUserToken());
+                        Hawk.put(USER_ID, autorisationAnswer.data.getUserId());
                         goToTutorialScreen();
                     }
                 });
     }
+
 
     private void signUpUser() {
 
@@ -239,11 +242,11 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
                 .lift(new CheckError<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new NetSubscriber<SignUpAnswer>(netSubscriberSettings){
+                .subscribe(new NetSubscriber<AutorisationAnswer>(netSubscriberSettings){
                     @Override
-                    public void onNext(SignUpAnswer signUpAnswer) {
-                        Hawk.put(USER_TOKEN, signUpAnswer.data.getUserToken());
-                        Hawk.put(USER_ID, signUpAnswer.data.getUserId());
+                    public void onNext(AutorisationAnswer autorisationAnswer) {
+                        Hawk.put(USER_TOKEN, autorisationAnswer.data.getUserToken());
+                        Hawk.put(USER_ID, autorisationAnswer.data.getUserId());
                         goToTutorialScreen();
                     }
                 });
