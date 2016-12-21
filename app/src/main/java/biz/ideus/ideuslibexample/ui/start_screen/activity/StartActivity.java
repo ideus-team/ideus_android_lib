@@ -14,7 +14,6 @@ import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 
 import javax.inject.Inject;
 
-import biz.ideus.ideuslib.Utils.Utils;
 import biz.ideus.ideuslib.mvvm_lifecycle.binding.ViewModelBindingConfig;
 import biz.ideus.ideuslibexample.BR;
 import biz.ideus.ideuslibexample.R;
@@ -49,6 +48,12 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
 
     public void setGoogleAutorisationListener(GoogleAutorisationListener googleAutorisationListener) {
         this.googleAutorisationListener = googleAutorisationListener;
+    }
+
+    private PickImageListener pickImageListener;
+
+    public void setPickImageListener(PickImageListener pickImageListener) {
+        this.pickImageListener = pickImageListener;
     }
 
     public TwitterAuthClient getTwitterAuthClient() {
@@ -134,8 +139,8 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
                     case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
                         CropImage.ActivityResult result = CropImage.getActivityResult(intent);
                         Uri resultUri = result.getUri();
-
-                        getBinding().getViewModel().headerImage.set(Utils.getDrawableImage(getContentResolver(), resultUri));
+                        pickImageListener.setImagePath(resultUri.getPath());
+                      //  getBinding().getViewModel().headerImage.set(Utils.getDrawableImage(getContentResolver(), resultUri));
                         break;
                     case CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE:
                         break;
@@ -166,5 +171,10 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
 
     public interface GoogleAutorisationListener {
         void getGoogleToken(String googlePlusToken);
+    }
+
+    //Test for UploadFile
+    public interface PickImageListener {
+        void setImagePath(String imagePath);
     }
 }

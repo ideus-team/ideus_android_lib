@@ -16,6 +16,13 @@ public class SocialsAutorisationModel extends BaseRequestModel {
     @SerializedName("username")
     private String twitterUsername;
 
+    @SerializedName("is_agree")
+    private boolean isAgree;
+
+    public void setIsAgree(boolean isAgree) {
+        this.isAgree = isAgree;
+    }
+
     public void setTwitterUsername(String twitterUsername) {
         this.twitterUsername = twitterUsername;
     }

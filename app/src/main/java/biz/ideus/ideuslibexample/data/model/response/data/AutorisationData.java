@@ -11,7 +11,7 @@ public class AutorisationData {
     @SerializedName("api_token")
     private String userToken;
 
-    @SerializedName("id")
+    @SerializedName("ident")
     private String userId;
 
     @SerializedName("email")

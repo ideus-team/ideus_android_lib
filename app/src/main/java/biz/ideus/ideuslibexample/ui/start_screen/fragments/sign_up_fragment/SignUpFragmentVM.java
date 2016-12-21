@@ -44,6 +44,7 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
     private boolean isValidName = false;
     private boolean isValidEmail = false;
     private boolean isValidPassword = false;
+    private boolean isAgreeTermOfService = false;
     private SocialsLogin socialsLogin = new SocialsLogin(this);
 
 
@@ -63,7 +64,7 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
     @Override
     public void onBindView(@NonNull StartView view) {
         super.onBindView(view);
-        ((StartActivity)context).setGoogleAutorisationListener(this);
+        ((StartActivity) context).setGoogleAutorisationListener(this);
 
 
     }
@@ -83,32 +84,49 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
     }
 
     private boolean isValidData() {
-       return isValidEmail && isValidPassword && isValidName;
+        return isValidEmail && isValidPassword && isValidName;
     }
 
     public void onCreateAccountClick(View view) {
-        if (isValidData()) {
-            signUpUser();
-        } else {
-            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.SIGN_UP_ATTENTION);
+        if (isCheckTermsOfService()) {
+            if (isValidData()) {
+                signUpUser();
+            } else {
+                RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.SIGN_UP_ATTENTION);
+            }
         }
 
     }
 
-    public void onCheckedChangedTermAndPolicy(View v) {
-        isTermAndPolicy.set((!((CheckBox) v).isChecked()));
+    private boolean isCheckTermsOfService() {
+        if (isAgreeTermOfService) {
+            return isAgreeTermOfService;
+        } else {
+            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.TERMS_OF_SERVICE_ATTENTION);
+            return isAgreeTermOfService;
+        }
+    }
+
+    public void onCheckedChangedTermOfService(View v) {
+        isAgreeTermOfService = ((((CheckBox) v).isChecked()));
     }
 
     public void onClickGooglePlus(View view) {
-        socialsLogin.signInWithGooglePlus((StartActivity) context);
+        if (isCheckTermsOfService()) {
+            socialsLogin.signInWithGooglePlus((StartActivity) context);
+        }
     }
 
     public void onClickTwitterLogin(View view) {
-        socialsLogin.onClickTwitterLogin((StartActivity) context);
+        if (isCheckTermsOfService()) {
+            socialsLogin.onClickTwitterLogin((StartActivity) context);
+        }
     }
 
     public void onClickFaceBookLogin(View view) {
-        socialsLogin.onClickFaceBookLogin((StartActivity) context);
+        if (isCheckTermsOfService()) {
+            socialsLogin.onClickFaceBookLogin((StartActivity) context);
+        }
     }
 
     public void onClickTermsAndPolicy(View view) {
@@ -116,7 +134,7 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
     }
 
     // CheckBox change listener
-    public void onCheckedChanged(View v) {
+    public void onCheckedChangedShowPassword(View v) {
         isPasswordShow.set((!((CheckBox) v).isChecked()));
     }
 
@@ -188,11 +206,11 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
     public String getToolbarTitle() {
         return context.getString(R.string.sign_up);
     }
+
     @Override
     public boolean isLeftBtnVisible() {
         return true;
     }
-
 
 
     @Override
@@ -212,11 +230,13 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
     }
 
 
+    private void autorisationSocial(String socialToken, String socialName, @Nullable String twitterUserName) {
 
-    private void autorisationSocial(String socialToken, String socialName, @Nullable String twitterUserName){
-        SocialsAutorisationModel sotialAuthModel = new SocialsAutorisationModel(socialToken, socialName);
         NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
-        if(socialToken.equals(TWITTER_NET.networkName)){
+        SocialsAutorisationModel sotialAuthModel = new SocialsAutorisationModel(socialToken, socialName);
+        sotialAuthModel.setIsAgree(isAgreeTermOfService);
+
+        if (socialToken.equals(TWITTER_NET.networkName)) {
             sotialAuthModel.setTwitterUsername(twitterUserName);
         }
         netApi.autorisationSocial(sotialAuthModel)
@@ -242,7 +262,7 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
                 .lift(new CheckError<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new NetSubscriber<AutorisationAnswer>(netSubscriberSettings){
+                .subscribe(new NetSubscriber<AutorisationAnswer>(netSubscriberSettings) {
                     @Override
                     public void onNext(AutorisationAnswer autorisationAnswer) {
                         Hawk.put(USER_TOKEN, autorisationAnswer.data.getUserToken());
@@ -252,7 +272,7 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
                 });
     }
 
-    protected void goToTutorialScreen(){
+    protected void goToTutorialScreen() {
         StartActivity startActivity = (StartActivity) context;
         startActivity.startActivity(new Intent(startActivity, TutorialActivity.class));
         startActivity.finish();

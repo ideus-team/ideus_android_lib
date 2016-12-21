@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 
@@ -14,9 +15,11 @@ import com.orhanobut.hawk.Hawk;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import biz.ideus.ideuslib.interfaces.OnValidateField;
+import biz.ideus.ideuslibexample.data.model.request.BaseRequestModelWithToken;
 import biz.ideus.ideuslibexample.data.model.request.LoginModel;
 import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationModel;
 import biz.ideus.ideuslibexample.data.model.response.AutorisationAnswer;
+import biz.ideus.ideuslibexample.data.model.response.UserFilesAnswer;
 import biz.ideus.ideuslibexample.data.remote.CheckError;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriberSettings;
@@ -29,6 +32,7 @@ import biz.ideus.ideuslibexample.ui.start_screen.SocialsLogin;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.forgot_password_fragment.ForgotPasswordFragment;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.sign_up_fragment.SignUpFragment;
+import biz.ideus.ideuslibexample.utils.FileUploadProcessor;
 import hugo.weaving.DebugLog;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -45,15 +49,22 @@ import static biz.ideus.ideuslibexample.utils.Constants.USER_TOKEN;
  */
 
 public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterface.StartActivityVmListener
-        , OnValidateField, SocialsLogin.SocialRegistrationListener, StartActivity.GoogleAutorisationListener {
+        , OnValidateField, SocialsLogin.SocialRegistrationListener, StartActivity.GoogleAutorisationListener, StartActivity.PickImageListener {
     private boolean isValidEmail = false;
     private boolean isValidPassword = false;
     private SocialsLogin socialsLogin = new SocialsLogin(this);
     public final ObservableField<Drawable> headerImage = new ObservableField<>();
+    private FileUploadProcessor fileUploadProcessor;
+
+    private String testFilePath;
  //   protected Subscription testSubscription;
     @Override
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
         super.onCreate(arguments, savedInstanceState);
+
+        fileUploadProcessor = new FileUploadProcessor();
+
+
         visibilityClearEmailImage.set(View.INVISIBLE);
         visibilityClearPasswordImage.set(View.INVISIBLE);
         isPasswordShow.set(true);
@@ -69,31 +80,27 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
     public void onBindView(@NonNull StartView view) {
         super.onBindView(view);
         ((StartActivity) context).setGoogleAutorisationListener(this);
+        ((StartActivity) context).setPickImageListener(this);
     }
 
     @DebugLog
     public void onTestClick(View view) {
      //   SampleApplication.getInstance().getWebSocket().sendText("wwwwwwww");
 
-//
-//        LoginModel loginModel = new LoginModel(email.get().toString(), password.get().toString());
-//        NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
-//
-//        netApi.login(loginModel)
-//                .lift(new CheckError<>())
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new NetSubscriber<LoginAnswer>(netSubscriberSettings){
-//            @Override
-//            public void onNext(LoginAnswer loginAnswer) {
-//                Hawk.put(USER_TOKEN, loginAnswer.data.getUserToken());
-//                Hawk.put(USER_ID, loginAnswer.data.getUserId());
-//
-//
-//                Log.d("loginAnswer", Hawk.get(USER_TOKEN));
-//                Log.d("loginAnswer", Hawk.get(USER_ID));
-//            }
-//        });
+
+        NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
+        netApi.getUserFiles(new BaseRequestModelWithToken(Hawk.get(USER_TOKEN)))
+                .lift(new CheckError<>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new NetSubscriber<UserFilesAnswer>(netSubscriberSettings){
+            @Override
+            public void onNext(UserFilesAnswer userFilesAnswer) {
+                System.out.println( "" + userFilesAnswer.data.getUserFilesEntities().isEmpty());
+                Log.d("loginAnswer", Hawk.get(USER_TOKEN));
+                Log.d("loginAnswer", Hawk.get(USER_ID));
+            }
+        });
 
     }
 
@@ -279,6 +286,12 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
                         goToMainScreen();
                     }
                 });
+    }
+
+    @Override
+    public void setImagePath(String imagePath) {
+        fileUploadProcessor.addFilePath(imagePath);
+       // fileUploadProcessor.startProcess();
     }
 
 

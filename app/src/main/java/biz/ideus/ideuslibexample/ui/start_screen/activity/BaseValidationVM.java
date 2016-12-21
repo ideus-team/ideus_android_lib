@@ -44,8 +44,6 @@ public abstract class BaseValidationVM extends AbstractViewModelToolbar<StartVie
 
     public final ObservableField<Integer> titleColorName = new ObservableField<>();
 
-    public final ObservableField<Boolean> isTermAndPolicy = new ObservableField<>();
-
     public final ObservableField<Integer> titleColorEmail = new ObservableField<>();
 
     public final ObservableField<Integer> titleColorPassword = new ObservableField<>();
