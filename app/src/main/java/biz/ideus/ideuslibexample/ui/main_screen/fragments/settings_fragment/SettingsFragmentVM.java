@@ -28,6 +28,7 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
     private boolean isValidCurrentPassword = false;
     private boolean isValidNewPassword = false;
     private SettingsFieldTag settingsFieldTag;
+
     public SettingsFieldTag getSettingsFieldTag() {
         return settingsFieldTag;
     }
@@ -56,6 +57,7 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
     @Override
     public void onBindView(@NonNull StartView view) {
         super.onBindView(view);
+        context = view.getViewModelBindingConfig().getContext();
     }
 
     @Override
@@ -85,7 +87,8 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
                 break;
         }
     }
-    public void onMainLayoutClick(View view){
+
+    public void onMainLayoutClick(View view) {
 
     }
 
@@ -109,7 +112,7 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
 
 
     private void showingChangeFieldLayout() {
-        switch (getSettingsFieldTag()){
+        switch (getSettingsFieldTag()) {
             case CURRENT_PASSWORD:
                 visibilityChangeInfoLayout.set(View.GONE);
                 titleChangeBtn.set(context.getString(settingsFieldTag.nameField));

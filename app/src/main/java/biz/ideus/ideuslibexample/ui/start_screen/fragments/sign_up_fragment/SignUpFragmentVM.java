@@ -8,12 +8,14 @@ import android.text.Editable;
 import android.view.View;
 import android.widget.CheckBox;
 
+import com.orhanobut.hawk.Hawk;
+
 import biz.ideus.ideuslib.interfaces.OnValidateSignUpScreen;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.data.model.request.SignUpModel;
 import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationModel;
-import biz.ideus.ideuslibexample.data.model.response.SignUpAnswer;
-import biz.ideus.ideuslibexample.data.model.response.SocialsAutorisationAnswer;
+import biz.ideus.ideuslibexample.data.model.response.AutorisationAnswer;
+import biz.ideus.ideuslibexample.data.remote.CheckError;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriberSettings;
 import biz.ideus.ideuslibexample.dialogs.DialogModel;
@@ -31,6 +33,8 @@ import rx.schedulers.Schedulers;
 import static biz.ideus.ideuslibexample.data.model.SocialNetworks.FACEBOOK_NET;
 import static biz.ideus.ideuslibexample.data.model.SocialNetworks.GOOGLE_PLUS_NET;
 import static biz.ideus.ideuslibexample.data.model.SocialNetworks.TWITTER_NET;
+import static biz.ideus.ideuslibexample.utils.Constants.USER_ID;
+import static biz.ideus.ideuslibexample.utils.Constants.USER_TOKEN;
 
 /**
  * Created by blackmamba on 16.11.16.
@@ -190,38 +194,44 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
     }
 
 
+
     @Override
     public void getGoogleToken(String googlePlusToken) {
-        autorisationSocial(googlePlusToken, GOOGLE_PLUS_NET.networkName);
+        autorisationSocial(googlePlusToken, GOOGLE_PLUS_NET.networkName, null);
     }
 
 
     @Override
-    public void getTwitterToken(String twitterToken) {
-        autorisationSocial(twitterToken, TWITTER_NET.networkName);
+    public void getTwitterAutorisationData(String userName, String twitterToken) {
+        autorisationSocial(twitterToken, TWITTER_NET.networkName, userName);
     }
 
     @Override
     public void getFacebookToken(String facebookToken) {
-        autorisationSocial(facebookToken, FACEBOOK_NET.networkName);
+        autorisationSocial(facebookToken, FACEBOOK_NET.networkName, null);
     }
 
 
 
-    private void autorisationSocial(String socialToken, String socialName) {
+    private void autorisationSocial(String socialToken, String socialName, @Nullable String twitterUserName){
         SocialsAutorisationModel sotialAuthModel = new SocialsAutorisationModel(socialToken, socialName);
         NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
-
+        if(socialToken.equals(TWITTER_NET.networkName)){
+            sotialAuthModel.setTwitterUsername(twitterUserName);
+        }
         netApi.autorisationSocial(sotialAuthModel)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new NetSubscriber<SocialsAutorisationAnswer>(netSubscriberSettings) {
+                .subscribe(new NetSubscriber<AutorisationAnswer>(netSubscriberSettings) {
                     @Override
-                    public void onNext(SocialsAutorisationAnswer socialsAutorisationAnswer) {
-                        super.onNext(socialsAutorisationAnswer);
+                    public void onNext(AutorisationAnswer autorisationAnswer) {
+                        Hawk.put(USER_TOKEN, autorisationAnswer.data.getUserToken());
+                        Hawk.put(USER_ID, autorisationAnswer.data.getUserId());
+                        goToTutorialScreen();
                     }
                 });
     }
+
 
     private void signUpUser() {
 
@@ -229,13 +239,15 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
         NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
 
         netApi.signUp(signUpModel)
+                .lift(new CheckError<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new NetSubscriber<SignUpAnswer>(netSubscriberSettings){
-
+                .subscribe(new NetSubscriber<AutorisationAnswer>(netSubscriberSettings){
                     @Override
-                    public void onNext(SignUpAnswer signUpAnswer) {
-                        super.onNext(signUpAnswer);
+                    public void onNext(AutorisationAnswer autorisationAnswer) {
+                        Hawk.put(USER_TOKEN, autorisationAnswer.data.getUserToken());
+                        Hawk.put(USER_ID, autorisationAnswer.data.getUserId());
+                        goToTutorialScreen();
                     }
                 });
     }

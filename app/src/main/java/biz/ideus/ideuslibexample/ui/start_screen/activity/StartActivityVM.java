@@ -10,13 +10,13 @@ import android.text.Editable;
 import android.view.View;
 import android.widget.CheckBox;
 
+import com.orhanobut.hawk.Hawk;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import biz.ideus.ideuslib.interfaces.OnValidateField;
 import biz.ideus.ideuslibexample.data.model.request.LoginModel;
 import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationModel;
-import biz.ideus.ideuslibexample.data.model.response.LoginAnswer;
-import biz.ideus.ideuslibexample.data.model.response.SocialsAutorisationAnswer;
+import biz.ideus.ideuslibexample.data.model.response.AutorisationAnswer;
 import biz.ideus.ideuslibexample.data.remote.CheckError;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriberSettings;
@@ -36,6 +36,8 @@ import rx.schedulers.Schedulers;
 import static biz.ideus.ideuslibexample.data.model.SocialNetworks.FACEBOOK_NET;
 import static biz.ideus.ideuslibexample.data.model.SocialNetworks.GOOGLE_PLUS_NET;
 import static biz.ideus.ideuslibexample.data.model.SocialNetworks.TWITTER_NET;
+import static biz.ideus.ideuslibexample.utils.Constants.USER_ID;
+import static biz.ideus.ideuslibexample.utils.Constants.USER_TOKEN;
 
 
 /**
@@ -48,8 +50,7 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
     private boolean isValidPassword = false;
     private SocialsLogin socialsLogin = new SocialsLogin(this);
     public final ObservableField<Drawable> headerImage = new ObservableField<>();
-
-
+ //   protected Subscription testSubscription;
     @Override
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
         super.onCreate(arguments, savedInstanceState);
@@ -57,7 +58,12 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
         visibilityClearPasswordImage.set(View.INVISIBLE);
         isPasswordShow.set(true);
         setOnValidateField(this);
+
+//        testSubscription = chatEventSubscribe();
+
+
     }
+
 
     @Override
     public void onBindView(@NonNull StartView view) {
@@ -67,30 +73,31 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
 
     @DebugLog
     public void onTestClick(View view) {
-        // RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.NO_INTERNET_CONNECTION);
+     //   SampleApplication.getInstance().getWebSocket().sendText("wwwwwwww");
 
-//        DialogParams dialogParams = new DialogParamsBuilder()
-//                .setDialogModel(DialogModel.LOGIN_ATTENTION)
-//                .setDialogText("чото тут напишем")
-//                .createDialogParams();
-//        RxBusShowDialog.instanceOf().setRxBusShowDialog(dialogParams);
-
-
-        LoginModel loginModel = new LoginModel(email.get().toString(), password.get().toString());
-
-        NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
-
-        netApi.login(loginModel)
-                .lift(new CheckError<>())
-                .compose(NetSubscriber.applySchedulers())
-                .subscribe(new NetSubscriber<LoginAnswer>(netSubscriberSettings){
-            @Override
-            public void onNext(LoginAnswer loginAnswer) {
-                super.onNext(loginAnswer);
-            }
-        });
+//
+//        LoginModel loginModel = new LoginModel(email.get().toString(), password.get().toString());
+//        NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
+//
+//        netApi.login(loginModel)
+//                .lift(new CheckError<>())
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new NetSubscriber<LoginAnswer>(netSubscriberSettings){
+//            @Override
+//            public void onNext(LoginAnswer loginAnswer) {
+//                Hawk.put(USER_TOKEN, loginAnswer.data.getUserToken());
+//                Hawk.put(USER_ID, loginAnswer.data.getUserId());
+//
+//
+//                Log.d("loginAnswer", Hawk.get(USER_TOKEN));
+//                Log.d("loginAnswer", Hawk.get(USER_ID));
+//            }
+//        });
 
     }
+
+
 
     private boolean isValidFields() {
         return isValidEmail && isValidPassword;
@@ -134,18 +141,15 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
         NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
 
         netApi.login(loginModel)
+                .lift(new CheckError<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new NetSubscriber<LoginAnswer>(netSubscriberSettings){
+                .subscribe(new NetSubscriber<AutorisationAnswer>(netSubscriberSettings){
                     @Override
-                    public void onNext(LoginAnswer loginAnswer) {
-                        super.onNext(loginAnswer);
-                        if(!loginAnswer.message.isEmpty()){
-//                            hideProgress();
-//                            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.LOGIN_ATTENTION);
-                        }else {
-
-                        }
+                    public void onNext(AutorisationAnswer loginAnswer) {
+                        Hawk.put(USER_TOKEN, loginAnswer.data.getUserToken());
+                        Hawk.put(USER_ID, loginAnswer.data.getUserId());
+                        goToMainScreen();
                     }
                 });
     }
@@ -240,34 +244,72 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
 
     @Override
     public void getGoogleToken(String googlePlusToken) {
-        autorisationSocial(googlePlusToken, GOOGLE_PLUS_NET.networkName);
+        autorisationSocial(googlePlusToken, GOOGLE_PLUS_NET.networkName, null);
     }
 
 
     @Override
-    public void getTwitterToken(String twitterToken) {
-        autorisationSocial(twitterToken, TWITTER_NET.networkName);
+    public void getTwitterAutorisationData(String userName, String twitterToken) {
+        autorisationSocial(twitterToken, TWITTER_NET.networkName, userName);
     }
 
     @Override
     public void getFacebookToken(String facebookToken) {
-        autorisationSocial(facebookToken, FACEBOOK_NET.networkName);
+        autorisationSocial(facebookToken, FACEBOOK_NET.networkName, null);
     }
 
 
-    private void autorisationSocial(String socialToken, String socialName) {
+    private void autorisationSocial(String socialToken, String socialName, @Nullable String twitterUserName) {
 
         SocialsAutorisationModel sotialAuthModel = new SocialsAutorisationModel(socialToken, socialName);
+        if(socialName.equals(TWITTER_NET.networkName)){
+            sotialAuthModel.setTwitterUsername(twitterUserName);
+        }
         NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
 
         netApi.autorisationSocial(sotialAuthModel)
+                .lift(new CheckError<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new NetSubscriber<SocialsAutorisationAnswer>(netSubscriberSettings) {
+                .subscribe(new NetSubscriber<AutorisationAnswer>(netSubscriberSettings) {
                     @Override
-                    public void onNext(SocialsAutorisationAnswer socialsAutorisationAnswer) {
-                        super.onNext(socialsAutorisationAnswer);
+                    public void onNext(AutorisationAnswer autorisationAnswer) {
+                        Hawk.put(USER_TOKEN, autorisationAnswer.data.getUserToken());
+                        Hawk.put(USER_ID, autorisationAnswer.data.getUserId());
+                        goToMainScreen();
                     }
                 });
     }
+
+
+//    private Subscription chatEventSubscribe(){
+//
+//        return RxChatMessageEvent.instanceOf().getEvents()
+//                .subscribe(new Subscriber<String>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(String message) {
+//                        email.set(message);
+//                    }
+//                });
+//
+//    }
+
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//        if (testSubscription != null && !testSubscription.isUnsubscribed())
+//            testSubscription.unsubscribe();
+//    }
+
+
 }

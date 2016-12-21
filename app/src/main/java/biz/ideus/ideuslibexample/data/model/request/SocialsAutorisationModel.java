@@ -13,6 +13,13 @@ public class SocialsAutorisationModel extends BaseRequestModel {
     @SerializedName("social_alias")
     private String socialAlias;
 
+    @SerializedName("username")
+    private String twitterUsername;
+
+    public void setTwitterUsername(String twitterUsername) {
+        this.twitterUsername = twitterUsername;
+    }
+
     public SocialsAutorisationModel(String token, String socialAlias) {
         this.token = token;
         this.socialAlias = socialAlias;
