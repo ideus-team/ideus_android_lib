@@ -26,12 +26,12 @@ public class SwipeImageTouchListener implements View.OnTouchListener {
     public boolean onTouch(View v, MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                startY = event.getRawY();
+               startY = event.getRawY();
                 return true;
             case MotionEvent.ACTION_UP:
 
             case MotionEvent.ACTION_CANCEL:
-                animateSwipeView(v.getHeight());
+               animateSwipeView(v.getHeight());
                 return true;
             case MotionEvent.ACTION_MOVE:
                 swipeView.setTranslationY(event.getRawY() - startY);
@@ -44,12 +44,7 @@ public class SwipeImageTouchListener implements View.OnTouchListener {
 
     private void animateSwipeView(int parentHeight) {
         closeFragmentHandler = new Handler();
-        closeFragmentRunnable = new Runnable() {
-            @Override
-            public void run() {
-                animationListener.closeFragment();
-            }
-        };
+        closeFragmentRunnable = () -> animationListener.closeFragment();
         int partHeight = parentHeight / 7;
         float currentPosition = swipeView.getTranslationY();
         float animateTo = 0.0f;

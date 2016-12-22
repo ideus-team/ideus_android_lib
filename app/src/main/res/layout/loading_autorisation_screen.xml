@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable name="title" type="java.lang.String"/>
+        <variable name="aboutTitle" type="java.lang.String"/>
+    </data>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_main"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <biz.ideus.ideuslib.widget.CircleImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/logo_temp_app" />
+
+        <TextView
+            android:text="@{title}"
+            android:id="@+id/tv_title"
+            android:layout_margin="@dimen/font_size_15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/font_size_20"
+            android:gravity="center" />
+
+        <TextView
+            android:text="@{aboutTitle}"
+            android:id="@+id/tv_about_autorisation"
+            android:layout_margin="@dimen/font_size_10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/font_size_16"
+            android:gravity="center" />
+
+        <ProgressBar
+            android:layout_marginTop="20dp"
+            android:theme="@style/AppTheme.WhiteAccent"
+            android:id="@+id/progressBar2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminate="true" />
+    </LinearLayout>
+</layout>

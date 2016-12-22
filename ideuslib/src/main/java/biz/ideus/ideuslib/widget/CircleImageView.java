@@ -31,7 +31,7 @@ import biz.ideus.ideuslib.R;
 
 
 @BindingMethods({
-        @BindingMethod(type = CircleImageView.class, attribute = "imageLoader:imageUrl",
+        @BindingMethod(type = CircleImageView.class, attribute = "imageUrl",
                 method = "loadImage")})
 public class CircleImageView extends ImageLoaderView {
 

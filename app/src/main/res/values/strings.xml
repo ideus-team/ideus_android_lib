@@ -1,10 +1,92 @@
 <resources>
+    <string name="faceBookAppID">1244074645651715</string>
+    <string name="google_client_id">509396066324-muum3kceqo16d382ufa72usklbgm6js8.apps.googleusercontent.com</string>
+    <string name="google_web_client_id">509396066324-0463glkte4s01tf9g8ljh7j2gjnhbace.apps.googleusercontent.com</string>
+
     <string name="app_name">IdeusLibExample</string>
+    <string name="invalid_email">Invalid email</string>
+    <string name="invalid_password">Password should be more than 5 characters</string>
+    <string name="invalid_name">Name should be more than 3 characters</string>
     <string name="login_with_social_network">Login With Social Network</string>
+    <string name="with_social_networks"> With Social Networks</string>
     <string name="facebook">Facebook</string>
     <string name="twitter">Twitter</string>
     <string name="google_plus">Google+</string>
     <string name="login_with_email">Or Login with Email</string>
-    <string name="email">Email</string>
+    <string name="sign_up_with_email">Or Sign Up with Email</string>
+    <string name="enter_email">Enter Email</string>
+    <string name="your_name">Your Name</string>
     <string name="password">Password</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="show_password">Show Password</string>
+    <string name="create_password">Create Password</string>
+    <string name="create_account">Create Account</string>
+    <string name="by_creating_account">By creating an account You agree to the</string>
+    <string name="terms_of_service">Terms of Service</string>
+    <string name="sign_in">Sign In</string>
+    <string name="do_not_have_an_account">Don\'t have an Account?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="forgot_password_message">Enter the Email for during registration to receive password reset instructions.</string>
+    <string name="send_password">Send password</string>
+    <string name="skip_all">Skip All</string>
+    <string name="get_started">Get Started</string>
+    <string name="select_image">Select Image</string>
+    <string name="pick_from_galery">Pick from galery</string>
+    <string name="make_photo">Make photo</string>
+    <string name="your_email_address">Your email address</string>
+    <string name="tutorial_title_welcome">Welcome to TempApp</string>
+    <string name="tutorial_title_network">Personal Network</string>
+    <string name="tutorial_title_protection">Account Protection</string>
+    <string name="tutorial_title_customisation">Customisation</string>
+    <string name="general_info">general info</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="current_password">Current Password (required)</string>
+    <string name="new_password">New Password (required)</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="visible_on_profile">Visible on profile</string>
+    <string name="connect_twitter_account">Connect Twitter Account</string>
+    <string name="logout">Logout</string>
+    <string name="invalidate_login_text">The email address or password you entered is incorrect</string>
+    <string name="invalidate_sign_in_text">The name, email address or password you entered is incorrect</string>
+    <string name="try_again">Try again</string>
+    <string name="password_reset_title">An email containing information on how to reset your password has been send to bobJack@gmail.com</string>
+    <string name="password_reset">Password reset</string>
+    <string name="creating_an_account">Creating an account</string>
+    <string name="about_creating_account">Where can you draw the line between harmless gambling to problem gambling</string>
+    <string name="logging_to_app_temp">Logging to App Temp</string>
+    <string name="about_logining_account">Statistic show that while 85 percent of adult population of US</string>
+    <string name="ok">Ok</string>
+    <string name="error">Error</string>
+    <string name="enter_message">Enter message</string>
+    <string name="space"> </string>
+    <string name="home">Home </string>
+    <string name="people">People </string>
+    <string name="settings">Settings </string>
+    <string name="message">Message </string>
+    <string name="copy_text">Copy text </string>
+    <string name="details">Details </string>
+    <string name="edit">Edit </string>
+    <string name="delete">Delete </string>
+    <string name="cancel">Cancel </string>
+    <string name="change_name">Change Name </string>
+    <string name="change_email">Change Email </string>
+    <string name="change_password">Change Password </string>
+    <string name="set_current_password">Set Password </string>
+    <string name="your_email">Your Email </string>
+    <string name="your_password">Your Password </string>
+    <string name="no_internet_connection">No internet connection! </string>
+    <string name="retry">Retry </string>
+    <string name="photo">Photo </string>
+
+
+
+
+    <string name="about_welcome">While most people enjoy casino gambling, sports betting, lottery and bingo playing for the fun and excitement it provides</string>
+    <string name="about_network">Statistics show that while 80 percent of the adult population in the US enjoys some type of gambling every year</string>
+    <string name="about_protection">Where can your draw between harmless gambling to problem gambling? How can you tell if you or your friend are compulsive</string>
+    <string name="about_customisation">Problem gambling or compulsive gambling is defined uncontrollable urge to gamble despite the destructive effect </string>
+
+
 </resources>

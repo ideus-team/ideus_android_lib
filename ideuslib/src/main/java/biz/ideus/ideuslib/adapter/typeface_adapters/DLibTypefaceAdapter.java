@@ -38,7 +38,7 @@ public class DLibTypefaceAdapter {
 //        }
 //    }
 
-    @BindingAdapter({"bind:font"})
+    @BindingAdapter({"font"})
     public static void setTypeface(TextView textView, String value){
         Typeface myTypeface = cachedTypefaces.get(value);
         if (myTypeface == null) {

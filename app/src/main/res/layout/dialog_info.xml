@@ -1,52 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <data>
+        <import type="android.view.View" />
+
+
+        <variable
+            name="customVM"
+            type="biz.ideus.ideuslibexample.dialogs.CustomDialog" />
+    </data>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
+        android:layout_height="wrap_content"
+        android:layout_margin="40dp"
+        android:background="@drawable/background_favorites_item"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="5dip">
 
-        <LinearLayout
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:paddingBottom="20dip"
+                android:paddingLeft="5dip"
+                android:paddingRight="10dip"
+                android:paddingTop="20dip"
+                android:textColor="@{customVM.colorTitle}"
+                android:text="@{customVM.headerText}"
+                android:textSize="@dimen/font_size_18" />
+
+            <ImageView
+                android:id="@+id/iv_status_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/tv_title"
+                android:layout_toStartOf="@+id/tv_title"
+                android:visibility="@{customVM.visibilityAttentionIcon}"
+                android:src="@drawable/ic_warning" />
+
+            <ImageView
+                android:id="@+id/iv_close"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:padding="5dp"
+                android:onClick="@{customVM.onClick}"
+                android:src="@drawable/ic_cancel" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_about_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="5dip"
+            android:text="@{customVM.messageText}"
+            android:textColor="@color/dark_gray_text"
+            android:textSize="@dimen/font_size_16" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/gray" />
+
+        <TextView
+            android:id="@+id/tv_btn_dialog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="40dp"
-            android:padding="5dip"
-            android:background="@android:color/white"
-            android:orientation="vertical"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#be1515"
-                android:textSize="18sp"
-                android:padding="5dip"
-                android:text="Error" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#666666"
-                android:gravity="center"
-                android:padding="5dip"
-                android:text="The email address or password you entered is incorrect" />
-
-            <view
-                android:layout_width="match_parent"
-                android:layout_height="0.5dip"
-                android:background="#6c6c6c"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="#08dc3d"
-                android:padding="10dip"
-                android:text="Try again" />
-
-        </LinearLayout>
+            android:gravity="center"
+            android:onClick="@{customVM.onClick}"
+            android:textStyle="bold"
+            android:padding="10dip"
+            android:text="@{customVM.btnName}"
+            android:textColor="@color/green_btn_default"
+            android:textSize="@dimen/font_size_16" />
 
     </LinearLayout>
 </layout>

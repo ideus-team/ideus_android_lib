@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "509396066324",
+    "project_id": "ideuslibrary"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:509396066324:android:795071c7a9294ff9",
+        "android_client_info": {
+          "package_name": "biz.ideus.ideuslib"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "509396066324-tdol5ani0e8krl57bdf85jndm7et1jt3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "biz.ideus.ideuslib",
+            "certificate_hash": "30081728F5FD49CA6A4883A72B79E8590735718F"
+          }
+        },
+        {
+          "client_id": "509396066324-0463glkte4s01tf9g8ljh7j2gjnhbace.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2LJgDTmfa5ZEzWeJ02HMoxpJHG8e2FN4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

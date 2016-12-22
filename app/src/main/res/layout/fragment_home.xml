@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="biz.ideus.ideuslibexample.ui.main_screen.fragments.home_fragment.HomeFragmentVM" />
+    </data>
+
+    <RelativeLayout
+    android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/toolbar"
+            bind:viewModel="@{viewModel}">
+        </include>
+
+
+        <include
+            android:id="@+id/item_search"
+            layout="@layout/item_search"
+            app:visibilitySearch="@{viewModel.visibilitySearch}"
+            app:isFocus="@{viewModel.isFocus}"
+            bind:viewModel="@{viewModel}">
+        </include>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:background="@color/white"
+        android:id="@+id/rViewPeople"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="vertical" />
+    </RelativeLayout>
+</layout>
