@@ -8,14 +8,14 @@ import java.util.ArrayList;
  * Created by blackmamba on 21.12.16.
  */
 
-public class SaveFilesModel extends BaseRequestModelWithToken {
+public class SaveFiles extends RequestWithToken {
 
     @SerializedName("file_ids")
     private ArrayList<Integer> filesIdsList;
 
 
-    public SaveFilesModel(String api_token, ArrayList<Integer> filesIdsList) {
-        super(api_token);
+    public SaveFiles(ArrayList<Integer> filesIdsList) {
+        super();
         this.filesIdsList = filesIdsList;
 
     }

@@ -22,6 +22,8 @@ import com.twitter.sdk.android.core.TwitterAuthConfig;
 import javax.net.ssl.SSLContext;
 
 import biz.ideus.ideuslib.adapter.typeface_adapters.DLibTypefaceAdapter;
+import biz.ideus.ideuslibexample.data.local.RequeryApi;
+import biz.ideus.ideuslibexample.data.remote.NetApi;
 import biz.ideus.ideuslibexample.injection.components.AppComponent;
 import biz.ideus.ideuslibexample.injection.components.DaggerAppComponent;
 import biz.ideus.ideuslibexample.injection.modules.AppModule;
@@ -43,6 +45,8 @@ public class SampleApplication extends Application {
     private SSLContext sslContext;
     private ProxySettings proxySettings;
     private WebSocket webSocket;
+    public static RequeryApi requeryApi;
+    public static NetApi netApi;
 
     public WebSocket getWebSocket() {
         return webSocket;
@@ -101,6 +105,10 @@ public class SampleApplication extends Application {
         sAppComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
                 .build();
+
+        requeryApi = sAppComponent.dataApi();
+         netApi = sAppComponent.netApi();
+
         setupFaceBookSDK();
         setupTwitterSDK();
         setupUniversalImageLoaderConfig();

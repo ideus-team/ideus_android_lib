@@ -5,9 +5,9 @@ import com.squareup.okhttp.RequestBody;
 
 import java.util.Map;
 
-import biz.ideus.ideuslibexample.data.model.request.BaseRequestModelWithToken;
+import biz.ideus.ideuslibexample.data.model.request.RequestWithToken;
 import biz.ideus.ideuslibexample.data.model.request.LoginModel;
-import biz.ideus.ideuslibexample.data.model.request.SaveFilesModel;
+import biz.ideus.ideuslibexample.data.model.request.SaveFiles;
 import biz.ideus.ideuslibexample.data.model.request.SignUpModel;
 import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationModel;
 import biz.ideus.ideuslibexample.data.model.response.AutorisationAnswer;
@@ -33,11 +33,13 @@ public interface NetApi {
     Observable<AutorisationAnswer> autorisationSocial(@Body SocialsAutorisationModel socialsAutorisationModel);
 
     @POST("user/files")
-    Observable<UserFilesAnswer> getUserFiles(@Body BaseRequestModelWithToken baseRequestModelWithToken);
-
+    Observable<UserFilesAnswer> getUserFiles(@Body RequestWithToken requestWithToken);
 
     @POST("upload/save_files")
-    Observable<ServerAnswer> saveFiles(@Body SaveFilesModel saveFilesModel);
+    Observable<ServerAnswer> saveFiles(@Body SaveFiles saveFilesModel);
+
+    @POST("user/delete")
+    Observable<ServerAnswer> deleteAccount(@Body RequestWithToken requestWithToken);
 
     @Multipart
     @POST("upload/send")

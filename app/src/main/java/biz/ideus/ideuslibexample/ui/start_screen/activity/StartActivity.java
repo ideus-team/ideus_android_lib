@@ -12,12 +12,10 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 
-import javax.inject.Inject;
-
+import biz.ideus.ideuslib.Utils.Utils;
 import biz.ideus.ideuslib.mvvm_lifecycle.binding.ViewModelBindingConfig;
 import biz.ideus.ideuslibexample.BR;
 import biz.ideus.ideuslibexample.R;
-import biz.ideus.ideuslibexample.data.local.RequeryApi;
 import biz.ideus.ideuslibexample.databinding.ActivityLoginBinding;
 import biz.ideus.ideuslibexample.rx_buses.RxBusActionEditDialogBtn;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
@@ -50,19 +48,9 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
         this.googleAutorisationListener = googleAutorisationListener;
     }
 
-    private PickImageListener pickImageListener;
-
-    public void setPickImageListener(PickImageListener pickImageListener) {
-        this.pickImageListener = pickImageListener;
-    }
-
     public TwitterAuthClient getTwitterAuthClient() {
         return twitterAuthClient;
     }
-
-    @Inject
-    RequeryApi requeryApi;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,10 +61,7 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
         twitterAuthClient = new TwitterAuthClient();
         RxBusActionEditDialogBtnSubscription = startRxBusActionEditDialogBtnSubscription();
 
-
-
     }
-
 
 
     public Subscription startRxBusActionEditDialogBtnSubscription() {
@@ -139,8 +124,7 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
                     case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
                         CropImage.ActivityResult result = CropImage.getActivityResult(intent);
                         Uri resultUri = result.getUri();
-                        pickImageListener.setImagePath(resultUri.getPath());
-                      //  getBinding().getViewModel().headerImage.set(Utils.getDrawableImage(getContentResolver(), resultUri));
+                        getBinding().getViewModel().headerImage.set(Utils.getDrawableImage(getContentResolver(), resultUri));
                         break;
                     case CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE:
                         break;
@@ -173,8 +157,4 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
         void getGoogleToken(String googlePlusToken);
     }
 
-    //Test for UploadFile
-    public interface PickImageListener {
-        void setImagePath(String imagePath);
-    }
 }

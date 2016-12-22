@@ -30,6 +30,8 @@ import biz.ideus.ideuslibexample.ui.tutorial_screen.activity.TutorialActivity;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static biz.ideus.ideuslibexample.SampleApplication.netApi;
+import static biz.ideus.ideuslibexample.SampleApplication.requeryApi;
 import static biz.ideus.ideuslibexample.data.model.SocialNetworks.FACEBOOK_NET;
 import static biz.ideus.ideuslibexample.data.model.SocialNetworks.GOOGLE_PLUS_NET;
 import static biz.ideus.ideuslibexample.data.model.SocialNetworks.TWITTER_NET;
@@ -236,17 +238,22 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
         SocialsAutorisationModel sotialAuthModel = new SocialsAutorisationModel(socialToken, socialName);
         sotialAuthModel.setIsAgree(isAgreeTermOfService);
 
-        if (socialToken.equals(TWITTER_NET.networkName)) {
+        if (socialName.equals(TWITTER_NET.networkName)) {
             sotialAuthModel.setTwitterUsername(twitterUserName);
         }
         netApi.autorisationSocial(sotialAuthModel)
+                .lift(new CheckError<>())
+                .map(autorisationAnswer -> {
+                     requeryApi.storeAutorisationInfo(autorisationAnswer.data);
+                    return autorisationAnswer;
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new NetSubscriber<AutorisationAnswer>(netSubscriberSettings) {
                     @Override
                     public void onNext(AutorisationAnswer autorisationAnswer) {
-                        Hawk.put(USER_TOKEN, autorisationAnswer.data.getUserToken());
-                        Hawk.put(USER_ID, autorisationAnswer.data.getUserId());
+                       Hawk.put(USER_TOKEN, autorisationAnswer.data.getApi_token());
+                        Hawk.put(USER_ID, autorisationAnswer.data.getIdent());
                         goToTutorialScreen();
                     }
                 });
@@ -260,13 +267,17 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
 
         netApi.signUp(signUpModel)
                 .lift(new CheckError<>())
+                .map(autorisationAnswer -> {
+                    requeryApi.storeAutorisationInfo(autorisationAnswer.data);
+                    return autorisationAnswer;
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new NetSubscriber<AutorisationAnswer>(netSubscriberSettings) {
                     @Override
                     public void onNext(AutorisationAnswer autorisationAnswer) {
-                        Hawk.put(USER_TOKEN, autorisationAnswer.data.getUserToken());
-                        Hawk.put(USER_ID, autorisationAnswer.data.getUserId());
+                        Hawk.put(USER_TOKEN, autorisationAnswer.data.getApi_token());
+                        Hawk.put(USER_ID, autorisationAnswer.data.getIdent());
                         goToTutorialScreen();
                     }
                 });
