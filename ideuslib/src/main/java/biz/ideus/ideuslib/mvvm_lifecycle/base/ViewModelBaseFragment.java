@@ -5,7 +5,6 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.view.View;
 
 import biz.ideus.ideuslib.mvvm_lifecycle.AbstractViewModel;
 import biz.ideus.ideuslib.mvvm_lifecycle.IView;
@@ -89,7 +88,7 @@ public abstract class ViewModelBaseFragment<T extends IView, R extends AbstractV
     }
 
     /**
-     * Call this after your view is ready - usually on the end of {@link
+     * Call this after your view is ready - usually on the end of {link
      * Fragment#onViewCreated(View, Bundle)}
      *
      * @param view view

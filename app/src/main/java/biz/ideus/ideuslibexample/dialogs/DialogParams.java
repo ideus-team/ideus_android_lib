@@ -9,13 +9,13 @@ import org.parceler.ParcelConstructor;
 
 @Parcel
 public class DialogParams {
-    private DialogModel dialogModel;
-    private Integer dialogIntent;
-    private boolean hasIntent;
-    private String dialogHeader;
-    private boolean hasHeader;
-    private String dialogText;
-    private boolean hasText;
+    DialogModel dialogModel;
+    Integer dialogIntent;
+    boolean hasIntent;
+    String dialogHeader;
+    boolean hasHeader;
+    String dialogText;
+    boolean hasText;
 
     @ParcelConstructor
     public DialogParams(DialogModel dialogModel, Integer dialogIntent, boolean hasIntent

@@ -46,7 +46,8 @@ dependencies {
     })
 
     compile 'com.github.ozodrukh:CircularReveal:2.0.1'
-
+    compile 'com.orhanobut:hawk:2.0.1'
+    compile 'com.neovisionaries:nv-websocket-client:1.30'
     compile "io.requery:requery:${requeryVersion}"
     compile "io.requery:requery-android:${requeryVersion}"
     compile 'io.reactivex:rxandroid:1.2.1'
@@ -65,7 +66,9 @@ dependencies {
     // use an APT plugin
     compile "com.squareup.okhttp3:okhttp:${okHttpVersion}"
     compile "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}"
-    compile 'com.android.support:appcompat-v7:25.0.1'
+
+    //compile 'com.android.support:appcompat-v7:25.1.0'
+
     apt "com.google.dagger:dagger-compiler:${daggerVersion}"
     compile "com.google.dagger:dagger:${daggerVersion}"
 
@@ -80,6 +83,7 @@ dependencies {
     compile('com.twitter.sdk.android:twitter:2.2.0@aar') {
         transitive = true;
     }
+
 
 //    compile 'com.race604.waveloading:library:1.0.1'
 
