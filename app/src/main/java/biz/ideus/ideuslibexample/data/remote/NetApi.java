@@ -7,10 +7,12 @@ import java.util.Map;
 
 import biz.ideus.ideuslibexample.data.model.request.RequestWithToken;
 import biz.ideus.ideuslibexample.data.model.request.LoginModel;
+import biz.ideus.ideuslibexample.data.model.request.ResetPasswordRequest;
 import biz.ideus.ideuslibexample.data.model.request.SaveFiles;
 import biz.ideus.ideuslibexample.data.model.request.SignUpModel;
 import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationModel;
 import biz.ideus.ideuslibexample.data.model.response.AutorisationAnswer;
+import biz.ideus.ideuslibexample.data.model.response.ResetPasswordAnswer;
 import biz.ideus.ideuslibexample.data.model.response.ServerAnswer;
 import biz.ideus.ideuslibexample.data.model.response.UploadFileAnswer;
 import biz.ideus.ideuslibexample.data.model.response.UserFilesAnswer;
@@ -40,6 +42,10 @@ public interface NetApi {
 
     @POST("user/delete")
     Observable<ServerAnswer> deleteAccount(@Body RequestWithToken requestWithToken);
+
+    @POST("user/reset_password")
+    Observable<ResetPasswordAnswer> resetPassword(@Body ResetPasswordRequest resetPasswordRequest);
+
 
     @Multipart
     @POST("upload/send")

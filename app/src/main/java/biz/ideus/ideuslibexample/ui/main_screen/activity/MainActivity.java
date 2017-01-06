@@ -19,10 +19,7 @@ import biz.ideus.ideuslibexample.ui.main_screen.MainFragmentPagerAdapter;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.utils.Constants;
 
-///**
-// * Created by blackmamba on 24.11.16.
-// */
-//
+
 
 public class MainActivity extends BaseActivity<StartView, MainActivityVM, ActivityMainBinding>
         implements StartView {

@@ -39,7 +39,7 @@ public class SampleApplication extends Application {
 
     private RefWatcher refWatcher;
     private Configuration configuration;
-    public static DisplayImageOptions ImageLoaderDefaultDisplayOptions;
+    public static DisplayImageOptions imageLoaderDefaultDisplayOptions;
     public static Application mApplication;
     private WebSocketFactory factory;
     private SSLContext sslContext;
@@ -122,13 +122,13 @@ public class SampleApplication extends Application {
 
 
     private void setupUniversalImageLoaderConfig(){
-        ImageLoaderDefaultDisplayOptions = new DisplayImageOptions.Builder()
+        imageLoaderDefaultDisplayOptions = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
                 .build();
 
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
-                .defaultDisplayImageOptions(ImageLoaderDefaultDisplayOptions)
+                .defaultDisplayImageOptions(imageLoaderDefaultDisplayOptions)
                 .build();
         ImageLoader.getInstance().init(config);
     }
