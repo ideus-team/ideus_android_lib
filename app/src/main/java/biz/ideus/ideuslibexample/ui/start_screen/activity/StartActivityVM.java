@@ -61,8 +61,6 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
     @Override
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
         super.onCreate(arguments, savedInstanceState);
-
-
         visibilityClearEmailImage.set(View.INVISIBLE);
         visibilityClearPasswordImage.set(View.INVISIBLE);
         isPasswordShow.set(true);

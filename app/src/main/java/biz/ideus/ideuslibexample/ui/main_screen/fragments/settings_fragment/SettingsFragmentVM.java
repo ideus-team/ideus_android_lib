@@ -1,8 +1,10 @@
 package biz.ideus.ideuslibexample.ui.main_screen.fragments.settings_fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.ObservableField;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,12 +13,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import com.theartofdev.edmodo.cropper.CropImage;
+
 import biz.ideus.ideuslib.interfaces.OnValidateSignUpScreen;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.data.model.response.response_model.AutorisationEntity;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
+import biz.ideus.ideuslibexample.ui.main_screen.activity.MainActivity;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.ui.start_screen.activity.BaseValidationVM;
+import biz.ideus.ideuslibexample.utils.FileUploadProcessor;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -26,13 +32,15 @@ import static biz.ideus.ideuslibexample.SampleApplication.requeryApi;
  * Created by blackmamba on 25.11.16.
  */
 
-public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSignUpScreen {
+public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSignUpScreen, MainActivity.ImageChooserListener {
     private Context context;
     private boolean isValidName = false;
     private boolean isValidEmail = false;
     private boolean isValidCurrentPassword = false;
     private boolean isValidNewPassword = false;
     private SettingsFieldTag settingsFieldTag;
+    private FileUploadProcessor fileUploadProcessor;
+    private String selectedImagePath;
 
     public SettingsFieldTag getSettingsFieldTag() {
         return settingsFieldTag;
@@ -50,13 +58,14 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
         super.onCreate(arguments, savedInstanceState);
         fetchUserInfo();
+      fileUploadProcessor = new FileUploadProcessor();
+//
         titleColorCurrentPassword.set(Color.BLACK);
         visibilityClearEmailImage.set(View.GONE);
         visibilityClearPasswordImage.set(View.GONE);
         visibilityClearNameImage.set(View.GONE);
         visibilityClearImageCurrentPassword.set(View.GONE);
         visibilityChangeInfoLayout.set(View.GONE);
-
         setOnValidateField(this);
 
     }
@@ -66,6 +75,7 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
     public void onBindView(@NonNull StartView view) {
         super.onBindView(view);
         context = view.getViewModelBindingConfig().getContext();
+        ((MainActivity)context).setImageChooserListener(this);
     }
 
     private void fetchUserInfo() {
@@ -249,4 +259,13 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
         titleColorName.set(color);
     }
 
+    public void selectImage(View view){
+        Intent chooseImageIntent = CropImage.getPickImageChooserIntent((MainActivity) context);
+        ((MainActivity) context).startActivityForResult(chooseImageIntent, CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE);
+    }
+
+    @Override
+    public void onChooseImage(Uri imageUri) {
+        fileUploadProcessor.addFilePath(imageUri.getPath());
+    }
 }

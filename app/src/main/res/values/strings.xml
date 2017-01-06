@@ -51,7 +51,7 @@
     <string name="invalidate_login_text">The email address or password you entered is incorrect</string>
     <string name="invalidate_sign_in_text">The name, email address or password you entered is incorrect</string>
     <string name="try_again">Try again</string>
-    <string name="password_reset_title">An email containing information on how to reset your password has been send to bobJack@gmail.com</string>
+    <string name="password_reset_title">An email containing information on how to reset your password has been send to your email</string>
     <string name="password_reset">Password reset</string>
     <string name="creating_an_account">Creating an account</string>
     <string name="about_creating_account">Where can you draw the line between harmless gambling to problem gambling</string>

@@ -1,12 +1,16 @@
 package biz.ideus.ideuslibexample.ui.main_screen.activity;
 
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import javax.inject.Inject;
 
@@ -20,12 +24,19 @@ import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.utils.Constants;
 
 
-
 public class MainActivity extends BaseActivity<StartView, MainActivityVM, ActivityMainBinding>
         implements StartView {
-
+    private ImageChooserListener imageChooserListener;
     private BottomNavigationBar bottomNavigationBar;
-    @Inject MainFragmentPagerAdapter pagerAdapter;
+
+    public void setImageChooserListener(ImageChooserListener imageChooserListener) {
+        this.imageChooserListener = imageChooserListener;
+    }
+
+
+
+    @Inject
+    MainFragmentPagerAdapter pagerAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -103,6 +114,32 @@ public class MainActivity extends BaseActivity<StartView, MainActivityVM, Activi
         });
     }
 
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE:
+                    Uri resultPick = CropImage.getPickImageResultUri(this, intent);
+                    if (resultPick != null) {
+                        CropImage.activity(resultPick)
+                                .setGuidelines(CropImageView.Guidelines.ON)
+                                .start(this);
+                    }
+                    break;
+                case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
+                    CropImage.ActivityResult result = CropImage.getActivityResult(intent);
+                    Uri resultUri = result.getUri();
+                    imageChooserListener.onChooseImage(resultUri);
+                    break;
+                case CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE:
+                    break;
+            }
+        }
+    }
+
+
     @Nullable
     @Override
     public Class<MainActivityVM> getViewModelClass() {
@@ -119,6 +156,10 @@ public class MainActivity extends BaseActivity<StartView, MainActivityVM, Activi
     public void onDestroy() {
         super.onDestroy();
 
+    }
+
+    public interface ImageChooserListener {
+        void onChooseImage(Uri imageUri);
     }
 }
 

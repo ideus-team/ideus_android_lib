@@ -80,11 +80,6 @@ public class NetModule {
                     return chain.proceed(request);
                 }).build();
 
-//        .addHeader("lang", "en")
-//                .addHeader("Device-Platform", "android")
-//                .addHeader("Application-Name", "IdeusLibExample")
-//                .addHeader("Api-Token",(Hawk.get(Constants.USER_TOKEN))).build();
-
 
         return new Retrofit.Builder()
                 .baseUrl(URL + API_VERSION)
