@@ -131,7 +131,7 @@ public class MainActivity extends BaseActivity<StartView, MainActivityVM, Activi
                 case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
                     CropImage.ActivityResult result = CropImage.getActivityResult(intent);
                     Uri resultUri = result.getUri();
-                    imageChooserListener.onChooseImage(resultUri);
+                    imageChooserListener.onChooseImage(resultUri.getPath());
                     break;
                 case CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE:
                     break;
@@ -159,7 +159,7 @@ public class MainActivity extends BaseActivity<StartView, MainActivityVM, Activi
     }
 
     public interface ImageChooserListener {
-        void onChooseImage(Uri imageUri);
+        void onChooseImage(String imagePath);
     }
 }
 

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.ObservableField;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -265,7 +264,7 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
     }
 
     @Override
-    public void onChooseImage(Uri imageUri) {
-        fileUploadProcessor.addFilePath(imageUri.getPath());
+    public void onChooseImage(String imagePath) {
+        fileUploadProcessor.addFilePath(imagePath);
     }
 }
