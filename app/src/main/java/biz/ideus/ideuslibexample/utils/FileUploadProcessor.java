@@ -165,7 +165,7 @@ public class FileUploadProcessor {
     }
 
     public interface SuccessUploadListener {
-        void setUploadFileAnswer(UploadFileData fileUrl);
+        void setUploadFileAnswer(UploadFileData uploadData);
     }
 
     public enum ProcessorState {

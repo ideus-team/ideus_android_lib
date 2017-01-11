@@ -25,8 +25,8 @@ import rx.android.schedulers.AndroidSchedulers;
 
 public abstract class BaseValidationVM extends AbstractViewModelToolbar<StartView> {
     protected Context context;
-    public static final int MIN_COUNT_CHARACTER_NAME = 3;
-    public static final int MIN_COUNT_CHARACTER_PASSWORD = 6;
+    public static final int MIN_COUNT_CHARACTER_NAME = 1;
+    public static final int MIN_COUNT_CHARACTER_PASSWORD = 5;
     private OnValidateField onValidateField;
 
 
@@ -45,7 +45,7 @@ public abstract class BaseValidationVM extends AbstractViewModelToolbar<StartVie
 
     public final ObservableField<Integer> titleColorPassword = new ObservableField<>();
 
-    public final ObservableField<Integer>  visibilityClearNameImage = new ObservableField<>();
+    public final ObservableField<Integer> visibilityClearNameImage = new ObservableField<>();
     public final ObservableField<Integer> visibilityClearEmailImage = new ObservableField<>();
 
     public final ObservableField<Integer> visibilityClearPasswordImage = new ObservableField<>();
@@ -61,13 +61,14 @@ public abstract class BaseValidationVM extends AbstractViewModelToolbar<StartVie
     public final ObservableField<Boolean> isValidFields = new ObservableField<>();
 
 
-
     @Override
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
         super.onCreate(arguments, savedInstanceState);
         visibilityLoadingPage.set(View.GONE);
         isValidFields.set(false);
-
+        email.set("");
+        name.set("");
+        password.set("");
     }
 
     @Override

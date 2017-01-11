@@ -32,4 +32,10 @@ public class UpdateProfileRequest {
         this.photoUrl = photoUrl;
 
     }
+
+    public UpdateProfileRequest(String photoUrl){
+        this.photoUrl = photoUrl;
+
+    }
+
 }

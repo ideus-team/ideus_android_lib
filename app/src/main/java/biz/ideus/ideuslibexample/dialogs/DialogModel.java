@@ -12,6 +12,7 @@ import biz.ideus.ideuslibexample.R;
 public enum DialogModel {
 
     LOGIN_ATTENTION(R.string.error,R.string.invalidate_login_text, R.layout.dialog_info, View.VISIBLE, Color.RED,R.string.try_again),
+    UPDATE_PROFILE_ATTENTION(R.string.error,R.string.invalidate_update_text, R.layout.dialog_info, View.VISIBLE, Color.RED,R.string.try_again),
     TERMS_OF_SERVICE_ATTENTION(R.string.error,R.string.check_terms_of_service, R.layout.dialog_info, View.VISIBLE, Color.RED,R.string.try_again),
     SIGN_UP_ATTENTION(R.string.error,R.string.invalidate_sign_in_text,  R.layout.dialog_info, View.VISIBLE, Color.RED,R.string.try_again),
     CHANGE_PASSWORD_SUCCESS(R.string.password_reset,R.string.password_reset_title,  R.layout.dialog_info, View.GONE, Color.BLACK,R.string.ok),

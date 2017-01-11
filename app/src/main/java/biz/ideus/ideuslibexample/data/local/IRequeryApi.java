@@ -11,4 +11,5 @@ public interface IRequeryApi {
     Observable<String> getFavoriteChangeObservable();
     Observable<AutorisationEntity> getAutorisationInfo();
     void storeAutorisationInfo(AutorisationEntity autorisationEntity);
+    void updateAutorisationInfo(AutorisationEntity autorisationEntity);
 }
