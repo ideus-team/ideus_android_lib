@@ -72,14 +72,13 @@ public class NetModule {
         OkHttpClient defaultHttpClient = httpClientBuilder.addInterceptor(
                 chain -> {
                     Request request = chain.request().newBuilder()
-                            .addHeader("Content-Type", "application/x-www-form-urlencoded")
                             .addHeader("lang", "en")
                             .addHeader("Device-Platform", "android")
                             .addHeader("Application-Name", "IdeusLibExample")
-                            .addHeader("Api-Token", (Hawk.get(Constants.USER_TOKEN))).build();
+                            .addHeader("Api-Token", (Hawk.contains(Constants.USER_TOKEN)) ? Hawk.get(Constants.USER_TOKEN) : "")
+                            .addHeader("Content-Type", "application/x-www-form-urlencoded").build();
                     return chain.proceed(request);
                 }).build();
-
 
         return new Retrofit.Builder()
                 .baseUrl(URL + API_VERSION)

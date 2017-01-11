@@ -16,9 +16,9 @@ import com.theartofdev.edmodo.cropper.CropImage;
 
 import biz.ideus.ideuslib.interfaces.OnValidateField;
 import biz.ideus.ideuslibexample.SampleApplication;
-import biz.ideus.ideuslibexample.data.model.request.LoginModel;
+import biz.ideus.ideuslibexample.data.model.request.LoginModelRequest;
 import biz.ideus.ideuslibexample.data.model.request.RequestWithToken;
-import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationModel;
+import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationRequest;
 import biz.ideus.ideuslibexample.data.model.response.AutorisationAnswer;
 import biz.ideus.ideuslibexample.data.model.response.UserFilesAnswer;
 import biz.ideus.ideuslibexample.data.remote.CheckError;
@@ -132,10 +132,10 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
     }
 
     private void loginUser() {
-        LoginModel loginModel = new LoginModel(email.get().toString(), password.get().toString());
+        LoginModelRequest loginModelRequest = new LoginModelRequest(email.get().toString(), password.get().toString());
         NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
 
-        netApi.login(loginModel)
+        netApi.login(loginModelRequest)
                 .lift(new CheckError<>())
                 .map(autorisationAnswer -> {
                     requeryApi.storeAutorisationInfo(autorisationAnswer.data);
@@ -258,7 +258,7 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
 
     private void autorisationSocial(String socialToken, String socialName, @Nullable String twitterUserName) {
 
-        SocialsAutorisationModel sotialAuthModel = new SocialsAutorisationModel(socialToken, socialName);
+        SocialsAutorisationRequest sotialAuthModel = new SocialsAutorisationRequest(socialToken, socialName);
         if (socialName.equals(TWITTER_NET.networkName)) {
             sotialAuthModel.setTwitterUsername(twitterUserName);
         }

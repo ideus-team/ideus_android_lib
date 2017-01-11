@@ -8,13 +8,13 @@ import java.util.ArrayList;
  * Created by blackmamba on 21.12.16.
  */
 
-public class SaveFiles extends RequestWithToken {
+public class SaveFilesRequest extends RequestWithToken {
 
     @SerializedName("file_ids")
     private ArrayList<Integer> filesIdsList;
 
 
-    public SaveFiles(ArrayList<Integer> filesIdsList) {
+    public SaveFilesRequest(ArrayList<Integer> filesIdsList) {
         super();
         this.filesIdsList = filesIdsList;
 

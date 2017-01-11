@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by blackmamba on 14.12.16.
  */
 
-public class SocialsAutorisationModel extends BaseRequestModel {
+public class SocialsAutorisationRequest extends BaseRequestModel {
     @SerializedName("token")
     private String token;
 
@@ -27,7 +27,7 @@ public class SocialsAutorisationModel extends BaseRequestModel {
         this.twitterUsername = twitterUsername;
     }
 
-    public SocialsAutorisationModel(String token, String socialAlias) {
+    public SocialsAutorisationRequest(String token, String socialAlias) {
         this.token = token;
         this.socialAlias = socialAlias;
     }

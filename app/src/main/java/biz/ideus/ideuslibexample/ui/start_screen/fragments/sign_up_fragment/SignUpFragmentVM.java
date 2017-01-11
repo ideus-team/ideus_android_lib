@@ -12,8 +12,8 @@ import com.orhanobut.hawk.Hawk;
 
 import biz.ideus.ideuslib.interfaces.OnValidateSignUpScreen;
 import biz.ideus.ideuslibexample.R;
-import biz.ideus.ideuslibexample.data.model.request.SignUpModel;
-import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationModel;
+import biz.ideus.ideuslibexample.data.model.request.SignUpRequest;
+import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationRequest;
 import biz.ideus.ideuslibexample.data.model.response.AutorisationAnswer;
 import biz.ideus.ideuslibexample.data.remote.CheckError;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
@@ -235,7 +235,7 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
     private void autorisationSocial(String socialToken, String socialName, @Nullable String twitterUserName) {
 
         NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
-        SocialsAutorisationModel sotialAuthModel = new SocialsAutorisationModel(socialToken, socialName);
+        SocialsAutorisationRequest sotialAuthModel = new SocialsAutorisationRequest(socialToken, socialName);
         sotialAuthModel.setIsAgree(isAgreeTermOfService);
 
         if (socialName.equals(TWITTER_NET.networkName)) {
@@ -262,10 +262,10 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
 
     private void signUpUser() {
 
-        SignUpModel signUpModel = new SignUpModel(email.get().toString(), password.get().toString(), name.get().toString());
+        SignUpRequest signUpRequest = new SignUpRequest(email.get().toString(), password.get().toString(), name.get().toString());
         NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
 
-        netApi.signUp(signUpModel)
+        netApi.signUp(signUpRequest)
                 .lift(new CheckError<>())
                 .map(autorisationAnswer -> {
                     requeryApi.storeAutorisationInfo(autorisationAnswer.data);

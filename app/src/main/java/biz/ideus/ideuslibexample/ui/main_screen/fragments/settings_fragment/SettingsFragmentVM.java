@@ -2,13 +2,16 @@ package biz.ideus.ideuslibexample.ui.main_screen.fragments.settings_fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.BindingAdapter;
 import android.databinding.ObservableField;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 
@@ -22,6 +25,7 @@ import biz.ideus.ideuslibexample.ui.main_screen.activity.MainActivity;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.ui.start_screen.activity.BaseValidationVM;
 import biz.ideus.ideuslibexample.utils.FileUploadProcessor;
+import biz.ideus.ideuslibexample.utils.Utils;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -41,6 +45,7 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
     private FileUploadProcessor fileUploadProcessor;
     private String selectedImagePath;
 
+
     public SettingsFieldTag getSettingsFieldTag() {
         return settingsFieldTag;
     }
@@ -52,19 +57,21 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
     public final ObservableField<String> titleChangeBtn = new ObservableField<>();
     public final ObservableField<String> fullNameUser = new ObservableField<>();
     public final ObservableField<String> photo = new ObservableField<>();
+    public final ObservableField<Drawable> photoDrawable = new ObservableField<>();
 
     @Override
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
         super.onCreate(arguments, savedInstanceState);
         fetchUserInfo();
       fileUploadProcessor = new FileUploadProcessor();
-//
+
         titleColorCurrentPassword.set(Color.BLACK);
         visibilityClearEmailImage.set(View.GONE);
         visibilityClearPasswordImage.set(View.GONE);
         visibilityClearNameImage.set(View.GONE);
         visibilityClearImageCurrentPassword.set(View.GONE);
         visibilityChangeInfoLayout.set(View.GONE);
+
         setOnValidateField(this);
 
     }
@@ -265,6 +272,18 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
 
     @Override
     public void onChooseImage(String imagePath) {
+        photoDrawable.set(Utils.convertBitmapToDrawable(context, imagePath));
         fileUploadProcessor.addFilePath(imagePath);
+    }
+
+
+    @BindingAdapter("isFocus")
+    public static void setFocus(EditText editText, boolean isFocus) {
+        if (isFocus) {
+            editText.post(() -> {
+                editText.requestFocus();
+                editText.onKeyUp(KeyEvent.KEYCODE_DPAD_CENTER, new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_DPAD_CENTER));
+            });
+        }
     }
 }
