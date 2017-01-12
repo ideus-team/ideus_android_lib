@@ -84,6 +84,13 @@
     <string name="photo">Photo </string>
     <string name="check_terms_of_service">Please check out the terms of Service</string>
     <string name="update_user_profile">Your data has been successfully updated</string>
+    <string name="chat">Chat</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="birthday">Birthday</string>
+    <string name="last_message">Last message</string>
+    <string name="last_connection">Last connection</string>
+    <string name="favorite">Favorite</string>
 
 
 

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.ObservableField;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -65,8 +64,7 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
     public final ObservableField<String> titleChangeBtn = new ObservableField<>();
     public final ObservableField<String> fullNameUser = new ObservableField<>();
     public final ObservableField<String> photo = new ObservableField<>();
-    public final ObservableField<String> cunnectionsUsers = new ObservableField<>();
-    public final ObservableField<Drawable> photoDrawable = new ObservableField<>();
+    public final ObservableField<String> connectionsUsers = new ObservableField<>();
 
     @Override
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
@@ -113,9 +111,13 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
             name.set(userInfo.getFirst_name());
             email.set(userInfo.getEmail());
             photo.set(userInfo.getPhoto());
-            cunnectionsUsers.set((userInfo.getFriendsCount() != 0) ? "+ " + userInfo.getFriendsCount() + " " + context.getString(R.string.connections) : "");
-            fullNameUser.set(userInfo.getFirst_name() + " " + userInfo.getLast_name());
+            connectionsUsers.set((userInfo.getFriendsCount() != 0) ? "+ " + userInfo.getFriendsCount() + " " + context.getString(R.string.connections) : "");
+            setFullNameUser(userInfo);
         }
+    }
+
+    private void setFullNameUser(AutorisationEntity userInfo) {
+        fullNameUser.set(userInfo.getFirst_name() + " " + userInfo.getLast_name());
     }
 
     @Override
@@ -144,10 +146,6 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
                 name.set(Editable.Factory.getInstance().newEditable(""));
                 break;
         }
-    }
-
-    public void onMainLayoutClick(View view) {
-
     }
 
     public EditText.OnFocusChangeListener getEditTextFocusListener() {
@@ -188,6 +186,10 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
         ((BaseActivity) context).hideKeyboard();
     }
 
+    public void onMainLayoutClick(View view) {
+
+    }
+
 
     private void updateProfile(boolean updatePhotoOnly) {
         if (updatePhotoOnly) {
@@ -206,15 +208,16 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
         netApi.updateProfile(updateProfileRequest)
                 .lift(new CheckError<>())
                 .map(autorisationAnswer -> {
-                    requeryApi.updateAutorisationInfo(autorisationAnswer.data);
+                    requeryApi.storeAutorisationInfo(autorisationAnswer.data);
                     return autorisationAnswer;
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new NetSubscriber<AutorisationAnswer>(netSubscriberSettings) {
                     @Override
-                    public void onNext(AutorisationAnswer loginAnswer) {
+                    public void onNext(AutorisationAnswer autorisationAnswer) {
                         Utils.toast(context, context.getString(R.string.update_user_profile));
+                        setFullNameUser(autorisationAnswer.data);
                         visibilityChangeInfoLayout.set(View.GONE);
 
                     }
@@ -325,7 +328,6 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
 
     @Override
     public void onChooseImage(String imagePath) {
-        photoDrawable.set(Utils.convertBitmapToDrawable(context, imagePath));
         fileUploadProcessor.addFilePath(imagePath);
     }
 
@@ -336,6 +338,7 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
     @Override
     public void setUploadFileAnswer(UploadFileData uploadData) {
         uploadedUrl = uploadData.getFile();
+        photo.set(uploadedUrl);
         updateProfile(true);
     }
 }

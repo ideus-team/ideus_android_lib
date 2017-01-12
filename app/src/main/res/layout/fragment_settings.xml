@@ -52,8 +52,7 @@
                         android:layout_margin="@dimen/font_size_10"
                         android:background="@drawable/logo_circle"
                         imageLoader:imageUrl="@{viewModel.photo}"
-                        android:onClick="@{viewModel::selectImage}"
-                        android:src="@{viewModel.photoDrawable}" />
+                        android:onClick="@{viewModel::selectImage}" />
 
                     <LinearLayout
                         android:id="@+id/ll_user_descriptions"
@@ -82,7 +81,7 @@
                             android:id="@+id/tv_count_connections"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@{viewModel.cunnectionsUsers}"
+                            android:text="@{viewModel.connectionsUsers}"
                             android:textColor="@color/dark_gray_text" />
 
                     </LinearLayout>
@@ -127,7 +126,6 @@
                             android:id="@+id/et_name"
                             style="@style/EditTextSettings"
                             android:hint="@string/name"
-                            android:inputType="text"
                             android:onTextChanged="@{viewModel::onTextChangedName}"
                             android:tag="@{SettingsFieldTag.NAME}"
                             android:text="@{viewModel.name}"

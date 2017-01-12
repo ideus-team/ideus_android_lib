@@ -1,0 +1,59 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="biz.ideus.ideuslibexample.ui.main_screen.fragments.user_details_fragment.UserDetailsVM" />
+    </data>
+
+    <android.support.design.widget.CoordinatorLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/coordinator_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="false"
+        app:elevation="0dp">
+
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/tw__transparent"
+            android:fitsSystemWindows="true"
+            app:elevation="0dp">
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:elevation="0dp"
+                app:layout_scrollFlags="scroll|enterAlwaysCollapsed" />
+
+        </android.support.design.widget.AppBarLayout>
+
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/nested_sv_profile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="false"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <include
+                android:id="@+id/element_user_details"
+                layout="@layout/element_user_details"
+                app:userDetails="@{viewModel}" />
+
+        </android.support.v4.widget.NestedScrollView>
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"
+            bind:viewModel="@{viewModel}" />
+
+    </android.support.design.widget.CoordinatorLayout>
+</layout>
