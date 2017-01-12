@@ -77,7 +77,7 @@ implements IView {
                                 dialog.dismiss();
                                 break;
                             case NO_INTERNET_CONNECTION:
-                                showNoInternetDialog(NO_INTERNET_CONNECTION.resDialogName);
+                                showSneckBarDialog(NO_INTERNET_CONNECTION.resDialogName);
                                 break;
                             default:
                                 dialog = CustomDialog.instance(dialogParams);
@@ -90,7 +90,7 @@ implements IView {
 
     }
 
-    private void showNoInternetDialog(int title){
+    private void showSneckBarDialog(int title){
          snackbar = Snackbar
                 .make(binding.getRoot(), getString(title), Snackbar.LENGTH_INDEFINITE)
                  .setActionTextColor(getResources().getColor(biz.ideus.ideuslibexample.R.color.color_main))
@@ -146,6 +146,7 @@ FragmentManager fragmentManager = getSupportFragmentManager();
     @CallSuper
     public void onDestroy() {
         super.onDestroy();
+
         if (rxBusShowDialogSubscription != null && !rxBusShowDialogSubscription.isUnsubscribed())
             rxBusShowDialogSubscription.unsubscribe();
 

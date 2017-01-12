@@ -13,9 +13,14 @@ import android.widget.EditText;
 
 import biz.ideus.ideuslib.interfaces.OnValidateSignUpScreen;
 import biz.ideus.ideuslibexample.R;
+import biz.ideus.ideuslibexample.data.model.response.response_model.AutorisationEntity;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.ui.start_screen.activity.BaseValidationVM;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
+import static biz.ideus.ideuslibexample.SampleApplication.requeryApi;
 
 /**
  * Created by blackmamba on 25.11.16.
@@ -28,20 +33,23 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
     private boolean isValidCurrentPassword = false;
     private boolean isValidNewPassword = false;
     private SettingsFieldTag settingsFieldTag;
+
     public SettingsFieldTag getSettingsFieldTag() {
         return settingsFieldTag;
     }
-
 
     public final ObservableField<CharSequence> textCurrentPassword = new ObservableField<>();
     public final ObservableField<Integer> visibilityClearImageCurrentPassword = new ObservableField<>();
     public final ObservableField<Integer> titleColorCurrentPassword = new ObservableField<>();
     public final ObservableField<Integer> visibilityChangeInfoLayout = new ObservableField<>();
     public final ObservableField<String> titleChangeBtn = new ObservableField<>();
+    public final ObservableField<String> fullNameUser = new ObservableField<>();
+    public final ObservableField<String> photo = new ObservableField<>();
 
     @Override
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
         super.onCreate(arguments, savedInstanceState);
+        fetchUserInfo();
         titleColorCurrentPassword.set(Color.BLACK);
         visibilityClearEmailImage.set(View.GONE);
         visibilityClearPasswordImage.set(View.GONE);
@@ -50,12 +58,32 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
         visibilityChangeInfoLayout.set(View.GONE);
 
         setOnValidateField(this);
+
     }
 
 
     @Override
     public void onBindView(@NonNull StartView view) {
         super.onBindView(view);
+        context = view.getViewModelBindingConfig().getContext();
+    }
+
+    private void fetchUserInfo() {
+        requeryApi.getAutorisationInfo()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(autorisationEntity -> {
+            displayUserInfo(autorisationEntity);
+        });
+
+    }
+
+    private void displayUserInfo(AutorisationEntity userInfo) {
+        if (userInfo != null) {
+            name.set(userInfo.getFirst_name());
+            email.set(userInfo.getEmail());
+            photo.set(userInfo.getPhoto());
+            fullNameUser.set(userInfo.getFirst_name() + " " + userInfo.getLast_name());
+        }
     }
 
     @Override
@@ -85,7 +113,8 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
                 break;
         }
     }
-    public void onMainLayoutClick(View view){
+
+    public void onMainLayoutClick(View view) {
 
     }
 
@@ -109,7 +138,7 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
 
 
     private void showingChangeFieldLayout() {
-        switch (getSettingsFieldTag()){
+        switch (getSettingsFieldTag()) {
             case CURRENT_PASSWORD:
                 visibilityChangeInfoLayout.set(View.GONE);
                 titleChangeBtn.set(context.getString(settingsFieldTag.nameField));

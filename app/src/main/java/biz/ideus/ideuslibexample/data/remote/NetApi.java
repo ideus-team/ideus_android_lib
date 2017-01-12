@@ -1,24 +1,48 @@
 package biz.ideus.ideuslibexample.data.remote;
 
 
+import com.squareup.okhttp.RequestBody;
+
+import java.util.Map;
+
+import biz.ideus.ideuslibexample.data.model.request.RequestWithToken;
 import biz.ideus.ideuslibexample.data.model.request.LoginModel;
+import biz.ideus.ideuslibexample.data.model.request.SaveFiles;
 import biz.ideus.ideuslibexample.data.model.request.SignUpModel;
 import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationModel;
-import biz.ideus.ideuslibexample.data.model.response.LoginAnswer;
-import biz.ideus.ideuslibexample.data.model.response.SignUpAnswer;
-import biz.ideus.ideuslibexample.data.model.response.SocialsAutorisationAnswer;
+import biz.ideus.ideuslibexample.data.model.response.AutorisationAnswer;
+import biz.ideus.ideuslibexample.data.model.response.ServerAnswer;
+import biz.ideus.ideuslibexample.data.model.response.UploadFileAnswer;
+import biz.ideus.ideuslibexample.data.model.response.UserFilesAnswer;
 import retrofit2.http.Body;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PartMap;
+import retrofit2.http.Query;
 import rx.Observable;
 
 
 public interface NetApi {
     @POST("user/login")
-    Observable<LoginAnswer> login(@Body LoginModel loginModel);
+    Observable<AutorisationAnswer> login(@Body LoginModel loginModel);
 
     @POST("user/signup")
-    Observable<SignUpAnswer> signUp(@Body SignUpModel signUpModel);
+    Observable<AutorisationAnswer> signUp(@Body SignUpModel signUpModel);
 
     @POST("user/loginSocial")
-    Observable<SocialsAutorisationAnswer> autorisationSocial(@Body SocialsAutorisationModel socialsAutorisationModel);
+    Observable<AutorisationAnswer> autorisationSocial(@Body SocialsAutorisationModel socialsAutorisationModel);
+
+    @POST("user/files")
+    Observable<UserFilesAnswer> getUserFiles(@Body RequestWithToken requestWithToken);
+
+    @POST("upload/save_files")
+    Observable<ServerAnswer> saveFiles(@Body SaveFiles saveFilesModel);
+
+    @POST("user/delete")
+    Observable<ServerAnswer> deleteAccount(@Body RequestWithToken requestWithToken);
+
+    @Multipart
+    @POST("upload/send")
+    Observable<UploadFileAnswer> uploadFile(@PartMap Map<String, RequestBody> params, @Query("api_token") String token) ;
+
 }

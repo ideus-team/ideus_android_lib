@@ -52,7 +52,6 @@ public class NetSubscriber <T extends ServerAnswer> extends Subscriber<T> {
     @Override
     public void onError(Throwable e) {
         hideProgress();
-        Log.d("NetSubscriber",e.getMessage() + "");
         try {
             Log.d("NetSubscriber", "onError " + e.getMessage());
 

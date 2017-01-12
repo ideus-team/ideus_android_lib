@@ -7,16 +7,20 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 
+import com.orhanobut.hawk.Hawk;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import biz.ideus.ideuslib.interfaces.OnValidateField;
+import biz.ideus.ideuslibexample.SampleApplication;
 import biz.ideus.ideuslibexample.data.model.request.LoginModel;
+import biz.ideus.ideuslibexample.data.model.request.RequestWithToken;
 import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationModel;
-import biz.ideus.ideuslibexample.data.model.response.LoginAnswer;
-import biz.ideus.ideuslibexample.data.model.response.SocialsAutorisationAnswer;
+import biz.ideus.ideuslibexample.data.model.response.AutorisationAnswer;
+import biz.ideus.ideuslibexample.data.model.response.UserFilesAnswer;
 import biz.ideus.ideuslibexample.data.remote.CheckError;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriberSettings;
@@ -33,9 +37,13 @@ import hugo.weaving.DebugLog;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static biz.ideus.ideuslibexample.SampleApplication.netApi;
+import static biz.ideus.ideuslibexample.SampleApplication.requeryApi;
 import static biz.ideus.ideuslibexample.data.model.SocialNetworks.FACEBOOK_NET;
 import static biz.ideus.ideuslibexample.data.model.SocialNetworks.GOOGLE_PLUS_NET;
 import static biz.ideus.ideuslibexample.data.model.SocialNetworks.TWITTER_NET;
+import static biz.ideus.ideuslibexample.utils.Constants.USER_ID;
+import static biz.ideus.ideuslibexample.utils.Constants.USER_TOKEN;
 
 
 /**
@@ -53,11 +61,15 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
     @Override
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
         super.onCreate(arguments, savedInstanceState);
+
+
         visibilityClearEmailImage.set(View.INVISIBLE);
         visibilityClearPasswordImage.set(View.INVISIBLE);
         isPasswordShow.set(true);
         setOnValidateField(this);
+
     }
+
 
     @Override
     public void onBindView(@NonNull StartView view) {
@@ -67,28 +79,20 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
 
     @DebugLog
     public void onTestClick(View view) {
-        // RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.NO_INTERNET_CONNECTION);
-
-//        DialogParams dialogParams = new DialogParamsBuilder()
-//                .setDialogModel(DialogModel.LOGIN_ATTENTION)
-//                .setDialogText("чото тут напишем")
-//                .createDialogParams();
-//        RxBusShowDialog.instanceOf().setRxBusShowDialog(dialogParams);
-
-
-        LoginModel loginModel = new LoginModel(email.get().toString(), password.get().toString());
 
         NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
-
-        netApi.login(loginModel)
+        SampleApplication.netApi.getUserFiles(new RequestWithToken())
                 .lift(new CheckError<>())
-                .compose(NetSubscriber.applySchedulers())
-                .subscribe(new NetSubscriber<LoginAnswer>(netSubscriberSettings){
-            @Override
-            public void onNext(LoginAnswer loginAnswer) {
-                super.onNext(loginAnswer);
-            }
-        });
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new NetSubscriber<UserFilesAnswer>(netSubscriberSettings) {
+                    @Override
+                    public void onNext(UserFilesAnswer userFilesAnswer) {
+                        System.out.println("" + userFilesAnswer.data.getUserFilesEntities().isEmpty());
+                        Log.d("loginAnswer", Hawk.get(USER_TOKEN));
+                        Log.d("loginAnswer", Hawk.get(USER_ID));
+                    }
+                });
 
     }
 
@@ -134,29 +138,28 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
         NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
 
         netApi.login(loginModel)
+                .lift(new CheckError<>())
+                .map(autorisationAnswer -> {
+                    requeryApi.storeAutorisationInfo(autorisationAnswer.data);
+                    return autorisationAnswer;
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new NetSubscriber<LoginAnswer>(netSubscriberSettings){
+                .subscribe(new NetSubscriber<AutorisationAnswer>(netSubscriberSettings) {
                     @Override
-                    public void onNext(LoginAnswer loginAnswer) {
-                        super.onNext(loginAnswer);
-                        if(!loginAnswer.message.isEmpty()){
-//                            hideProgress();
-//                            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.LOGIN_ATTENTION);
-                        }else {
-
-                        }
+                    public void onNext(AutorisationAnswer loginAnswer) {
+                        Hawk.put(USER_TOKEN, loginAnswer.data.getApi_token());
+                        Hawk.put(USER_ID, loginAnswer.data.getIdent());
+                        goToMainScreen();
                     }
                 });
     }
 
-    protected void goToMainScreen(){
+    protected void goToMainScreen() {
         StartActivity startActivity = (StartActivity) context;
         startActivity.startActivity(new Intent(startActivity, MainActivity.class));
         startActivity.finish();
     }
-
-
 
 
     @Override
@@ -240,38 +243,43 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
 
     @Override
     public void getGoogleToken(String googlePlusToken) {
-        autorisationSocial(googlePlusToken, GOOGLE_PLUS_NET.networkName);
+        autorisationSocial(googlePlusToken, GOOGLE_PLUS_NET.networkName, null);
     }
 
 
     @Override
-    public void getTwitterToken(String twitterToken) {
-        autorisationSocial(twitterToken, TWITTER_NET.networkName);
+    public void getTwitterAutorisationData(String userName, String twitterToken) {
+        autorisationSocial(twitterToken, TWITTER_NET.networkName, userName);
     }
 
     @Override
     public void getFacebookToken(String facebookToken) {
-        autorisationSocial(facebookToken, FACEBOOK_NET.networkName);
+        autorisationSocial(facebookToken, FACEBOOK_NET.networkName, null);
     }
 
 
-    private void autorisationSocial(String socialToken, String socialName) {
+    private void autorisationSocial(String socialToken, String socialName, @Nullable String twitterUserName) {
 
         SocialsAutorisationModel sotialAuthModel = new SocialsAutorisationModel(socialToken, socialName);
+        if (socialName.equals(TWITTER_NET.networkName)) {
+            sotialAuthModel.setTwitterUsername(twitterUserName);
+        }
         NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
 
         netApi.autorisationSocial(sotialAuthModel)
+                .lift(new CheckError<>())
+                .map(autorisationAnswer -> {
+                    requeryApi.storeAutorisationInfo(autorisationAnswer.data);
+                    return autorisationAnswer;
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new NetSubscriber<SocialsAutorisationAnswer>(netSubscriberSettings) {
+                .subscribe(new NetSubscriber<AutorisationAnswer>(netSubscriberSettings) {
                     @Override
-                    public void onNext(SocialsAutorisationAnswer socialsAutorisationAnswer) {
-                        if (!socialsAutorisationAnswer.message.isEmpty()) {
-                            hideProgress();
-                            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.LOGIN_ATTENTION);
-                        } else {
-
-                        }
+                    public void onNext(AutorisationAnswer autorisationAnswer) {
+                        Hawk.put(USER_TOKEN, autorisationAnswer.data.getApi_token());
+                        Hawk.put(USER_ID, autorisationAnswer.data.getIdent());
+                        goToMainScreen();
                     }
                 });
     }

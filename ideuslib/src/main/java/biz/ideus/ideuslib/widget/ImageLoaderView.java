@@ -11,6 +11,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import biz.ideus.ideuslib.R;
 
+
 /**
  * Created by user on 09.11.2016.
  */
@@ -56,19 +57,11 @@ public class ImageLoaderView extends ImageView {
     }
 
 
-
-
     public void loadImage(String imageUrl) {
-        if (imageUrl != null) {
+        if (imageUrl != null && !imageUrl.isEmpty()) {
             setUrl(imageUrl);
             ImageLoader.getInstance().displayImage(imageUrl, this);
         }
-//        else {
-//            if(imageFlag != null && imageFlag.equals(Constants.DOCTOR_SPECIALISATION_IMAGE_FLAG)){
-//            } else {
-//                setImageResource(R.drawable.image_placeholder_light_blue);
-//            }
-//        }
     }
 }
 

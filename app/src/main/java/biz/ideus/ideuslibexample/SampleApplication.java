@@ -6,15 +6,24 @@ import android.content.res.Resources;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.neovisionaries.ws.client.ProxySettings;
+import com.neovisionaries.ws.client.WebSocket;
+import com.neovisionaries.ws.client.WebSocketFactory;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.orhanobut.hawk.Hawk;
+import com.orhanobut.hawk.NoEncryption;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 
+import javax.net.ssl.SSLContext;
+
 import biz.ideus.ideuslib.adapter.typeface_adapters.DLibTypefaceAdapter;
+import biz.ideus.ideuslibexample.data.local.RequeryApi;
+import biz.ideus.ideuslibexample.data.remote.NetApi;
 import biz.ideus.ideuslibexample.injection.components.AppComponent;
 import biz.ideus.ideuslibexample.injection.components.DaggerAppComponent;
 import biz.ideus.ideuslibexample.injection.modules.AppModule;
@@ -32,6 +41,17 @@ public class SampleApplication extends Application {
     private Configuration configuration;
     public static DisplayImageOptions ImageLoaderDefaultDisplayOptions;
     public static Application mApplication;
+    private WebSocketFactory factory;
+    private SSLContext sslContext;
+    private ProxySettings proxySettings;
+    private WebSocket webSocket;
+    public static RequeryApi requeryApi;
+    public static NetApi netApi;
+
+    public WebSocket getWebSocket() {
+        return webSocket;
+    }
+
     protected void setupFonts() {
         DLibTypefaceAdapter.addFontDefinition("normal", "fonts/MuseoSansCyrl.otf");
     }
@@ -52,17 +72,54 @@ public class SampleApplication extends Application {
             e.printStackTrace();
         }
 
+
+        //Web socket
+//        factory = new WebSocketFactory();
+//        try {
+//            sslContext = SSLContext.getInstance("TLS");
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//        }
+//        factory.setSSLContext(sslContext);
+//        factory.setConnectionTimeout(1000);
+//
+//        try {
+//            webSocket = new WebSocketFactory().createSocket("ws://46.101.254.89:8080");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//        webSocket.connectAsynchronously();
+//
+//
+//        webSocket.addListener(new WebSocketAdapter() {
+//            @Override
+//            public void onTextMessage(WebSocket websocket, String text) throws Exception {
+//                RxChatMessageEvent.instanceOf().setRxChatMessageEvent(text);
+//            }
+//        });
+        //
+
         sInstance = this;
         sAppComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
                 .build();
+
+        requeryApi = sAppComponent.dataApi();
+         netApi = sAppComponent.netApi();
+
         setupFaceBookSDK();
         setupTwitterSDK();
         setupUniversalImageLoaderConfig();
+        Hawk.init(this)
+                .setEncryption(new NoEncryption())
+                .build();
        // if(BuildConfig.DEBUG) { Timber.plant(new Timber.DebugTree()); }
 
 
     }
+
 
     private void setupUniversalImageLoaderConfig(){
         ImageLoaderDefaultDisplayOptions = new DisplayImageOptions.Builder()
@@ -101,5 +158,7 @@ public class SampleApplication extends Application {
         SampleApplication application = (SampleApplication) context.getApplicationContext();
         return application.refWatcher;
     }
+
+
 
 }
