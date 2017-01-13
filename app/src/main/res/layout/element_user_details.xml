@@ -1,0 +1,221 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:imageCircle="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="userDetails"
+            type="biz.ideus.ideuslibexample.ui.main_screen.fragments.user_details_fragment.UserDetailsVM" />
+    </data>
+
+    <ScrollView
+        android:id="@+id/main_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/ll_profile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <View
+                android:id="@+id/view_profile_free_spot"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@color/tw__transparent" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/ll_transparent"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="@color/tw__transparent"
+                    android:orientation="horizontal" />
+
+                <LinearLayout
+                    android:id="@+id/ll_white"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignBottom="@+id/ll_image"
+                    android:layout_below="@+id/ll_transparent"
+                    android:background="@drawable/rounded_profile_layout"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/ll_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/circle_layout_white"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
+
+                    <!--imageLoader:imageUrl="@{doctorProfile.photo}"-->
+                    <biz.ideus.ideuslibexample.ui.widgets.CircleImageView
+                        android:layout_width="130dp"
+                        android:layout_height="130dp"
+                        android:src="@drawable/logo_temp_app"
+                        imageCircle:civ_border_color="#ffffff"
+                        imageCircle:civ_border_width="4dp" />
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:paddingBottom="20dp">
+
+
+                <LinearLayout
+                    android:id="@+id/ll_user_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_margin="@dimen/font_size_10"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/font_size_10"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/TextUserDetailsStyleName"
+                            android:text="@string/first_name" />
+
+                        <TextView
+                            android:id="@+id/tv_first_name"
+                            style="@style/TextUserDetailsStyleContent"
+                            android:text="Dmitry" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/font_size_10"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/TextUserDetailsStyleName"
+                            android:text="@string/last_name" />
+
+                        <TextView
+                            android:id="@+id/tv_last_name"
+                            style="@style/TextUserDetailsStyleContent"
+                            android:text="Dmitry" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/font_size_10"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/TextUserDetailsStyleName"
+                            android:text="@string/birthday" />
+
+                        <TextView
+                            android:id="@+id/tv_birthday"
+                            style="@style/TextUserDetailsStyleContent"
+                            android:text="Dmitry" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/font_size_10"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/TextUserDetailsStyleName"
+                            android:text="@string/last_connection" />
+
+                        <TextView
+                            android:id="@+id/tv_last_connection"
+                            style="@style/TextUserDetailsStyleContent"
+                            android:text="Dmitry" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/font_size_10"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/TextUserDetailsStyleName"
+                            android:text="@string/last_message" />
+
+                        <TextView
+                            android:id="@+id/tv_last_message"
+                            style="@style/TextUserDetailsStyleContent"
+                            android:text="Dmitry" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/font_size_10"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:text="@string/favorite"
+                            android:textColor="@color/gray"
+                            android:textSize="@dimen/font_size_17" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_weight="1">
+
+                            <RatingBar
+                                android:id="@+id/ratingBar"
+                                style="@style/ProfileRatingBar"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:isIndicator="true"
+                                android:max="5"
+                                android:numStars="5"
+                                android:rating="3"
+                                android:stepSize="0.1" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/btn_question"
+                        style="@style/ButtonGreenStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:text="@string/chat" />
+                </LinearLayout>
+
+
+            </RelativeLayout>
+        </LinearLayout>
+
+    </ScrollView>
+</layout>

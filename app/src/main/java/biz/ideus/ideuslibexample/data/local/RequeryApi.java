@@ -40,4 +40,9 @@ public class RequeryApi implements IRequeryApi {
         data.delete(AutorisationEntity.class).get().value();
         data.insert(autorisationEntity).subscribe();
     }
+
+    @Override
+    public void updateAutorisationInfo(AutorisationEntity autorisationEntity) {
+        data.upsert(autorisationEntity).subscribe();
+    }
 }

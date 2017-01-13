@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 
@@ -15,12 +14,9 @@ import com.orhanobut.hawk.Hawk;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import biz.ideus.ideuslib.interfaces.OnValidateField;
-import biz.ideus.ideuslibexample.SampleApplication;
-import biz.ideus.ideuslibexample.data.model.request.LoginModel;
-import biz.ideus.ideuslibexample.data.model.request.RequestWithToken;
-import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationModel;
+import biz.ideus.ideuslibexample.data.model.request.LoginModelRequest;
+import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationRequest;
 import biz.ideus.ideuslibexample.data.model.response.AutorisationAnswer;
-import biz.ideus.ideuslibexample.data.model.response.UserFilesAnswer;
 import biz.ideus.ideuslibexample.data.remote.CheckError;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriberSettings;
@@ -29,6 +25,7 @@ import biz.ideus.ideuslibexample.interfaces.BaseMvvmInterface;
 import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.main_screen.activity.MainActivity;
+import biz.ideus.ideuslibexample.ui.main_screen.fragments.user_details_fragment.UserDetailsFragment;
 import biz.ideus.ideuslibexample.ui.start_screen.SocialsLogin;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.forgot_password_fragment.ForgotPasswordFragment;
@@ -61,8 +58,6 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
     @Override
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
         super.onCreate(arguments, savedInstanceState);
-
-
         visibilityClearEmailImage.set(View.INVISIBLE);
         visibilityClearPasswordImage.set(View.INVISIBLE);
         isPasswordShow.set(true);
@@ -80,20 +75,8 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
     @DebugLog
     public void onTestClick(View view) {
 
-        NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
-        SampleApplication.netApi.getUserFiles(new RequestWithToken())
-                .lift(new CheckError<>())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new NetSubscriber<UserFilesAnswer>(netSubscriberSettings) {
-                    @Override
-                    public void onNext(UserFilesAnswer userFilesAnswer) {
-                        System.out.println("" + userFilesAnswer.data.getUserFilesEntities().isEmpty());
-                        Log.d("loginAnswer", Hawk.get(USER_TOKEN));
-                        Log.d("loginAnswer", Hawk.get(USER_ID));
-                    }
-                });
-
+        ((BaseActivity) context)
+                .addFragmentToBackStack(new UserDetailsFragment(), null, true, null);
     }
 
     private boolean isValidFields() {
@@ -134,10 +117,10 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
     }
 
     private void loginUser() {
-        LoginModel loginModel = new LoginModel(email.get().toString(), password.get().toString());
+        LoginModelRequest loginModelRequest = new LoginModelRequest(email.get().toString(), password.get().toString());
         NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
 
-        netApi.login(loginModel)
+        netApi.login(loginModelRequest)
                 .lift(new CheckError<>())
                 .map(autorisationAnswer -> {
                     requeryApi.storeAutorisationInfo(autorisationAnswer.data);
@@ -260,7 +243,7 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
 
     private void autorisationSocial(String socialToken, String socialName, @Nullable String twitterUserName) {
 
-        SocialsAutorisationModel sotialAuthModel = new SocialsAutorisationModel(socialToken, socialName);
+        SocialsAutorisationRequest sotialAuthModel = new SocialsAutorisationRequest(socialToken, socialName);
         if (socialName.equals(TWITTER_NET.networkName)) {
             sotialAuthModel.setTwitterUsername(twitterUserName);
         }

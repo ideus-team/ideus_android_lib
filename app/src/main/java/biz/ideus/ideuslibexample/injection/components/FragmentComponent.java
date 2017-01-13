@@ -7,6 +7,7 @@ import biz.ideus.ideuslibexample.ui.main_screen.fragments.home_fragment.HomeFrag
 import biz.ideus.ideuslibexample.ui.image_viewer_fragment.ImageViewerFragment;
 import biz.ideus.ideuslibexample.ui.main_screen.fragments.people_fragment.PeopleFragment;
 import biz.ideus.ideuslibexample.ui.main_screen.fragments.settings_fragment.SettingsFragment;
+import biz.ideus.ideuslibexample.ui.main_screen.fragments.user_details_fragment.UserDetailsFragment;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.forgot_password_fragment.ForgotPasswordFragment;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.sign_up_fragment.SignUpFragment;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.terms_of_service_fragment.TermsOfServiceFragment;
@@ -37,4 +38,5 @@ public interface FragmentComponent {
     void inject(PeopleFragment fragment);
     void inject(SettingsFragment fragment);
     void inject(ImageViewerFragment fragment);
+    void inject(UserDetailsFragment fragment);
 }

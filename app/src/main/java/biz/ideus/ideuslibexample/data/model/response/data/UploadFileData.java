@@ -13,11 +13,17 @@ public class UploadFileData {
     @SerializedName("file")
     private String file;
 
+    @SerializedName("hash")
+    private String hash;
+
     public Integer getId() {
         return id;
     }
 
     public String getFile() {
         return file;
+    }
+    public String getHash() {
+        return hash;
     }
 }

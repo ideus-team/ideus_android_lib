@@ -11,6 +11,7 @@ import java.util.Set;
 
 import biz.ideus.ideuslibexample.SampleApplication;
 import biz.ideus.ideuslibexample.data.model.response.UploadFileAnswer;
+import biz.ideus.ideuslibexample.data.model.response.data.UploadFileData;
 import biz.ideus.ideuslibexample.data.remote.NetApi;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriberSettings;
@@ -27,6 +28,11 @@ public class FileUploadProcessor {
     private List<Integer> fileIdsList = new ArrayList<>();
     private Map<String, Integer> filesMap = new HashMap<>();
     private ProcessorState state = ProcessorState.COMPLETED;
+    private SuccessUploadListener successUploadListener;
+
+    public void setSuccessUploadListener(SuccessUploadListener successUploadListener) {
+        this.successUploadListener = successUploadListener;
+    }
 
     private NetApi netApi = SampleApplication.getAppComponent().netApi();
 
@@ -113,7 +119,8 @@ public class FileUploadProcessor {
 
         NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.NONE);
 
-        Utils.getUploadedObservable(netApi, fileName)
+
+        SampleApplication.netApi.uploadFile(Utils.createMultipartBody(fileName))
                 .map(uploadFileAnswer -> {
                     storeResult(uploadFileAnswer, fileName);
                     return uploadFileAnswer;
@@ -137,6 +144,8 @@ public class FileUploadProcessor {
                     @Override
                     public void onNext(UploadFileAnswer uploadFileAnswer) {
                         super.onNext(uploadFileAnswer);
+                        if (successUploadListener != null)
+                            successUploadListener.setUploadFileAnswer(uploadFileAnswer.data);
                     }
                 });
     }
@@ -153,6 +162,10 @@ public class FileUploadProcessor {
         if (subscription != null && !subscription.isUnsubscribed()) {
             subscription.unsubscribe();
         }
+    }
+
+    public interface SuccessUploadListener {
+        void setUploadFileAnswer(UploadFileData uploadData);
     }
 
     public enum ProcessorState {

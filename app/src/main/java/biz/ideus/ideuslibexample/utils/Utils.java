@@ -1,31 +1,35 @@
 package biz.ideus.ideuslibexample.utils;
 
-import com.orhanobut.hawk.Hawk;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.RequestBody;
+import android.content.Context;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.widget.Toast;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
-import biz.ideus.ideuslibexample.data.model.response.UploadFileAnswer;
-import biz.ideus.ideuslibexample.data.remote.NetApi;
-import rx.Observable;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 /**
  * Created by blackmamba on 21.12.16.
  */
 
 public class Utils {
-    
-    public static Observable<UploadFileAnswer> getUploadedObservable(NetApi netApi, String picturePath) {
-        MediaType MEDIA_TYPE = MediaType.parse("image/*");
-        File f = new File(picturePath);
-        RequestBody requestBodyfile = RequestBody.create(MEDIA_TYPE, f);
-        String image_name = f.getName();
-        String fileName = "file\"; filename=\"" + image_name;
-        Map<String, RequestBody> map = new HashMap<>();
-        map.put(fileName, requestBodyfile);
-        return netApi.uploadFile(map, Hawk.get(Constants.USER_TOKEN));
+
+    public static MultipartBody.Part createMultipartBody(String picturePath) {
+        File file = new File(picturePath);
+        MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", file.getName()
+                , RequestBody.create(MediaType.parse("image/*"), file));
+        return filePart;
+    }
+
+    public static Drawable convertBitmapToDrawable(Context context, String imagePath) {
+        return new BitmapDrawable(context.getResources(), BitmapFactory.decodeFile(imagePath));
+    }
+
+    public static void toast(Context context, String message) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 }

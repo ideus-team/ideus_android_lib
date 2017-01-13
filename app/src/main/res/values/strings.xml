@@ -49,9 +49,10 @@
     <string name="connect_twitter_account">Connect Twitter Account</string>
     <string name="logout">Logout</string>
     <string name="invalidate_login_text">The email address or password you entered is incorrect</string>
+    <string name="invalidate_update_text">The email address or name you entered is incorrect</string>
     <string name="invalidate_sign_in_text">The name, email address or password you entered is incorrect</string>
     <string name="try_again">Try again</string>
-    <string name="password_reset_title">An email containing information on how to reset your password has been send to bobJack@gmail.com</string>
+    <string name="password_reset_title">An email containing information on how to reset your password has been send to your email</string>
     <string name="password_reset">Password reset</string>
     <string name="creating_an_account">Creating an account</string>
     <string name="about_creating_account">Where can you draw the line between harmless gambling to problem gambling</string>
@@ -74,12 +75,22 @@
     <string name="change_email">Change Email </string>
     <string name="change_password">Change Password </string>
     <string name="set_current_password">Set Password </string>
+    <string name="empty_tag">Empty tag </string>
+    <string name="connections">Connections</string>
     <string name="your_email">Your Email </string>
     <string name="your_password">Your Password </string>
     <string name="no_internet_connection">No internet connection! </string>
     <string name="retry">Retry </string>
     <string name="photo">Photo </string>
     <string name="check_terms_of_service">Please check out the terms of Service</string>
+    <string name="update_user_profile">Your data has been successfully updated</string>
+    <string name="chat">Chat</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="birthday">Birthday</string>
+    <string name="last_message">Last message</string>
+    <string name="last_connection">Last connection</string>
+    <string name="favorite">Favorite</string>
 
 
 
