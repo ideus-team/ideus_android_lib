@@ -283,7 +283,7 @@
                             android:layout_alignParentLeft="true"
                             android:layout_centerInParent="true"
                             android:checked="false"
-                            android:onClick="@{viewModel::onCheckedChanged}"
+                            android:onClick="@{viewModel::onCheckedChangedShowPassword}"
                             android:text="@string/show_password" />
 
                     </RelativeLayout>
@@ -318,7 +318,7 @@
                             style="@style/checkBoxComponent"
                             android:layout_width="match_parent"
                             android:layout_alignParentLeft="true"
-                            android:onClick="@{viewModel::onCheckedChangedTermAndPolicy}"
+                            android:onClick="@{viewModel::onCheckedChangedTermOfService}"
                             android:text="@string/by_creating_account" />
 
 

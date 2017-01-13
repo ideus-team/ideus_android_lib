@@ -12,8 +12,8 @@ import com.orhanobut.hawk.Hawk;
 
 import biz.ideus.ideuslib.interfaces.OnValidateSignUpScreen;
 import biz.ideus.ideuslibexample.R;
-import biz.ideus.ideuslibexample.data.model.request.SignUpModel;
-import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationModel;
+import biz.ideus.ideuslibexample.data.model.request.SignUpRequest;
+import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationRequest;
 import biz.ideus.ideuslibexample.data.model.response.AutorisationAnswer;
 import biz.ideus.ideuslibexample.data.remote.CheckError;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
@@ -30,6 +30,8 @@ import biz.ideus.ideuslibexample.ui.tutorial_screen.activity.TutorialActivity;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static biz.ideus.ideuslibexample.SampleApplication.netApi;
+import static biz.ideus.ideuslibexample.SampleApplication.requeryApi;
 import static biz.ideus.ideuslibexample.data.model.SocialNetworks.FACEBOOK_NET;
 import static biz.ideus.ideuslibexample.data.model.SocialNetworks.GOOGLE_PLUS_NET;
 import static biz.ideus.ideuslibexample.data.model.SocialNetworks.TWITTER_NET;
@@ -44,6 +46,7 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
     private boolean isValidName = false;
     private boolean isValidEmail = false;
     private boolean isValidPassword = false;
+    private boolean isAgreeTermOfService = false;
     private SocialsLogin socialsLogin = new SocialsLogin(this);
 
 
@@ -63,7 +66,7 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
     @Override
     public void onBindView(@NonNull StartView view) {
         super.onBindView(view);
-        ((StartActivity)context).setGoogleAutorisationListener(this);
+        ((StartActivity) context).setGoogleAutorisationListener(this);
 
 
     }
@@ -83,32 +86,49 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
     }
 
     private boolean isValidData() {
-       return isValidEmail && isValidPassword && isValidName;
+        return isValidEmail && isValidPassword && isValidName;
     }
 
     public void onCreateAccountClick(View view) {
-        if (isValidData()) {
-            signUpUser();
-        } else {
-            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.SIGN_UP_ATTENTION);
+        if (isCheckTermsOfService()) {
+            if (isValidData()) {
+                signUpUser();
+            } else {
+                RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.SIGN_UP_ATTENTION);
+            }
         }
 
     }
 
-    public void onCheckedChangedTermAndPolicy(View v) {
-        isTermAndPolicy.set((!((CheckBox) v).isChecked()));
+    private boolean isCheckTermsOfService() {
+        if (isAgreeTermOfService) {
+            return isAgreeTermOfService;
+        } else {
+            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.TERMS_OF_SERVICE_ATTENTION);
+            return isAgreeTermOfService;
+        }
+    }
+
+    public void onCheckedChangedTermOfService(View v) {
+        isAgreeTermOfService = ((((CheckBox) v).isChecked()));
     }
 
     public void onClickGooglePlus(View view) {
-        socialsLogin.signInWithGooglePlus((StartActivity) context);
+        if (isCheckTermsOfService()) {
+            socialsLogin.signInWithGooglePlus((StartActivity) context);
+        }
     }
 
     public void onClickTwitterLogin(View view) {
-        socialsLogin.onClickTwitterLogin((StartActivity) context);
+        if (isCheckTermsOfService()) {
+            socialsLogin.onClickTwitterLogin((StartActivity) context);
+        }
     }
 
     public void onClickFaceBookLogin(View view) {
-        socialsLogin.onClickFaceBookLogin((StartActivity) context);
+        if (isCheckTermsOfService()) {
+            socialsLogin.onClickFaceBookLogin((StartActivity) context);
+        }
     }
 
     public void onClickTermsAndPolicy(View view) {
@@ -116,7 +136,7 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
     }
 
     // CheckBox change listener
-    public void onCheckedChanged(View v) {
+    public void onCheckedChangedShowPassword(View v) {
         isPasswordShow.set((!((CheckBox) v).isChecked()));
     }
 
@@ -188,11 +208,11 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
     public String getToolbarTitle() {
         return context.getString(R.string.sign_up);
     }
+
     @Override
     public boolean isLeftBtnVisible() {
         return true;
     }
-
 
 
     @Override
@@ -212,21 +232,28 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
     }
 
 
+    private void autorisationSocial(String socialToken, String socialName, @Nullable String twitterUserName) {
 
-    private void autorisationSocial(String socialToken, String socialName, @Nullable String twitterUserName){
-        SocialsAutorisationModel sotialAuthModel = new SocialsAutorisationModel(socialToken, socialName);
         NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
-        if(socialToken.equals(TWITTER_NET.networkName)){
+        SocialsAutorisationRequest sotialAuthModel = new SocialsAutorisationRequest(socialToken, socialName);
+        sotialAuthModel.setIsAgree(isAgreeTermOfService);
+
+        if (socialName.equals(TWITTER_NET.networkName)) {
             sotialAuthModel.setTwitterUsername(twitterUserName);
         }
         netApi.autorisationSocial(sotialAuthModel)
+                .lift(new CheckError<>())
+                .map(autorisationAnswer -> {
+                     requeryApi.storeAutorisationInfo(autorisationAnswer.data);
+                    return autorisationAnswer;
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new NetSubscriber<AutorisationAnswer>(netSubscriberSettings) {
                     @Override
                     public void onNext(AutorisationAnswer autorisationAnswer) {
-                        Hawk.put(USER_TOKEN, autorisationAnswer.data.getUserToken());
-                        Hawk.put(USER_ID, autorisationAnswer.data.getUserId());
+                       Hawk.put(USER_TOKEN, autorisationAnswer.data.getApi_token());
+                        Hawk.put(USER_ID, autorisationAnswer.data.getIdent());
                         goToTutorialScreen();
                     }
                 });
@@ -235,24 +262,28 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
 
     private void signUpUser() {
 
-        SignUpModel signUpModel = new SignUpModel(email.get().toString(), password.get().toString(), name.get().toString());
+        SignUpRequest signUpRequest = new SignUpRequest(email.get().toString(), password.get().toString(), name.get().toString());
         NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
 
-        netApi.signUp(signUpModel)
+        netApi.signUp(signUpRequest)
                 .lift(new CheckError<>())
+                .map(autorisationAnswer -> {
+                    requeryApi.storeAutorisationInfo(autorisationAnswer.data);
+                    return autorisationAnswer;
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new NetSubscriber<AutorisationAnswer>(netSubscriberSettings){
+                .subscribe(new NetSubscriber<AutorisationAnswer>(netSubscriberSettings) {
                     @Override
                     public void onNext(AutorisationAnswer autorisationAnswer) {
-                        Hawk.put(USER_TOKEN, autorisationAnswer.data.getUserToken());
-                        Hawk.put(USER_ID, autorisationAnswer.data.getUserId());
+                        Hawk.put(USER_TOKEN, autorisationAnswer.data.getApi_token());
+                        Hawk.put(USER_ID, autorisationAnswer.data.getIdent());
                         goToTutorialScreen();
                     }
                 });
     }
 
-    protected void goToTutorialScreen(){
+    protected void goToTutorialScreen() {
         StartActivity startActivity = (StartActivity) context;
         startActivity.startActivity(new Intent(startActivity, TutorialActivity.class));
         startActivity.finish();

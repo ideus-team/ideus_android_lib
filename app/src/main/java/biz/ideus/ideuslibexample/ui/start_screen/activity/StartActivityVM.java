@@ -14,8 +14,8 @@ import com.orhanobut.hawk.Hawk;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import biz.ideus.ideuslib.interfaces.OnValidateField;
-import biz.ideus.ideuslibexample.data.model.request.LoginModel;
-import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationModel;
+import biz.ideus.ideuslibexample.data.model.request.LoginModelRequest;
+import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationRequest;
 import biz.ideus.ideuslibexample.data.model.response.AutorisationAnswer;
 import biz.ideus.ideuslibexample.data.remote.CheckError;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
@@ -25,6 +25,7 @@ import biz.ideus.ideuslibexample.interfaces.BaseMvvmInterface;
 import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.main_screen.activity.MainActivity;
+import biz.ideus.ideuslibexample.ui.main_screen.fragments.user_details_fragment.UserDetailsFragment;
 import biz.ideus.ideuslibexample.ui.start_screen.SocialsLogin;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.forgot_password_fragment.ForgotPasswordFragment;
@@ -33,6 +34,8 @@ import hugo.weaving.DebugLog;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static biz.ideus.ideuslibexample.SampleApplication.netApi;
+import static biz.ideus.ideuslibexample.SampleApplication.requeryApi;
 import static biz.ideus.ideuslibexample.data.model.SocialNetworks.FACEBOOK_NET;
 import static biz.ideus.ideuslibexample.data.model.SocialNetworks.GOOGLE_PLUS_NET;
 import static biz.ideus.ideuslibexample.data.model.SocialNetworks.TWITTER_NET;
@@ -50,7 +53,8 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
     private boolean isValidPassword = false;
     private SocialsLogin socialsLogin = new SocialsLogin(this);
     public final ObservableField<Drawable> headerImage = new ObservableField<>();
- //   protected Subscription testSubscription;
+
+
     @Override
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
         super.onCreate(arguments, savedInstanceState);
@@ -58,9 +62,6 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
         visibilityClearPasswordImage.set(View.INVISIBLE);
         isPasswordShow.set(true);
         setOnValidateField(this);
-
-//        testSubscription = chatEventSubscribe();
-
 
     }
 
@@ -73,31 +74,10 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
 
     @DebugLog
     public void onTestClick(View view) {
-     //   SampleApplication.getInstance().getWebSocket().sendText("wwwwwwww");
 
-//
-//        LoginModel loginModel = new LoginModel(email.get().toString(), password.get().toString());
-//        NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
-//
-//        netApi.login(loginModel)
-//                .lift(new CheckError<>())
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new NetSubscriber<LoginAnswer>(netSubscriberSettings){
-//            @Override
-//            public void onNext(LoginAnswer loginAnswer) {
-//                Hawk.put(USER_TOKEN, loginAnswer.data.getUserToken());
-//                Hawk.put(USER_ID, loginAnswer.data.getUserId());
-//
-//
-//                Log.d("loginAnswer", Hawk.get(USER_TOKEN));
-//                Log.d("loginAnswer", Hawk.get(USER_ID));
-//            }
-//        });
-
+        ((BaseActivity) context)
+                .addFragmentToBackStack(new UserDetailsFragment(), null, true, null);
     }
-
-
 
     private boolean isValidFields() {
         return isValidEmail && isValidPassword;
@@ -137,30 +117,32 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
     }
 
     private void loginUser() {
-        LoginModel loginModel = new LoginModel(email.get().toString(), password.get().toString());
+        LoginModelRequest loginModelRequest = new LoginModelRequest(email.get().toString(), password.get().toString());
         NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
 
-        netApi.login(loginModel)
+        netApi.login(loginModelRequest)
                 .lift(new CheckError<>())
+                .map(autorisationAnswer -> {
+                    requeryApi.storeAutorisationInfo(autorisationAnswer.data);
+                    return autorisationAnswer;
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new NetSubscriber<AutorisationAnswer>(netSubscriberSettings){
+                .subscribe(new NetSubscriber<AutorisationAnswer>(netSubscriberSettings) {
                     @Override
                     public void onNext(AutorisationAnswer loginAnswer) {
-                        Hawk.put(USER_TOKEN, loginAnswer.data.getUserToken());
-                        Hawk.put(USER_ID, loginAnswer.data.getUserId());
+                        Hawk.put(USER_TOKEN, loginAnswer.data.getApi_token());
+                        Hawk.put(USER_ID, loginAnswer.data.getIdent());
                         goToMainScreen();
                     }
                 });
     }
 
-    protected void goToMainScreen(){
+    protected void goToMainScreen() {
         StartActivity startActivity = (StartActivity) context;
         startActivity.startActivity(new Intent(startActivity, MainActivity.class));
         startActivity.finish();
     }
-
-
 
 
     @Override
@@ -261,55 +243,27 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
 
     private void autorisationSocial(String socialToken, String socialName, @Nullable String twitterUserName) {
 
-        SocialsAutorisationModel sotialAuthModel = new SocialsAutorisationModel(socialToken, socialName);
-        if(socialName.equals(TWITTER_NET.networkName)){
+        SocialsAutorisationRequest sotialAuthModel = new SocialsAutorisationRequest(socialToken, socialName);
+        if (socialName.equals(TWITTER_NET.networkName)) {
             sotialAuthModel.setTwitterUsername(twitterUserName);
         }
         NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
 
         netApi.autorisationSocial(sotialAuthModel)
                 .lift(new CheckError<>())
+                .map(autorisationAnswer -> {
+                    requeryApi.storeAutorisationInfo(autorisationAnswer.data);
+                    return autorisationAnswer;
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new NetSubscriber<AutorisationAnswer>(netSubscriberSettings) {
                     @Override
                     public void onNext(AutorisationAnswer autorisationAnswer) {
-                        Hawk.put(USER_TOKEN, autorisationAnswer.data.getUserToken());
-                        Hawk.put(USER_ID, autorisationAnswer.data.getUserId());
+                        Hawk.put(USER_TOKEN, autorisationAnswer.data.getApi_token());
+                        Hawk.put(USER_ID, autorisationAnswer.data.getIdent());
                         goToMainScreen();
                     }
                 });
     }
-
-
-//    private Subscription chatEventSubscribe(){
-//
-//        return RxChatMessageEvent.instanceOf().getEvents()
-//                .subscribe(new Subscriber<String>() {
-//                    @Override
-//                    public void onCompleted() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onNext(String message) {
-//                        email.set(message);
-//                    }
-//                });
-//
-//    }
-
-//    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
-//        if (testSubscription != null && !testSubscription.isUnsubscribed())
-//            testSubscription.unsubscribe();
-//    }
-
-
 }

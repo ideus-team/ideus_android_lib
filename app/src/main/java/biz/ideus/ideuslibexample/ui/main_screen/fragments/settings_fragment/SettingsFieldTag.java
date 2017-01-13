@@ -10,7 +10,8 @@ public enum SettingsFieldTag {
     EMAIL(R.string.change_email),
     NAME(R.string.change_name),
     CURRENT_PASSWORD(R.string.set_current_password),
-    NEW_PASSWORD(R.string.change_password);
+    NEW_PASSWORD(R.string.change_password),
+    EMPTY_TAG(R.string.empty_tag);
 
     public int nameField;
 

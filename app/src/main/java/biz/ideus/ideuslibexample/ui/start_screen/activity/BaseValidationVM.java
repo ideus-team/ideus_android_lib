@@ -13,8 +13,6 @@ import java.util.concurrent.TimeUnit;
 import biz.ideus.ideuslib.Utils.UtilsValidationETFields;
 import biz.ideus.ideuslib.interfaces.OnValidateField;
 import biz.ideus.ideuslib.interfaces.OnValidateSignUpScreen;
-import biz.ideus.ideuslibexample.SampleApplication;
-import biz.ideus.ideuslibexample.data.remote.NetApi;
 import biz.ideus.ideuslibexample.ui.common.toolbar.AbstractViewModelToolbar;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.utils.Constants;
@@ -27,11 +25,10 @@ import rx.android.schedulers.AndroidSchedulers;
 
 public abstract class BaseValidationVM extends AbstractViewModelToolbar<StartView> {
     protected Context context;
-    public static final int MIN_COUNT_CHARACTER_NAME = 3;
-    public static final int MIN_COUNT_CHARACTER_PASSWORD = 6;
+    public static final int MIN_COUNT_CHARACTER_NAME = 1;
+    public static final int MIN_COUNT_CHARACTER_PASSWORD = 5;
     private OnValidateField onValidateField;
 
-    protected final NetApi netApi = SampleApplication.getAppComponent().netApi();
 
     public void setOnValidateField(OnValidateField onValidateField) {
         this.onValidateField = onValidateField;
@@ -44,13 +41,11 @@ public abstract class BaseValidationVM extends AbstractViewModelToolbar<StartVie
 
     public final ObservableField<Integer> titleColorName = new ObservableField<>();
 
-    public final ObservableField<Boolean> isTermAndPolicy = new ObservableField<>();
-
     public final ObservableField<Integer> titleColorEmail = new ObservableField<>();
 
     public final ObservableField<Integer> titleColorPassword = new ObservableField<>();
 
-    public final ObservableField<Integer>  visibilityClearNameImage = new ObservableField<>();
+    public final ObservableField<Integer> visibilityClearNameImage = new ObservableField<>();
     public final ObservableField<Integer> visibilityClearEmailImage = new ObservableField<>();
 
     public final ObservableField<Integer> visibilityClearPasswordImage = new ObservableField<>();
@@ -66,13 +61,14 @@ public abstract class BaseValidationVM extends AbstractViewModelToolbar<StartVie
     public final ObservableField<Boolean> isValidFields = new ObservableField<>();
 
 
-
     @Override
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
         super.onCreate(arguments, savedInstanceState);
         visibilityLoadingPage.set(View.GONE);
         isValidFields.set(false);
-
+        email.set("");
+        name.set("");
+        password.set("");
     }
 
     @Override

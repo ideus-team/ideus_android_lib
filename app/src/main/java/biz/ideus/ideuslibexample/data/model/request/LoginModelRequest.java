@@ -6,14 +6,14 @@ import com.google.gson.annotations.SerializedName;
  * Created by user on 12.12.2016.
  */
 
-public class LoginModel extends BaseRequestModel {
+public class LoginModelRequest extends BaseRequestModel {
     @SerializedName("email")
     private String email;
 
     @SerializedName("password")
     private String password;
 
-    public LoginModel(String email, String password) {
+    public LoginModelRequest(String email, String password) {
         this.email = email;
         this.password = password;
     }

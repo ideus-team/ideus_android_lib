@@ -24,7 +24,6 @@ import biz.ideus.ideuslibexample.rx_buses.RxBusActionEditDialogBtn;
  */
 
 public class CustomDialog extends DialogFragment{
-//    public WaveDrawable mWaveDrawable = new WaveDrawable(SampleApplication.getInstance().getApplicationContext(), R.drawable.earth);
     private ViewDataBinding binding;
     public static String LAYOUT_KEY = "layout";
     public static String DIALOG_MODEL_KEY = "DialogModel";
@@ -114,21 +113,6 @@ public class CustomDialog extends DialogFragment{
         btnName.set(getString(dialogParams.getDialogModel().resBtnName));
         this.setCancelable(false);
     }
-
-
-
-//    @BindingAdapter("bind:waveImage")
-//    @DebugLog
-//    public static void waveImage(ImageView view, Drawable drawable) {
-//        view.setImageDrawable(drawable);
-//        ((WaveDrawable)drawable).setWaveAmplitude(100);
-//        ((WaveDrawable)drawable).setWaveLength(270);
-//        ((WaveDrawable)drawable).setWaveSpeed(8);
-//        ((WaveDrawable)drawable).setLevel(5000);
-//        ((WaveDrawable)drawable).invalidateSelf();
-//        drawable.invalidateSelf();
-//    }
-
 
     public void onClick(View view) {
         DialogCommandModel dialogCommandModel = (DialogCommandModel) view.getTag();

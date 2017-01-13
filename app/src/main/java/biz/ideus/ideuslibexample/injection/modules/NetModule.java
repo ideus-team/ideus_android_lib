@@ -2,10 +2,12 @@ package biz.ideus.ideuslibexample.injection.modules;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.orhanobut.hawk.Hawk;
 
 import biz.ideus.ideuslibexample.BuildConfig;
 import biz.ideus.ideuslibexample.data.remote.NetApi;
 import biz.ideus.ideuslibexample.injection.scopes.PerApplication;
+import biz.ideus.ideuslibexample.utils.Constants;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
@@ -61,7 +63,7 @@ public class NetModule {
     static NetApi provideCountryApi(Gson gson, OkHttpClient okHttpClient) {
         OkHttpClient.Builder httpClientBuilder = okHttpClient.newBuilder();
 
-        if(BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             httpClientBuilder.addInterceptor(loggingInterceptor);
@@ -70,12 +72,13 @@ public class NetModule {
         OkHttpClient defaultHttpClient = httpClientBuilder.addInterceptor(
                 chain -> {
                     Request request = chain.request().newBuilder()
+                            .addHeader("lang", "en")
+                            .addHeader("Device-Platform", "android")
+                            .addHeader("Application-Name", "IdeusLibExample")
+                            .addHeader("Api-Token", (Hawk.contains(Constants.USER_TOKEN)) ? Hawk.get(Constants.USER_TOKEN) : "")
                             .addHeader("Content-Type", "application/x-www-form-urlencoded").build();
                     return chain.proceed(request);
                 }).build();
-
-
-
 
         return new Retrofit.Builder()
                 .baseUrl(URL + API_VERSION)

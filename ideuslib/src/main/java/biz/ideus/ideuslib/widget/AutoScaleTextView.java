@@ -13,7 +13,7 @@ import android.widget.TextView;
  */
 
 public class AutoScaleTextView extends TextView{
-    public static final float MIN_TEXT_SIZE = 5;
+    public static final float MIN_TEXT_SIZE = 10;
 
     private Context context;
     // Interface for resize notifications

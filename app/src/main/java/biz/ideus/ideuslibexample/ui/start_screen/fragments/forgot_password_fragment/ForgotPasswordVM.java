@@ -14,6 +14,11 @@ import java.util.concurrent.TimeUnit;
 import biz.ideus.ideuslib.Utils.Utils;
 import biz.ideus.ideuslib.Utils.UtilsValidationETFields;
 import biz.ideus.ideuslibexample.R;
+import biz.ideus.ideuslibexample.data.model.request.ResetPasswordRequest;
+import biz.ideus.ideuslibexample.data.model.response.ResetPasswordAnswer;
+import biz.ideus.ideuslibexample.data.remote.CheckError;
+import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
+import biz.ideus.ideuslibexample.data.remote.NetSubscriberSettings;
 import biz.ideus.ideuslibexample.dialogs.DialogModel;
 import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import biz.ideus.ideuslibexample.ui.common.toolbar.AbstractViewModelToolbar;
@@ -21,6 +26,9 @@ import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.utils.Constants;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
+import static biz.ideus.ideuslibexample.SampleApplication.netApi;
 
 /**
  * Created by blackmamba on 16.11.16.
@@ -59,6 +67,7 @@ public class ForgotPasswordVM extends AbstractViewModelToolbar<StartView> {
     }
 
     public void onTextChangedEmail(CharSequence s, int start, int before, int count) {
+        email.set(s);
         Observable.just(s.toString())
                 .debounce(500, TimeUnit.MILLISECONDS)
                 .doOnNext(currentText -> {
@@ -81,9 +90,30 @@ public class ForgotPasswordVM extends AbstractViewModelToolbar<StartView> {
 
     public void onClickSendPassword(View view) {
         if (isValidData()) {
-            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.CHANGE_PASSWORD_SUCCESS);
+            sendPassword();
         }
     }
+
+    private void sendPassword(){
+
+        NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
+        netApi.resetPassword(new ResetPasswordRequest(email.get().toString()))
+                .lift(new CheckError<>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new NetSubscriber<ResetPasswordAnswer>(netSubscriberSettings) {
+                    @Override
+                    public void onCompleted() {
+                        super.onCompleted();
+                        RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.CHANGE_PASSWORD_SUCCESS);
+                    }
+                    @Override
+                    public void onNext(ResetPasswordAnswer answer) {
+
+                    }
+                });
+    }
+
     private int getColor(Boolean isValid, Context context) {
         return (isValid) ? ContextCompat.getColor(context, biz.ideus.ideuslib.R.color.black)
                 : ContextCompat.getColor(context, biz.ideus.ideuslib.R.color.error_color);

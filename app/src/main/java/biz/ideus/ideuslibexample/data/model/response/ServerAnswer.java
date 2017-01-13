@@ -13,7 +13,7 @@ public abstract class ServerAnswer<T> {
 
     @SerializedName("data")
     public T data;
-    @SerializedName("errors")
+    @SerializedName("actions")
     public List errors = new ArrayList<BaseError>();
     @SerializedName("message")
     public String message;
