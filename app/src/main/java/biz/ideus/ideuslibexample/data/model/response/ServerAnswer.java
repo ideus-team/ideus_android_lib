@@ -9,7 +9,7 @@ import java.util.List;
  * Created by user on 12.12.2016.
  */
 
-public abstract class ServerAnswer<T> {
+public class ServerAnswer<T> {
 
     @SerializedName("data")
     public T data;

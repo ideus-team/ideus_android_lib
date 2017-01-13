@@ -13,6 +13,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -44,7 +45,7 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
+    compile 'com.android.support:multidex:1.0.0'
     compile 'com.github.ozodrukh:CircularReveal:2.0.1'
     compile 'com.orhanobut:hawk:2.0.1'
     compile 'com.neovisionaries:nv-websocket-client:1.30'
