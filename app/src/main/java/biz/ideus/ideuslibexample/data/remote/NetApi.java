@@ -1,6 +1,7 @@
 package biz.ideus.ideuslibexample.data.remote;
 
 
+import biz.ideus.ideuslibexample.data.model.request.BaseRequestModel;
 import biz.ideus.ideuslibexample.data.model.request.LoginModelRequest;
 import biz.ideus.ideuslibexample.data.model.request.RequestWithToken;
 import biz.ideus.ideuslibexample.data.model.request.ResetPasswordRequest;
@@ -46,6 +47,8 @@ public interface NetApi {
     @POST("user/reset_password")
     Observable<ResetPasswordAnswer> resetPassword(@Body ResetPasswordRequest resetPasswordRequest);
 
+    @POST("user/contacts")
+    Observable<ServerAnswer> getContacts(@Body BaseRequestModel resetPasswordRequest);
 
     @Multipart
     @POST("upload/send")
