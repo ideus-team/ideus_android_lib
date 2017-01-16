@@ -31,6 +31,7 @@ public static final int GOOGLE_SIGN_IN = 2222;
 
     public static final String USER_ID ="USER_ID";
     public static final String USER_TOKEN ="USER_TOKEN";
+    public static final String PUSH_TOKEN = "PUSH_TOKEN";
 
     //firebase ID 173741521860
     //firebase Server key new version  AIzaSyABjOsv0wjhnfhamxkfJpJZ12l8mzycpyY
