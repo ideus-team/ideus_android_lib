@@ -12,6 +12,12 @@ import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.databinding.FragmentUserDetailsBinding;
 import biz.ideus.ideuslibexample.ui.base.BaseFragment;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
+import static biz.ideus.ideuslibexample.SampleApplication.requeryApi;
+import static biz.ideus.ideuslibexample.utils.Constants.PEOPLE_ID;
+import static biz.ideus.ideuslibexample.utils.Constants.PERCENTAGE_ALPHA;
 
 /**
  * Created by blackmamba on 12.01.17.
@@ -21,6 +27,12 @@ public class UserDetailsFragment extends BaseFragment<StartView, UserDetailsVM, 
         implements StartView {
 
     protected float percentage;
+    protected int peopleId;
+
+    public UserDetailsFragment setPeopleId(int peopleIdent) {
+        this.peopleId = peopleIdent;
+        return this;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,15 +44,18 @@ public class UserDetailsFragment extends BaseFragment<StartView, UserDetailsVM, 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putFloat("percentage", percentage);
+        outState.putFloat(PERCENTAGE_ALPHA, percentage);
+        outState.putInt(PEOPLE_ID, peopleId);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setModelView(this);
+
         if (savedInstanceState != null) {
-            percentage = savedInstanceState.getFloat("percentage");
+            peopleId = savedInstanceState.getInt(PEOPLE_ID);
+            percentage = savedInstanceState.getFloat(PERCENTAGE_ALPHA);
         }
         if (percentage == 0) {
             scrollUp();
@@ -59,6 +74,17 @@ public class UserDetailsFragment extends BaseFragment<StartView, UserDetailsVM, 
                 getFragmentManager().popBackStack();
             }
         });
+
+        setPeopleEntityToView(peopleId);
+    }
+
+    private void setPeopleEntityToView(int peopleId){
+        requeryApi.getPeopleEntity(peopleId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(peopleEntity1 -> {
+                    getBinding().setPeople(peopleEntity1);
+                });
     }
 
     private void changeBackgroundColor(float percentage) {

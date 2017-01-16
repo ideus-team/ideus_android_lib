@@ -8,6 +8,10 @@
         <variable
             name="viewModel"
             type="biz.ideus.ideuslibexample.ui.main_screen.fragments.user_details_fragment.UserDetailsVM" />
+
+        <variable
+            name="people"
+            type="biz.ideus.ideuslibexample.data.model.response.response_model.People" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -46,7 +50,8 @@
             <include
                 android:id="@+id/element_user_details"
                 layout="@layout/element_user_details"
-                app:userDetails="@{viewModel}" />
+                app:userDetails="@{viewModel}"
+                app:people="@{people}" />
 
         </android.support.v4.widget.NestedScrollView>
 

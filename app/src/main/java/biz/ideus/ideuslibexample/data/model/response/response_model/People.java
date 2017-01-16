@@ -16,6 +16,7 @@ public interface People extends Observable, Parcelable, Persistable {
 
     @Key
     int getIdent();
+    void setIdent(int ident);
 
     @Bindable
     String getFirst_name();
@@ -23,9 +24,9 @@ public interface People extends Observable, Parcelable, Persistable {
     void setFirst_name(String first_name);
 
     @Bindable
-    int getLast_name();
+    String getLast_name();
 
-    void setLast_name(int last_name);
+    void setLast_name(String last_name);
 
     @Bindable
     String getPhoto();

@@ -11,7 +11,7 @@ import biz.ideus.ideuslibexample.data.model.response.response_model.PeopleEntity
  */
 
 public class PeopleData {
-    @SerializedName("find_users")
+    @SerializedName("users")
     private List<PeopleEntity> peopleEntities;
 
     @SerializedName("count")

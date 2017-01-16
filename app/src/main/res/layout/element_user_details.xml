@@ -1,7 +1,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:imageCircle="http://schemas.android.com/apk/res-auto">
+    xmlns:imageCircle="http://schemas.android.com/apk/res-auto"
+    xmlns:imageLoader="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <variable
+            name="people"
+            type="biz.ideus.ideuslibexample.data.model.response.response_model.People" />
 
         <variable
             name="userDetails"
@@ -59,11 +63,12 @@
                     android:visibility="visible">
 
 
-                    <!--imageLoader:imageUrl="@{doctorProfile.photo}"-->
+
                     <biz.ideus.ideuslibexample.ui.widgets.CircleImageView
                         android:layout_width="130dp"
                         android:layout_height="130dp"
                         android:src="@drawable/logo_temp_app"
+                    imageLoader:imageUrl="@{people.photo}"
                         imageCircle:civ_border_color="#ffffff"
                         imageCircle:civ_border_width="4dp" />
 
@@ -101,7 +106,7 @@
                         <TextView
                             android:id="@+id/tv_first_name"
                             style="@style/TextUserDetailsStyleContent"
-                            android:text="Dmitry" />
+                            android:text="@{people.first_name}" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -117,7 +122,7 @@
                         <TextView
                             android:id="@+id/tv_last_name"
                             style="@style/TextUserDetailsStyleContent"
-                            android:text="Dmitry" />
+                            android:text="@{people.last_name}" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -133,7 +138,7 @@
                         <TextView
                             android:id="@+id/tv_birthday"
                             style="@style/TextUserDetailsStyleContent"
-                            android:text="Dmitry" />
+                            android:text="@{people.birthday}" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -149,7 +154,7 @@
                         <TextView
                             android:id="@+id/tv_last_connection"
                             style="@style/TextUserDetailsStyleContent"
-                            android:text="Dmitry" />
+                            android:text="" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -165,7 +170,7 @@
                         <TextView
                             android:id="@+id/tv_last_message"
                             style="@style/TextUserDetailsStyleContent"
-                            android:text="Dmitry" />
+                            android:text="@{people.last_message}" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -208,6 +213,7 @@
                     <Button
                         android:id="@+id/btn_question"
                         style="@style/ButtonGreenStyle"
+                        android:onClick="@{userDetails.onChatClick}"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:text="@string/chat" />

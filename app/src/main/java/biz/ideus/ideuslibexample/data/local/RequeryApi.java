@@ -2,13 +2,20 @@ package biz.ideus.ideuslibexample.data.local;
 
 import android.annotation.SuppressLint;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import biz.ideus.ideuslibexample.data.model.response.response_model.AutorisationEntity;
+import biz.ideus.ideuslibexample.data.model.response.response_model.PeopleEntity;
 import biz.ideus.ideuslibexample.injection.scopes.PerApplication;
 import io.requery.Persistable;
+import io.requery.query.Result;
 import io.requery.rx.SingleEntityStore;
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by user on 18.11.2016.
@@ -36,13 +43,46 @@ public class RequeryApi implements IRequeryApi {
     }
 
     @Override
+    public Observable<PeopleEntity> getPeopleEntity(int peopleId) {
+        return data.select(PeopleEntity.class).where(PeopleEntity.IDENT.equal(peopleId)).get().toObservable();
+    }
+
+    @Override
+    public List<PeopleEntity> getPeopleEntityList() {
+       List<PeopleEntity> peopleEntitiesList = new ArrayList<>();
+             data.select(PeopleEntity.class).get()
+                     .toSelfObservable()
+                     .subscribeOn(Schedulers.io())
+                     .observeOn(AndroidSchedulers.mainThread())
+                     .subscribe(peopleEntities -> {
+                         peopleEntitiesList.addAll(peopleEntities.toList());
+                     });
+        return peopleEntitiesList;
+        }
+
+    public Observable<Result<PeopleEntity>> getPeopleEntity() {
+        return data.select(PeopleEntity.class).get()
+                     .toSelfObservable()
+                     .subscribeOn(Schedulers.io())
+                     .observeOn(AndroidSchedulers.mainThread());
+        }
+
+
+    @Override
     public void storeAutorisationInfo(AutorisationEntity autorisationEntity) {
         data.delete(AutorisationEntity.class).get().value();
         data.insert(autorisationEntity).subscribe();
     }
 
+
     @Override
     public void updateAutorisationInfo(AutorisationEntity autorisationEntity) {
         data.upsert(autorisationEntity).subscribe();
+    }
+
+    @Override
+    public void storePeopleList(List<PeopleEntity> peopleEntityList) {
+        data.delete(PeopleEntity.class).get().value();
+       data.insert(peopleEntityList).subscribe();
     }
 }

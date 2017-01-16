@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.View;
 
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.ui.common.toolbar.AbstractViewModelToolbar;
@@ -15,7 +16,7 @@ import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 
 public class UserDetailsVM  extends AbstractViewModelToolbar<StartView>{
 
-    protected Context context;
+    private Context context;
 
     @Override
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
@@ -27,6 +28,10 @@ public class UserDetailsVM  extends AbstractViewModelToolbar<StartView>{
     public void onBindView(@NonNull StartView view) {
         super.onBindView(view);
         context = view.getViewModelBindingConfig().getContext();
+    }
+
+    public void onChatClick(View view){
+
     }
 
     @Override

@@ -10,8 +10,14 @@ import biz.ideus.ideuslibexample.BR;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.adapters.PeopleAdapter;
 import biz.ideus.ideuslibexample.databinding.FragmentPeopleBinding;
+import biz.ideus.ideuslibexample.rx_buses.RxBusFetchPeopleListEvent;
 import biz.ideus.ideuslibexample.ui.base.BaseFragment;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
+import static biz.ideus.ideuslibexample.SampleApplication.requeryApi;
 
 /**
  * Created by blackmamba on 25.11.16.
@@ -20,16 +26,25 @@ import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 public class PeopleFragment extends BaseFragment<StartView, PeopleFragmentVM, FragmentPeopleBinding> implements StartView {
 
     private PeopleAdapter adapter;
+    private Subscription fetchPeopleEventSubscription;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fragmentComponent().inject(this);
+        fetchPeopleEventSubscription = getFetchPeopleEventSubscription();
         adapter = new PeopleAdapter();
         getBinding().rViewPeople.setAdapter(adapter);
         getBinding().rViewPeople.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         getViewModel().setAdapter(adapter);
+
+        requeryApi.getPeopleEntity()
+                .subscribe(peopleEntities -> {
+                    adapter.setPeopleEntities(peopleEntities.toList());
+                });
     }
+
+
 
 
     @Override
@@ -52,5 +67,20 @@ public class PeopleFragment extends BaseFragment<StartView, PeopleFragmentVM, Fr
         return PeopleFragmentVM.class;
     }
 
+private Subscription getFetchPeopleEventSubscription(){
+        return RxBusFetchPeopleListEvent.instanceOf()
+                .getEvents()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(peopleEntities -> {
+                    adapter.setPeopleEntities(peopleEntities);
+                });
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (fetchPeopleEventSubscription != null && !fetchPeopleEventSubscription.isUnsubscribed())
+            fetchPeopleEventSubscription.unsubscribe();
+    }
 }

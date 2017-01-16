@@ -31,4 +31,8 @@ public static final int GOOGLE_SIGN_IN = 2222;
 
     public static final String USER_ID ="USER_ID";
     public static final String USER_TOKEN ="USER_TOKEN";
+
+
+    public static final String PEOPLE_ID ="peopleId";
+    public static final String PERCENTAGE_ALPHA ="percentage_alpha";
 }
