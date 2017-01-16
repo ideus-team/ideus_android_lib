@@ -2,6 +2,7 @@ package biz.ideus.ideuslibexample.data.remote;
 
 
 import biz.ideus.ideuslibexample.data.model.request.BaseRequestModel;
+import biz.ideus.ideuslibexample.data.model.request.GetPeopleRequest;
 import biz.ideus.ideuslibexample.data.model.request.LoginModelRequest;
 import biz.ideus.ideuslibexample.data.model.request.RequestWithToken;
 import biz.ideus.ideuslibexample.data.model.request.ResetPasswordRequest;
@@ -10,6 +11,7 @@ import biz.ideus.ideuslibexample.data.model.request.SignUpRequest;
 import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationRequest;
 import biz.ideus.ideuslibexample.data.model.request.UpdateProfileRequest;
 import biz.ideus.ideuslibexample.data.model.response.AutorisationAnswer;
+import biz.ideus.ideuslibexample.data.model.response.PeopleAnswer;
 import biz.ideus.ideuslibexample.data.model.response.ResetPasswordAnswer;
 import biz.ideus.ideuslibexample.data.model.response.ServerAnswer;
 import biz.ideus.ideuslibexample.data.model.response.UploadFileAnswer;
@@ -49,6 +51,11 @@ public interface NetApi {
 
     @POST("user/contacts")
     Observable<ServerAnswer> getContacts(@Body BaseRequestModel resetPasswordRequest);
+
+    @POST("user/find_users")
+    Observable<PeopleAnswer> getPeople(@Body GetPeopleRequest getPeopleRequest);
+
+
 
     @Multipart
     @POST("upload/send")

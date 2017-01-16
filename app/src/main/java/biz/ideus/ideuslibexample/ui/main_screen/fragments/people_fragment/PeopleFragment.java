@@ -2,11 +2,13 @@ package biz.ideus.ideuslibexample.ui.main_screen.fragments.people_fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import biz.ideus.ideuslib.mvvm_lifecycle.binding.ViewModelBindingConfig;
 import biz.ideus.ideuslibexample.BR;
 import biz.ideus.ideuslibexample.R;
+import biz.ideus.ideuslibexample.adapters.PeopleAdapter;
 import biz.ideus.ideuslibexample.databinding.FragmentPeopleBinding;
 import biz.ideus.ideuslibexample.ui.base.BaseFragment;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
@@ -17,17 +19,24 @@ import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 
 public class PeopleFragment extends BaseFragment<StartView, PeopleFragmentVM, FragmentPeopleBinding> implements StartView {
 
+    private PeopleAdapter adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fragmentComponent().inject(this);
+        adapter = new PeopleAdapter();
+        getBinding().rViewPeople.setAdapter(adapter);
+        getBinding().rViewPeople.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        getViewModel().setAdapter(adapter);
     }
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setModelView(this);
+
     }
 
 
