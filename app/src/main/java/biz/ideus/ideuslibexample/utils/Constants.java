@@ -31,4 +31,10 @@ public static final int GOOGLE_SIGN_IN = 2222;
 
     public static final String USER_ID ="USER_ID";
     public static final String USER_TOKEN ="USER_TOKEN";
+    public static final String PUSH_TOKEN = "PUSH_TOKEN";
+
+    //firebase ID 173741521860
+    //firebase Server key new version  AIzaSyABjOsv0wjhnfhamxkfJpJZ12l8mzycpyY
+    //firebase Server key old version AAAAKHPNO8Q:APA91bHNF4UIV7qZegmo5BiPYck_LytgzF6WGve7BmOdEkiMzXY-IwcpVmHGnSH8TjAtF_Eh-hhoCQ1h7glChzdObNJ8zUiT_CR7D5U4IdWyl_OFDYiM-4kY4ds0K9TySUI96mnWAmI6
+
 }
