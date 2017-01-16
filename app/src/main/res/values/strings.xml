@@ -42,7 +42,7 @@
     <string name="general_info">general info</string>
     <string name="name">Name</string>
     <string name="email">Email</string>
-    <string name="current_password">Current Password (required)</string>
+    <string name="current_password">Old Password (required)</string>
     <string name="new_password">New Password (required)</string>
     <string name="disconnect">Disconnect</string>
     <string name="visible_on_profile">Visible on profile</string>
@@ -50,6 +50,7 @@
     <string name="logout">Logout</string>
     <string name="invalidate_login_text">The email address or password you entered is incorrect</string>
     <string name="invalidate_update_text">The email address or name you entered is incorrect</string>
+    <string name="invalidate_update_passwords">Current or new passwords you entered is incorrect</string>
     <string name="invalidate_sign_in_text">The name, email address or password you entered is incorrect</string>
     <string name="try_again">Try again</string>
     <string name="password_reset_title">An email containing information on how to reset your password has been send to your email</string>

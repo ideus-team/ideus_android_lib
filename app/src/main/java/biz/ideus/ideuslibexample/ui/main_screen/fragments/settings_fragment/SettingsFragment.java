@@ -43,4 +43,8 @@ public class SettingsFragment extends BaseFragment<StartView, SettingsFragmentVM
     public Class<SettingsFragmentVM> getViewModelClass() {
         return SettingsFragmentVM.class;
     }
+
+
 }
+
+

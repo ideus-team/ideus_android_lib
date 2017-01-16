@@ -62,7 +62,6 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
         visibilityClearPasswordImage.set(View.INVISIBLE);
         isPasswordShow.set(true);
         setOnValidateField(this);
-
     }
 
 
@@ -70,6 +69,10 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
     public void onBindView(@NonNull StartView view) {
         super.onBindView(view);
         ((StartActivity) context).setGoogleAutorisationListener(this);
+        if(Hawk.contains(USER_TOKEN)){
+            goToMainScreen();
+        }
+
     }
 
     @DebugLog

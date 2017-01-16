@@ -3,6 +3,7 @@ package biz.ideus.ideuslibexample;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.multidex.MultiDex;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
@@ -118,6 +119,12 @@ public class SampleApplication extends Application {
        // if(BuildConfig.DEBUG) { Timber.plant(new Timber.DebugTree()); }
 
 
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 
 

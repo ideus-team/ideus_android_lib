@@ -1,6 +1,7 @@
 package biz.ideus.ideuslibexample.data.remote;
 
 import biz.ideus.ideuslibexample.data.model.response.ServerAnswer;
+import retrofit2.adapter.rxjava.HttpException;
 import rx.Observable;
 import rx.Subscriber;
 
@@ -24,8 +25,15 @@ public class CheckError<T extends ServerAnswer> implements Observable.Operator<T
 
             @Override
             public void onError(Throwable t) {
+
+                if (t instanceof HttpException) {
+                    // We had non-2XX http error
+                }
+                RetrofitException error = (RetrofitException) t;
+               String errorMessage = error.getMessage();
+
                 if(!s.isUnsubscribed()) {
-                    s.onError(t);
+                    s.onError(new Throwable(errorMessage));
                 }
             }
 
