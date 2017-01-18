@@ -24,19 +24,19 @@
         </include>
 
 
-        <include
-            android:id="@+id/item_search"
-            layout="@layout/item_search"
-            app:visibilitySearch="@{viewModel.visibilitySearch}"
-            app:isFocus="@{viewModel.isFocus}"
-            bind:viewModel="@{viewModel}">
-        </include>
+        <!--<include-->
+            <!--android:id="@+id/item_search"-->
+            <!--layout="@layout/item_search"-->
+            <!--app:visibilitySearch="@{viewModel.visibilitySearch}"-->
+            <!--app:isFocus="@{viewModel.isFocus}"-->
+            <!--bind:viewModel="@{viewModel}">-->
+        <!--</include>-->
 
 
     <android.support.v7.widget.RecyclerView
         android:layout_below="@+id/toolbar"
         android:background="@color/white"
-        android:id="@+id/rViewPeople"
+        android:id="@+id/rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical" />
