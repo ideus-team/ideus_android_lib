@@ -27,7 +27,8 @@
                 android:id="@+id/view_profile_free_spot"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:background="@color/tw__transparent" />
+                android:background="@color/tw__transparent"
+                android:layout_marginTop="50dp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -167,17 +168,19 @@
                             style="@style/TextUserDetailsStyleName"
                             android:text="@string/last_message" />
 
+
                         <TextView
                             android:id="@+id/tv_last_message"
+                            android:text="@{people.lastMessage}"
                             style="@style/TextUserDetailsStyleContent"
-                            android:text="@{people.last_message}" />
+                           />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="@dimen/font_size_10"
-                        android:gravity="center_horizontal"
+                        android:gravity="center"
                         android:orientation="horizontal">
 
                         <TextView
@@ -193,7 +196,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
+                            android:layout_margin="@dimen/font_size_10"
                             android:layout_weight="1">
 
                             <RatingBar

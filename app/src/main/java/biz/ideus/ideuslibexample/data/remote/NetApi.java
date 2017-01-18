@@ -31,7 +31,7 @@ public interface NetApi {
     @POST("user/signup")
     Observable<AutorisationAnswer> signUp(@Body SignUpRequest signUpRequest);
 
-    @POST("user/loginSocial")
+    @POST("user/login_social")
     Observable<AutorisationAnswer> autorisationSocial(@Body SocialsAutorisationRequest socialsAutorisationRequest);
 
     @POST("user/update_profile")

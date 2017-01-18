@@ -13,7 +13,6 @@ import android.widget.EditText;
 
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.interfaces.SearchBar;
-import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.common.toolbar.AbstractViewModelToolbar;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 
@@ -58,10 +57,6 @@ public class BaseSearchVM extends AbstractViewModelToolbar<StartView> implements
 
     @Override
     public void onCancelClick(View view) {
-        ((BaseActivity) context).hideKeyboard();
-        visibilitySearch.set(View.GONE);
-        isFocus.set(false);
-
     }
 
     @Override

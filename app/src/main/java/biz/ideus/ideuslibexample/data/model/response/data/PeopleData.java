@@ -2,9 +2,11 @@ package biz.ideus.ideuslibexample.data.model.response.data;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import biz.ideus.ideuslibexample.data.model.response.response_model.PeopleEntity;
+import biz.ideus.ideuslibexample.data.model.response.response_model.PeopleModel;
 
 /**
  * Created by blackmamba on 16.01.17.
@@ -12,24 +14,23 @@ import biz.ideus.ideuslibexample.data.model.response.response_model.PeopleEntity
 
 public class PeopleData {
     @SerializedName("users")
+    private List<PeopleModel> peopleModels;
+
+    public List<PeopleModel> getPeopleModels() {
+        return peopleModels;
+    }
+
     private List<PeopleEntity> peopleEntities;
 
-    @SerializedName("count")
-    private String count;
-
-    public String getCount() {
-        return count;
-    }
-
-    public void setCount(String count) {
-        this.count = count;
-    }
-
     public List<PeopleEntity> getPeopleEntities() {
-        return peopleEntities;
+        return createPeopleEntityList(peopleModels);
     }
 
-    public void setPeopleEntities(List<PeopleEntity> peopleEntities) {
-        this.peopleEntities = peopleEntities;
+    private List<PeopleEntity> createPeopleEntityList(List<PeopleModel> peopleModels) {
+        peopleEntities = new ArrayList<>();
+        for(int i = 0; i < peopleModels.size();i++){
+            peopleEntities.add(peopleModels.get(i).createPeopleEntity());
+        }
+        return peopleEntities;
     }
 }

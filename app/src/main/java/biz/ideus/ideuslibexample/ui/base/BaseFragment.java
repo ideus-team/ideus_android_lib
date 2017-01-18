@@ -95,6 +95,7 @@ public abstract class BaseFragment<T extends IView, R extends AbstractViewModel<
         }
     }
 
+
     @Override
     public void onDestroy() {
         super.onDestroy();

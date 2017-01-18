@@ -17,7 +17,7 @@ import biz.ideus.ideuslibexample.databinding.ItemPeopleBinding;
  * Created by blackmamba on 16.01.17.
  */
 
-public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.PeopleItemHolder> {
+public class PeopleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     private List<PeopleEntity> peopleEntities = new ArrayList<>();
@@ -36,25 +36,29 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.PeopleItem
         notifyDataSetChanged();
     }
 
+
     public List<PeopleEntity> getPeopleEntities() {
         return peopleEntities;
     }
 
     @Override
-    public PeopleAdapter.PeopleItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return new PeopleAdapter.PeopleItemHolder(DataBindingUtil.inflate(inflater,
-                R.layout.item_people, parent, false).getRoot());
-
+           return new PeopleItemHolder(DataBindingUtil.inflate(inflater,
+                    R.layout.item_people, parent, false).getRoot());
     }
+
 
     @Override
-    public void onBindViewHolder(PeopleAdapter.PeopleItemHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         PeopleEntity peopleEntity = peopleEntities.get(position);
-        holder.binding.setViewModel(peopleEntity);
-        holder.binding.getRoot().setOnClickListener(v -> onPeopleClickListener.onClickItem(position, peopleEntity));
+            ((PeopleItemHolder) holder).binding.setViewModel(peopleEntity);
+            ((PeopleItemHolder) holder).binding.imageViewCircle.loadImage(peopleEntity.getPhoto());
+            ((PeopleItemHolder) holder).binding.getRoot().setOnClickListener(v -> onPeopleClickListener.onClickItem(position, peopleEntity));
+
     }
+
 
 
     @Override
@@ -68,7 +72,7 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.PeopleItem
     }
 
 
-    public static class PeopleItemHolder extends RecyclerView.ViewHolder {
+    public class PeopleItemHolder extends RecyclerView.ViewHolder {
         public ItemPeopleBinding binding;
 
         public PeopleItemHolder(View view) {

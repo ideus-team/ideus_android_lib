@@ -47,11 +47,11 @@
             android:fillViewport="false"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <include
-                android:id="@+id/element_user_details"
-                layout="@layout/element_user_details"
-                app:userDetails="@{viewModel}"
-                app:people="@{people}" />
+    <include
+        android:id="@+id/element_user_details"
+        layout="@layout/element_user_details"
+        app:userDetails="@{viewModel}"
+        app:people="@{people}" />
 
         </android.support.v4.widget.NestedScrollView>
 

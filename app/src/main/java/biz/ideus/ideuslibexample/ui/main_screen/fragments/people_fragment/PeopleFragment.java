@@ -5,19 +5,22 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import biz.ideus.ideuslib.mvvm_lifecycle.binding.ViewModelBindingConfig;
 import biz.ideus.ideuslibexample.BR;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.adapters.PeopleAdapter;
+import biz.ideus.ideuslibexample.data.model.response.response_model.PeopleEntity;
 import biz.ideus.ideuslibexample.databinding.FragmentPeopleBinding;
 import biz.ideus.ideuslibexample.rx_buses.RxBusFetchPeopleListEvent;
 import biz.ideus.ideuslibexample.ui.base.BaseFragment;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
+import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-
-import static biz.ideus.ideuslibexample.SampleApplication.requeryApi;
 
 /**
  * Created by blackmamba on 25.11.16.
@@ -27,6 +30,9 @@ public class PeopleFragment extends BaseFragment<StartView, PeopleFragmentVM, Fr
 
     private PeopleAdapter adapter;
     private Subscription fetchPeopleEventSubscription;
+    private EndlessRecyclerViewScrollListener scrollListener;
+    private List<PeopleEntity> peopleEntityList = new ArrayList<>();
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,14 +40,19 @@ public class PeopleFragment extends BaseFragment<StartView, PeopleFragmentVM, Fr
         fragmentComponent().inject(this);
         fetchPeopleEventSubscription = getFetchPeopleEventSubscription();
         adapter = new PeopleAdapter();
+       LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         getBinding().rViewPeople.setAdapter(adapter);
-        getBinding().rViewPeople.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        getBinding().rViewPeople.setHasFixedSize(true);
+        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager, adapter) {
+            @Override
+            public void onLoadMore(int page) {
+                    getViewModel().fetchMorePeopleRequest(page);
+            }
+        };
+        getBinding().rViewPeople.addOnScrollListener(scrollListener);
+        getBinding().rViewPeople.setLayoutManager(linearLayoutManager);
         getViewModel().setAdapter(adapter);
 
-        requeryApi.getPeopleEntity()
-                .subscribe(peopleEntities -> {
-                    adapter.setPeopleEntities(peopleEntities.toList());
-                });
     }
 
 
@@ -72,8 +83,24 @@ private Subscription getFetchPeopleEventSubscription(){
                 .getEvents()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(peopleEntities -> {
-                    adapter.setPeopleEntities(peopleEntities);
+                .subscribe(new Subscriber<List<PeopleEntity>>() {
+
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<PeopleEntity> peopleEntities) {
+                        adapter.setPeopleEntities(peopleEntities);
+                    }
+
                 });
     }
 

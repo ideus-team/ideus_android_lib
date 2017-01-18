@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.orhanobut.hawk.Hawk;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -21,7 +22,10 @@ import biz.ideus.ideuslibexample.databinding.ActivityMainBinding;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.main_screen.MainFragmentPagerAdapter;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
+import biz.ideus.ideuslibexample.ui.start_screen.activity.StartActivity;
 import biz.ideus.ideuslibexample.utils.Constants;
+
+import static biz.ideus.ideuslibexample.utils.Constants.USER_TOKEN;
 
 
 public class MainActivity extends BaseActivity<StartView, MainActivityVM, ActivityMainBinding>
@@ -40,9 +44,13 @@ public class MainActivity extends BaseActivity<StartView, MainActivityVM, Activi
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         activityComponent().inject(this);
         setModelView(this);
+        if(!Hawk.contains(USER_TOKEN)){
+            goToLoginScreen();
+        }
         initBottomBar();
         initPager();
     }
@@ -113,6 +121,14 @@ public class MainActivity extends BaseActivity<StartView, MainActivityVM, Activi
             }
         });
     }
+
+
+
+    private void goToLoginScreen(){
+        startActivity(new Intent(this, StartActivity.class));
+        finish();
+    }
+
 
 
     @Override

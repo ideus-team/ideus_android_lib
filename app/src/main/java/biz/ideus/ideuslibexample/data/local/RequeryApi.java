@@ -43,7 +43,7 @@ public class RequeryApi implements IRequeryApi {
     }
 
     @Override
-    public Observable<PeopleEntity> getPeopleEntity(int peopleId) {
+    public Observable<PeopleEntity> getPeopleEntity(String peopleId) {
         return data.select(PeopleEntity.class).where(PeopleEntity.IDENT.equal(peopleId)).get().toObservable();
     }
 
@@ -81,8 +81,19 @@ public class RequeryApi implements IRequeryApi {
     }
 
     @Override
-    public void storePeopleList(List<PeopleEntity> peopleEntityList) {
-        data.delete(PeopleEntity.class).get().value();
-       data.insert(peopleEntityList).subscribe();
+    public void storePeopleListPagination(Iterable<PeopleEntity> peopleEntityList) {
+        data.upsert(peopleEntityList).subscribe();
     }
+
+    @Override
+    public void storePeopleList(Iterable<PeopleEntity> peopleEntityList) {
+        data.delete(PeopleEntity.class).get().value();
+        data.insert(peopleEntityList).subscribe();
+    }
+
+    @Override
+    public void deletePeopleList() {
+        data.delete(PeopleEntity.class).get().value();
+    }
+
 }

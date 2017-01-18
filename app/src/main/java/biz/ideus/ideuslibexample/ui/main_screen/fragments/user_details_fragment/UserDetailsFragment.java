@@ -27,9 +27,9 @@ public class UserDetailsFragment extends BaseFragment<StartView, UserDetailsVM, 
         implements StartView {
 
     protected float percentage;
-    protected int peopleId;
+    protected String peopleId;
 
-    public UserDetailsFragment setPeopleId(int peopleIdent) {
+    public UserDetailsFragment setPeopleId(String peopleIdent) {
         this.peopleId = peopleIdent;
         return this;
     }
@@ -45,7 +45,7 @@ public class UserDetailsFragment extends BaseFragment<StartView, UserDetailsVM, 
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putFloat(PERCENTAGE_ALPHA, percentage);
-        outState.putInt(PEOPLE_ID, peopleId);
+        outState.putString(PEOPLE_ID, peopleId);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class UserDetailsFragment extends BaseFragment<StartView, UserDetailsVM, 
         setModelView(this);
 
         if (savedInstanceState != null) {
-            peopleId = savedInstanceState.getInt(PEOPLE_ID);
+            peopleId = savedInstanceState.getString(PEOPLE_ID);
             percentage = savedInstanceState.getFloat(PERCENTAGE_ALPHA);
         }
         if (percentage == 0) {
@@ -78,7 +78,7 @@ public class UserDetailsFragment extends BaseFragment<StartView, UserDetailsVM, 
         setPeopleEntityToView(peopleId);
     }
 
-    private void setPeopleEntityToView(int peopleId){
+    private void setPeopleEntityToView(String peopleId){
         requeryApi.getPeopleEntity(peopleId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

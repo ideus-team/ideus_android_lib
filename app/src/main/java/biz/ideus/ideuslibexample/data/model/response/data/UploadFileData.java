@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class UploadFileData {
     @SerializedName("ident")
-    private Integer id;
+    private String id;
 
     @SerializedName("file")
     private String file;
@@ -16,7 +16,7 @@ public class UploadFileData {
     @SerializedName("hash")
     private String hash;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 

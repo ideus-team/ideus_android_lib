@@ -1,7 +1,10 @@
 package biz.ideus.ideuslibexample.ui.base;
 
 import android.app.DialogFragment;
+import android.content.Context;
 import android.databinding.ViewDataBinding;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
@@ -100,7 +103,7 @@ implements IView {
 
 
     public void hideKeyboard() {
-        InputMethodManager imm = (InputMethodManager) this.getSystemService(this.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) this.getSystemService(BaseActivity.INPUT_METHOD_SERVICE);
         View view = this.getCurrentFocus();
         if (view == null) {
             view = new View(this);
@@ -108,6 +111,15 @@ implements IView {
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
+    public boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        if (ni != null && ni.isAvailable() && ni.isConnectedOrConnecting()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     @SuppressWarnings("unused")
     @NotNull

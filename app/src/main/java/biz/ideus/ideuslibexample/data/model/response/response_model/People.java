@@ -15,43 +15,37 @@ import io.requery.Persistable;
 public interface People extends Observable, Parcelable, Persistable {
 
     @Key
-    int getIdent();
-    void setIdent(int ident);
+    String getIdent();
+    void setIdent(String ident);
 
     @Bindable
     String getFirst_name();
-
     void setFirst_name(String first_name);
 
     @Bindable
     String getLast_name();
-
     void setLast_name(String last_name);
 
     @Bindable
     String getPhoto();
-
     void setPhoto(String photo);
 
-    @Bindable
-    String getLast_message();
 
-    void setLast_message(String last_message);
+    @Bindable
+    String getLastMessage();
+    void setLastMessage(String last_message);
 
     @Bindable
     String getBirthday();
-
     void setBirthday(String birthday);
 
 
     @Bindable
     String getEmail();
-
     void setEmail(String email);
 
 
     @Bindable
     boolean isFavorite();
-
     void setFavorite(boolean favorite);
 }

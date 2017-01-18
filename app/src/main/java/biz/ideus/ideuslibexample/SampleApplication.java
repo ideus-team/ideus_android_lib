@@ -145,19 +145,15 @@ public class SampleApplication extends Application {
     public static AppComponent getAppComponent() { return sAppComponent; }
 
     public static Resources getRes() { return sInstance.getResources(); }
-    
-    //@Override
+
     protected void setupFaceBookSDK() {
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
 
-
     }
 
-    //@Override
     protected void setupTwitterSDK() {
-        TwitterAuthConfig authConfig = new TwitterAuthConfig(Constants.TWITTER_APP_KEY, Constants.TWITTER_SECRET_KEY);
-       // Fabric.with(this, new Twitter(authConfig));
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(Constants.TWITTER_CONSUMER_KEY, Constants.TWITTER_CONSUMER_SECRET_KEY);
         Fabric.with(this, new Twitter(authConfig));
     }
 

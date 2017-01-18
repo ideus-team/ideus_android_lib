@@ -16,7 +16,7 @@ public interface IRequeryApi {
 
     Observable<AutorisationEntity> getAutorisationInfo();
 
-    Observable<PeopleEntity> getPeopleEntity(int peopleId);
+    Observable<PeopleEntity> getPeopleEntity(String peopleId);
 
     List<PeopleEntity> getPeopleEntityList();
 
@@ -26,6 +26,10 @@ public interface IRequeryApi {
 
     void updateAutorisationInfo(AutorisationEntity autorisationEntity);
 
-    void storePeopleList(List<PeopleEntity> peopleEntityList);
+    void storePeopleListPagination(Iterable<PeopleEntity> peopleEntityList);
+    void storePeopleList(Iterable<PeopleEntity> peopleEntityList);
+    void deletePeopleList();
+
+
 
 }
