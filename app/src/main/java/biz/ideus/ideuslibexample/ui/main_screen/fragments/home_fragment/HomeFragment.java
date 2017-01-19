@@ -2,6 +2,9 @@ package biz.ideus.ideuslibexample.ui.main_screen.fragments.home_fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import biz.ideus.ideuslib.mvvm_lifecycle.binding.ViewModelBindingConfig;
@@ -9,7 +12,6 @@ import biz.ideus.ideuslibexample.BR;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.databinding.FragmentHomeBinding;
 import biz.ideus.ideuslibexample.ui.base.BaseFragment;
-import biz.ideus.ideuslibexample.ui.main_screen.MainView;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 
 /**
@@ -23,12 +25,21 @@ implements StartView {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fragmentComponent().inject(this);
+//        getBinding().rv.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        getBinding().rv.setAdapter(getViewModel().getAdapter());
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setModelView(this);
+        RecyclerView rv = getBinding().rv;
+        rv.setLayoutManager(new LinearLayoutManager(getActivity()));
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rv.getContext(),
+                DividerItemDecoration.VERTICAL);
+        rv.addItemDecoration(dividerItemDecoration);
+
+        getBinding().rv.setAdapter(getViewModel().getAdapter());
     }
 
     @Nullable

@@ -132,7 +132,7 @@ implements IView {
         }
     }
     public void addFragmentToBackStack(Fragment fragment, Bundle args, boolean addToBackstack, String backstackTag) {
-FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         if (!isAlreadyAddedFragment(fragmentManager, fragment.getClass().getSimpleName())) {
             if (args != null) {
                 fragment.setArguments(args);
