@@ -64,7 +64,7 @@
                 android:background="@null"
                 android:gravity="center"
                 android:hint="@string/name"
-                android:text="@{(int)visibilitySearch == View.GONE ? @string/space : @string/space}"
+                android:text="@{((int)visibilitySearch == View.GONE)? @string/space : viewModel.searchText}"
                 android:imeOptions="actionSearch"
                 android:inputType="text"
                 android:onTextChanged="@{viewModel::onTextChangedSearch}"

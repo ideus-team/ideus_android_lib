@@ -60,6 +60,11 @@ public class BaseSearchVM extends AbstractViewModelToolbar<StartView> implements
     }
 
     @Override
+    public String getSearchText() {
+        return null;
+    }
+
+    @Override
     public String getToolbarTitle() {
         return null;
     }
@@ -74,7 +79,7 @@ public class BaseSearchVM extends AbstractViewModelToolbar<StartView> implements
     }
 
     @Override
-    public Drawable setImageRightBtn() {
+    public Drawable getImageRightBtn() {
         return context.getResources().getDrawable(R.drawable.ic_search);
     }
 

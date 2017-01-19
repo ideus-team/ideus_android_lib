@@ -10,14 +10,9 @@ import biz.ideus.ideuslibexample.adapters.PeopleAdapter;
  */
 
 public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollListener {
-    public static String TAG = EndlessRecyclerViewScrollListener.class.getSimpleName();
-
-    private int previousTotal = 0; // The total number of items in the dataset after the last load
     private static boolean loading = true; // True if we are still waiting for the last set of data to load.
-    private int visibleThreshold = 5; // The minimum amount of items to have below your current scroll position before loading more.
+    private int visibleThreshold = 4;  // The minimum amount of items to have below your current scroll position before loading more.
     int pastVisiblesItems, visibleItemCount, totalItemCount;
-
-    private int current_page = 1;
 
     private LinearLayoutManager mLinearLayoutManager;
     private PeopleAdapter adapter;
@@ -44,8 +39,7 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
         }
     }
 
-    public abstract void onLoadMore(int current_page);
-
+    public abstract void onLoadMore(int offset);
 
     public static void setLoaded(boolean loadedFlag) {
         loading = loadedFlag;

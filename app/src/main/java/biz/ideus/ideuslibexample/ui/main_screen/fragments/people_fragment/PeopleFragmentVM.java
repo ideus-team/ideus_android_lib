@@ -1,12 +1,15 @@
 package biz.ideus.ideuslibexample.ui.main_screen.fragments.people_fragment;
 
+import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.adapters.PeopleAdapter;
@@ -16,6 +19,7 @@ import biz.ideus.ideuslibexample.data.model.response.response_model.PeopleEntity
 import biz.ideus.ideuslibexample.data.remote.CheckError;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriberSettings;
+import biz.ideus.ideuslibexample.rx_buses.RxBusFetchPeopleListEvent;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.main_screen.fragments.BaseSearchVM;
 import biz.ideus.ideuslibexample.ui.main_screen.fragments.user_details_fragment.UserDetailsFragment;
@@ -25,6 +29,7 @@ import rx.schedulers.Schedulers;
 
 import static biz.ideus.ideuslibexample.SampleApplication.netApi;
 import static biz.ideus.ideuslibexample.SampleApplication.requeryApi;
+import static biz.ideus.ideuslibexample.ui.main_screen.fragments.people_fragment.PeopleFragmentVM.FetchPeopleMode.DEFAULT_MODE;
 
 /**
  * Created by blackmamba on 25.11.16.
@@ -32,17 +37,18 @@ import static biz.ideus.ideuslibexample.SampleApplication.requeryApi;
 
 public class PeopleFragmentVM extends BaseSearchVM implements PeopleAdapter.OnPeopleClickListener {
     private PeopleAdapter adapter;
+
     public static final int LOAD_LIMIT = 10;
     public int currentOffset = 0;
     private List<PeopleEntity> peopleEntities = new ArrayList<>();
-    private String term;
+    private Set<PeopleEntity> linkedPeopleEntities = new LinkedHashSet<>();
+    public ObservableField<Boolean> isShowLinearProgress = new ObservableField<>();
+    private String searchText = "";
 
 
     public void setAdapter(PeopleAdapter adapter) {
         this.adapter = adapter;
         adapter.setOnPeopleClickListener(this);
-
-
     }
 
     @Override
@@ -54,9 +60,10 @@ public class PeopleFragmentVM extends BaseSearchVM implements PeopleAdapter.OnPe
     @Override
     public void onBindView(@NonNull StartView view) {
         super.onBindView(view);
-        currentOffset = peopleEntities.size();
-        adapter.setPeopleEntities(peopleEntities);
-        fetchPeopleRequest();
+        currentOffset = linkedPeopleEntities.size();
+        RxBusFetchPeopleListEvent.getInstance().setRxBusFetchPeopleListEvent(linkedPeopleEntities);
+        fetchPeopleRequest(DEFAULT_MODE, currentOffset);
+
     }
 
     @Override
@@ -67,10 +74,11 @@ public class PeopleFragmentVM extends BaseSearchVM implements PeopleAdapter.OnPe
 
     @Override
     public void onTextChangedSearch(CharSequence text, int start, int before, int count) {
-        term = text.toString();
+        searchText = text.toString();
         currentOffset = 0;
-        peopleEntities.clear();
-        fetchPeopleRequest();
+        linkedPeopleEntities.clear();
+        RxBusFetchPeopleListEvent.getInstance().setRxBusFetchPeopleListEvent(linkedPeopleEntities);
+        fetchPeopleRequest(DEFAULT_MODE, currentOffset);
     }
 
     @Override
@@ -81,6 +89,11 @@ public class PeopleFragmentVM extends BaseSearchVM implements PeopleAdapter.OnPe
     }
 
     @Override
+    public String getSearchText() {
+        return searchText;
+    }
+
+    @Override
     public void onClickItem(int position, PeopleEntity peopleEntity) {
         ((BaseActivity) context).hideKeyboard();
         ((BaseActivity) context)
@@ -88,8 +101,9 @@ public class PeopleFragmentVM extends BaseSearchVM implements PeopleAdapter.OnPe
     }
 
 
-    public void fetchPeopleRequest() {
-        GetPeopleRequest getPeopleRequest = new GetPeopleRequest(term).setLimit(LOAD_LIMIT).setOffset(currentOffset);
+    public void fetchPeopleRequest(FetchPeopleMode fetchMode, int offset) {
+        currentOffset = offset;
+        GetPeopleRequest getPeopleRequest = new GetPeopleRequest(searchText).setLimit(LOAD_LIMIT).setOffset(currentOffset);
         netApi.getPeople(getPeopleRequest)
                 .lift(new CheckError<>())
                 .map(peopleAnswer -> {
@@ -98,29 +112,7 @@ public class PeopleFragmentVM extends BaseSearchVM implements PeopleAdapter.OnPe
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new NetSubscriber<PeopleAnswer>(new NetSubscriberSettings(NetSubscriber.ProgressType.NONE)) {
-
-                    @Override
-                    public void onNext(PeopleAnswer answer) {
-                        peopleEntities.addAll(answer.data.getPeopleEntities());
-                        currentOffset = peopleEntities.size();
-                        adapter.setPeopleEntities(peopleEntities);
-                    }
-                });
-    }
-
-    public void fetchMorePeopleRequest(int page) {
-        currentOffset = page;
-        GetPeopleRequest getPeopleRequest = new GetPeopleRequest(term).setLimit(LOAD_LIMIT).setOffset(currentOffset);
-        netApi.getPeople(getPeopleRequest)
-                .lift(new CheckError<>())
-                .map(peopleAnswer -> {
-                    requeryApi.storePeopleListPagination(peopleAnswer.data.getPeopleEntities());
-                    return peopleAnswer;
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new NetSubscriber<PeopleAnswer>(new NetSubscriberSettings(NetSubscriber.ProgressType.NONE)) {
+                .subscribe(new NetSubscriber<PeopleAnswer>(new NetSubscriberSettings(this, NetSubscriber.ProgressType.LINEAR)) {
 
                     @Override
                     public void onCompleted() {
@@ -136,20 +128,43 @@ public class PeopleFragmentVM extends BaseSearchVM implements PeopleAdapter.OnPe
 
                     @Override
                     public void onNext(PeopleAnswer answer) {
-                        if (!answer.data.getPeopleEntities().isEmpty()) {
-                            peopleEntities.addAll(answer.data.getPeopleEntities());
-                            currentOffset = peopleEntities.size();
-                            adapter.setPeopleEntities(peopleEntities);
+                        switch (fetchMode) {
+                            case DEFAULT_MODE:
+                                if (!answer.data.getPeopleEntities().isEmpty()) {
+                                    refreshPeopleList(answer);
+                                }
+                                break;
+                            case FETCH_MORE_MODE:
+                                refreshPeopleList(answer);
+                                break;
                         }
                     }
                 });
     }
 
+    private void refreshPeopleList(PeopleAnswer answer) {
+
+        linkedPeopleEntities.addAll(answer.data.getPeopleEntities());
+        currentOffset = linkedPeopleEntities.size();
+        RxBusFetchPeopleListEvent.getInstance().setRxBusFetchPeopleListEvent(linkedPeopleEntities);
+    }
+
+
+    @Override
+    public void setVisibilityLinearProgress(boolean isShowProgress) {
+        isShowLinearProgress.set(isShowProgress);
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
+        //test
         requeryApi.deletePeopleList();
 
+    }
+
+    public enum FetchPeopleMode {
+        DEFAULT_MODE, FETCH_MORE_MODE;
     }
 }
 

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.data.model.response.response_model.PeopleEntity;
@@ -31,15 +32,11 @@ public class PeopleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     }
 
-    public void setPeopleEntities(List<PeopleEntity> peopleEntities){
-        this.peopleEntities = peopleEntities;
+    public void setPeopleEntities(Set<PeopleEntity> peopleEntities){
+        this.peopleEntities = new ArrayList<>(peopleEntities);
         notifyDataSetChanged();
     }
 
-
-    public List<PeopleEntity> getPeopleEntities() {
-        return peopleEntities;
-    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

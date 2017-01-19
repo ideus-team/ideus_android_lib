@@ -83,7 +83,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white"
-                android:paddingBottom="20dp">
+                android:paddingBottom="50dp">
 
 
                 <LinearLayout
@@ -97,7 +97,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="@dimen/font_size_10"
+                        android:layout_margin="5dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -113,7 +113,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="@dimen/font_size_10"
+                        android:layout_margin="5dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -129,7 +129,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="@dimen/font_size_10"
+                        android:layout_margin="5dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -145,7 +145,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="@dimen/font_size_10"
+                        android:layout_margin="5dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -161,7 +161,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="@dimen/font_size_10"
+                        android:layout_margin="5dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -179,7 +179,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="@dimen/font_size_10"
+                        android:layout_margin="5dp"
                         android:gravity="center"
                         android:orientation="horizontal">
 

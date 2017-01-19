@@ -70,8 +70,8 @@
     </style>
 
     <style name="StyledLinearProgressBar" parent="Base.Widget.AppCompat.ProgressBar.Horizontal">
-        <item name="colorAccent">@color/color_main</item>
-        <item name="android:progressBackgroundTint">@color/color_main_pressed</item>
+        <item name="colorAccent">@color/white</item>
+        <item name="android:progressBackgroundTint">@color/white</item>
     </style>
 
     <style name="AppTheme.WhiteAccent">
