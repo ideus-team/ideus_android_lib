@@ -27,7 +27,7 @@ public class HomeFragmentVM extends BaseSearchVM {
     @Override
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
         super.onCreate(arguments, savedInstanceState);
-
+        //BuildConfig.APPLICATION_ID
     }
 
     @Override
