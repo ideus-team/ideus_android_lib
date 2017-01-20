@@ -6,15 +6,15 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.adapters.PeopleAdapter;
+import biz.ideus.ideuslibexample.data.model.request.AddAndDeleteContactRequest;
 import biz.ideus.ideuslibexample.data.model.request.GetPeopleRequest;
 import biz.ideus.ideuslibexample.data.model.response.PeopleAnswer;
+import biz.ideus.ideuslibexample.data.model.response.ServerAnswer;
 import biz.ideus.ideuslibexample.data.model.response.response_model.PeopleEntity;
 import biz.ideus.ideuslibexample.data.remote.CheckError;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
@@ -24,6 +24,7 @@ import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.main_screen.fragments.BaseSearchVM;
 import biz.ideus.ideuslibexample.ui.main_screen.fragments.user_details_fragment.UserDetailsFragment;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -40,7 +41,6 @@ public class PeopleFragmentVM extends BaseSearchVM implements PeopleAdapter.OnPe
 
     public static final int LOAD_LIMIT = 10;
     public int currentOffset = 0;
-    private List<PeopleEntity> peopleEntities = new ArrayList<>();
     private Set<PeopleEntity> linkedPeopleEntities = new LinkedHashSet<>();
     public ObservableField<Boolean> isShowLinearProgress = new ObservableField<>();
     private String searchText = "";
@@ -100,6 +100,27 @@ public class PeopleFragmentVM extends BaseSearchVM implements PeopleAdapter.OnPe
                 .addFragmentToBackStack(new UserDetailsFragment().setPeopleId(peopleEntity.getIdent()), null, true, null);
     }
 
+    @Override
+    public void onClickFavourite(int position, PeopleEntity peopleEntity) {
+        if(peopleEntity.isFavorite()){
+            addOrDeleteFavouritesRequest(netApi.deleteContact(new AddAndDeleteContactRequest(peopleEntity.getIdent())), position);
+        } else {
+            addOrDeleteFavouritesRequest(netApi.addContact(new AddAndDeleteContactRequest(peopleEntity.getIdent())), position);
+        }
+    }
+
+    private void addOrDeleteFavouritesRequest(Observable<ServerAnswer> request, int positionInAdapter){
+        request.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new NetSubscriber<ServerAnswer>(new NetSubscriberSettings(this, NetSubscriber.ProgressType.NONE)){
+                    @Override
+                    public void onNext(ServerAnswer serverAnswer) {
+                        adapter.changeFavouriteStatus(positionInAdapter);
+
+                    }
+                });
+    }
+
 
     public void fetchPeopleRequest(FetchPeopleMode fetchMode, int offset) {
         currentOffset = offset;
@@ -142,8 +163,8 @@ public class PeopleFragmentVM extends BaseSearchVM implements PeopleAdapter.OnPe
                 });
     }
 
-    private void refreshPeopleList(PeopleAnswer answer) {
 
+    private void refreshPeopleList(PeopleAnswer answer) {
         linkedPeopleEntities.addAll(answer.data.getPeopleEntities());
         currentOffset = linkedPeopleEntities.size();
         RxBusFetchPeopleListEvent.getInstance().setRxBusFetchPeopleListEvent(linkedPeopleEntities);

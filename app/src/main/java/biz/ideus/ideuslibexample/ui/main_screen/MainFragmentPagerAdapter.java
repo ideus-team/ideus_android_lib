@@ -18,7 +18,6 @@ import biz.ideus.ideuslibexample.utils.Constants;
 
 @PerActivity
 public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
-
     @Inject
     public MainFragmentPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -39,4 +38,5 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return Constants.MAIN_SCREEN_PAGES_COUNT;
     }
+
 }
