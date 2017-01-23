@@ -92,8 +92,11 @@ public class RequeryApi implements IRequeryApi {
     }
 
     @Override
-    public void updatePeopleEntityById(PeopleEntity peopleEntity) {
-        data.upsert(peopleEntity).subscribe();
+    public void updateCurrentPeopleEntity(PeopleEntity peopleEntity) {
+        data.upsert(peopleEntity)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
     }
 
     @Override

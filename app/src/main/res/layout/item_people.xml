@@ -24,14 +24,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:background="@color/light_gray">
+                android:background="@color/white">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/font_size_15"
                     android:layout_marginRight="@dimen/font_size_15"
-                    android:src="@{viewModel.favorite ? @drawable/ic_fav_red_pressed : @drawable/ic_fav_red_default}"
+                    android:src="@{viewModel.favorite ? @drawable/ic_favorite_star_pressed : @drawable/ic_favorite_star_default}"
                  />
             </LinearLayout>
 

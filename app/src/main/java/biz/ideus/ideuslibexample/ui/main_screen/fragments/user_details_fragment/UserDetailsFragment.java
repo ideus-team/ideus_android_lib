@@ -16,7 +16,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static biz.ideus.ideuslibexample.SampleApplication.requeryApi;
-import static biz.ideus.ideuslibexample.utils.Constants.PEOPLE_ID;
 import static biz.ideus.ideuslibexample.utils.Constants.PERCENTAGE_ALPHA;
 
 /**
@@ -26,13 +25,7 @@ import static biz.ideus.ideuslibexample.utils.Constants.PERCENTAGE_ALPHA;
 public class UserDetailsFragment extends BaseFragment<StartView, UserDetailsVM, FragmentUserDetailsBinding>
         implements StartView {
 
-    protected float percentage;
-    protected String peopleId;
-
-    public UserDetailsFragment setPeopleId(String peopleIdent) {
-        this.peopleId = peopleIdent;
-        return this;
-    }
+    private float percentage;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,7 +38,6 @@ public class UserDetailsFragment extends BaseFragment<StartView, UserDetailsVM, 
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putFloat(PERCENTAGE_ALPHA, percentage);
-        outState.putString(PEOPLE_ID, peopleId);
     }
 
     @Override
@@ -54,7 +46,6 @@ public class UserDetailsFragment extends BaseFragment<StartView, UserDetailsVM, 
         setModelView(this);
 
         if (savedInstanceState != null) {
-            peopleId = savedInstanceState.getString(PEOPLE_ID);
             percentage = savedInstanceState.getFloat(PERCENTAGE_ALPHA);
         }
         if (percentage == 0) {
@@ -75,8 +66,10 @@ public class UserDetailsFragment extends BaseFragment<StartView, UserDetailsVM, 
             }
         });
 
-        setPeopleEntityToView(peopleId);
+        setPeopleEntityToView(getViewModel().getPeopleId());
     }
+
+
 
     private void setPeopleEntityToView(String peopleId){
         requeryApi.getPeopleEntity(peopleId)

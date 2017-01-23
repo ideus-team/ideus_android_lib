@@ -69,13 +69,9 @@
         <item name="android:maxHeight">15dp</item>
     </style>
 
-    <style name="StyledLinearProgressBar" parent="Base.Widget.AppCompat.ProgressBar.Horizontal">
-        <item name="colorAccent">@color/white</item>
-        <item name="android:progressBackgroundTint">@color/white</item>
-    </style>
 
     <style name="AppTheme.WhiteAccent">
-        <item name="colorAccent">@android:color/white</item> <!-- Whatever color you want-->
+        <item name="colorAccent">@android:color/white</item>
     </style>
 
     <style name="checkBoxComponent" parent="Theme.AppCompat.Light">

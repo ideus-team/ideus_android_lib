@@ -11,7 +11,7 @@ import java.util.Set;
 
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.adapters.PeopleAdapter;
-import biz.ideus.ideuslibexample.data.model.request.AddAndDeleteContactRequest;
+import biz.ideus.ideuslibexample.data.model.request.AddAndDeleteFavoriteRequest;
 import biz.ideus.ideuslibexample.data.model.request.GetPeopleRequest;
 import biz.ideus.ideuslibexample.data.model.response.PeopleAnswer;
 import biz.ideus.ideuslibexample.data.model.response.ServerAnswer;
@@ -31,6 +31,7 @@ import rx.schedulers.Schedulers;
 import static biz.ideus.ideuslibexample.SampleApplication.netApi;
 import static biz.ideus.ideuslibexample.SampleApplication.requeryApi;
 import static biz.ideus.ideuslibexample.ui.main_screen.fragments.people_fragment.PeopleFragmentVM.FetchPeopleMode.DEFAULT_MODE;
+import static biz.ideus.ideuslibexample.utils.Constants.PEOPLE_ID;
 
 /**
  * Created by blackmamba on 25.11.16.
@@ -96,16 +97,17 @@ public class PeopleFragmentVM extends BaseSearchVM implements PeopleAdapter.OnPe
     @Override
     public void onClickItem(int position, PeopleEntity peopleEntity) {
         ((BaseActivity) context).hideKeyboard();
-        ((BaseActivity) context)
-                .addFragmentToBackStack(new UserDetailsFragment().setPeopleId(peopleEntity.getIdent()), null, true, null);
+        Bundle bundle = new Bundle();
+        bundle.putString(PEOPLE_ID, peopleEntity.getIdent());
+        ((BaseActivity) context).addFragmentToBackStack(new UserDetailsFragment(), bundle, true, null);
     }
 
     @Override
     public void onClickFavourite(int position, PeopleEntity peopleEntity) {
         if(peopleEntity.isFavorite()){
-            addOrDeleteFavouritesRequest(netApi.deleteContact(new AddAndDeleteContactRequest(peopleEntity.getIdent())), position);
+            addOrDeleteFavouritesRequest(netApi.deleteFavorite(new AddAndDeleteFavoriteRequest(peopleEntity.getIdent())), position);
         } else {
-            addOrDeleteFavouritesRequest(netApi.addContact(new AddAndDeleteContactRequest(peopleEntity.getIdent())), position);
+            addOrDeleteFavouritesRequest(netApi.addFavorite(new AddAndDeleteFavoriteRequest(peopleEntity.getIdent())), position);
         }
     }
 
@@ -116,7 +118,6 @@ public class PeopleFragmentVM extends BaseSearchVM implements PeopleAdapter.OnPe
                     @Override
                     public void onNext(ServerAnswer serverAnswer) {
                         adapter.changeFavouriteStatus(positionInAdapter);
-
                     }
                 });
     }

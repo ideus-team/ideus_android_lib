@@ -1,15 +1,15 @@
 package biz.ideus.ideuslibexample.data.remote;
 
-import biz.ideus.ideuslibexample.ui.common.toolbar.IToolBar;
+import biz.ideus.ideuslibexample.ui.common.toolbar.AbstractViewModelToolbar;
 
 /**
  * Created by user on 12.12.2016.
  */
 
 public class NetSubscriberSettings {
-    private IToolBar toolBar;
+    private AbstractViewModelToolbar toolBar;
 
-    public IToolBar getToolbar() {
+    public AbstractViewModelToolbar getToolbar() {
         return toolBar;
     }
 
@@ -20,7 +20,7 @@ public class NetSubscriberSettings {
     }
 
 
-    public NetSubscriberSettings(IToolBar toolBar, NetSubscriber.ProgressType progressType) {
+    public NetSubscriberSettings(AbstractViewModelToolbar toolBar, NetSubscriber.ProgressType progressType) {
         this.toolBar = toolBar;
         this.progressType = progressType;
     }

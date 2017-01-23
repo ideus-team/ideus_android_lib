@@ -28,7 +28,7 @@ public interface IRequeryApi {
 
     void storePeopleListPagination(Iterable<PeopleEntity> peopleEntityList);
     void storePeopleList(Iterable<PeopleEntity> peopleEntityList);
-    void updatePeopleEntityById(PeopleEntity peopleEntity);
+    void updateCurrentPeopleEntity(PeopleEntity peopleEntity);
     void deletePeopleList();
 
 

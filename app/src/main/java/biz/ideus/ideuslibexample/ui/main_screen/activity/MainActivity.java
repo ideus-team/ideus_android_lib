@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
+import android.widget.RelativeLayout;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
@@ -51,6 +52,8 @@ public class MainActivity extends BaseActivity<StartView, MainActivityVM, Activi
         if(!Hawk.contains(USER_TOKEN)){
             goToLoginScreen();
         }
+
+                new RelativeLayout(this, null, R.style.ButtonGreenStyle);
         initBottomBar();
         initPager();
     }

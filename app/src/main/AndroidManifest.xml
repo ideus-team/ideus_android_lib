@@ -34,6 +34,10 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
 
         <activity
+            android:name="biz.ideus.ideuslibexample.ui.chat_screen.activity.ChatActivity"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
             android:name=".ui.main_screen.activity.MainActivity"
             android:windowSoftInputMode="stateHidden"
             android:theme="@style/SplashTheme"

@@ -1,7 +1,11 @@
 package biz.ideus.ideuslibexample.ui.common.toolbar;
 
+import android.databinding.BindingAdapter;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import biz.ideus.ideuslib.mvvm_lifecycle.AbstractViewModel;
 import biz.ideus.ideuslib.mvvm_lifecycle.IView;
@@ -44,6 +48,13 @@ public abstract class AbstractViewModelToolbar<T extends IView> extends Abstract
     public Drawable getImageLeftBtn() {
         return getView().getViewModelBindingConfig().getContext().getResources().getDrawable(R.drawable.ic_left_arrow);
     }
+
+
+    @BindingAdapter("progressColor")
+    public static void setProgressColor(ProgressBar progressBar, boolean isColorChange) {
+        progressBar.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+    }
+
 
     @Override
     public void setVisibilityLinearProgress(boolean isVisible){}

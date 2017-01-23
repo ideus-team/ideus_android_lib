@@ -7,7 +7,7 @@
         <import type="android.view.View" />
         <variable
             name="viewModel"
-            type="biz.ideus.ideuslibexample.ui.common.toolbar.IToolBar">
+            type="biz.ideus.ideuslibexample.ui.common.toolbar.AbstractViewModelToolbar">
         </variable>
 
         <variable
@@ -85,12 +85,13 @@
                 android:layout_below="@+id/ll_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:theme="@style/StyledLinearProgressBar"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                 android:indeterminate="true"
                 android:visibility="@{(boolean)isShowLinearProgress ? View.VISIBLE : View.INVISIBLE}"
                 android:layout_marginTop="-7dp"
                 android:layout_marginBottom="-7dp"
+                android:minHeight="10dp"
+                app:progressColor="@{true}"
                 android:id="@+id/progressBar" />
 
         </RelativeLayout>

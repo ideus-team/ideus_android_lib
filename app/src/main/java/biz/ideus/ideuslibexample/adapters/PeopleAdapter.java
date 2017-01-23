@@ -52,7 +52,7 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.PeopleItem
 
     private void changeFavouritePeople(boolean isFavourite, PeopleEntity changingPeople) {
         changingPeople.setFavorite(isFavourite);
-        requeryApi.updatePeopleEntityById(changingPeople);
+        requeryApi.updateCurrentPeopleEntity(changingPeople);
     }
 
 
