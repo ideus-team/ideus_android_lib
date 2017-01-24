@@ -34,6 +34,7 @@ android {
 
 ext.daggerVersion = '2.7'
 ext.okHttpVersion = '3.4.1'
+ext.okHttpVersionWS = '3.4.1'
 ext.requeryVersion = '1.0.2'
 ext.retrofitVersion = '2.1.0'
 ext.parcelerVersion = '1.1.6'
@@ -46,7 +47,7 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.neovisionaries:nv-websocket-client:1.31'
+
     compile 'com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.0'
     compile "com.google.firebase:firebase-core:${firebaseVersion}"
     compile "com.google.firebase:firebase-messaging:${firebaseVersion}"
@@ -70,6 +71,7 @@ dependencies {
     apt "io.requery:requery-processor:${requeryVersion}"
     // use an APT plugin
     compile "com.squareup.okhttp3:okhttp:${okHttpVersion}"
+    compile "com.squareup.okhttp3:okhttp-ws:${okHttpVersionWS}"
     compile "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}"
 
     //compile 'com.android.support:appcompat-v7:25.1.0'

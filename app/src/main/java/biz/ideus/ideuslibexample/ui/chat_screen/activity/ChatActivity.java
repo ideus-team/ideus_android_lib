@@ -20,7 +20,7 @@ import biz.ideus.ideuslibexample.ui.chat_screen.ChatView;
  */
 
 public class ChatActivity extends BaseActivity<ChatView, ChatActivityVM, ActivityTutorialBinding>
-        implements ChatView {
+        implements ChatView{
 
     @Inject
     RequeryApi requeryApi;
@@ -40,6 +40,7 @@ public class ChatActivity extends BaseActivity<ChatView, ChatActivityVM, Activit
     @Override
     protected void onResume() {
         super.onResume();
+
     }
 
     @Nullable
@@ -53,6 +54,7 @@ public class ChatActivity extends BaseActivity<ChatView, ChatActivityVM, Activit
     public ViewModelBindingConfig getViewModelBindingConfig() {
         return new ViewModelBindingConfig(R.layout.activity_chat, BR.viewModel, this);
     }
+
 }
 
 
