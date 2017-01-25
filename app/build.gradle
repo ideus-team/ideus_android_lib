@@ -34,7 +34,6 @@ android {
 
 ext.daggerVersion = '2.7'
 ext.okHttpVersion = '3.4.1'
-ext.okHttpVersionWS = '3.4.1'
 ext.requeryVersion = '1.0.2'
 ext.retrofitVersion = '2.1.0'
 ext.parcelerVersion = '1.1.6'
@@ -71,7 +70,7 @@ dependencies {
     apt "io.requery:requery-processor:${requeryVersion}"
     // use an APT plugin
     compile "com.squareup.okhttp3:okhttp:${okHttpVersion}"
-    compile "com.squareup.okhttp3:okhttp-ws:${okHttpVersionWS}"
+    compile "com.squareup.okhttp3:okhttp-ws:${okHttpVersion}"
     compile "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}"
 
     //compile 'com.android.support:appcompat-v7:25.1.0'

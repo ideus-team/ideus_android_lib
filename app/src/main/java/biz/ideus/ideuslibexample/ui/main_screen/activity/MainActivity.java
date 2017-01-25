@@ -34,6 +34,7 @@ public class MainActivity extends BaseActivity<StartView, MainActivityVM, Activi
     private ImageChooserListener imageChooserListener;
     private BottomNavigationBar bottomNavigationBar;
 
+
     public void setImageChooserListener(ImageChooserListener imageChooserListener) {
         this.imageChooserListener = imageChooserListener;
     }
@@ -56,6 +57,8 @@ public class MainActivity extends BaseActivity<StartView, MainActivityVM, Activi
                 new RelativeLayout(this, null, R.style.ButtonGreenStyle);
         initBottomBar();
         initPager();
+
+
     }
 
     private void initPager() {

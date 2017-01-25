@@ -11,7 +11,7 @@ public class SocketBaseResponse<T> {
         public T data;
 
         @SerializedName("command")
-        public String message;
+        public String command;
 
         public SocketBaseResponse(T data) {
             this.data = data;

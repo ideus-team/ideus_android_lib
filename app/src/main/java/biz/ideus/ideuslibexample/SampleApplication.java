@@ -40,7 +40,6 @@ public class SampleApplication extends Application {
     public static RequeryApi requeryApi;
     public static NetApi netApi;
 
-
     protected void setupFonts() {
         DLibTypefaceAdapter.addFontDefinition("normal", "fonts/MuseoSansCyrl.otf");
     }
@@ -67,7 +66,7 @@ public class SampleApplication extends Application {
                 .build();
 
         requeryApi = sAppComponent.dataApi();
-         netApi = sAppComponent.netApi();
+        netApi = sAppComponent.netApi();
 
         setupFaceBookSDK();
         setupTwitterSDK();
@@ -75,7 +74,7 @@ public class SampleApplication extends Application {
         Hawk.init(this)
                 .setEncryption(new NoEncryption())
                 .build();
-       // if(BuildConfig.DEBUG) { Timber.plant(new Timber.DebugTree()); }
+        // if(BuildConfig.DEBUG) { Timber.plant(new Timber.DebugTree()); }
 
 
     }
@@ -87,7 +86,7 @@ public class SampleApplication extends Application {
     }
 
 
-    private void setupUniversalImageLoaderConfig(){
+    private void setupUniversalImageLoaderConfig() {
         imageLoaderDefaultDisplayOptions = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
@@ -99,11 +98,17 @@ public class SampleApplication extends Application {
         ImageLoader.getInstance().init(config);
     }
 
-    public static SampleApplication getInstance() { return sInstance; }
+    public static SampleApplication getInstance() {
+        return sInstance;
+    }
 
-    public static AppComponent getAppComponent() { return sAppComponent; }
+    public static AppComponent getAppComponent() {
+        return sAppComponent;
+    }
 
-    public static Resources getRes() { return sInstance.getResources(); }
+    public static Resources getRes() {
+        return sInstance.getResources();
+    }
 
     protected void setupFaceBookSDK() {
         FacebookSdk.sdkInitialize(getApplicationContext());
@@ -120,7 +125,6 @@ public class SampleApplication extends Application {
         SampleApplication application = (SampleApplication) context.getApplicationContext();
         return application.refWatcher;
     }
-
 
 
 }

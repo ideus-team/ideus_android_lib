@@ -2,6 +2,8 @@ package biz.ideus.ideuslibexample.data.remote.socket;
 
 import com.google.gson.Gson;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -9,9 +11,9 @@ import java.util.concurrent.TimeUnit;
 
 import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.AuthorizeChatRequestSocket;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.RequestSocketParams;
-import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.SocketRequest;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.SocketRequestBuilder;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.SocketAutorisedResponse;
+import biz.ideus.ideuslibexample.utils.JSONUtils;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -25,17 +27,24 @@ import okio.Buffer;
 import static okhttp3.ws.WebSocket.TEXT;
 
 public final class WebSocketClient implements WebSocketListener {
-    private final ExecutorService writeExecutor = Executors.newSingleThreadExecutor();
+    private ExecutorService writeExecutor;
     private WebSocket myWebSocket = null;
     private Class responseType;
     private Object serverAnswer;
-    private SocketRequest request;
-    private SocketMessageListener messageListener;
+    private SocketMessageReceiver socketMessageReceiver;
+    public static WebSocketClient instance = null;
 
 
-    public WebSocketClient(SocketMessageListener messageListener) {
-        this.messageListener = messageListener;
+    public static WebSocketClient getInstance() {
+        if (instance == null) {
+            instance = new WebSocketClient();
+        }
+        return instance;
+    }
+
+    public WebSocketClient() {
         createHttpClient();
+        socketMessageReceiver = new SocketMessageReceiver();
     }
 
     private void createHttpClient() {
@@ -52,17 +61,17 @@ public final class WebSocketClient implements WebSocketListener {
 
     @Override
     public void onOpen(final WebSocket webSocket, Response response) {
-        myWebSocket = webSocket;
-        autorisationInWeb();
+        autorisationInWeb(webSocket);
 
     }
 
-    public void sendMessage( Class responseType, RequestSocketParams requestParams){
+    public void sendMessage(Class responseType, RequestSocketParams requestParams) {
         this.responseType = responseType;
         send(requestParams);
     }
 
-   private void send(RequestSocketParams requestParams){
+    private void send(RequestSocketParams requestParams) {
+        writeExecutor = Executors.newSingleThreadExecutor();
         writeExecutor.execute(() -> {
             try {
                 myWebSocket.sendMessage(RequestBody.create(TEXT, new SocketRequestBuilder(requestParams).createJsonRequest()));
@@ -75,10 +84,12 @@ public final class WebSocketClient implements WebSocketListener {
         });
     }
 
-    private void autorisationInWeb(){
+    private void autorisationInWeb(WebSocket webSocket) {
         responseType = SocketAutorisedResponse.class;
+        writeExecutor = Executors.newSingleThreadExecutor();
         writeExecutor.execute(() -> {
             try {
+                myWebSocket = webSocket;
                 myWebSocket.sendMessage(RequestBody.create(TEXT, new SocketRequestBuilder(new AuthorizeChatRequestSocket()).createJsonRequest()));
             } catch (IOException e) {
                 System.err.println("Unable to send messages: " + e.getMessage());
@@ -86,17 +97,20 @@ public final class WebSocketClient implements WebSocketListener {
         });
     }
 
-    
     @Override
     public void onMessage(ResponseBody message) throws IOException {
-        if(!message.string().isEmpty()) {
-            String json = null;
-            if (message.contentType() == TEXT) {
-              //  message.close();
+        String json = null;
+        String messageCommand = null;
+        json = message.string();
+        if (message.contentType() == TEXT && JSONUtils.isJSONValid(json)) {
+            try {
+                messageCommand = new JSONObject(json).get("command").toString();
+                serverAnswer = new Gson().fromJson(json, responseType);
+                socketMessageReceiver.dispatchRxBus(serverAnswer, messageCommand);
+                writeExecutor.shutdown();
+            } catch (Exception ex) {
+                writeExecutor.shutdown();
             }
-            json = message.string();
-            serverAnswer = new Gson().fromJson(json, responseType);
-            messageListener.onMessage(serverAnswer);
         }
     }
 
@@ -109,13 +123,13 @@ public final class WebSocketClient implements WebSocketListener {
     @Override
     public void onClose(int code, String reason) {
         System.out.println("CLOSE: " + code + " " + reason);
-        writeExecutor.shutdown();
+
     }
 
     @Override
     public void onFailure(IOException e, Response response) {
         e.printStackTrace();
-        messageListener.onFail(response);
+        System.out.println("socketFail: " + e);
         writeExecutor.shutdown();
     }
 
@@ -126,7 +140,4 @@ public final class WebSocketClient implements WebSocketListener {
             e.printStackTrace();
         }
     }
-
-
-
 }

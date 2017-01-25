@@ -56,11 +56,14 @@
                 android:focusableInTouchMode="true"
                 android:hint="@string/enter_message"
                 android:maxLines="3"
+                android:onTextChanged="@{viewModel::onTextChangedMessage}"
+                android:text="@{viewModel.message}"
                 android:padding="10dip"
                 android:textColor="@color/gray"
                 android:textSize="@dimen/font_size_16" />
 
             <ImageView
+                android:onClick="@{viewModel::onSendClick}"
                 android:id="@+id/iv_send"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
