@@ -44,8 +44,7 @@ public static CallbackManager faceBookCallbackManager;
         activity.getTwitterAuthClient().authorize(activity, new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> twitterSessionResult) {
-                socialRegistrationListener.getTwitterAutorisationData(twitterSessionResult.data.getUserName()
-                        , twitterSessionResult.data.getAuthToken().token);
+                socialRegistrationListener.getTwitterAutorisationData(twitterSessionResult);
             }
 
             @Override
@@ -77,7 +76,7 @@ public static CallbackManager faceBookCallbackManager;
 
 
     public interface SocialRegistrationListener {
-        void getTwitterAutorisationData(String userName, String twitterToken);
+        void getTwitterAutorisationData(Result<TwitterSession> twitterSessionResult);
         void getFacebookToken(String facebookToken);
 
     }

@@ -7,7 +7,12 @@
         <import type="android.view.View" />
         <variable
             name="viewModel"
-            type="biz.ideus.ideuslibexample.ui.common.toolbar.IToolBar">
+            type="biz.ideus.ideuslibexample.ui.common.toolbar.AbstractViewModelToolbar">
+        </variable>
+
+        <variable
+            name="isShowLinearProgress"
+            type="java.lang.Boolean">
         </variable>
 
     </data>
@@ -15,13 +20,14 @@
         <RelativeLayout
             android:id="@+id/rl_main_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/toolbar_height"
+            android:layout_height="wrap_content"
             android:background="@color/color_main"
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/ll_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="@dimen/toolbar_height"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -30,7 +36,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/toolbar_btn_selector"
                     android:scaleType="center"
-                    android:src="@{viewModel.setImageLeftBtn}"
+                    android:src="@{viewModel.imageLeftBtn}"
                     android:onClick="@{viewModel::onClickLeftBtn}"
                     android:visibility="@{viewModel.leftBtnVisible ? View.VISIBLE : View.INVISIBLE}"
                     />
@@ -64,7 +70,7 @@
                     android:contentDescription="@string/space"
                     android:background="@drawable/toolbar_btn_selector"
                     android:padding="10dip"
-                    android:src="@{viewModel.setImageRightBtn}"
+                    android:src="@{viewModel.imageRightBtn}"
                     android:onClick="@{viewModel::onClickRightBtn}"
                     android:visibility="@{viewModel.rightBtnVisible ? View.VISIBLE : View.INVISIBLE}"
                     />
@@ -74,6 +80,19 @@
                 <!--android:visibility="@{toolbarSettings.rightButtonVisibility}"-->
 
             </LinearLayout>
+
+            <ProgressBar
+                android:layout_below="@+id/ll_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:indeterminate="true"
+                android:visibility="@{(boolean)isShowLinearProgress ? View.VISIBLE : View.INVISIBLE}"
+                android:layout_marginTop="-7dp"
+                android:layout_marginBottom="-7dp"
+                android:minHeight="10dp"
+                app:progressColor="@{true}"
+                android:id="@+id/progressBar" />
 
         </RelativeLayout>
 </layout>

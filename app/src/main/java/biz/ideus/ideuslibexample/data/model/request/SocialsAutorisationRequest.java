@@ -13,8 +13,8 @@ public class SocialsAutorisationRequest extends BaseRequestModel {
     @SerializedName("social_alias")
     private String socialAlias;
 
-    @SerializedName("username")
-    private String twitterUsername;
+    @SerializedName("secret")
+    private String twitterSecret;
 
     @SerializedName("is_agree")
     private boolean isAgree;
@@ -23,8 +23,8 @@ public class SocialsAutorisationRequest extends BaseRequestModel {
         this.isAgree = isAgree;
     }
 
-    public void setTwitterUsername(String twitterUsername) {
-        this.twitterUsername = twitterUsername;
+    public void setTwitterSecret(String twitterSecret) {
+        this.twitterSecret = twitterSecret;
     }
 
     public SocialsAutorisationRequest(String token, String socialAlias) {

@@ -8,8 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 
-import java.util.concurrent.TimeUnit;
-
 import biz.ideus.ideuslib.Utils.UtilsValidationETFields;
 import biz.ideus.ideuslib.interfaces.OnValidateField;
 import biz.ideus.ideuslib.interfaces.OnValidateSignUpScreen;
@@ -81,7 +79,6 @@ public abstract class BaseValidationVM extends AbstractViewModelToolbar<StartVie
     public void onTextChangedEmail(CharSequence text) {
         email.set(text);
         Observable.just(text.toString())
-                .debounce(500, TimeUnit.MILLISECONDS)
                 .doOnNext(currentText -> {
                     onValidateField.setVisibilityImageDeleteEmail(getVisibility(currentText));
                 })
@@ -97,7 +94,6 @@ public abstract class BaseValidationVM extends AbstractViewModelToolbar<StartVie
     public void onTextChangedPassword(CharSequence text) {
         password.set(text);
         Observable.just(text.toString())
-                .debounce(500, TimeUnit.MILLISECONDS)
                 .doOnNext(currentText -> {
                     onValidateField.setVisibilityImageDeletePassword(getVisibility(currentText));
                 })
@@ -114,7 +110,6 @@ public abstract class BaseValidationVM extends AbstractViewModelToolbar<StartVie
     public void onTextChangedName(CharSequence text) {
         name.set(text);
         Observable.just(text.toString())
-                .debounce(500, TimeUnit.MILLISECONDS)
                 .doOnNext(currentText -> {
                     ((OnValidateSignUpScreen) onValidateField).setVisibilityImageDeleteName(getVisibility(currentText));
                 })

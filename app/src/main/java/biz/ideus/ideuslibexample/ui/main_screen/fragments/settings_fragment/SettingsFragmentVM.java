@@ -114,7 +114,7 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
             name.set(userInfo.getFirst_name());
             email.set(userInfo.getEmail());
             photo.set(userInfo.getPhoto());
-            connectionsUsers.set((userInfo.getFriendsCount() != 0) ?
+            connectionsUsers.set(!(userInfo.getFriendsCount().equals("0")) ?
                     "+ " + userInfo.getFriendsCount() + " " + context.getString(R.string.connections) : "");
             setFullNameUser(userInfo);
         }

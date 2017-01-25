@@ -12,8 +12,9 @@ public interface IToolBar {
     boolean isRightBtnVisible();
     void onClickLeftBtn(View view);
     void onClickRightBtn(View view);
-    Drawable setImageLeftBtn();
-    Drawable setImageRightBtn();
+    Drawable getImageLeftBtn();
+    Drawable getImageRightBtn();
     String getToolbarTitle();
+    void setVisibilityLinearProgress(boolean isVisible);
 
 }

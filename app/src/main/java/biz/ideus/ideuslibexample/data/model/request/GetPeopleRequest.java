@@ -10,14 +10,30 @@ public class GetPeopleRequest {
     @SerializedName("offset")
     private int offset;
 
+    @SerializedName("limit")
+    private int limit;
+
+
     @SerializedName("term")
     private String term;
 
-    public void setTerm(String term) {
+    public GetPeopleRequest(String term){
         this.term = term;
     }
 
-    public void setOffset(int offset) {
+    public GetPeopleRequest(){}
+
+    public GetPeopleRequest setTerm(String term) {
+        this.term = term;
+        return this;
+    }
+
+    public GetPeopleRequest setOffset(int offset) {
         this.offset = offset;
+        return this;
+    }
+    public GetPeopleRequest setLimit(int limit) {
+        this.limit = limit;
+        return this;
     }
 }

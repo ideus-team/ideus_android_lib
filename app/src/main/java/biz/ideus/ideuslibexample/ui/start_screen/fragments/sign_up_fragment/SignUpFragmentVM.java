@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.CheckBox;
 
 import com.orhanobut.hawk.Hawk;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterSession;
 
 import biz.ideus.ideuslib.interfaces.OnValidateSignUpScreen;
 import biz.ideus.ideuslibexample.R;
@@ -217,29 +219,30 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
 
     @Override
     public void getGoogleToken(String googlePlusToken) {
-        autorisationSocial(googlePlusToken, GOOGLE_PLUS_NET.networkName, null);
+        autorisationSocial(googlePlusToken, null, GOOGLE_PLUS_NET.networkName);
     }
 
 
     @Override
-    public void getTwitterAutorisationData(String userName, String twitterToken) {
-        autorisationSocial(twitterToken, TWITTER_NET.networkName, userName);
+    public void getTwitterAutorisationData(Result<TwitterSession> twitterSessionResult) {
+        autorisationSocial(twitterSessionResult.data.getAuthToken().token,twitterSessionResult.data.getAuthToken().secret
+                , TWITTER_NET.networkName);
     }
 
     @Override
     public void getFacebookToken(String facebookToken) {
-        autorisationSocial(facebookToken, FACEBOOK_NET.networkName, null);
+        autorisationSocial(facebookToken, null, FACEBOOK_NET.networkName);
     }
 
 
-    private void autorisationSocial(String socialToken, String socialName, @Nullable String twitterUserName) {
+    private void autorisationSocial(String socialToken,String twitterSecret, String socialName) {
 
         NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
         SocialsAutorisationRequest sotialAuthModel = new SocialsAutorisationRequest(socialToken, socialName);
         sotialAuthModel.setIsAgree(isAgreeTermOfService);
 
         if (socialName.equals(TWITTER_NET.networkName)) {
-            sotialAuthModel.setTwitterUsername(twitterUserName);
+            sotialAuthModel.setTwitterSecret(twitterSecret);
         }
         netApi.autorisationSocial(sotialAuthModel)
                 .lift(new CheckError<>())

@@ -13,7 +13,7 @@ import io.requery.Persistable;
 @Entity
 public interface UserFile extends Observable, Parcelable, Persistable {
     @Key
-    int getIdent();
+    String getIdent();
 
 
     String getFile();

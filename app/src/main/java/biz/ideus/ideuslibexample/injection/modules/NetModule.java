@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.orhanobut.hawk.Hawk;
 
+import java.util.concurrent.TimeUnit;
+
 import biz.ideus.ideuslibexample.BuildConfig;
 import biz.ideus.ideuslibexample.data.remote.NetApi;
 import biz.ideus.ideuslibexample.data.remote.RxErrorHandlingCallAdapterFactory;
@@ -77,7 +79,7 @@ public class NetModule {
                             .addHeader("Api-Token", (Hawk.contains(Constants.USER_TOKEN)) ? Hawk.get(Constants.USER_TOKEN) : "")
                             .addHeader("Content-Type", "application/x-www-form-urlencoded").build();
                     return chain.proceed(request);
-                }).build();
+                }).connectTimeout(20, TimeUnit.SECONDS).build();
 
         return new Retrofit.Builder()
                 .baseUrl(URL + API_VERSION)

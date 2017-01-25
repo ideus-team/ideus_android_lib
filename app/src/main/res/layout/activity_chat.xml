@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <import type="android.view.View" />
 
-        <!--<variable-->
-            <!--name="vm"-->
-            <!--type="biz.ideus.ideuslibexample.ui.fragments.home_fragments.people_fragment.PeopleFragmentVM" />-->
+        <variable
+            name="viewModel"
+            type="biz.ideus.ideuslibexample.ui.chat_screen.activity.ChatActivityVM" />
     </data>
 
     <RelativeLayout
@@ -15,8 +16,14 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"
+            bind:viewModel="@{viewModel}" />
+
 
         <android.support.v7.widget.RecyclerView
+            android:layout_below="@+id/toolbar"
             android:id="@+id/rViewPeople"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

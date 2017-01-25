@@ -1,6 +1,7 @@
 package biz.ideus.ideuslibexample.data.remote;
 
 
+import biz.ideus.ideuslibexample.data.model.request.AddAndDeleteFavoriteRequest;
 import biz.ideus.ideuslibexample.data.model.request.BaseRequestModel;
 import biz.ideus.ideuslibexample.data.model.request.GetPeopleRequest;
 import biz.ideus.ideuslibexample.data.model.request.LoginModelRequest;
@@ -31,7 +32,7 @@ public interface NetApi {
     @POST("user/signup")
     Observable<AutorisationAnswer> signUp(@Body SignUpRequest signUpRequest);
 
-    @POST("user/loginSocial")
+    @POST("user/login_social")
     Observable<AutorisationAnswer> autorisationSocial(@Body SocialsAutorisationRequest socialsAutorisationRequest);
 
     @POST("user/update_profile")
@@ -54,6 +55,14 @@ public interface NetApi {
 
     @POST("user/find_users")
     Observable<PeopleAnswer> getPeople(@Body GetPeopleRequest getPeopleRequest);
+
+    @POST("user/add_favorite")
+    Observable<ServerAnswer> addFavorite(@Body AddAndDeleteFavoriteRequest addFavoriteRequest);
+
+    @POST("user/delete_favorite")
+    Observable<ServerAnswer> deleteFavorite(@Body AddAndDeleteFavoriteRequest deleteFavoriteRequest);
+
+
 
 
 

@@ -29,6 +29,9 @@ public class RetrofitException extends RuntimeException {
                 e.printStackTrace();
             }
             message = new Gson().fromJson(responseBody, ServerAnswer.class).message;
+            if(message.equals("")){
+                message = new Gson().fromJson(responseBody, ServerAnswer.class).errors.get(0).toString();
+            }
         }
         return new RetrofitException(message, url, response, Kind.HTTP, null, retrofit);
     }
