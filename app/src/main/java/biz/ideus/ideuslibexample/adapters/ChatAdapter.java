@@ -2,18 +2,25 @@ package biz.ideus.ideuslibexample.adapters;
 
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.orhanobut.hawk.Hawk;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import biz.ideus.ideuslibexample.R;
-import biz.ideus.ideuslibexample.data.model.response.response_model.PeopleEntity;
+import biz.ideus.ideuslibexample.data.remote.socket.SocketCommand;
+import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.SocketMessageResponse;
+import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.data.SocketMessageData;
 import biz.ideus.ideuslibexample.databinding.ItemChatFriendBinding;
 import biz.ideus.ideuslibexample.databinding.ItemChatMyBinding;
+import biz.ideus.ideuslibexample.ui.chat_screen.activity.ChatActivity;
+
+import static biz.ideus.ideuslibexample.utils.Constants.USER_ID;
 
 /**
  * Created by blackmamba on 23.01.17.
@@ -22,8 +29,14 @@ import biz.ideus.ideuslibexample.databinding.ItemChatMyBinding;
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 private static final int MY_ITEM = 0;
 private static final int FRIEND_ITEM = 1;
+    private ChatActivity activity;
+    private ScrollToBottomListener scrollToBottomListener;
 
-    private List<PeopleEntity> messageEntity = new ArrayList<>();
+    public void setScrollToBottomListener(ScrollToBottomListener scrollToBottomListener) {
+        this.scrollToBottomListener = scrollToBottomListener;
+    }
+
+    public List<SocketMessageResponse> messageList = new ArrayList<>();
   //  private OnChatClickListener onPeopleClickListener;
 
 
@@ -31,13 +44,22 @@ private static final int FRIEND_ITEM = 1;
 //        this.onPeopleClickListener = onPeopleClickListener;
 //    }
 
-    public ChatAdapter() {
+    public ChatAdapter(ChatActivity activity) {
+        this.activity = activity;
 
     }
 
-    public void setMessageEntity(Set<PeopleEntity> messageEntity) {
-        this.messageEntity = new ArrayList<>(messageEntity);
-        notifyDataSetChanged();
+    public void setMessageList(List<SocketMessageResponse> messageList) {
+        this.messageList = new ArrayList<>(messageList);
+       notifyDataSetChanged();
+    }
+
+    public void setMessageToList(SocketMessageResponse message) {
+        this.messageList.add(message);
+                ChatAdapter.this.notifyItemInserted(messageList.size() - 1);
+        if(scrollToBottomListener != null){
+            scrollToBottomListener.onBottomScroll(messageList.size());
+        }
     }
 
 
@@ -56,21 +78,27 @@ private static final int FRIEND_ITEM = 1;
        return holder;
     }
 
-
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+        SocketMessageData messageData = messageList.get(position).data;
+        if(holder instanceof MyMessageItemHolder){
+            ((MyMessageItemHolder)holder).binding.setViewModel(messageData);
+        } else {
+            ((FriendMessageItemHolder)holder).binding.setViewModel(messageData);
+        }
     }
-
 
     @Override
     public int getItemCount() {
-        return messageEntity.size();
+        return messageList.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        return position;
+        Log.d("userId","messageUserID" + messageList.get(position).command);
+        Log.d("userId","myId" + Hawk.get(USER_ID));
+
+        return (messageList.get(position).command.equals(SocketCommand.MESSAGE_SENT.commandName)) ? MY_ITEM : FRIEND_ITEM;
     }
 
 
@@ -95,5 +123,9 @@ private static final int FRIEND_ITEM = 1;
 //    public interface OnChatClickListener {
 //        void onClickItem(int position, PeopleEntity peopleEntity);
 //    }
+
+    public interface ScrollToBottomListener{
+        void onBottomScroll(int position);
+    }
 
 }

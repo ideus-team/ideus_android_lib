@@ -137,7 +137,7 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
                 });
     }
 
-    protected void goToMainScreen() {
+    private void goToMainScreen() {
         StartActivity startActivity = (StartActivity) context;
         startActivity.startActivity(new Intent(startActivity, MainActivity.class));
         startActivity.finish();

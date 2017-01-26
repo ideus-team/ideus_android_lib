@@ -6,8 +6,8 @@ import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.data.S
  * Created by blackmamba on 24.01.17.
  */
 
-public class SocketAutorisedResponse extends SocketBaseResponse<SocketAutorisedData> {
-    public SocketAutorisedResponse(SocketAutorisedData data) {
+public class SocketAuthorisedResponse extends SocketBaseResponse<SocketAutorisedData> {
+    public SocketAuthorisedResponse(SocketAutorisedData data) {
         super(data);
     }
 }

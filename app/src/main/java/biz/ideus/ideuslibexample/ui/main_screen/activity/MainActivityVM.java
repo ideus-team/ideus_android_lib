@@ -1,15 +1,19 @@
 package biz.ideus.ideuslibexample.ui.main_screen.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.orhanobut.hawk.Hawk;
+
 import biz.ideus.ideuslib.mvvm_lifecycle.AbstractViewModel;
-import biz.ideus.ideuslibexample.data.remote.socket.SocketMessageListener;
 import biz.ideus.ideuslibexample.data.remote.socket.WebSocketClient;
-import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.SocketAutorisedResponse;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
-import okhttp3.Response;
+import biz.ideus.ideuslibexample.ui.start_screen.activity.StartActivity;
+
+import static biz.ideus.ideuslibexample.utils.Constants.USER_TOKEN;
 
 
 /**
@@ -17,40 +21,38 @@ import okhttp3.Response;
  */
 //@PerActivity
 public class MainActivityVM extends AbstractViewModel<StartView> {
-
+private Context context;
     public static WebSocketClient webSocketClient = null;
-
-
     @Override
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
         super.onCreate(arguments, savedInstanceState);
-        webSocketClient = WebSocketClient.getInstance();
-        webSocketClient.setMessageListener(new SocketMessageListener() {
-            @Override
-            public void onMessage(Object response) {
-                if (response instanceof SocketAutorisedResponse) {
-                    SocketAutorisedResponse autorisedResponse = (SocketAutorisedResponse) response;
-                    System.out.println("message" + autorisedResponse.data.isAutorise());
-                }
-            }
-
-            @Override
-            public void onFail(Response failResponse) {
-
-            }
-        });
+        if(Hawk.contains(USER_TOKEN)) {
+            webSocketClient = WebSocketClient.getInstance();
+        }
 
     }
 
     @Override
     public void onBindView(@NonNull StartView view) {
         super.onBindView(view);
+        context = getView().getViewModelBindingConfig().getContext();
+        if(!Hawk.contains(USER_TOKEN)){
+            goToLoginScreen();
+        }
     }
+    private void goToLoginScreen(){
+        ((MainActivity)context).startActivity(new Intent( ((MainActivity)context), StartActivity.class));
+        ((MainActivity)context).finish();
+
+    }
+
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        webSocketClient.closeWebSocket();
+        if(webSocketClient != null){
+            webSocketClient.closeWebSocket();
+        }
     }
 }
 

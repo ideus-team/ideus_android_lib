@@ -5,9 +5,9 @@
 
         <import type="android.view.View" />
 
-        <!--<variable-->
-        <!--name="viewModel"-->
-        <!--type="biz.ideus.ideuslibexample.ui.start_screen.fragments.forgot_password_fragment.ForgotPasswordVM" />-->
+        <variable
+            name="viewModel"
+            type="biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.data.SocketMessageData" />
     </data>
 
     <LinearLayout
@@ -31,6 +31,7 @@
                 android:background="@color/light_gray" />
 
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/ll_login_with_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -66,6 +67,7 @@
                 android:id="@+id/ll_text_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="30dp"
                 android:background="@drawable/corners_layout_gray_10dp"
                 android:layout_toEndOf="@+id/iv_user_photo"
                 android:layout_toRightOf="@+id/iv_user_photo"
@@ -76,7 +78,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:text="Text" />
+                    android:text="@{viewModel.message}" />
             </LinearLayout>
 
             <biz.ideus.ideuslib.widget.CircleImageView

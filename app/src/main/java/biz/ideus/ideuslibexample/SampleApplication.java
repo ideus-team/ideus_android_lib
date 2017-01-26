@@ -40,6 +40,7 @@ public class SampleApplication extends Application {
     public static RequeryApi requeryApi;
     public static NetApi netApi;
 
+
     protected void setupFonts() {
         DLibTypefaceAdapter.addFontDefinition("normal", "fonts/MuseoSansCyrl.otf");
     }
@@ -68,6 +69,7 @@ public class SampleApplication extends Application {
         requeryApi = sAppComponent.dataApi();
         netApi = sAppComponent.netApi();
 
+
         setupFaceBookSDK();
         setupTwitterSDK();
         setupUniversalImageLoaderConfig();
@@ -78,6 +80,7 @@ public class SampleApplication extends Application {
 
 
     }
+
 
     @Override
     protected void attachBaseContext(Context base) {

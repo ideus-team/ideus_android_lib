@@ -1,6 +1,6 @@
 package biz.ideus.ideuslibexample.rx_buses;
 
-import biz.ideus.ideuslibexample.data.remote.socket.SocketMessageReceiver;
+import biz.ideus.ideuslibexample.data.remote.socket.SocketMessageWrapper;
 import rx.Observable;
 import rx.subjects.BehaviorSubject;
 
@@ -11,7 +11,7 @@ import rx.subjects.BehaviorSubject;
 public class RxChatMessageEvent {
     private static RxChatMessageEvent instance;
 
-    private BehaviorSubject<SocketMessageReceiver.SocketMessageWrapper> subject = BehaviorSubject.create();
+    private BehaviorSubject<SocketMessageWrapper> subject = BehaviorSubject.create();
 
     public static RxChatMessageEvent instanceOf() {
         if (instance == null) {
@@ -20,11 +20,11 @@ public class RxChatMessageEvent {
         return instance;
     }
 
-    public void setRxChatMessageEvent(SocketMessageReceiver.SocketMessageWrapper response) {
+    public void setRxChatMessageEvent(SocketMessageWrapper response) {
         subject.onNext(response);
     }
 
-    public Observable<SocketMessageReceiver.SocketMessageWrapper> getEvents() {
+    public Observable<SocketMessageWrapper> getEvents() {
         return subject;
     }
 }
