@@ -44,7 +44,9 @@ public class RequeryApi implements IRequeryApi {
 
     @Override
     public Observable<PeopleEntity> getPeopleEntity(String peopleId) {
-        return data.select(PeopleEntity.class).where(PeopleEntity.IDENT.equal(peopleId)).get().toObservable();
+        return data.select(PeopleEntity.class).where(PeopleEntity.IDENT.equal(peopleId)).get()
+                .toObservable().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override

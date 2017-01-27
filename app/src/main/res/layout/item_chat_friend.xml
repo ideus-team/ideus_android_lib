@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -8,6 +9,10 @@
         <variable
             name="viewModel"
             type="biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.data.SocketMessageData" />
+
+        <variable
+            name="isShowDate"
+            type="java.lang.Boolean"/>
     </data>
 
     <LinearLayout
@@ -31,8 +36,8 @@
                 android:background="@color/light_gray" />
 
             <LinearLayout
-                android:visibility="gone"
-                android:id="@+id/ll_login_with_email"
+                android:id="@+id/ll_date"
+                android:visibility="@{(boolean)isShowDate ? View.VISIBLE : View.GONE}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -42,10 +47,10 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/tv_current_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="october 6, 2016"
+                    android:text="@{viewModel.dateMessage}"
                     android:textColor="@color/gray" />
 
             </LinearLayout>
@@ -74,11 +79,30 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView5"
+                    android:id="@+id/tv_message"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
                     android:text="@{viewModel.message}" />
+
+                <LinearLayout
+                    android:id="@+id/ll_image_attach_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:orientation="vertical">
+
+
+                    <biz.ideus.ideuslibexample.ui.widgets.ViewImageLoader
+                        android:id="@+id/iv_image_attach"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:scaleType="centerCrop"
+                        app:imageUrl="@{viewModel.message}" />
+                </LinearLayout>
+
+
+
             </LinearLayout>
 
             <biz.ideus.ideuslib.widget.CircleImageView
@@ -101,14 +125,14 @@
                 </LinearLayout>
 
             <TextView
-                android:id="@+id/tv_current_date"
+                android:id="@+id/tv_current_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/ll_image_container"
                 android:layout_alignStart="@+id/ll_image_container"
                 android:layout_below="@+id/ll_image_container"
                 android:layout_marginTop="5dp"
-                android:text="today"
+                android:text="@{viewModel.timeMessage}"
                 android:textColor="@color/gray"
                 android:textSize="@dimen/font_size_10" />
         </RelativeLayout>

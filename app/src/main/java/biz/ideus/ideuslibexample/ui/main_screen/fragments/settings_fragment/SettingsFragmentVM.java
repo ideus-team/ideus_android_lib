@@ -22,6 +22,7 @@ import biz.ideus.ideuslibexample.data.remote.CheckError;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriberSettings;
 import biz.ideus.ideuslibexample.dialogs.DialogModel;
+import biz.ideus.ideuslibexample.interfaces.ImageChooserListener;
 import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.main_screen.activity.MainActivity;
@@ -42,7 +43,7 @@ import static biz.ideus.ideuslibexample.ui.main_screen.fragments.settings_fragme
  * Created by blackmamba on 25.11.16.
  */
 
-public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSignUpScreen, MainActivity.ImageChooserListener, FileUploadProcessor.SuccessUploadListener {
+public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSignUpScreen, ImageChooserListener, FileUploadProcessor.SuccessUploadListener {
     private Context context;
     private boolean isValidName = true;
     private boolean isValidEmail = true;

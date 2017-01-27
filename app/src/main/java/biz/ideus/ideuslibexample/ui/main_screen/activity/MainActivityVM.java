@@ -21,12 +21,13 @@ import static biz.ideus.ideuslibexample.utils.Constants.USER_TOKEN;
  */
 //@PerActivity
 public class MainActivityVM extends AbstractViewModel<StartView> {
-private Context context;
+    private Context context;
     public static WebSocketClient webSocketClient = null;
+
     @Override
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
         super.onCreate(arguments, savedInstanceState);
-        if(Hawk.contains(USER_TOKEN)) {
+        if (Hawk.contains(USER_TOKEN)) {
             webSocketClient = WebSocketClient.getInstance();
         }
 
@@ -36,13 +37,14 @@ private Context context;
     public void onBindView(@NonNull StartView view) {
         super.onBindView(view);
         context = getView().getViewModelBindingConfig().getContext();
-        if(!Hawk.contains(USER_TOKEN)){
+        if (!Hawk.contains(USER_TOKEN)) {
             goToLoginScreen();
         }
     }
-    private void goToLoginScreen(){
-        ((MainActivity)context).startActivity(new Intent( ((MainActivity)context), StartActivity.class));
-        ((MainActivity)context).finish();
+
+    private void goToLoginScreen() {
+        ((MainActivity) context).startActivity(new Intent(((MainActivity) context), StartActivity.class));
+        ((MainActivity) context).finish();
 
     }
 
@@ -53,6 +55,7 @@ private Context context;
         if(webSocketClient != null){
             webSocketClient.closeWebSocket();
         }
+
     }
 }
 

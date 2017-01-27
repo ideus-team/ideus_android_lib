@@ -12,7 +12,6 @@ public enum SocketCommand {
 
     MESSAGE("message", SocketBaseResponse.class)
     , AUTHORISE("authorize", SocketAuthorisedResponse.class)
-    , MESSAGE_SENT("message_sent", SocketMessageResponse.class)
     , RECEIVE_MESSAGE("receive_message",SocketMessageResponse.class);
 //    , DEL_CHAT_ROOM("del_chat_room")
 //    , ADD_USER_TO_CHAT("add_user_to_chat")

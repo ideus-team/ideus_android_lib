@@ -1,16 +1,19 @@
 package biz.ideus.ideuslibexample.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.File;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -37,18 +40,60 @@ public class Utils {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 
-    public static boolean isJSONValid(String test) {
-        try {
-            new JSONObject(test);
-        } catch (JSONException ex) {
-            // edited, to include @Arthur's comment
-            // e.g. in case JSONArray is valid as well...
-            try {
-                new JSONArray(test);
-            } catch (JSONException ex1) {
-                return false;
-            }
+    @SuppressLint("SimpleDateFormat")
+    public static String convertTimeChat(String dateFromServer) {
+        Date currentDate = null;
+        String dateOnlyHourFormat = null;
+        DateFormat formatOnlyHoursDate = null;
+
+        long timeFromServer = Long.parseLong(dateFromServer);
+        String language = Locale.getDefault().getLanguage();
+        if (language.equals("en")) {
+            dateOnlyHourFormat = "hh:mm a";
+        } else {
+            dateOnlyHourFormat = "HH:mm";
         }
-        return true;
+        Timestamp stamp = new Timestamp(timeFromServer * 1000);
+        currentDate = new Date(stamp.getTime());
+        formatOnlyHoursDate = new SimpleDateFormat(dateOnlyHourFormat, Locale.getDefault());
+
+        if (timeFromServer > 0) {
+            Calendar current_cal = Calendar.getInstance();
+            current_cal.setTimeInMillis(stamp.getTime());
+
+          return formatOnlyHoursDate.format(currentDate);
+
+        } else return "";
+    }
+
+
+    @SuppressLint("SimpleDateFormat")
+    public static String convertDate(String dateFromServer) {
+        Date currentDate = null;
+        String dateName = null;
+        String dateFormat = null;
+        DateFormat formatDate = null;
+        long timeFromServer = Long.parseLong(dateFromServer);
+
+            dateFormat = "dd, MMMM, yyyy";
+        Timestamp stamp = new Timestamp(timeFromServer * 1000);
+        currentDate = new Date(stamp.getTime());
+        formatDate = new SimpleDateFormat(dateFormat, Locale.getDefault());
+        if (timeFromServer > 0) {
+            Calendar current_cal = Calendar.getInstance();
+            Calendar calendar = Calendar.getInstance();
+            current_cal.setTimeInMillis(stamp.getTime());
+
+//            if (current_cal.get(Calendar.DAY_OF_YEAR) == (calendar.get(Calendar.DAY_OF_YEAR))) {
+//                dateName = Calendar.
+//                return dateName;
+//            } else if ((calendar.get(Calendar.DAY_OF_YEAR) - 1) == (current_cal.get(Calendar.DAY_OF_YEAR))) {
+//                dateName = activity.getString(R.string.yesterday);
+//                return dateName;
+//            } else {
+                dateName = formatDate.format(currentDate);
+                return dateName;
+//            }
+        } else return "";
     }
 }

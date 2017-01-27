@@ -14,8 +14,12 @@ public class SendMessageRequest extends RequestSocketParams {
     @SerializedName("message")
     private String message;
 
-    public SendMessageRequest(String userId, String message){
+    @SerializedName("kind")
+    private String kind;
+
+    public SendMessageRequest(String userId, String message, String kind){
         this.message = message;
+        this.kind = kind;
         this.userId = userId;
     }
 

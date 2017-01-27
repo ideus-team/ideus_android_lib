@@ -12,16 +12,13 @@ import okhttp3.Response;
 public abstract class SocketMessageListener {
 
     // input
-    void setSocketWrapper(SocketMessageWrapper wrapper) {
+    void addToMessageSelector(SocketMessageWrapper wrapper) {
 
         switch (wrapper.getSocketCommand()) {
             case AUTHORISE:
                 onMessage((SocketAuthorisedResponse)  wrapper.getResponse());
                 break;
             case MESSAGE:
-                break;
-            case MESSAGE_SENT:
-                onMessage((SocketMessageResponse) wrapper.getResponse());
                 break;
             case RECEIVE_MESSAGE:
                 onMessage((SocketMessageResponse) wrapper.getResponse());
@@ -55,5 +52,5 @@ public abstract class SocketMessageListener {
 
         }
 
-    public abstract void onFail(Response failResponse);
+   void onFail(Response failResponse){};
 }

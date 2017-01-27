@@ -69,7 +69,7 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.PeopleItem
     public void onBindViewHolder(PeopleItemHolder holder, int position) {
         PeopleEntity peopleEntity = peopleEntities.get(position);
         holder.binding.setViewModel(peopleEntity);
-        holder.binding.imageViewCircle.loadImage(peopleEntity.getPhoto());
+      //  holder.binding.imageViewCircle.loadImage(peopleEntity.getPhoto());
         holder.binding.favouritesLayout.setOnClickListener(v -> onPeopleClickListener.onClickFavourite(position, peopleEntity));
         holder.binding.rlMain.setOnClickListener(v -> onPeopleClickListener.onClickItem(position, peopleEntity));
     }

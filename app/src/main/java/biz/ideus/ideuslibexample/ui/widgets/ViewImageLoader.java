@@ -1,4 +1,4 @@
-package biz.ideus.ideuslib.widget;
+package biz.ideus.ideuslibexample.ui.widgets;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -9,22 +9,23 @@ import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import biz.ideus.ideuslib.R;
+import biz.ideus.ideuslibexample.R;
 
 
 
 
 /**
- * Created by user on 09.11.2016.
+ * Created by blackmamba on 27.01.17.
  */
 
+
 @BindingMethods({
-        @BindingMethod(type = ImageLoaderView.class, attribute = "imageUrl",
+        @BindingMethod(type = ViewImageLoader.class, attribute = "imageUrl",
                 method = "loadImage")
         ,
-        @BindingMethod(type = ImageLoaderView.class, attribute = "imageFlag",
+        @BindingMethod(type = ViewImageLoader.class, attribute = "imageFlag",
                 method = "setImageFlag")})
-public class ImageLoaderView extends ImageView {
+public class ViewImageLoader extends ImageView {
     private String url;
     private String imageFlag;
 
@@ -40,20 +41,20 @@ public class ImageLoaderView extends ImageView {
         this.url = url;
     }
 
-    public ImageLoaderView(Context context) {
+    public ViewImageLoader(Context context) {
         super(context);
     }
 
-    public ImageLoaderView(Context context, AttributeSet attrs) {
+    public ViewImageLoader(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ImageLoaderView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ViewImageLoader(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         TypedArray typedArray = context.obtainStyledAttributes(attrs
-                , R.styleable.ImageLoaderView, defStyleAttr, 0);
+                , R.styleable.ViewImageLoader, defStyleAttr, 0);
         loadImage(
-                typedArray.getString(R.styleable.ImageLoaderView_imageUrl)
+                typedArray.getString(R.styleable.ViewImageLoader_imageUrl)
         );
         typedArray.recycle();
     }
@@ -66,4 +67,3 @@ public class ImageLoaderView extends ImageView {
         }
     }
 }
-

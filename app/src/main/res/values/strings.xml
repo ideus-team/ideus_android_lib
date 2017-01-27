@@ -92,6 +92,9 @@
     <string name="last_message">Last message</string>
     <string name="last_connection">Last connection</string>
     <string name="favorite">Favorite</string>
+    <string name="no_socket_connection">No connection to the server, please try again later</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
 
 
 

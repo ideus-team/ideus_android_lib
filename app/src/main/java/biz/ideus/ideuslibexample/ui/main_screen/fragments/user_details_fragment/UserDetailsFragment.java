@@ -12,8 +12,6 @@ import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.databinding.FragmentUserDetailsBinding;
 import biz.ideus.ideuslibexample.ui.base.BaseFragment;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 import static biz.ideus.ideuslibexample.SampleApplication.requeryApi;
 import static biz.ideus.ideuslibexample.utils.Constants.PERCENTAGE_ALPHA;
@@ -73,8 +71,6 @@ public class UserDetailsFragment extends BaseFragment<StartView, UserDetailsVM, 
 
     private void setPeopleEntityToView(String peopleId){
         requeryApi.getPeopleEntity(peopleId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(peopleEntity1 -> {
                     getBinding().setPeople(peopleEntity1);
                 });

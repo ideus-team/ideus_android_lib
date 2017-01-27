@@ -24,6 +24,7 @@ import biz.ideus.ideuslib.mvvm_lifecycle.AbstractViewModel;
 import biz.ideus.ideuslib.mvvm_lifecycle.IView;
 import biz.ideus.ideuslib.mvvm_lifecycle.base.ViewModelBaseActivity;
 import biz.ideus.ideuslibexample.SampleApplication;
+import biz.ideus.ideuslibexample.data.remote.socket.WebSocketClient;
 import biz.ideus.ideuslibexample.dialogs.CustomDialog;
 import biz.ideus.ideuslibexample.injection.components.ActivityComponent;
 import biz.ideus.ideuslibexample.injection.components.DaggerActivityComponent;
@@ -32,6 +33,7 @@ import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import rx.Subscription;
 
 import static biz.ideus.ideuslibexample.dialogs.DialogModel.NO_INTERNET_CONNECTION;
+import static biz.ideus.ideuslibexample.dialogs.DialogModel.SOCKET_UNFORTUNATELY_DIALOG;
 
 public abstract class BaseActivity<T extends IView, R extends AbstractViewModel<T>, B extends ViewDataBinding>
 extends ViewModelBaseActivity<T, R>
@@ -80,7 +82,14 @@ implements IView {
                                 dialog.dismiss();
                                 break;
                             case NO_INTERNET_CONNECTION:
-                                showSneckBarDialog(NO_INTERNET_CONNECTION.resDialogName);
+                                showSneckBarDialog(NO_INTERNET_CONNECTION.resDialogName, v -> snackbar.dismiss());
+                                break;
+                            case SOCKET_UNFORTUNATELY_DIALOG:
+                                if(snackbar != null){
+                                    snackbar.dismiss();
+                                }
+                                showSneckBarDialog(SOCKET_UNFORTUNATELY_DIALOG.resDialogName,v -> {snackbar.dismiss()
+                                ; WebSocketClient.getInstance().connectHttpClient();});
                                 break;
                             default:
                                 dialog = CustomDialog.instance(dialogParams);
@@ -93,11 +102,11 @@ implements IView {
 
     }
 
-    private void showSneckBarDialog(int title){
+    private void showSneckBarDialog(int title, View.OnClickListener listener){
          snackbar = Snackbar
-                .make(binding.getRoot(), getString(title), Snackbar.LENGTH_INDEFINITE)
+                .make(binding.getRoot(), getString(title), Snackbar.LENGTH_SHORT)
                  .setActionTextColor(getResources().getColor(biz.ideus.ideuslibexample.R.color.color_main))
-                .setAction(getString(biz.ideus.ideuslibexample.R.string.retry), view -> snackbar.dismiss());
+                .setAction(getString(biz.ideus.ideuslibexample.R.string.retry), listener);
         snackbar.show();
     }
 

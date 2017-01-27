@@ -19,6 +19,7 @@ import biz.ideus.ideuslib.mvvm_lifecycle.binding.ViewModelBindingConfig;
 import biz.ideus.ideuslibexample.BR;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.databinding.ActivityMainBinding;
+import biz.ideus.ideuslibexample.interfaces.ImageChooserListener;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.main_screen.MainFragmentPagerAdapter;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
@@ -44,6 +45,7 @@ public class MainActivity extends BaseActivity<StartView, MainActivityVM, Activi
         super.onCreate(savedInstanceState);
         activityComponent().inject(this);
         setModelView(this);
+
 
                 new RelativeLayout(this, null, R.style.ButtonGreenStyle);
         initBottomBar();
@@ -161,11 +163,7 @@ public class MainActivity extends BaseActivity<StartView, MainActivityVM, Activi
     public void onDestroy() {
         super.onDestroy();
 
-
     }
 
-    public interface ImageChooserListener {
-        void onChooseImage(String imagePath);
-    }
 }
 
