@@ -29,7 +29,7 @@ public class PeopleData {
     private List<PeopleEntity> createPeopleEntityList(List<PeopleModel> peopleModels) {
         peopleEntities = new ArrayList<>();
         for(int i = 0; i < peopleModels.size();i++){
-            peopleEntities.add(peopleModels.get(i).createPeopleEntity());
+            peopleEntities.add(peopleModels.get(i).getPeopleEntity());
         }
         return peopleEntities;
     }

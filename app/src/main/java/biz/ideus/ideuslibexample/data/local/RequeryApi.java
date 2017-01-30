@@ -8,6 +8,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import biz.ideus.ideuslibexample.data.model.response.response_model.AutorisationEntity;
+import biz.ideus.ideuslibexample.data.model.response.response_model.MessageEntity;
 import biz.ideus.ideuslibexample.data.model.response.response_model.PeopleEntity;
 import biz.ideus.ideuslibexample.injection.scopes.PerApplication;
 import io.requery.Persistable;
@@ -104,6 +105,29 @@ public class RequeryApi implements IRequeryApi {
     @Override
     public void deletePeopleList() {
         data.delete(PeopleEntity.class).get().value();
+    }
+
+    @Override
+    public void storeMessageList(Iterable<MessageEntity> messageEntitiesList) {
+       data.upsert(messageEntitiesList).subscribe();
+    }
+
+    @Override
+    public Observable<Result<MessageEntity>> getMessageList(String userId) {
+         return data.select(MessageEntity.class).where(MessageEntity.USER_ID.eq(userId)).get()
+                .toSelfObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public void storeMessage(MessageEntity messageEntity) {
+
+    }
+
+    @Override
+    public void updateMessage(MessageEntity messageEntity) {
+
     }
 
 }

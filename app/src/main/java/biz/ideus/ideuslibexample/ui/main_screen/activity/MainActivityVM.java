@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
 import com.orhanobut.hawk.Hawk;
 
 import biz.ideus.ideuslib.mvvm_lifecycle.AbstractViewModel;
-import biz.ideus.ideuslibexample.data.remote.socket.WebSocketClient;
+import biz.ideus.ideuslibexample.data.remote.socket_chat.WebSocketClient;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.ui.start_screen.activity.StartActivity;
 

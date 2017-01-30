@@ -27,6 +27,8 @@ import biz.ideus.ideuslibexample.utils.Constants;
 import io.fabric.sdk.android.Fabric;
 import io.requery.sql.Configuration;
 
+import static biz.ideus.ideuslibexample.utils.Constants.NO_INTERNET_CONNECTION;
+
 /**
  * Created by user on 09.11.2016.
  */
@@ -78,7 +80,7 @@ public class SampleApplication extends Application {
                 .build();
         // if(BuildConfig.DEBUG) { Timber.plant(new Timber.DebugTree()); }
 
-
+        Hawk.put(NO_INTERNET_CONNECTION, false);
     }
 
 

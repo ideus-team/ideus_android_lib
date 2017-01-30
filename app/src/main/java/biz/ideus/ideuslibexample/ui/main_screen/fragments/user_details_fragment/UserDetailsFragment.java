@@ -84,9 +84,10 @@ public class UserDetailsFragment extends BaseFragment<StartView, UserDetailsVM, 
         getBinding().toolbar.rlMainToolbar.setAlpha(percentage);
     }
 
-
     private void scrollUp() {
-        getBinding().appbar.setExpanded(false, true);
+        getBinding().appbar.postDelayed(() -> getBinding().appbar.setExpanded(false, true), 200);
+
+
     }
 
     @Nullable

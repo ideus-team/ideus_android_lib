@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.databinding.BindingMethod;
 import android.databinding.BindingMethods;
 import android.util.AttributeSet;
+import android.util.Patterns;
 import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -12,12 +13,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import biz.ideus.ideuslibexample.R;
 
 
-
-
 /**
  * Created by blackmamba on 27.01.17.
  */
-
 
 @BindingMethods({
         @BindingMethod(type = ViewImageLoader.class, attribute = "imageUrl",
@@ -61,9 +59,14 @@ public class ViewImageLoader extends ImageView {
 
 
     public void loadImage(String imageUrl) {
-        if (imageUrl != null && !imageUrl.isEmpty()) {
+        if (imageUrl != null && !imageUrl.isEmpty() && checkUrl(imageUrl)) {
             setUrl(imageUrl);
             ImageLoader.getInstance().displayImage(imageUrl, this);
         }
+    }
+
+    private boolean checkUrl(String url) {
+        return Patterns.WEB_URL.matcher(url.toLowerCase()).matches();
+
     }
 }

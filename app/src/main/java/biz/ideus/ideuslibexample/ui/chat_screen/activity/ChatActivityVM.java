@@ -15,42 +15,60 @@ import java.util.List;
 
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.adapters.ChatAdapter;
+import biz.ideus.ideuslibexample.data.model.request.GetUserMessagesRequest;
+import biz.ideus.ideuslibexample.data.model.response.MessagesResponse;
 import biz.ideus.ideuslibexample.data.model.response.data.UploadFileData;
+import biz.ideus.ideuslibexample.data.model.response.response_model.MessageEntity;
 import biz.ideus.ideuslibexample.data.model.response.response_model.PeopleEntity;
-import biz.ideus.ideuslibexample.data.remote.socket.SocketMessageListener;
-import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.SendMessageRequest;
-import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.SocketMessageResponse;
+import biz.ideus.ideuslibexample.data.remote.CheckError;
+import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
+import biz.ideus.ideuslibexample.data.remote.NetSubscriberSettings;
+import biz.ideus.ideuslibexample.data.remote.network_change.NetworkChangeReceiver;
+import biz.ideus.ideuslibexample.data.remote.network_change.NetworkChangeSubscriber;
+import biz.ideus.ideuslibexample.data.remote.socket_chat.SocketMessageListener;
+import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_request_model.SendMessageRequest;
+import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_response_model.SocketMessageResponse;
 import biz.ideus.ideuslibexample.interfaces.ImageChooserListener;
+import biz.ideus.ideuslibexample.rx_buses.RxBusNetworkConnected;
 import biz.ideus.ideuslibexample.ui.chat_screen.ChatView;
 import biz.ideus.ideuslibexample.ui.common.toolbar.AbstractViewModelToolbar;
+import biz.ideus.ideuslibexample.ui.image_viewer_fragment.ImageViewerFragment;
 import biz.ideus.ideuslibexample.utils.Constants;
 import biz.ideus.ideuslibexample.utils.FileUploadProcessor;
+import biz.ideus.ideuslibexample.utils.Utils;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
+import static biz.ideus.ideuslibexample.SampleApplication.netApi;
 import static biz.ideus.ideuslibexample.SampleApplication.requeryApi;
 import static biz.ideus.ideuslibexample.ui.main_screen.activity.MainActivityVM.webSocketClient;
 import static biz.ideus.ideuslibexample.utils.Constants.KIND_IMAGE;
 import static biz.ideus.ideuslibexample.utils.Constants.KIND_TEXT;
 
+
 /**
  * Created by blackmamba on 23.01.17.
  */
 
-public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implements ImageChooserListener, FileUploadProcessor.SuccessUploadListener {
+public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implements ImageChooserListener, FileUploadProcessor.SuccessUploadListener, ChatAdapter.OnItemChatClickListener {
     private Context context;
     private String chatUserId = "";
     private PeopleEntity friendForChat = new PeopleEntity();
-    public List<SocketMessageResponse> messageList = new ArrayList<>();
+    public List<MessageEntity> messageList = new ArrayList<>();
     public ObservableField<String> message = new ObservableField<>();
+    public ObservableField<Boolean> isShowLinearProgress = new ObservableField<>();
     private ChatAdapter adapter;
 
     private FileUploadProcessor fileUploadProcessor;
     private String uploadedUrl = "";
 
+    private Subscription rxBusNetworkSubscription;
 
     public void setAdapter(ChatAdapter adapter) {
         this.adapter = adapter;
-        adapter.setMessageList(messageList);
-        adapter.setFriendForChat(friendForChat);
+        adapter.setOnItemChatClickListener(this);
+        adapter.initOldMessages(friendForChat);
     }
 
     @Override
@@ -68,11 +86,13 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
             @Override
             public void onMessage(SocketMessageResponse response) {
                 super.onMessage(response);
-                messageList.add(response);
-                adapter.setMessageToList(response);
+                MessageEntity messageEntity = response.data.getMessageEntity();
+                adapter.setMessageToList(messageEntity);
                 message.set("");
             }
         });
+        startNetworkSubscription();
+        fetchUserMessages(chatUserId);
     }
 
     @Override
@@ -114,10 +134,52 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
         requeryApi.getPeopleEntity(peopleId)
                 .subscribe(peopleEntity1 -> {
                     friendForChat = peopleEntity1;
-                    adapter.setFriendForChat(friendForChat);
+                    adapter.initOldMessages(friendForChat);
                 });
     }
 
+
+    public void startNetworkSubscription() {
+        NetworkChangeReceiver.unsubscribe(rxBusNetworkSubscription);
+        rxBusNetworkSubscription = RxBusNetworkConnected.getInstance().getEvents()
+                .subscribe(new NetworkChangeSubscriber<Object>() {
+                    @Override
+                    public void complete() {
+                        Utils.toast(context, " Network Connected");
+                        webSocketClient.connectHttpClient();
+                    }
+                });
+    }
+
+    private void fetchUserMessages(String chatUserId) {
+
+        NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(this, NetSubscriber.ProgressType.LINEAR);
+
+        netApi.getUserMessages(new GetUserMessagesRequest(chatUserId))
+                .lift(new CheckError<>())
+                .map(messagesResponse -> {
+                    requeryApi.storeMessageList(messagesResponse.data.getMessageEntitiesList());
+                    return messagesResponse;
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new NetSubscriber<MessagesResponse>(netSubscriberSettings) {
+                    @Override
+                    public void onCompleted() {
+                        super.onCompleted();
+                    }
+
+                    @Override
+                    public void onNext(MessagesResponse answer) {
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+    }
+
+    @Override
+    public void setVisibilityLinearProgress(boolean isShowProgress) {
+        isShowLinearProgress.set(isShowProgress);
+    }
 
     @Override
     public String getToolbarTitle() {
@@ -132,7 +194,20 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
     @Override
     public void setUploadFileAnswer(UploadFileData uploadData) {
         uploadedUrl = uploadData.getFile();
-       sendImage(uploadedUrl);
+        sendImage(uploadedUrl);
+    }
+
+    @Override
+    public void onClickItem(int position, MessageEntity messageEntity, ItemChatTag tag) {
+        switch (tag){
+            case IMAGE:
+                ((ChatActivity) context).addFragmentToBackStack(new ImageViewerFragment(messageEntity.getMessage()),null, true, null);
+                break;
+            case TEXT:
+                break;
+        }
+
+
     }
 }
 

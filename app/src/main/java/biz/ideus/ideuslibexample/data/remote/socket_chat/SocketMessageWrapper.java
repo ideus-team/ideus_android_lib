@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.data.remote.socket;
+package biz.ideus.ideuslibexample.data.remote.socket_chat;
 
 /**
  * Created by blackmamba on 26.01.17.

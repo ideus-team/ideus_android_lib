@@ -1,8 +1,8 @@
-package biz.ideus.ideuslibexample.data.remote.socket;
+package biz.ideus.ideuslibexample.data.remote.socket_chat;
 
-import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.SocketAuthorisedResponse;
-import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.SocketBaseResponse;
-import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.SocketMessageResponse;
+import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_response_model.SocketAuthorisedResponse;
+import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_response_model.SocketBaseResponse;
+import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_response_model.SocketMessageResponse;
 import okhttp3.Response;
 
 /**

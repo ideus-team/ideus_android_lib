@@ -6,9 +6,11 @@
 
         <import type="android.view.View" />
 
+        <import type="biz.ideus.ideuslibexample.ui.chat_screen.activity.ItemChatTag" />
+
         <variable
         name="viewModel"
-        type="biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.data.SocketMessageData" />
+        type="biz.ideus.ideuslibexample.data.model.response.response_model.Message" />
 
         <variable
         name="isShowDate"
@@ -79,6 +81,7 @@
 
                 <TextView
                     android:id="@+id/tv_message"
+                    android:tag="@{ItemChatTag.TEXT}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
@@ -94,6 +97,7 @@
 
 
                 <biz.ideus.ideuslibexample.ui.widgets.ViewImageLoader
+                    android:tag="@{ItemChatTag.IMAGE}"
                     android:id="@+id/iv_image_attach"
                     android:layout_width="100dp"
                     android:layout_height="100dp"

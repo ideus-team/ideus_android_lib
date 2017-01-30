@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.data;
+package biz.ideus.ideuslibexample.data.remote.socket_chat.socket_response_model.data;
 
 import com.google.gson.annotations.SerializedName;
 

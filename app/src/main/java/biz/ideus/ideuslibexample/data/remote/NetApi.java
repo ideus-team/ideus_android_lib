@@ -4,6 +4,7 @@ package biz.ideus.ideuslibexample.data.remote;
 import biz.ideus.ideuslibexample.data.model.request.AddAndDeleteFavoriteRequest;
 import biz.ideus.ideuslibexample.data.model.request.BaseRequestModel;
 import biz.ideus.ideuslibexample.data.model.request.GetPeopleRequest;
+import biz.ideus.ideuslibexample.data.model.request.GetUserMessagesRequest;
 import biz.ideus.ideuslibexample.data.model.request.LoginModelRequest;
 import biz.ideus.ideuslibexample.data.model.request.RequestWithToken;
 import biz.ideus.ideuslibexample.data.model.request.ResetPasswordRequest;
@@ -12,6 +13,7 @@ import biz.ideus.ideuslibexample.data.model.request.SignUpRequest;
 import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationRequest;
 import biz.ideus.ideuslibexample.data.model.request.UpdateProfileRequest;
 import biz.ideus.ideuslibexample.data.model.response.AutorisationAnswer;
+import biz.ideus.ideuslibexample.data.model.response.MessagesResponse;
 import biz.ideus.ideuslibexample.data.model.response.PeopleAnswer;
 import biz.ideus.ideuslibexample.data.model.response.ResetPasswordAnswer;
 import biz.ideus.ideuslibexample.data.model.response.ServerAnswer;
@@ -61,6 +63,9 @@ public interface NetApi {
 
     @POST("user/delete_favorite")
     Observable<ServerAnswer> deleteFavorite(@Body AddAndDeleteFavoriteRequest deleteFavoriteRequest);
+
+    @POST("user/messages")
+    Observable<MessagesResponse> getUserMessages(@Body GetUserMessagesRequest messagesRequest);
 
 
 

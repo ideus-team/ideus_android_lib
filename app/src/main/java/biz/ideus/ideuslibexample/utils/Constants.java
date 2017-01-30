@@ -43,9 +43,14 @@ public static final int GOOGLE_SIGN_IN = 2222;
 
     public static final String CHAT_PEOPLE_ID = "CHAT_PEOPLE_ID";
 
+    public static final String NO_INTERNET_CONNECTION = "NO_INTERNET_CONNECTION";
+
     //Socket constants
     public static final String KIND_TEXT = "text";
     public static final String KIND_IMAGE = "image";
+
+
+
 
     //firebase ID 173741521860
     //firebase Server key new version  AIzaSyABjOsv0wjhnfhamxkfJpJZ12l8mzycpyY

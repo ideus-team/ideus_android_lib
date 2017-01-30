@@ -9,18 +9,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
-import javax.inject.Inject;
-
 import biz.ideus.ideuslib.mvvm_lifecycle.binding.ViewModelBindingConfig;
 import biz.ideus.ideuslibexample.BR;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.adapters.ChatAdapter;
-import biz.ideus.ideuslibexample.data.local.RequeryApi;
-import biz.ideus.ideuslibexample.data.remote.NetApi;
 import biz.ideus.ideuslibexample.databinding.ActivityChatBinding;
 import biz.ideus.ideuslibexample.interfaces.ImageChooserListener;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.chat_screen.ChatView;
+
+
 
 /**
  * Created by blackmamba on 23.01.17.
@@ -34,12 +32,6 @@ public class ChatActivity extends BaseActivity<ChatView, ChatActivityVM, Activit
     }
 
     private ImageChooserListener imageChooserListener;
-
-    @Inject
-    RequeryApi requeryApi;
-
-    @Inject
-    NetApi netApi;
 
     private ChatAdapter adapter;
 

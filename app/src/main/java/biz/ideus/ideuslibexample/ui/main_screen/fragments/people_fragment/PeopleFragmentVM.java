@@ -4,11 +4,13 @@ import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import biz.ideus.ideuslib.Utils.NetworkUtil;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.adapters.PeopleAdapter;
 import biz.ideus.ideuslibexample.data.model.request.AddAndDeleteFavoriteRequest;
@@ -19,12 +21,16 @@ import biz.ideus.ideuslibexample.data.model.response.response_model.PeopleEntity
 import biz.ideus.ideuslibexample.data.remote.CheckError;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriberSettings;
+import biz.ideus.ideuslibexample.data.remote.network_change.NetworkChangeReceiver;
+import biz.ideus.ideuslibexample.data.remote.network_change.NetworkChangeSubscriber;
 import biz.ideus.ideuslibexample.rx_buses.RxBusFetchPeopleListEvent;
+import biz.ideus.ideuslibexample.rx_buses.RxBusNetworkConnected;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.main_screen.fragments.BaseSearchVM;
 import biz.ideus.ideuslibexample.ui.main_screen.fragments.user_details_fragment.UserDetailsFragment;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import rx.Observable;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -45,6 +51,7 @@ public class PeopleFragmentVM extends BaseSearchVM implements PeopleAdapter.OnPe
     private Set<PeopleEntity> linkedPeopleEntities = new LinkedHashSet<>();
     public ObservableField<Boolean> isShowLinearProgress = new ObservableField<>();
     private String searchText = "";
+    private Subscription rxBusNetworkSubscription;
 
 
     public void setAdapter(PeopleAdapter adapter) {
@@ -55,6 +62,7 @@ public class PeopleFragmentVM extends BaseSearchVM implements PeopleAdapter.OnPe
     @Override
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
         super.onCreate(arguments, savedInstanceState);
+        startNetworkSubscription();
 
     }
 
@@ -72,13 +80,26 @@ public class PeopleFragmentVM extends BaseSearchVM implements PeopleAdapter.OnPe
         return context.getString(R.string.people);
     }
 
+    public void startNetworkSubscription() {
+        NetworkChangeReceiver.unsubscribe(rxBusNetworkSubscription);
+        rxBusNetworkSubscription = RxBusNetworkConnected.getInstance().getEvents()
+        .subscribe(new NetworkChangeSubscriber<Object>() {
+            @Override
+            public void complete() {
+                fetchPeopleRequest(DEFAULT_MODE, currentOffset);
+                Log.d("complete", "complete");
+            }
+        });
+    }
 
     @Override
     public void onTextChangedSearch(CharSequence text, int start, int before, int count) {
         searchText = text.toString();
         currentOffset = 0;
-        linkedPeopleEntities.clear();
-        RxBusFetchPeopleListEvent.getInstance().setRxBusFetchPeopleListEvent(linkedPeopleEntities);
+        if(NetworkUtil.isNetworkConnected(context)) {
+            linkedPeopleEntities.clear();
+            RxBusFetchPeopleListEvent.getInstance().setRxBusFetchPeopleListEvent(linkedPeopleEntities);
+        }
         fetchPeopleRequest(DEFAULT_MODE, currentOffset);
     }
 

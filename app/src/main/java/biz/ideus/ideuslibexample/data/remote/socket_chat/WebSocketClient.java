@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.data.remote.socket;
+package biz.ideus.ideuslibexample.data.remote.socket_chat;
 
 import android.util.Log;
 
@@ -11,9 +11,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.AuthorizeChatRequestSocket;
-import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.RequestSocketParams;
-import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.SocketRequestBuilder;
+import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_request_model.AuthorizeChatRequestSocket;
+import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_request_model.RequestSocketParams;
+import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_request_model.SocketRequestBuilder;
 import biz.ideus.ideuslibexample.dialogs.DialogModel;
 import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import biz.ideus.ideuslibexample.utils.JSONUtils;

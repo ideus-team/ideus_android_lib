@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.data.remote.socket.socket_request_model;
+package biz.ideus.ideuslibexample.data.remote.socket_chat.socket_request_model;
 
 import com.google.gson.Gson;
 

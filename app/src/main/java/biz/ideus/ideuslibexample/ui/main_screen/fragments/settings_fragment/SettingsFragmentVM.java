@@ -79,7 +79,6 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
     }
 
     private void initialStateFields() {
-
         visibilityClearEmailImage.set(View.GONE);
         visibilityClearPasswordImage.set(View.GONE);
         visibilityClearNameImage.set(View.GONE);
