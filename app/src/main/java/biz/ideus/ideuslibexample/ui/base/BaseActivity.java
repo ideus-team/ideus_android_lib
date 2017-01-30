@@ -2,9 +2,11 @@ package biz.ideus.ideuslibexample.ui.base;
 
 import android.app.DialogFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
@@ -28,9 +30,16 @@ import biz.ideus.ideuslibexample.dialogs.CustomDialog;
 import biz.ideus.ideuslibexample.injection.components.ActivityComponent;
 import biz.ideus.ideuslibexample.injection.components.DaggerActivityComponent;
 import biz.ideus.ideuslibexample.injection.modules.ActivityModule;
+import biz.ideus.ideuslibexample.rx_buses.RxBusActionEditDialogBtn;
 import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import rx.Subscription;
 
+import static biz.ideus.ideuslibexample.dialogs.DialogCommandModel.COPY_TEXT;
+import static biz.ideus.ideuslibexample.dialogs.DialogCommandModel.DELETE;
+import static biz.ideus.ideuslibexample.dialogs.DialogCommandModel.DETAILS;
+import static biz.ideus.ideuslibexample.dialogs.DialogCommandModel.EDIT;
+import static biz.ideus.ideuslibexample.dialogs.DialogCommandModel.SKIP_UPDATE;
+import static biz.ideus.ideuslibexample.dialogs.DialogCommandModel.UPDATE_NOW;
 import static biz.ideus.ideuslibexample.dialogs.DialogModel.NO_INTERNET_CONNECTION;
 
 public abstract class BaseActivity<T extends IView, R extends AbstractViewModel<T>, B extends ViewDataBinding>
@@ -42,7 +51,7 @@ implements IView {
     protected B binding;
 
     protected R viewModel;
-    protected Subscription rxBusShowDialogSubscription;
+    protected Subscription rxBusShowDialogSubscription, rxBusActionEditDialogBtnSubscription;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,6 +60,7 @@ implements IView {
         binding = getBinding();
         viewModel = getViewModel();
         rxBusShowDialogSubscription = startRxBusShowDialogSubscription();
+        rxBusActionEditDialogBtnSubscription = startRxBusActionEditDialogBtnSubscription();
     }
 
     protected final ActivityComponent activityComponent() {
@@ -75,6 +85,14 @@ implements IView {
                                 dialog = CustomDialog.instance(dialogParams);
                                 dialog.show(getFragmentManager(), "Dialog");
                                 break;
+                            case NEW_VERSION_MUST_HAVE_DIALOG:
+                                dialog = CustomDialog.instance(dialogParams);
+                                dialog.show(getFragmentManager(), "Dialog");
+                                break;
+                            case NEW_VERSION_RECOMENDED_DIALOG:
+                                dialog = CustomDialog.instance(dialogParams);
+                                dialog.show(getFragmentManager(), "Dialog");
+                                break;
                             case HIDE_PROGRESS_DIALOG:
                                 if(dialog != null)
                                 dialog.dismiss();
@@ -91,6 +109,35 @@ implements IView {
 
                 });
 
+    }
+
+    public Subscription startRxBusActionEditDialogBtnSubscription() {
+        return RxBusActionEditDialogBtn.instanceOf().getEvents().filter(s -> s != null)
+                .subscribe(dialogCommand -> {
+                    switch (dialogCommand.getDialogCommandModel()) {
+                        case COPY_TEXT:
+                            Log.d("dialogCommand", COPY_TEXT.name());
+                            break;
+                        case EDIT:
+                            Log.d("dialogCommand", EDIT.name());
+                            break;
+                        case DETAILS:
+                            Log.d("dialogCommand", DETAILS.name());
+                            break;
+                        case DELETE:
+                            Log.d("dialogCommand", DELETE.name());
+                            break;
+                        case UPDATE_NOW:
+                            Log.d("dialogCommand", UPDATE_NOW.name());
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + "com.blank_paper.game.leap_frog"/*BuildConfig.APPLICATION_ID*/)));
+                            RxBusActionEditDialogBtn.instanceOf().setRxBusCommit();
+                            this.finish();
+                            break;
+                        case SKIP_UPDATE:
+                            Log.d("dialogCommand", SKIP_UPDATE.name());
+                            break;
+                    }
+                });
     }
 
     private void showSneckBarDialog(int title){
@@ -161,6 +208,9 @@ implements IView {
 
         if (rxBusShowDialogSubscription != null && !rxBusShowDialogSubscription.isUnsubscribed())
             rxBusShowDialogSubscription.unsubscribe();
+
+        if (rxBusActionEditDialogBtnSubscription != null && !rxBusActionEditDialogBtnSubscription.isUnsubscribed())
+            rxBusActionEditDialogBtnSubscription.unsubscribe();
 
         RefWatcher refWatcher = SampleApplication.getRefWatcher(this);
         refWatcher.watch(this);

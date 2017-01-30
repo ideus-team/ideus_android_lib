@@ -12,6 +12,7 @@ import biz.ideus.ideuslibexample.data.model.request.SignUpRequest;
 import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationRequest;
 import biz.ideus.ideuslibexample.data.model.request.UpdateProfileRequest;
 import biz.ideus.ideuslibexample.data.model.response.AutorisationAnswer;
+import biz.ideus.ideuslibexample.data.model.response.CheckUpdateAnswer;
 import biz.ideus.ideuslibexample.data.model.response.PeopleAnswer;
 import biz.ideus.ideuslibexample.data.model.response.ResetPasswordAnswer;
 import biz.ideus.ideuslibexample.data.model.response.ServerAnswer;
@@ -61,6 +62,11 @@ public interface NetApi {
 
     @POST("user/delete_favorite")
     Observable<ServerAnswer> deleteFavorite(@Body AddAndDeleteFavoriteRequest deleteFavoriteRequest);
+
+
+
+    @POST("user/check_update")
+    Observable<CheckUpdateAnswer> checkUpdate();
 
 
 

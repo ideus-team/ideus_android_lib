@@ -18,7 +18,9 @@ public enum DialogModel {
     SIGN_UP_ATTENTION(R.string.error,R.string.invalidate_sign_in_text,  R.layout.dialog_info, View.VISIBLE, Color.RED,R.string.try_again),
     CHANGE_PASSWORD_SUCCESS(R.string.password_reset,R.string.password_reset_title,  R.layout.dialog_info, View.GONE, Color.BLACK,R.string.ok),
     EDIT_TEXT_DIALOG(R.string.message,0, R.layout.edit_text_dialog), NO_INTERNET_CONNECTION(R.string.no_internet_connection),
-    PROGRESS_DIALOG(R.layout.loading_dialog), HIDE_PROGRESS_DIALOG, ERROR_DIALOG;
+    PROGRESS_DIALOG(R.layout.loading_dialog), HIDE_PROGRESS_DIALOG, ERROR_DIALOG,
+    NEW_VERSION_MUST_HAVE_DIALOG(R.string.message,0, R.layout.new_version_must_have_dialog),
+    NEW_VERSION_RECOMENDED_DIALOG(R.string.message,0, R.layout.new_version_recomended_dialog);
 
 
     public int resDialogName = R.string.message;

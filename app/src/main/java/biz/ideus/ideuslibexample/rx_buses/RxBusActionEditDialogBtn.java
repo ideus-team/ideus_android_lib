@@ -26,6 +26,10 @@ public class RxBusActionEditDialogBtn {
         subject.onNext(dialogCommand);
     }
 
+    public void setRxBusCommit() {
+        subject.onNext(null);
+    }
+
     public Observable<DialogCommand> getEvents() {
         return subject;
     }
