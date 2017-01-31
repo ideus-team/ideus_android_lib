@@ -42,6 +42,7 @@ public class ChatActivity extends BaseActivity<ChatView, ChatActivityVM, Activit
         setModelView(this);
         adapter = new ChatAdapter(this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager.setStackFromEnd(true);
         getBinding().rViewChat.setAdapter(adapter);
         getBinding().rViewChat.setHasFixedSize(true);
         getBinding().rViewChat.setLayoutManager(linearLayoutManager);

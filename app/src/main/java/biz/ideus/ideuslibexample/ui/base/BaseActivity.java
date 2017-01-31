@@ -26,10 +26,12 @@ import biz.ideus.ideuslibexample.SampleApplication;
 import biz.ideus.ideuslibexample.data.remote.socket_chat.WebSocketClient;
 import biz.ideus.ideuslibexample.dialogs.CustomDialog;
 import biz.ideus.ideuslibexample.dialogs.DialogModel;
+import biz.ideus.ideuslibexample.dialogs.DialogParams;
 import biz.ideus.ideuslibexample.injection.components.ActivityComponent;
 import biz.ideus.ideuslibexample.injection.components.DaggerActivityComponent;
 import biz.ideus.ideuslibexample.injection.modules.ActivityModule;
 import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
+import rx.Subscriber;
 import rx.Subscription;
 
 import static biz.ideus.ideuslibexample.dialogs.DialogModel.SOCKET_UNFORTUNATELY_DIALOG;
@@ -54,6 +56,9 @@ public abstract class BaseActivity<T extends IView, R extends AbstractViewModel<
         viewModel = getViewModel();
         rxBusShowDialogSubscription = startRxBusShowDialogSubscription();
 
+    }
+
+    private void checkNetworkConnection() {
         if (!NetworkUtil.isNetworkConnected(this) && !(boolean) Hawk.get(NO_INTERNET_CONNECTION)) {
             Hawk.put(NO_INTERNET_CONNECTION, true);
             RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.NO_INTERNET_CONNECTION);
@@ -71,43 +76,64 @@ public abstract class BaseActivity<T extends IView, R extends AbstractViewModel<
         return mActivityComponent;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkNetworkConnection();
+    }
+
     public Subscription startRxBusShowDialogSubscription() {
         return RxBusShowDialog.instanceOf().getEvents().filter(s -> s != null)
-                .subscribe(dialogParams -> {
-                    Log.d("getEvents()", dialogParams.getDialogModel().toString());
-                    if (dialog != null && dialog.isVisible())
-                        dialog.dismiss();
-                    switch (dialogParams.getDialogModel()) {
-                        case PROGRESS_DIALOG:
-                            dialog = CustomDialog.instance(dialogParams);
-                            dialog.show(getFragmentManager(), "Dialog");
-                            break;
-                        case HIDE_PROGRESS_DIALOG:
-                            if (dialog != null)
-                                dialog.dismiss();
-                            break;
-                        case NO_INTERNET_CONNECTION:
-                            dialog = CustomDialog.instance(dialogParams);
-                            dialog.show(getFragmentManager(), "Dialog");
-                            break;
-                        case SOCKET_UNFORTUNATELY_DIALOG:
-                            if (snackbar != null) {
-                                snackbar.dismiss();
-                            }
-                            showSneckBarDialog(SOCKET_UNFORTUNATELY_DIALOG.resDialogName, v -> {
-                                snackbar.dismiss()
-                                ;
-                                WebSocketClient.getInstance().connectHttpClient();
-                            });
-                            break;
-                        default:
-                            dialog = CustomDialog.instance(dialogParams);
-                            dialog.show(getFragmentManager(), "Dialog");
-                            break;
+                .subscribe(new Subscriber<DialogParams>() {
+                    @Override
+                    public void onCompleted() {
+
                     }
-                    RxBusShowDialog.instanceOf().setRxBusCommit();
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(DialogParams dialogParams) {
+                        Log.d("getEvents()", dialogParams.getDialogModel().toString());
+                        if (dialog != null && dialog.isVisible())
+                            dialog.dismiss();
+                        switch (dialogParams.getDialogModel()) {
+                            case PROGRESS_DIALOG:
+                                dialog = CustomDialog.instance(dialogParams);
+                                dialog.show(BaseActivity.this.getFragmentManager(), "Dialog");
+                                break;
+                            case HIDE_PROGRESS_DIALOG:
+                                if (dialog != null)
+                                    dialog.dismiss();
+                                break;
+                            case NO_INTERNET_CONNECTION:
+                                dialog = CustomDialog.instance(dialogParams);
+                                dialog.show(BaseActivity.this.getFragmentManager(), "Dialog");
+                                break;
+                            case SOCKET_UNFORTUNATELY_DIALOG:
+                                if (snackbar != null) {
+                                    snackbar.dismiss();
+                                }
+                                BaseActivity.this.showSneckBarDialog(SOCKET_UNFORTUNATELY_DIALOG.resDialogName, v -> {
+                                    snackbar.dismiss()
+                                    ;
+                                    WebSocketClient.getInstance().connectHttpClient();
+                                });
+                                break;
+                            default:
+                                dialog = CustomDialog.instance(dialogParams);
+                                dialog.show(BaseActivity.this.getFragmentManager(), "Dialog");
+                                break;
+                        }
+                        RxBusShowDialog.instanceOf().setRxBusCommit();
+
+                    }
 
                 });
+
 
     }
 
@@ -161,6 +187,12 @@ public abstract class BaseActivity<T extends IView, R extends AbstractViewModel<
 
     private boolean isAlreadyAddedFragment(FragmentManager fragmentManager, String fragmentTag) {
         return fragmentManager.popBackStackImmediate(fragmentTag, 0) && fragmentManager.findFragmentByTag(fragmentTag) == null;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        hideKeyboard();
     }
 
     @Override

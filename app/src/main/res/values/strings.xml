@@ -96,6 +96,7 @@
     <string name="no_internet_connection_dialog">Sorry! No internet connection to server, please try again later</string>
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
+    <string name="network_connected">Network Connected</string>
 
 
 

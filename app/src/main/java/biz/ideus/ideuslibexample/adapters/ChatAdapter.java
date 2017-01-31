@@ -2,6 +2,7 @@ package biz.ideus.ideuslibexample.adapters;
 
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +18,6 @@ import biz.ideus.ideuslibexample.databinding.ItemChatMyBinding;
 import biz.ideus.ideuslibexample.ui.chat_screen.activity.ChatActivity;
 import biz.ideus.ideuslibexample.ui.chat_screen.activity.ItemChatTag;
 
-import static biz.ideus.ideuslibexample.SampleApplication.requeryApi;
-
 
 /**
  * Created by blackmamba on 23.01.17.
@@ -27,16 +26,24 @@ import static biz.ideus.ideuslibexample.SampleApplication.requeryApi;
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int MY_ITEM = 0;
     private static final int FRIEND_ITEM = 1;
-    private String tempDate = null;
+    private String tempDate = "";
     private PeopleEntity friendForChat = new PeopleEntity();
     public List<MessageEntity> messageList = new ArrayList<>();
     private ChatActivity activity;
     private ScrollToBottomListener scrollToBottomListener;
     private OnItemChatClickListener onItemChatClickListener;
 
-    public void initOldMessages(PeopleEntity friendForChat) {
+
+    public void notifyAdapter(List<MessageEntity> newMessageList, PeopleEntity friendForChat){
+        int notifyCounter = newMessageList.size() - messageList.size();
+        this.messageList = newMessageList;
         this.friendForChat = friendForChat;
-        setMessageList(friendForChat.getIdent());
+        if(!newMessageList.isEmpty()){
+            notifyItemRangeInserted(messageList.size()-1, notifyCounter);
+            scrollToBottom();
+        }else{
+            notifyDataSetChanged();
+        }
 
     }
 
@@ -52,25 +59,18 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.activity = activity;
     }
 
-    public void setMessageList(String userId) {
-        this.messageList = new ArrayList<>();
-        requeryApi.getMessageList(userId).subscribe(messageEntities -> {
-           messageList.addAll(messageEntities.toList());
-            notifyDataSetChanged();
-            scrollToBottom();
-        });
+
+
+    public void setMessageToList(MessageEntity message) {
+        this.messageList.add(message);
+        ChatAdapter.this.notifyItemInserted(messageList.size() - 1);
+        scrollToBottom();
     }
 
     private void scrollToBottom() {
         if (scrollToBottomListener != null) {
             scrollToBottomListener.onBottomScroll(messageList.size());
         }
-    }
-
-    public void setMessageToList(MessageEntity message) {
-        this.messageList.add(message);
-        ChatAdapter.this.notifyItemInserted(messageList.size() - 1);
-        scrollToBottom();
     }
 
 
@@ -112,10 +112,16 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     private boolean isVisibleDate(String date) {
-        if (tempDate == null) {
+        Log.d("tempDate", tempDate);
+        if (tempDate.equals("")) {
             tempDate = date;
             return true;
-        } else return !tempDate.equals(date);
+        } else if(!tempDate.equals(date)){
+            tempDate = date;
+            return true;
+        } else {
+            return false;
+        }
 
     }
 

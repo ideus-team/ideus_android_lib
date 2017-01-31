@@ -6,6 +6,7 @@ import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -29,19 +30,21 @@ import biz.ideus.ideuslibexample.data.remote.socket_chat.SocketMessageListener;
 import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_request_model.SendMessageRequest;
 import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_response_model.SocketMessageResponse;
 import biz.ideus.ideuslibexample.interfaces.ImageChooserListener;
+import biz.ideus.ideuslibexample.rx_buses.RxBusActionEditDialogBtn;
 import biz.ideus.ideuslibexample.rx_buses.RxBusNetworkConnected;
+import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import biz.ideus.ideuslibexample.ui.chat_screen.ChatView;
 import biz.ideus.ideuslibexample.ui.common.toolbar.AbstractViewModelToolbar;
 import biz.ideus.ideuslibexample.ui.image_viewer_fragment.ImageViewerFragment;
 import biz.ideus.ideuslibexample.utils.Constants;
 import biz.ideus.ideuslibexample.utils.FileUploadProcessor;
-import biz.ideus.ideuslibexample.utils.Utils;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static biz.ideus.ideuslibexample.SampleApplication.netApi;
 import static biz.ideus.ideuslibexample.SampleApplication.requeryApi;
+import static biz.ideus.ideuslibexample.dialogs.DialogModel.EDIT_TEXT_DIALOG;
 import static biz.ideus.ideuslibexample.ui.main_screen.activity.MainActivityVM.webSocketClient;
 import static biz.ideus.ideuslibexample.utils.Constants.KIND_IMAGE;
 import static biz.ideus.ideuslibexample.utils.Constants.KIND_TEXT;
@@ -64,11 +67,12 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
     private String uploadedUrl = "";
 
     private Subscription rxBusNetworkSubscription;
+    private Subscription rxEditDialogMessageSubscription;
 
     public void setAdapter(ChatAdapter adapter) {
         this.adapter = adapter;
         adapter.setOnItemChatClickListener(this);
-        adapter.initOldMessages(friendForChat);
+        adapter.notifyAdapter(messageList, friendForChat);
     }
 
     @Override
@@ -80,19 +84,22 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
         fileUploadProcessor = new FileUploadProcessor();
         fileUploadProcessor.setSuccessUploadListener(this);
 
-        getPeopleById(chatUserId);
+
         webSocketClient.connectHttpClient();
         webSocketClient.setMessageListener(new SocketMessageListener() {
             @Override
             public void onMessage(SocketMessageResponse response) {
                 super.onMessage(response);
                 MessageEntity messageEntity = response.data.getMessageEntity();
-                adapter.setMessageToList(messageEntity);
-                message.set("");
+                requeryApi.storeMessage(messageEntity).subscribe(messageEntity1 -> {
+                    adapter.setMessageToList(messageEntity1);
+                    message.set("");
+                });
             }
         });
         startNetworkSubscription();
-        fetchUserMessages(chatUserId);
+        rxEditDialogMessageSubscription = getSubscribtionEditDialogMessage();
+        fetchMessages(chatUserId);
     }
 
     @Override
@@ -125,16 +132,17 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
         ((ChatActivity) context).startActivityForResult(chooseImageIntent, CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-    private void getPeopleById(String peopleId) {
+    private void fetchMessages(String peopleId) {
         requeryApi.getPeopleEntity(peopleId)
-                .subscribe(peopleEntity1 -> {
-                    friendForChat = peopleEntity1;
-                    adapter.initOldMessages(friendForChat);
+                .map(peopleEntity ->
+                {
+                    messageList = requeryApi.getMessageList(peopleEntity.getIdent());
+                    return peopleEntity;
+                })
+                .subscribe(peopleEntity -> {
+                    friendForChat = peopleEntity;
+                    adapter.notifyAdapter(messageList, friendForChat);
+                    fetchMessagesFromServer(peopleId);
                 });
     }
 
@@ -145,33 +153,31 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
                 .subscribe(new NetworkChangeSubscriber<Object>() {
                     @Override
                     public void complete() {
-                        Utils.toast(context, " Network Connected");
                         webSocketClient.connectHttpClient();
                     }
                 });
     }
 
-    private void fetchUserMessages(String chatUserId) {
-
+    private void fetchMessagesFromServer(String chatUserId) {
         NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(this, NetSubscriber.ProgressType.LINEAR);
-
-        netApi.getUserMessages(new GetUserMessagesRequest(chatUserId))
+        netApi.getUserMessages(new GetUserMessagesRequest().setIdFrom(chatUserId))
                 .lift(new CheckError<>())
                 .map(messagesResponse -> {
                     requeryApi.storeMessageList(messagesResponse.data.getMessageEntitiesList());
+                    messageList = requeryApi.getMessageList(chatUserId);
                     return messagesResponse;
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new NetSubscriber<MessagesResponse>(netSubscriberSettings) {
                     @Override
-                    public void onCompleted() {
-                        super.onCompleted();
+                    public void onError(Throwable e) {
+                        super.onError(e);
                     }
 
                     @Override
                     public void onNext(MessagesResponse answer) {
-                        adapter.notifyDataSetChanged();
+                        adapter.notifyAdapter(messageList, friendForChat);
                     }
                 });
     }
@@ -199,15 +205,44 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
 
     @Override
     public void onClickItem(int position, MessageEntity messageEntity, ItemChatTag tag) {
-        switch (tag){
+        switch (tag) {
             case IMAGE:
-                ((ChatActivity) context).addFragmentToBackStack(new ImageViewerFragment(messageEntity.getMessage()),null, true, null);
+                ((ChatActivity) context).addFragmentToBackStack(new ImageViewerFragment(messageEntity.getMessage()), null, true, null);
                 break;
             case TEXT:
+                RxBusShowDialog.instanceOf().setRxBusShowDialog(EDIT_TEXT_DIALOG);
                 break;
         }
 
+    }
 
+    private Subscription getSubscribtionEditDialogMessage() {
+        return RxBusActionEditDialogBtn.instanceOf().getEvents()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(dialogCommand -> {
+                    switch (dialogCommand.getDialogCommandModel()) {
+                        case COPY_TEXT:
+                            Log.d("edit", "COPY_TEXT");
+                            break;
+                        case EDIT:
+                            Log.d("edit", "EDIT");
+                            break;
+                        case DELETE:
+                            Log.d("edit", "DELETE");
+                            break;
+                        case DETAILS:
+                            Log.d("edit", "DETAILS");
+                            break;
+
+                    }
+                });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (rxEditDialogMessageSubscription != null && !rxEditDialogMessageSubscription.isUnsubscribed())
+            rxEditDialogMessageSubscription.unsubscribe();
     }
 }
-

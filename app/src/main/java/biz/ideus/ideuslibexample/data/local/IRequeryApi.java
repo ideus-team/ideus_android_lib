@@ -29,9 +29,9 @@ public interface IRequeryApi {
     void deletePeopleList();
 
     void storeMessageList(Iterable<MessageEntity> messageEntitiesList);
-    Observable<Result<MessageEntity>>getMessageList(String userId);
-    void storeMessage(MessageEntity messageEntity);
-    void updateMessage(MessageEntity messageEntity);
+    List<MessageEntity>getMessageList(String userId);
+    Observable<MessageEntity> storeMessage(MessageEntity messageEntity);
+    Observable<MessageEntity> updateMessage(MessageEntity messageEntity);
 
 
 

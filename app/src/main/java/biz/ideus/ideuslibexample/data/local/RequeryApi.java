@@ -2,6 +2,8 @@ package biz.ideus.ideuslibexample.data.local;
 
 import android.annotation.SuppressLint;
 
+import com.annimon.stream.Stream;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,23 +54,23 @@ public class RequeryApi implements IRequeryApi {
 
     @Override
     public List<PeopleEntity> getPeopleEntityList() {
-       List<PeopleEntity> peopleEntitiesList = new ArrayList<>();
-             data.select(PeopleEntity.class).get()
-                     .toSelfObservable()
-                     .subscribeOn(Schedulers.io())
-                     .observeOn(AndroidSchedulers.mainThread())
-                     .subscribe(peopleEntities -> {
-                         peopleEntitiesList.addAll(peopleEntities.toList());
-                     });
+        List<PeopleEntity> peopleEntitiesList = new ArrayList<>();
+        data.select(PeopleEntity.class).get()
+                .toSelfObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(peopleEntities -> {
+                    peopleEntitiesList.addAll(peopleEntities.toList());
+                });
         return peopleEntitiesList;
-        }
+    }
 
     public Observable<Result<PeopleEntity>> getPeopleEntity() {
         return data.select(PeopleEntity.class).get()
-                     .toSelfObservable()
-                     .subscribeOn(Schedulers.io())
-                     .observeOn(AndroidSchedulers.mainThread());
-        }
+                .toSelfObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 
 
     @Override
@@ -96,10 +98,7 @@ public class RequeryApi implements IRequeryApi {
 
     @Override
     public void updateCurrentPeopleEntity(PeopleEntity peopleEntity) {
-        data.upsert(peopleEntity)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe();
+        data.upsert(peopleEntity).subscribe();
     }
 
     @Override
@@ -109,25 +108,32 @@ public class RequeryApi implements IRequeryApi {
 
     @Override
     public void storeMessageList(Iterable<MessageEntity> messageEntitiesList) {
-       data.upsert(messageEntitiesList).subscribe();
+        data.upsert(messageEntitiesList).subscribe();
     }
 
     @Override
-    public Observable<Result<MessageEntity>> getMessageList(String userId) {
-         return data.select(MessageEntity.class).where(MessageEntity.USER_ID.eq(userId)).get()
-                .toSelfObservable()
+    public List<MessageEntity> getMessageList(String userId) {
+        ArrayList<MessageEntity> messageListEntities = new ArrayList<>();
+        ArrayList<MessageEntity> messageListReverse;
+        messageListEntities.addAll(data.select(MessageEntity.class).where(MessageEntity.USER_ID.eq(userId)).get().toList());
+        messageListReverse = messageListEntities;
+        Stream.of(messageListEntities).map(item -> {
+            messageListReverse.add(messageListEntities.size() - 1, item);
+            return item;
+        });
+        return messageListReverse;
+    }
+
+    @Override
+    public Observable<MessageEntity> storeMessage(MessageEntity messageEntity) {
+        return data.upsert(messageEntity).toObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
-    public void storeMessage(MessageEntity messageEntity) {
-
-    }
-
-    @Override
-    public void updateMessage(MessageEntity messageEntity) {
-
+    public Observable<MessageEntity> updateMessage(MessageEntity messageEntity) {
+        return null;
     }
 
 }

@@ -23,8 +23,6 @@
             app:isShowLinearProgress="@{viewModel.isShowLinearProgress}"
             bind:viewModel="@{viewModel}" />
 
-
-
         <android.support.v7.widget.RecyclerView
             android:layout_below="@+id/toolbar"
             android:id="@+id/rViewChat"
