@@ -119,7 +119,7 @@ public class CustomDialog extends DialogFragment{
         if (dialogCommandModel != null) {
             RxBusActionEditDialogBtn.instanceOf().setDialogCommand(new DialogCommand(dialogCommandModel, dialogParams.getDialogIntent()));
         }
-        dismiss();
+       // dismiss();
     }
 
 }

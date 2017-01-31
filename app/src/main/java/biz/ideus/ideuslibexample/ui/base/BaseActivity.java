@@ -131,7 +131,7 @@ implements IView {
                             Log.d("dialogCommand", UPDATE_NOW.name());
                             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + "com.blank_paper.game.leap_frog"/*BuildConfig.APPLICATION_ID*/)));
                             RxBusActionEditDialogBtn.instanceOf().setRxBusCommit();
-                            this.finish();
+                            //this.finish();
                             break;
                         case SKIP_UPDATE:
                             Log.d("dialogCommand", SKIP_UPDATE.name());
