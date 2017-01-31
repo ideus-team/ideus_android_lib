@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.widget.RelativeLayout;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
@@ -47,6 +48,7 @@ public class MainActivity extends BaseActivity<StartView, MainActivityVM, Activi
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
+        Log.d("LIFE", "MainActivity onCreate");
         activityComponent().inject(this);
         setModelView(this);
         if(!Hawk.contains(USER_TOKEN)){

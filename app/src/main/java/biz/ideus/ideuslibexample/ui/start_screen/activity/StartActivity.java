@@ -50,6 +50,7 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
+        Log.d("LIFE", "StartActivity onCreate");
         activityComponent().inject(this);
         setModelView(this);
         twitterAuthClient = new TwitterAuthClient();
