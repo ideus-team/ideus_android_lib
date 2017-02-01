@@ -97,6 +97,7 @@
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
     <string name="network_connected">Network Connected</string>
+    <string name="copied_success">Text successfully copied</string>
 
 
 

@@ -7,14 +7,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.annimon.stream.Stream;
+import com.annimon.stream.function.Function;
+import com.annimon.stream.function.Predicate;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import biz.ideus.ideuslibexample.R;
-import biz.ideus.ideuslibexample.data.model.response.response_model.MessageEntity;
 import biz.ideus.ideuslibexample.data.model.response.response_model.PeopleEntity;
 import biz.ideus.ideuslibexample.databinding.ItemChatFriendBinding;
 import biz.ideus.ideuslibexample.databinding.ItemChatMyBinding;
+import biz.ideus.ideuslibexample.ui.chat_screen.MessageViewModel;
 import biz.ideus.ideuslibexample.ui.chat_screen.activity.ChatActivity;
 import biz.ideus.ideuslibexample.ui.chat_screen.activity.ItemChatTag;
 
@@ -28,23 +32,27 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int FRIEND_ITEM = 1;
     private String tempDate = "";
     private PeopleEntity friendForChat = new PeopleEntity();
-    public List<MessageEntity> messageList = new ArrayList<>();
+    public List<MessageViewModel> messageList = new ArrayList<>();
     private ChatActivity activity;
     private ScrollToBottomListener scrollToBottomListener;
     private OnItemChatClickListener onItemChatClickListener;
 
 
-    public void notifyAdapter(List<MessageEntity> newMessageList, PeopleEntity friendForChat){
+    public void notifyInsertedItemsAdapter(List<MessageViewModel> newMessageList, PeopleEntity friendForChat) {
         int notifyCounter = newMessageList.size() - messageList.size();
         this.messageList = newMessageList;
         this.friendForChat = friendForChat;
-        if(!newMessageList.isEmpty()){
-            notifyItemRangeInserted(messageList.size()-1, notifyCounter);
+        if (!newMessageList.isEmpty()) {
+           notifyItemRangeInserted(messageList.size() - 1, notifyCounter);
             scrollToBottom();
-        }else{
+        } else {
             notifyDataSetChanged();
         }
+    }
 
+    public void notifyAdapter(List<MessageViewModel> newMessageList) {
+        this.messageList = newMessageList;
+           notifyDataSetChanged();
     }
 
     public void setScrollToBottomListener(ScrollToBottomListener scrollToBottomListener) {
@@ -61,9 +69,9 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
 
-    public void setMessageToList(MessageEntity message) {
+    public void setMessageToList(MessageViewModel message) {
         this.messageList.add(message);
-        ChatAdapter.this.notifyItemInserted(messageList.size() - 1);
+       notifyItemInserted(messageList.size() - 1);
         scrollToBottom();
     }
 
@@ -71,6 +79,23 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (scrollToBottomListener != null) {
             scrollToBottomListener.onBottomScroll(messageList.size());
         }
+    }
+
+    public void updateMessage(MessageViewModel message){
+        Stream.of(messageList).filter(new Predicate<MessageViewModel>() {
+            @Override
+            public boolean test(MessageViewModel item) {
+                return item.getMessage().equals(message.getDateMessage());
+            }
+        }).map(new Function<MessageViewModel, MessageViewModel>() {
+            @Override
+            public MessageViewModel apply(MessageViewModel item) {
+                messageList.set(messageList.indexOf(item), message);
+                ChatAdapter.this.notifyItemChanged(messageList.indexOf(item));
+                return item;
+            }
+        });
+
     }
 
 
@@ -91,22 +116,21 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        MessageEntity messageEntity = messageList.get(position);
+        MessageViewModel messageViewModel = messageList.get(position).setFriendPhoto(friendForChat.getPhoto());
         if (holder instanceof MyMessageItemHolder) {
-            ((MyMessageItemHolder) holder).binding.setViewModel(messageEntity);
-            ((MyMessageItemHolder) holder).binding.setIsShowDate(isVisibleDate(messageEntity.getDateMessage()));
-            ((MyMessageItemHolder) holder).binding.tvMessage.setVisibility((messageEntity.getKind().equals("text") ? View.VISIBLE : View.GONE));
-            ((MyMessageItemHolder) holder).binding.llImageAttachContainer.setVisibility((messageEntity.getKind().equals("image") ? View.VISIBLE : View.GONE));
-            ((MyMessageItemHolder) holder).binding.tvMessage.setOnClickListener(v -> onItemChatClickListener.onClickItem(position,messageEntity,(ItemChatTag)v.getTag()));
-            ((MyMessageItemHolder) holder).binding.ivImageAttach.setOnClickListener(v -> onItemChatClickListener.onClickItem(position,messageEntity,(ItemChatTag)v.getTag()));
+            ((MyMessageItemHolder) holder).binding.setViewModel(messageViewModel);
+          //  ((MyMessageItemHolder) holder).binding.setIsShowDate(isVisibleDate(messageEntity.getDateMessage()));
+            ((MyMessageItemHolder) holder).binding.tvMessage.setOnClickListener(v ->
+                    onItemChatClickListener.onClickItem(messageViewModel,(ItemChatTag)v.getTag()));
+            ((MyMessageItemHolder) holder).binding.ivImageAttach.setOnClickListener(v ->
+                    onItemChatClickListener.onClickItem(messageViewModel,(ItemChatTag)v.getTag()));
         } else {
-            ((FriendMessageItemHolder) holder).binding.setViewModel(messageEntity);
-            ((FriendMessageItemHolder) holder).binding.setIsShowDate(isVisibleDate(messageEntity.getDateMessage()));
-            ((FriendMessageItemHolder) holder).binding.ivUserPhoto.loadImage(friendForChat.getPhoto());
-            ((FriendMessageItemHolder) holder).binding.tvMessage.setVisibility((messageEntity.getKind().equals("text") ? View.VISIBLE : View.GONE));
-            ((FriendMessageItemHolder) holder).binding.llImageAttachContainer.setVisibility((messageEntity.getKind().equals("image") ? View.VISIBLE : View.GONE));
-            ((FriendMessageItemHolder) holder).binding.tvMessage.setOnClickListener(v -> onItemChatClickListener.onClickItem(position,messageEntity,(ItemChatTag)v.getTag()));
-            ((FriendMessageItemHolder) holder).binding.ivImageAttach.setOnClickListener(v -> onItemChatClickListener.onClickItem(position,messageEntity,(ItemChatTag)v.getTag()));
+            ((FriendMessageItemHolder) holder).binding.setViewModel(messageViewModel);
+         //   ((FriendMessageItemHolder) holder).binding.setIsShowDate(isVisibleDate(messageEntity.getDateMessage()));
+            ((FriendMessageItemHolder) holder).binding.tvMessage.setOnClickListener(v ->
+                    onItemChatClickListener.onClickItem(messageViewModel,(ItemChatTag)v.getTag()));
+            ((FriendMessageItemHolder) holder).binding.ivImageAttach.setOnClickListener(v ->
+                    onItemChatClickListener.onClickItem(messageViewModel,(ItemChatTag)v.getTag()));
         }
     }
 
@@ -140,7 +164,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-
     public class MyMessageItemHolder extends RecyclerView.ViewHolder {
         public ItemChatMyBinding binding;
 
@@ -160,7 +183,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public interface OnItemChatClickListener {
-        void onClickItem(int position, MessageEntity messageEntity, ItemChatTag tag);
+        void onClickItem(MessageViewModel messageViewModel, ItemChatTag tag);
     }
 
     public interface ScrollToBottomListener {

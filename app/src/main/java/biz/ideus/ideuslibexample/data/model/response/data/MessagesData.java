@@ -15,22 +15,23 @@ import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_response_model.d
 public class MessagesData {
     @SerializedName("messages")
     private List<SocketMessageData> messagesList;
+    private List<MessageEntity> messageEntitiesList;
 
     public List<SocketMessageData> getMessagesList() {
         return messagesList;
     }
 
-    private List<MessageEntity> messageEntitiesList;
 
     public List<MessageEntity> getMessageEntitiesList() {
-        return createPeopleEntityList(messagesList);
+        return createMessageEntityList(messagesList);
     }
 
-    private List<MessageEntity> createPeopleEntityList(List<SocketMessageData> messagesList) {
+    private List<MessageEntity> createMessageEntityList(List<SocketMessageData> messagesList) {
         messageEntitiesList = new ArrayList<>();
         for(int i = 0; i < messagesList.size();i++){
             messageEntitiesList.add(messagesList.get(i).getMessageEntity());
         }
         return messageEntitiesList;
     }
+
 }

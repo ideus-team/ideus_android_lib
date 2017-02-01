@@ -73,7 +73,6 @@ public class ChatActivity extends BaseActivity<ChatView, ChatActivityVM, Activit
             }
         }
     }
-
     @Nullable
     @Override
     public Class<ChatActivityVM> getViewModelClass() {

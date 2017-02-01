@@ -5,6 +5,7 @@ import java.util.List;
 import biz.ideus.ideuslibexample.data.model.response.response_model.AutorisationEntity;
 import biz.ideus.ideuslibexample.data.model.response.response_model.MessageEntity;
 import biz.ideus.ideuslibexample.data.model.response.response_model.PeopleEntity;
+import biz.ideus.ideuslibexample.ui.chat_screen.MessageViewModel;
 import io.requery.query.Result;
 import rx.Observable;
 
@@ -29,10 +30,10 @@ public interface IRequeryApi {
     void deletePeopleList();
 
     void storeMessageList(Iterable<MessageEntity> messageEntitiesList);
-    List<MessageEntity>getMessageList(String userId);
+    List<MessageViewModel> getMessageList(String userId);
     Observable<MessageEntity> storeMessage(MessageEntity messageEntity);
     Observable<MessageEntity> updateMessage(MessageEntity messageEntity);
-
+    Observable<Void> deleteMessage(MessageEntity messageEntity);
 
 
 }

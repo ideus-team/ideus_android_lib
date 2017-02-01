@@ -31,6 +31,7 @@ public class SocketMessageData {
         messageEntity.setIdent(ident);
         messageEntity.setDateMessage(Utils.convertDate(createdAt));
         messageEntity.setTimeMessage(Utils.convertTimeChat(createdAt));
+        messageEntity.setCreatedAt(Integer.parseInt(createdAt));
         messageEntity.setKind(kind);
         messageEntity.setOwner(isOwner);
         messageEntity.setMessage(message);
@@ -38,5 +39,4 @@ public class SocketMessageData {
         messageEntity.setUserId(userId);
         return messageEntity;
     }
-
 }

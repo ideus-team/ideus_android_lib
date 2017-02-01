@@ -10,7 +10,7 @@
 
         <variable
             name="viewModel"
-            type="biz.ideus.ideuslibexample.data.model.response.response_model.Message" />
+            type="biz.ideus.ideuslibexample.ui.chat_screen.MessageViewModel" />
 
         <variable
             name="isShowDate"
@@ -82,6 +82,7 @@
 
                 <TextView
                     android:id="@+id/tv_message"
+                    android:visibility="@{viewModel.visibleText ? View.VISIBLE : View.GONE}"
                     android:tag="@{ItemChatTag.TEXT}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -98,6 +99,7 @@
 
                     <biz.ideus.ideuslibexample.ui.widgets.ViewImageLoader
                         android:tag="@{ItemChatTag.IMAGE}"
+                        android:visibility="@{viewModel.visibleImage ? View.VISIBLE : View.GONE}"
                         android:id="@+id/iv_image_attach"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
@@ -109,11 +111,12 @@
 
             </LinearLayout>
 
-            <biz.ideus.ideuslib.widget.CircleImageView
+            <biz.ideus.ideuslibexample.ui.widgets.ViewCircleImage
                 android:id="@+id/iv_user_photo"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginRight="10dp"
+                app:imageUrl="@{viewModel.friendPhoto}"
                 android:src="@drawable/logo_temp_app" />
 
             <LinearLayout

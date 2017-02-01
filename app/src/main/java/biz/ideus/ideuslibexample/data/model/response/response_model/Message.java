@@ -26,9 +26,13 @@ public interface Message extends Observable, Parcelable, Persistable {
     @Bindable
     boolean isUpdated();
     void setUpdated(boolean is_updated);
+
     @Bindable
     String getKind();
     void setKind(String kind);
+    @Bindable
+    int getCreatedAt();
+    void setCreatedAt(int created_at);
     @Bindable
     String getUserId();
     void setUserId(String user_id);

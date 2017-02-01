@@ -1,5 +1,7 @@
 package biz.ideus.ideuslibexample.ui.chat_screen.activity;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.ObservableField;
@@ -28,16 +30,19 @@ import biz.ideus.ideuslibexample.data.remote.network_change.NetworkChangeReceive
 import biz.ideus.ideuslibexample.data.remote.network_change.NetworkChangeSubscriber;
 import biz.ideus.ideuslibexample.data.remote.socket_chat.SocketMessageListener;
 import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_request_model.SendMessageRequest;
+import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_request_model.UpdateMessageRequest;
 import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_response_model.SocketMessageResponse;
 import biz.ideus.ideuslibexample.interfaces.ImageChooserListener;
 import biz.ideus.ideuslibexample.rx_buses.RxBusActionEditDialogBtn;
 import biz.ideus.ideuslibexample.rx_buses.RxBusNetworkConnected;
 import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import biz.ideus.ideuslibexample.ui.chat_screen.ChatView;
+import biz.ideus.ideuslibexample.ui.chat_screen.MessageViewModel;
 import biz.ideus.ideuslibexample.ui.common.toolbar.AbstractViewModelToolbar;
 import biz.ideus.ideuslibexample.ui.image_viewer_fragment.ImageViewerFragment;
 import biz.ideus.ideuslibexample.utils.Constants;
 import biz.ideus.ideuslibexample.utils.FileUploadProcessor;
+import biz.ideus.ideuslibexample.utils.Utils;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -58,7 +63,8 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
     private Context context;
     private String chatUserId = "";
     private PeopleEntity friendForChat = new PeopleEntity();
-    public List<MessageEntity> messageList = new ArrayList<>();
+    private MessageViewModel messageVMForEdit;
+    public List<MessageViewModel> messageList = new ArrayList<>();
     public ObservableField<String> message = new ObservableField<>();
     public ObservableField<Boolean> isShowLinearProgress = new ObservableField<>();
     private ChatAdapter adapter;
@@ -72,7 +78,7 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
     public void setAdapter(ChatAdapter adapter) {
         this.adapter = adapter;
         adapter.setOnItemChatClickListener(this);
-        adapter.notifyAdapter(messageList, friendForChat);
+        adapter.notifyInsertedItemsAdapter(messageList, friendForChat);
     }
 
     @Override
@@ -83,16 +89,24 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
         }
         fileUploadProcessor = new FileUploadProcessor();
         fileUploadProcessor.setSuccessUploadListener(this);
-
+        message.set("");
 
         webSocketClient.connectHttpClient();
         webSocketClient.setMessageListener(new SocketMessageListener() {
             @Override
             public void onMessage(SocketMessageResponse response) {
                 super.onMessage(response);
+                if (adapter == null) {
+                    return;
+                }
+
                 MessageEntity messageEntity = response.data.getMessageEntity();
                 requeryApi.storeMessage(messageEntity).subscribe(messageEntity1 -> {
-                    adapter.setMessageToList(messageEntity1);
+                    if(messageEntity1.isUpdated()) {
+                        adapter.updateMessage(new MessageViewModel(response.data.getMessageEntity()));
+                    } else {
+                        adapter.setMessageToList(new MessageViewModel(response.data.getMessageEntity()));
+                    }
                     message.set("");
                 });
             }
@@ -111,6 +125,10 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
 
     private void sendMessage(String message) {
         webSocketClient.sendMessage(new SendMessageRequest(chatUserId, message, KIND_TEXT));
+    }
+
+    private void updateMessage(String message, String messageId) {
+        webSocketClient.sendMessage(new UpdateMessageRequest(message, messageId));
     }
 
     private void sendImage(String imageUrl) {
@@ -141,7 +159,7 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
                 })
                 .subscribe(peopleEntity -> {
                     friendForChat = peopleEntity;
-                    adapter.notifyAdapter(messageList, friendForChat);
+                    adapter.notifyInsertedItemsAdapter(messageList, friendForChat);
                     fetchMessagesFromServer(peopleId);
                 });
     }
@@ -177,7 +195,7 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
 
                     @Override
                     public void onNext(MessagesResponse answer) {
-                        adapter.notifyAdapter(messageList, friendForChat);
+                        adapter.notifyInsertedItemsAdapter(messageList, friendForChat);
                     }
                 });
     }
@@ -203,18 +221,6 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
         sendImage(uploadedUrl);
     }
 
-    @Override
-    public void onClickItem(int position, MessageEntity messageEntity, ItemChatTag tag) {
-        switch (tag) {
-            case IMAGE:
-                ((ChatActivity) context).addFragmentToBackStack(new ImageViewerFragment(messageEntity.getMessage()), null, true, null);
-                break;
-            case TEXT:
-                RxBusShowDialog.instanceOf().setRxBusShowDialog(EDIT_TEXT_DIALOG);
-                break;
-        }
-
-    }
 
     private Subscription getSubscribtionEditDialogMessage() {
         return RxBusActionEditDialogBtn.instanceOf().getEvents()
@@ -224,8 +230,10 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
                     switch (dialogCommand.getDialogCommandModel()) {
                         case COPY_TEXT:
                             Log.d("edit", "COPY_TEXT");
+                            copyText(messageVMForEdit.getMessage());
                             break;
                         case EDIT:
+                            updateMessage(messageVMForEdit.getMessage(), messageVMForEdit.getIdent());
                             Log.d("edit", "EDIT");
                             break;
                         case DELETE:
@@ -239,10 +247,34 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
                 });
     }
 
+    private void copyText(String text){
+        ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("Copied Text", text);
+        clipboard.setPrimaryClip(clip);
+        Utils.toast(context,context.getString(R.string.copied_success));
+    }
+
+
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (rxEditDialogMessageSubscription != null && !rxEditDialogMessageSubscription.isUnsubscribed())
+        if (rxEditDialogMessageSubscription != null && !rxEditDialogMessageSubscription.isUnsubscribed()) {
             rxEditDialogMessageSubscription.unsubscribe();
+        }
+        webSocketClient.closeWebSocket();
+    }
+
+
+    @Override
+    public void onClickItem(MessageViewModel messageViewModel, ItemChatTag tag) {
+        switch (tag) {
+            case IMAGE:
+                ((ChatActivity) context).addFragmentToBackStack(new ImageViewerFragment(messageViewModel.getMessage()), null, true, null);
+                break;
+            case TEXT:
+                messageVMForEdit = messageViewModel;
+                RxBusShowDialog.instanceOf().setRxBusShowDialog(EDIT_TEXT_DIALOG);
+                break;
+        }
     }
 }

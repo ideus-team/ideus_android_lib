@@ -2,8 +2,6 @@ package biz.ideus.ideuslibexample.data.local;
 
 import android.annotation.SuppressLint;
 
-import com.annimon.stream.Stream;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +11,7 @@ import biz.ideus.ideuslibexample.data.model.response.response_model.Autorisation
 import biz.ideus.ideuslibexample.data.model.response.response_model.MessageEntity;
 import biz.ideus.ideuslibexample.data.model.response.response_model.PeopleEntity;
 import biz.ideus.ideuslibexample.injection.scopes.PerApplication;
+import biz.ideus.ideuslibexample.ui.chat_screen.MessageViewModel;
 import io.requery.Persistable;
 import io.requery.query.Result;
 import io.requery.rx.SingleEntityStore;
@@ -112,16 +111,17 @@ public class RequeryApi implements IRequeryApi {
     }
 
     @Override
-    public List<MessageEntity> getMessageList(String userId) {
-        ArrayList<MessageEntity> messageListEntities = new ArrayList<>();
-        ArrayList<MessageEntity> messageListReverse;
-        messageListEntities.addAll(data.select(MessageEntity.class).where(MessageEntity.USER_ID.eq(userId)).get().toList());
-        messageListReverse = messageListEntities;
-        Stream.of(messageListEntities).map(item -> {
-            messageListReverse.add(messageListEntities.size() - 1, item);
-            return item;
-        });
-        return messageListReverse;
+    public List<MessageViewModel> getMessageList(String userId) {
+        List<MessageEntity> messageListEntities;
+        ArrayList<MessageViewModel> messageViewModelList = new ArrayList<>();
+
+        messageListEntities = data.select(MessageEntity.class)
+                .where(MessageEntity.USER_ID.eq(userId)).orderBy(MessageEntity.CREATED_AT.asc()).get().toList();
+        
+        for(int i = 0; i < messageListEntities.size();i++){
+            messageViewModelList.add(new MessageViewModel(messageListEntities.get(i)));
+        }
+        return messageViewModelList;
     }
 
     @Override
@@ -136,4 +136,11 @@ public class RequeryApi implements IRequeryApi {
         return null;
     }
 
+    @Override
+    public Observable<Void> deleteMessage(MessageEntity messageEntity) {
+        return data.delete(messageEntity).toObservable();
+    }
+
 }
+
+
