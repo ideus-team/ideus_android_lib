@@ -59,6 +59,11 @@ implements IView {
         mViewModeHelper.performBinding(this);
         binding = getBinding();
         viewModel = getViewModel();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         rxBusShowDialogSubscription = startRxBusShowDialogSubscription();
         rxBusActionEditDialogBtnSubscription = startRxBusActionEditDialogBtnSubscription();
     }
@@ -202,15 +207,20 @@ implements IView {
     }
 
     @Override
-    @CallSuper
-    public void onDestroy() {
-        super.onDestroy();
-
+    public void onStop() {
+        super.onStop();
         if (rxBusShowDialogSubscription != null && !rxBusShowDialogSubscription.isUnsubscribed())
             rxBusShowDialogSubscription.unsubscribe();
 
         if (rxBusActionEditDialogBtnSubscription != null && !rxBusActionEditDialogBtnSubscription.isUnsubscribed())
             rxBusActionEditDialogBtnSubscription.unsubscribe();
+
+    }
+
+    @Override
+    @CallSuper
+    public void onDestroy() {
+        super.onDestroy();
 
         RefWatcher refWatcher = SampleApplication.getRefWatcher(this);
         refWatcher.watch(this);
