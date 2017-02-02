@@ -70,6 +70,7 @@
     <string name="copy_text">Copy text </string>
     <string name="details">Details </string>
     <string name="edit">Edit </string>
+    <string name="edited">Edited </string>
     <string name="delete">Delete </string>
     <string name="cancel">Cancel </string>
     <string name="change_name">Change Name </string>
@@ -98,6 +99,7 @@
     <string name="yesterday">Yesterday</string>
     <string name="network_connected">Network Connected</string>
     <string name="copied_success">Text successfully copied</string>
+    <string name="edit_message_unfortunately">Sorry, You can only edit your own message</string>
 
 
 

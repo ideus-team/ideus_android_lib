@@ -1,5 +1,7 @@
 package biz.ideus.ideuslibexample.data.remote.socket_chat;
 
+import android.support.annotation.NonNull;
+
 import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_response_model.SocketAuthorisedResponse;
 import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_response_model.SocketBaseResponse;
 import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_response_model.SocketMessageResponse;
@@ -12,7 +14,8 @@ public enum SocketCommand {
 
     MESSAGE("message", SocketBaseResponse.class)
     , AUTHORISE("authorize", SocketAuthorisedResponse.class)
-    , RECEIVE_MESSAGE("receive_message",SocketMessageResponse.class);
+    , RECEIVE_MESSAGE("receive_message", SocketMessageResponse.class)
+    , MESSAGE_SENT("message_sent", SocketMessageResponse.class);
 //    , DEL_CHAT_ROOM("del_chat_room")
 //    , ADD_USER_TO_CHAT("add_user_to_chat")
 //    , USERS_ADDED("users_added")
@@ -30,12 +33,12 @@ public enum SocketCommand {
         this.responseType = responseType;
     }
 
-    public static SocketCommand getSocketCommandByValue(String state){
+    public static SocketCommand getSocketCommandByValue(@NonNull String state){
         for(SocketCommand socketCommand : SocketCommand.values()) {
             if (socketCommand.commandName.equals(state))
                 return socketCommand;
         }
-        return null;
+        return MESSAGE;
     }
 
 

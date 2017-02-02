@@ -8,8 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.annimon.stream.Stream;
-import com.annimon.stream.function.Function;
-import com.annimon.stream.function.Predicate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,12 +36,12 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private OnItemChatClickListener onItemChatClickListener;
 
 
-    public void notifyInsertedItemsAdapter(List<MessageViewModel> newMessageList, PeopleEntity friendForChat) {
+    public void notifyInsertedItems(List<MessageViewModel> newMessageList, PeopleEntity friendForChat) {
         int notifyCounter = newMessageList.size() - messageList.size();
         this.messageList = newMessageList;
         this.friendForChat = friendForChat;
         if (!newMessageList.isEmpty()) {
-           notifyItemRangeInserted(messageList.size() - 1, notifyCounter);
+            notifyItemRangeInserted(messageList.size() - 1, notifyCounter);
             scrollToBottom();
         } else {
             notifyDataSetChanged();
@@ -52,7 +50,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public void notifyAdapter(List<MessageViewModel> newMessageList) {
         this.messageList = newMessageList;
-           notifyDataSetChanged();
+        notifyDataSetChanged();
     }
 
     public void setScrollToBottomListener(ScrollToBottomListener scrollToBottomListener) {
@@ -68,10 +66,9 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
 
-
     public void setMessageToList(MessageViewModel message) {
         this.messageList.add(message);
-       notifyItemInserted(messageList.size() - 1);
+        notifyItemInserted(messageList.size() - 1);
         scrollToBottom();
     }
 
@@ -81,20 +78,16 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    public void updateMessage(MessageViewModel message){
-        Stream.of(messageList).filter(new Predicate<MessageViewModel>() {
-            @Override
-            public boolean test(MessageViewModel item) {
-                return item.getMessage().equals(message.getDateMessage());
-            }
-        }).map(new Function<MessageViewModel, MessageViewModel>() {
-            @Override
-            public MessageViewModel apply(MessageViewModel item) {
-                messageList.set(messageList.indexOf(item), message);
-                ChatAdapter.this.notifyItemChanged(messageList.indexOf(item));
-                return item;
-            }
+    public void updateMessage(MessageViewModel message) {
+
+        Stream.of(messageList).filter(item ->
+                item.getIdent().equals(message.getIdent())).findFirst().map(item ->
+        {
+            item.setUpdated(message.isUpdated());
+            item.setMessage(message.getMessage());
+            return item;
         });
+
 
     }
 
@@ -119,18 +112,22 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         MessageViewModel messageViewModel = messageList.get(position).setFriendPhoto(friendForChat.getPhoto());
         if (holder instanceof MyMessageItemHolder) {
             ((MyMessageItemHolder) holder).binding.setViewModel(messageViewModel);
-          //  ((MyMessageItemHolder) holder).binding.setIsShowDate(isVisibleDate(messageEntity.getDateMessage()));
-            ((MyMessageItemHolder) holder).binding.tvMessage.setOnClickListener(v ->
-                    onItemChatClickListener.onClickItem(messageViewModel,(ItemChatTag)v.getTag()));
+            //  ((MyMessageItemHolder) holder).binding.setIsShowDate(isVisibleDate(messageEntity.getDateMessage()));
+            ((MyMessageItemHolder) holder).binding.tvMessage.setOnLongClickListener(v -> {
+                onItemChatClickListener.onClickItem(messageViewModel, (ItemChatTag) v.getTag());
+                return false;
+            });
             ((MyMessageItemHolder) holder).binding.ivImageAttach.setOnClickListener(v ->
-                    onItemChatClickListener.onClickItem(messageViewModel,(ItemChatTag)v.getTag()));
+                    onItemChatClickListener.onClickItem(messageViewModel, (ItemChatTag) v.getTag()));
         } else {
             ((FriendMessageItemHolder) holder).binding.setViewModel(messageViewModel);
-         //   ((FriendMessageItemHolder) holder).binding.setIsShowDate(isVisibleDate(messageEntity.getDateMessage()));
-            ((FriendMessageItemHolder) holder).binding.tvMessage.setOnClickListener(v ->
-                    onItemChatClickListener.onClickItem(messageViewModel,(ItemChatTag)v.getTag()));
+            //   ((FriendMessageItemHolder) holder).binding.setIsShowDate(isVisibleDate(messageEntity.getDateMessage()));
+            ((FriendMessageItemHolder) holder).binding.tvMessage.setOnLongClickListener(v -> {
+                onItemChatClickListener.onClickItem(messageViewModel, (ItemChatTag) v.getTag());
+                return false;
+            });
             ((FriendMessageItemHolder) holder).binding.ivImageAttach.setOnClickListener(v ->
-                    onItemChatClickListener.onClickItem(messageViewModel,(ItemChatTag)v.getTag()));
+                    onItemChatClickListener.onClickItem(messageViewModel, (ItemChatTag) v.getTag()));
         }
     }
 
@@ -140,7 +137,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (tempDate.equals("")) {
             tempDate = date;
             return true;
-        } else if(!tempDate.equals(date)){
+        } else if (!tempDate.equals(date)) {
             tempDate = date;
             return true;
         } else {

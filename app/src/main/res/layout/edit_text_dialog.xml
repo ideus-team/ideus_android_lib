@@ -57,6 +57,7 @@
             android:text="@string/copy_text" />
 
         <FrameLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_marginLeft="20dp"
@@ -64,6 +65,7 @@
             android:background="@color/gray" />
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/tv_details"
             android:tag="@{DialogCommandModel.DETAILS}"
             android:onClick="@{customVM.onClick}"
@@ -87,6 +89,7 @@
            />
 
         <FrameLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_marginLeft="20dp"
@@ -94,9 +97,9 @@
             android:background="@color/gray" />
 
         <TextView
+            android:visibility="gone"
             style="@style/DialogEditTextBtn"
             android:id="@+id/tv_delete"
-            android:onClick="@{customVM.onClick}"
             android:tag="@{DialogCommandModel.DELETE}"
             android:text="@string/delete"
           />

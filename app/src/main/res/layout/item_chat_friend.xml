@@ -87,7 +87,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:text="@{viewModel.message}" />
+                    android:text="@{viewModel.messageObs}" />
 
                 <LinearLayout
                     android:id="@+id/ll_image_attach_container"
@@ -104,10 +104,18 @@
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:scaleType="centerCrop"
-                        app:imageUrl="@{viewModel.message}" />
+                        app:imageUrl="@{viewModel.messageObs}" />
                 </LinearLayout>
 
-
+                <TextView
+                    android:id="@+id/tv_messageEdit"
+                    android:visibility="@{(boolean)viewModel.updatedObs ? View.VISIBLE : View.GONE}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10sp"
+                    android:textColor="@color/gray"
+                    android:padding="5dp"
+                    android:text="@string/edited" />
 
             </LinearLayout>
 

@@ -23,6 +23,9 @@ public abstract class SocketMessageListener {
             case RECEIVE_MESSAGE:
                 onMessage((SocketMessageResponse) wrapper.getResponse());
                 break;
+            case MESSAGE_SENT:
+                onMessage((SocketMessageResponse) wrapper.getResponse());
+                break;
 //            case DEL_CHAT_ROOM:
 //                break;
 //            case ADD_USER_TO_CHAT:

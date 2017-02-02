@@ -28,6 +28,7 @@ import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriberSettings;
 import biz.ideus.ideuslibexample.data.remote.network_change.NetworkChangeReceiver;
 import biz.ideus.ideuslibexample.data.remote.network_change.NetworkChangeSubscriber;
+import biz.ideus.ideuslibexample.data.remote.socket_chat.SocketCommand;
 import biz.ideus.ideuslibexample.data.remote.socket_chat.SocketMessageListener;
 import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_request_model.SendMessageRequest;
 import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_request_model.UpdateMessageRequest;
@@ -67,6 +68,7 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
     public List<MessageViewModel> messageList = new ArrayList<>();
     public ObservableField<String> message = new ObservableField<>();
     public ObservableField<Boolean> isShowLinearProgress = new ObservableField<>();
+    public ObservableField<Boolean> isEditMessageEnabled = new ObservableField<>();
     private ChatAdapter adapter;
 
     private FileUploadProcessor fileUploadProcessor;
@@ -78,7 +80,7 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
     public void setAdapter(ChatAdapter adapter) {
         this.adapter = adapter;
         adapter.setOnItemChatClickListener(this);
-        adapter.notifyInsertedItemsAdapter(messageList, friendForChat);
+        adapter.notifyInsertedItems(messageList, friendForChat);
     }
 
     @Override
@@ -87,6 +89,7 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
         if (arguments != null) {
             chatUserId = arguments.getString(Constants.CHAT_PEOPLE_ID);
         }
+        isEditMessageEnabled.set(false);
         fileUploadProcessor = new FileUploadProcessor();
         fileUploadProcessor.setSuccessUploadListener(this);
         message.set("");
@@ -96,24 +99,41 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
             @Override
             public void onMessage(SocketMessageResponse response) {
                 super.onMessage(response);
+
                 if (adapter == null) {
                     return;
                 }
-
-                MessageEntity messageEntity = response.data.getMessageEntity();
-                requeryApi.storeMessage(messageEntity).subscribe(messageEntity1 -> {
-                    if(messageEntity1.isUpdated()) {
-                        adapter.updateMessage(new MessageViewModel(response.data.getMessageEntity()));
-                    } else {
-                        adapter.setMessageToList(new MessageViewModel(response.data.getMessageEntity()));
+                if(checkCurrentFriend(response.data.getMessageEntity().getUserId())){
+                    MessageEntity messageEntity = response.data.getMessageEntity();
+                    switch (SocketCommand.getSocketCommandByValue(response.command)){
+                        case RECEIVE_MESSAGE:
+                            requeryApi.storeMessage(messageEntity).subscribe(messageEntity1 -> {
+                                if (messageEntity1.isUpdated()) {
+                                    adapter.updateMessage(new MessageViewModel(response.data.getMessageEntity()));
+                                } else {
+                                    adapter.setMessageToList(new MessageViewModel(response.data.getMessageEntity()));
+                                }
+                                message.set("");
+                            });
+                            break;
+                        case MESSAGE_SENT:
+                            requeryApi.storeMessage(messageEntity).subscribe(messageEntity1 -> {
+                                adapter.updateMessage(new MessageViewModel(response.data.getMessageEntity()));
+                                disableEditMessage();
+                            });
+                            break;
                     }
-                    message.set("");
-                });
+                }
             }
         });
+
         startNetworkSubscription();
         rxEditDialogMessageSubscription = getSubscribtionEditDialogMessage();
         fetchMessages(chatUserId);
+    }
+
+    private boolean checkCurrentFriend(String fromUserId){
+        return chatUserId.equals(fromUserId);
     }
 
     @Override
@@ -141,7 +161,11 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
 
     public void onSendClick(View view) {
         if (!message.get().isEmpty()) {
-            sendMessage(message.get());
+            if (isEditMessageEnabled.get()) {
+                updateMessage(message.get(), messageVMForEdit.getIdent());
+            } else {
+                sendMessage(message.get());
+            }
         }
     }
 
@@ -159,7 +183,7 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
                 })
                 .subscribe(peopleEntity -> {
                     friendForChat = peopleEntity;
-                    adapter.notifyInsertedItemsAdapter(messageList, friendForChat);
+                    adapter.notifyInsertedItems(messageList, friendForChat);
                     fetchMessagesFromServer(peopleId);
                 });
     }
@@ -195,7 +219,7 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
 
                     @Override
                     public void onNext(MessagesResponse answer) {
-                        adapter.notifyInsertedItemsAdapter(messageList, friendForChat);
+                        adapter.notifyInsertedItems(messageList, friendForChat);
                     }
                 });
     }
@@ -233,7 +257,11 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
                             copyText(messageVMForEdit.getMessage());
                             break;
                         case EDIT:
-                            updateMessage(messageVMForEdit.getMessage(), messageVMForEdit.getIdent());
+                            if(messageVMForEdit.isOwner()){
+                                enableEditMessage();
+                            } else{
+                                Utils.toast(context, context.getString(R.string.edit_message_unfortunately));
+                            }
                             Log.d("edit", "EDIT");
                             break;
                         case DELETE:
@@ -247,11 +275,22 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
                 });
     }
 
-    private void copyText(String text){
+    public void enableEditMessage(){
+        isEditMessageEnabled.set(true);
+        message.set(messageVMForEdit.getMessage());
+    }
+
+    public void disableEditMessage(){
+        isEditMessageEnabled.set(false);
+        message.set("");
+        messageVMForEdit = null;
+    }
+
+    private void copyText(String text) {
         ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText("Copied Text", text);
         clipboard.setPrimaryClip(clip);
-        Utils.toast(context,context.getString(R.string.copied_success));
+        Utils.toast(context, context.getString(R.string.copied_success));
     }
 
 
@@ -261,7 +300,6 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
         if (rxEditDialogMessageSubscription != null && !rxEditDialogMessageSubscription.isUnsubscribed()) {
             rxEditDialogMessageSubscription.unsubscribe();
         }
-        webSocketClient.closeWebSocket();
     }
 
 

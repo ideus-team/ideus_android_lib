@@ -44,7 +44,6 @@ public class ChatActivity extends BaseActivity<ChatView, ChatActivityVM, Activit
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         linearLayoutManager.setStackFromEnd(true);
         getBinding().rViewChat.setAdapter(adapter);
-        getBinding().rViewChat.setHasFixedSize(true);
         getBinding().rViewChat.setLayoutManager(linearLayoutManager);
         adapter.setScrollToBottomListener(position -> getBinding().rViewChat.smoothScrollToPosition(position));
         getViewModel().setAdapter(adapter);
@@ -73,6 +72,16 @@ public class ChatActivity extends BaseActivity<ChatView, ChatActivityVM, Activit
             }
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        if(getViewModel().isEditMessageEnabled.get()){
+            getViewModel().disableEditMessage();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
     @Nullable
     @Override
     public Class<ChatActivityVM> getViewModelClass() {
