@@ -1,6 +1,6 @@
 package biz.ideus.ideuslibexample.rx_buses;
 
-import java.util.Set;
+import java.util.List;
 
 import biz.ideus.ideuslibexample.data.model.response.response_model.PeopleEntity;
 import rx.Observable;
@@ -13,7 +13,7 @@ import rx.subjects.PublishSubject;
 public class RxBusFetchPeopleListEvent {
     private static RxBusFetchPeopleListEvent fetchEvent;
 
-    private PublishSubject<Set<PeopleEntity>> subject = PublishSubject.create();
+    private PublishSubject<List<PeopleEntity>> subject = PublishSubject.create();
 
     public static RxBusFetchPeopleListEvent getInstance() {
         if (fetchEvent == null) {
@@ -22,7 +22,7 @@ public class RxBusFetchPeopleListEvent {
         return fetchEvent;
     }
 
-    public void setRxBusFetchPeopleListEvent(Set<PeopleEntity> peopleEntities) {
+    public void setRxBusFetchPeopleListEvent(List<PeopleEntity> peopleEntities) {
         subject.onNext(peopleEntities);
     }
     public void onCompleted() {
@@ -30,7 +30,7 @@ public class RxBusFetchPeopleListEvent {
     }
 
 
-    public Observable<Set<PeopleEntity>> getEvents() {
+    public Observable<List<PeopleEntity>> getEvents() {
         return subject;
     }
 }

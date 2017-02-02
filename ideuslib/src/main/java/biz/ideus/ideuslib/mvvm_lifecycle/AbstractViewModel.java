@@ -95,6 +95,5 @@ public abstract class AbstractViewModel<T extends IView>{
      */
     @SuppressWarnings("EmptyMethod")
     public void onDestroy() {
-
     }
 }

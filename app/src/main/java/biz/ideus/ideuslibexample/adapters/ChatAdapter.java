@@ -2,7 +2,6 @@ package biz.ideus.ideuslibexample.adapters;
 
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +27,7 @@ import biz.ideus.ideuslibexample.ui.chat_screen.activity.ItemChatTag;
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int MY_ITEM = 0;
     private static final int FRIEND_ITEM = 1;
+    private static final int DATE_ITEM = 2;
     private String tempDate = "";
     private PeopleEntity friendForChat = new PeopleEntity();
     public List<MessageViewModel> messageList = new ArrayList<>();
@@ -40,18 +40,15 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         int notifyCounter = newMessageList.size() - messageList.size();
         this.messageList = newMessageList;
         this.friendForChat = friendForChat;
-        if (!newMessageList.isEmpty()) {
-            notifyItemRangeInserted(messageList.size() - 1, notifyCounter);
-            scrollToBottom();
-        } else {
+//        if (!newMessageList.isEmpty()) {
+//          //  setVisibilityDateInList(messageList);
+//            notifyItemRangeInserted(messageList.size() - 1, notifyCounter);
+//        } else {
+            setVisibilityDateInList(messageList);
             notifyDataSetChanged();
         }
-    }
+   // }
 
-    public void notifyAdapter(List<MessageViewModel> newMessageList) {
-        this.messageList = newMessageList;
-        notifyDataSetChanged();
-    }
 
     public void setScrollToBottomListener(ScrollToBottomListener scrollToBottomListener) {
         this.scrollToBottomListener = scrollToBottomListener;
@@ -68,6 +65,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public void setMessageToList(MessageViewModel message) {
         this.messageList.add(message);
+        setVisibilityDateInMessage(message);
         notifyItemInserted(messageList.size() - 1);
         scrollToBottom();
     }
@@ -79,7 +77,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public void updateMessage(MessageViewModel message) {
-
         Stream.of(messageList).filter(item ->
                 item.getIdent().equals(message.getIdent())).findFirst().map(item ->
         {
@@ -87,8 +84,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             item.setMessage(message.getMessage());
             return item;
         });
-
-
     }
 
 
@@ -112,7 +107,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         MessageViewModel messageViewModel = messageList.get(position).setFriendPhoto(friendForChat.getPhoto());
         if (holder instanceof MyMessageItemHolder) {
             ((MyMessageItemHolder) holder).binding.setViewModel(messageViewModel);
-            //  ((MyMessageItemHolder) holder).binding.setIsShowDate(isVisibleDate(messageEntity.getDateMessage()));
             ((MyMessageItemHolder) holder).binding.tvMessage.setOnLongClickListener(v -> {
                 onItemChatClickListener.onClickItem(messageViewModel, (ItemChatTag) v.getTag());
                 return false;
@@ -121,7 +115,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     onItemChatClickListener.onClickItem(messageViewModel, (ItemChatTag) v.getTag()));
         } else {
             ((FriendMessageItemHolder) holder).binding.setViewModel(messageViewModel);
-            //   ((FriendMessageItemHolder) holder).binding.setIsShowDate(isVisibleDate(messageEntity.getDateMessage()));
             ((FriendMessageItemHolder) holder).binding.tvMessage.setOnLongClickListener(v -> {
                 onItemChatClickListener.onClickItem(messageViewModel, (ItemChatTag) v.getTag());
                 return false;
@@ -132,18 +125,23 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
 
-    private boolean isVisibleDate(String date) {
-        Log.d("tempDate", tempDate);
-        if (tempDate.equals("")) {
-            tempDate = date;
-            return true;
-        } else if (!tempDate.equals(date)) {
-            tempDate = date;
-            return true;
-        } else {
-            return false;
-        }
+    private void setVisibilityDateInList(List<MessageViewModel> list) {
 
+        for (int i = 0; i < list.size(); i++) {
+            if (i == 0) {
+                list.get(i).setVisibleDate(true);
+            } else if (!list.get(i).getDateMessage().equals(list.get(i - 1).getDateMessage())) {
+                list.get(i).setVisibleDate(true);
+            }
+        }
+    }
+
+    private void setVisibilityDateInMessage(MessageViewModel message) {
+        if (messageList.isEmpty()) {
+            message.setVisibleDate(true);
+        } else if (!message.getDateMessage().equals(messageList.get(messageList.size() - 1).getDateMessage())) {
+            message.setVisibleDate(true);
+        }
     }
 
 

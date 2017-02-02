@@ -7,8 +7,11 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import biz.ideus.ideuslib.Utils.NetworkUtil;
 import biz.ideus.ideuslibexample.R;
@@ -48,7 +51,7 @@ public class PeopleFragmentVM extends BaseSearchVM implements PeopleAdapter.OnPe
 
     public static final int LOAD_LIMIT = 10;
     public int currentOffset = 0;
-    private Set<PeopleEntity> linkedPeopleEntities = new LinkedHashSet<>();
+    private List<PeopleEntity> peopleEntityList = new ArrayList<>();
     public ObservableField<Boolean> isShowLinearProgress = new ObservableField<>();
     private String searchText = "";
     private Subscription rxBusNetworkSubscription;
@@ -69,8 +72,8 @@ public class PeopleFragmentVM extends BaseSearchVM implements PeopleAdapter.OnPe
     @Override
     public void onBindView(@NonNull StartView view) {
         super.onBindView(view);
-        currentOffset = linkedPeopleEntities.size();
-        RxBusFetchPeopleListEvent.getInstance().setRxBusFetchPeopleListEvent(linkedPeopleEntities);
+        currentOffset = peopleEntityList.size();
+        RxBusFetchPeopleListEvent.getInstance().setRxBusFetchPeopleListEvent(peopleEntityList);
         fetchPeopleRequest(DEFAULT_MODE, currentOffset);
 
     }
@@ -97,8 +100,8 @@ public class PeopleFragmentVM extends BaseSearchVM implements PeopleAdapter.OnPe
         searchText = text.toString();
         currentOffset = 0;
         if(NetworkUtil.isNetworkConnected(context)) {
-            linkedPeopleEntities.clear();
-            RxBusFetchPeopleListEvent.getInstance().setRxBusFetchPeopleListEvent(linkedPeopleEntities);
+            peopleEntityList.clear();
+            RxBusFetchPeopleListEvent.getInstance().setRxBusFetchPeopleListEvent(peopleEntityList);
         }
         fetchPeopleRequest(DEFAULT_MODE, currentOffset);
     }
@@ -187,9 +190,10 @@ public class PeopleFragmentVM extends BaseSearchVM implements PeopleAdapter.OnPe
 
 
     private void refreshPeopleList(PeopleAnswer answer) {
-        linkedPeopleEntities.addAll(answer.data.getPeopleEntities());
-        currentOffset = linkedPeopleEntities.size();
-        RxBusFetchPeopleListEvent.getInstance().setRxBusFetchPeopleListEvent(linkedPeopleEntities);
+        peopleEntityList.addAll(answer.data.getPeopleEntities());
+        peopleEntityList = Stream.of(peopleEntityList).distinct().collect(Collectors.toList());
+        currentOffset = peopleEntityList.size();
+        RxBusFetchPeopleListEvent.getInstance().setRxBusFetchPeopleListEvent(peopleEntityList);
     }
 
 

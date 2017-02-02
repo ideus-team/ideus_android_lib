@@ -8,7 +8,6 @@ import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -30,6 +29,7 @@ import biz.ideus.ideuslibexample.data.remote.network_change.NetworkChangeReceive
 import biz.ideus.ideuslibexample.data.remote.network_change.NetworkChangeSubscriber;
 import biz.ideus.ideuslibexample.data.remote.socket_chat.SocketCommand;
 import biz.ideus.ideuslibexample.data.remote.socket_chat.SocketMessageListener;
+import biz.ideus.ideuslibexample.data.remote.socket_chat.WebSocketClient;
 import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_request_model.SendMessageRequest;
 import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_request_model.UpdateMessageRequest;
 import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_response_model.SocketMessageResponse;
@@ -51,7 +51,6 @@ import rx.schedulers.Schedulers;
 import static biz.ideus.ideuslibexample.SampleApplication.netApi;
 import static biz.ideus.ideuslibexample.SampleApplication.requeryApi;
 import static biz.ideus.ideuslibexample.dialogs.DialogModel.EDIT_TEXT_DIALOG;
-import static biz.ideus.ideuslibexample.ui.main_screen.activity.MainActivityVM.webSocketClient;
 import static biz.ideus.ideuslibexample.utils.Constants.KIND_IMAGE;
 import static biz.ideus.ideuslibexample.utils.Constants.KIND_TEXT;
 
@@ -70,6 +69,7 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
     public ObservableField<Boolean> isShowLinearProgress = new ObservableField<>();
     public ObservableField<Boolean> isEditMessageEnabled = new ObservableField<>();
     private ChatAdapter adapter;
+    private WebSocketClient webSocketClient = WebSocketClient.getInstance();
 
     private FileUploadProcessor fileUploadProcessor;
     private String uploadedUrl = "";
@@ -103,26 +103,19 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
                 if (adapter == null) {
                     return;
                 }
-                if(checkCurrentFriend(response.data.getMessageEntity().getUserId())){
+                if (checkCurrentFriend(response.data.getMessageEntity().getUserId())) {
                     MessageEntity messageEntity = response.data.getMessageEntity();
-                    switch (SocketCommand.getSocketCommandByValue(response.command)){
-                        case RECEIVE_MESSAGE:
-                            requeryApi.storeMessage(messageEntity).subscribe(messageEntity1 -> {
-                                if (messageEntity1.isUpdated()) {
-                                    adapter.updateMessage(new MessageViewModel(response.data.getMessageEntity()));
-                                } else {
-                                    adapter.setMessageToList(new MessageViewModel(response.data.getMessageEntity()));
-                                }
-                                message.set("");
-                            });
-                            break;
-                        case MESSAGE_SENT:
-                            requeryApi.storeMessage(messageEntity).subscribe(messageEntity1 -> {
-                                adapter.updateMessage(new MessageViewModel(response.data.getMessageEntity()));
-                                disableEditMessage();
-                            });
-                            break;
-                    }
+
+                    requeryApi.storeMessage(messageEntity).subscribe(messageEntity1 -> {
+                        switch (SocketCommand.getSocketCommandByValue(response.command)) {
+                            case RECEIVE_MESSAGE:
+                                setMessage(response, messageEntity1);
+                                break;
+                            case MESSAGE_SENT:
+                                updatedMessage(response);
+                                break;
+                        }
+                    });
                 }
             }
         });
@@ -132,16 +125,33 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
         fetchMessages(chatUserId);
     }
 
-    private boolean checkCurrentFriend(String fromUserId){
-        return chatUserId.equals(fromUserId);
-    }
-
     @Override
     public void onBindView(@NonNull ChatView view) {
         super.onBindView(view);
         context = view.getViewModelBindingConfig().getContext();
         ((ChatActivity) context).setImageChooserListener(this);
     }
+
+    private void updatedMessage(SocketMessageResponse response) {
+        adapter.updateMessage(new MessageViewModel(response.data.getMessageEntity()));
+        disableEditMessage();
+    }
+
+    private void setMessage(SocketMessageResponse response, MessageEntity messageEntity) {
+        if (messageEntity.isUpdated()) {
+            adapter.updateMessage(new MessageViewModel(response.data.getMessageEntity()));
+        } else {
+            adapter.setMessageToList(new MessageViewModel(response.data.getMessageEntity()));
+        }
+
+        if(!isEditMessageEnabled.get())
+        message.set("");
+    }
+
+    private boolean checkCurrentFriend(String fromUserId) {
+        return chatUserId.equals(fromUserId);
+    }
+
 
     private void sendMessage(String message) {
         webSocketClient.sendMessage(new SendMessageRequest(chatUserId, message, KIND_TEXT));
@@ -196,6 +206,7 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
                     @Override
                     public void complete() {
                         webSocketClient.connectHttpClient();
+                        fetchMessages(chatUserId);
                     }
                 });
     }
@@ -253,34 +264,30 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
                 .subscribe(dialogCommand -> {
                     switch (dialogCommand.getDialogCommandModel()) {
                         case COPY_TEXT:
-                            Log.d("edit", "COPY_TEXT");
                             copyText(messageVMForEdit.getMessage());
                             break;
                         case EDIT:
-                            if(messageVMForEdit.isOwner()){
+                            if (messageVMForEdit.isOwner()) {
                                 enableEditMessage();
-                            } else{
+                            } else {
                                 Utils.toast(context, context.getString(R.string.edit_message_unfortunately));
                             }
-                            Log.d("edit", "EDIT");
                             break;
                         case DELETE:
-                            Log.d("edit", "DELETE");
                             break;
                         case DETAILS:
-                            Log.d("edit", "DETAILS");
                             break;
 
                     }
                 });
     }
 
-    public void enableEditMessage(){
+    public void enableEditMessage() {
         isEditMessageEnabled.set(true);
         message.set(messageVMForEdit.getMessage());
     }
 
-    public void disableEditMessage(){
+    public void disableEditMessage() {
         isEditMessageEnabled.set(false);
         message.set("");
         messageVMForEdit = null;
@@ -300,6 +307,7 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
         if (rxEditDialogMessageSubscription != null && !rxEditDialogMessageSubscription.isUnsubscribed()) {
             rxEditDialogMessageSubscription.unsubscribe();
         }
+        adapter = null;
     }
 
 

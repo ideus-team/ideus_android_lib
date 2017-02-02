@@ -44,6 +44,7 @@ public class ChatActivity extends BaseActivity<ChatView, ChatActivityVM, Activit
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         linearLayoutManager.setStackFromEnd(true);
         getBinding().rViewChat.setAdapter(adapter);
+        getBinding().rViewChat.setHasFixedSize(true);
         getBinding().rViewChat.setLayoutManager(linearLayoutManager);
         adapter.setScrollToBottomListener(position -> getBinding().rViewChat.smoothScrollToPosition(position));
         getViewModel().setAdapter(adapter);

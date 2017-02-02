@@ -23,6 +23,8 @@ public class MessageViewModel extends BaseObservable {
     private boolean isOwner;
     private boolean isVisibleText;
     private boolean isVisibleImage;
+    private boolean isVisibleDate;
+
 
     public ObservableField<Boolean> updatedObs = new ObservableField<>();
     public ObservableField<String> messageObs = new ObservableField<>();
@@ -87,6 +89,16 @@ public class MessageViewModel extends BaseObservable {
 
     public String getMessage() {
         return messageObs.get();
+    }
+
+    @Bindable
+    public boolean isVisibleDate() {
+        return isVisibleDate;
+    }
+
+    public MessageViewModel setVisibleDate(boolean visibleDate) {
+        isVisibleDate = visibleDate;
+        return this;
     }
 
     public void setMessage(String message) {
