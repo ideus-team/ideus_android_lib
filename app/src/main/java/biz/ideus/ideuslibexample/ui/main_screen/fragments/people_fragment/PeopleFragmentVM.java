@@ -56,6 +56,11 @@ public class PeopleFragmentVM extends BaseSearchVM implements PeopleAdapter.OnPe
     private String searchText = "";
     private Subscription rxBusNetworkSubscription;
 
+    private SwipeRefreshListener swipeRefreshListener;
+
+    public void setSwipeRefreshListener(SwipeRefreshListener swipeRefreshListener) {
+        this.swipeRefreshListener = swipeRefreshListener;
+    }
 
     public void setAdapter(PeopleAdapter adapter) {
         this.adapter = adapter;
@@ -163,12 +168,14 @@ public class PeopleFragmentVM extends BaseSearchVM implements PeopleAdapter.OnPe
                     @Override
                     public void onCompleted() {
                         super.onCompleted();
+                        swipeRefreshListener.hideRefreshLoader();
                         EndlessRecyclerViewScrollListener.setLoaded(true);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
+                        swipeRefreshListener.hideRefreshLoader();
                         EndlessRecyclerViewScrollListener.setLoaded(true);
                     }
 
@@ -181,6 +188,10 @@ public class PeopleFragmentVM extends BaseSearchVM implements PeopleAdapter.OnPe
                                 }
                                 break;
                             case FETCH_MORE_MODE:
+                                refreshPeopleList(answer);
+                                break;
+                            case REFRESH_MODE:
+                                peopleEntityList.clear();
                                 refreshPeopleList(answer);
                                 break;
                         }
@@ -211,7 +222,11 @@ public class PeopleFragmentVM extends BaseSearchVM implements PeopleAdapter.OnPe
     }
 
     public enum FetchPeopleMode {
-        DEFAULT_MODE, FETCH_MORE_MODE;
+        DEFAULT_MODE, FETCH_MORE_MODE, REFRESH_MODE;
+    }
+
+    public interface SwipeRefreshListener{
+        void hideRefreshLoader();
     }
 }
 
