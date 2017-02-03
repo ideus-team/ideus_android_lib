@@ -109,10 +109,10 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
                     requeryApi.storeMessage(messageEntity).subscribe(messageEntity1 -> {
                         switch (SocketCommand.getSocketCommandByValue(response.command)) {
                             case RECEIVE_MESSAGE:
-                                setMessage(response, messageEntity1);
+                                setMessageModel(response, messageEntity1);
                                 break;
                             case MESSAGE_SENT:
-                                updatedMessage(response);
+                                updatedMessageModel(response);
                                 break;
                         }
                     });
@@ -138,12 +138,12 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
         ((ChatActivity) context).setImageChooserListener(this);
     }
 
-    private void updatedMessage(SocketMessageResponse response) {
+    private void updatedMessageModel(SocketMessageResponse response) {
         adapter.updateMessage(new MessageViewModel(response.data.getMessageEntity()));
         disableEditMessage();
     }
 
-    private void setMessage(SocketMessageResponse response, MessageEntity messageEntity) {
+    private void setMessageModel(SocketMessageResponse response, MessageEntity messageEntity) {
         if (messageEntity.isUpdated()) {
             adapter.updateMessage(new MessageViewModel(response.data.getMessageEntity()));
         } else {
