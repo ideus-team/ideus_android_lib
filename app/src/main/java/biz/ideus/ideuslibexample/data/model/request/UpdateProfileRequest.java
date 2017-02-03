@@ -11,31 +11,37 @@ public class UpdateProfileRequest {
     @SerializedName("email")
     private String email;
 
-    @SerializedName("password")
-    private String password;
+    @SerializedName("old_password")
+    private String oldPassword;
 
-    @SerializedName("first_name")
-    private String firstName;
+    @SerializedName("new_password")
+    private String newPassword;
 
-    @SerializedName("last_name")
-    private String lastName;
+    @SerializedName("name")
+    private String name;
 
     @SerializedName("photo")
     private String photoUrl;
 
-    public UpdateProfileRequest(String email, String password
-            , String firstName, String lastName, String photoUrl){
+    public UpdateProfileRequest setEmail(String email) {
         this.email = email;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.photoUrl = photoUrl;
-
+       return this;
     }
 
-    public UpdateProfileRequest(String photoUrl){
-        this.photoUrl = photoUrl;
+    public UpdateProfileRequest setPassword(String oldPassword, String newPassword) {
+        this.newPassword = newPassword;
+        this.oldPassword = oldPassword;
+        return this;
+    }
 
+    public UpdateProfileRequest setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public UpdateProfileRequest setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+        return this;
     }
 
 }

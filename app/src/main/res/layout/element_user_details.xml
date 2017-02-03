@@ -1,10 +1,15 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:imageCircle="http://schemas.android.com/apk/res-auto">
+    xmlns:imageCircle="http://schemas.android.com/apk/res-auto"
+    xmlns:imageLoader="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
-            name="userDetails"
+            name="people"
+            type="biz.ideus.ideuslibexample.data.model.response.response_model.People" />
+
+        <variable
+            name="viewModel"
             type="biz.ideus.ideuslibexample.ui.main_screen.fragments.user_details_fragment.UserDetailsVM" />
     </data>
 
@@ -23,6 +28,7 @@
                 android:id="@+id/view_profile_free_spot"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
+                android:layout_marginTop="50dp"
                 android:background="@color/tw__transparent" />
 
             <RelativeLayout
@@ -59,13 +65,13 @@
                     android:visibility="visible">
 
 
-                    <!--imageLoader:imageUrl="@{doctorProfile.photo}"-->
-                    <biz.ideus.ideuslibexample.ui.widgets.CircleImageView
+                    <biz.ideus.ideuslibexample.ui.widgets.ViewCircleImage
                         android:layout_width="130dp"
                         android:layout_height="130dp"
                         android:src="@drawable/logo_temp_app"
                         imageCircle:civ_border_color="#ffffff"
-                        imageCircle:civ_border_width="4dp" />
+                        imageCircle:civ_border_width="4dp"
+                        imageLoader:imageUrl="@{people.photo}" />
 
                 </LinearLayout>
 
@@ -73,11 +79,10 @@
             </RelativeLayout>
 
             <RelativeLayout
-
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white"
-                android:paddingBottom="20dp">
+                android:paddingBottom="50dp">
 
 
                 <LinearLayout
@@ -91,7 +96,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="@dimen/font_size_10"
+                        android:layout_margin="5dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -101,13 +106,13 @@
                         <TextView
                             android:id="@+id/tv_first_name"
                             style="@style/TextUserDetailsStyleContent"
-                            android:text="Dmitry" />
+                            android:text="@{people.first_name}" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="@dimen/font_size_10"
+                        android:layout_margin="5dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -117,13 +122,13 @@
                         <TextView
                             android:id="@+id/tv_last_name"
                             style="@style/TextUserDetailsStyleContent"
-                            android:text="Dmitry" />
+                            android:text="@{people.last_name}" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="@dimen/font_size_10"
+                        android:layout_margin="5dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -133,13 +138,13 @@
                         <TextView
                             android:id="@+id/tv_birthday"
                             style="@style/TextUserDetailsStyleContent"
-                            android:text="Dmitry" />
+                            android:text="@{people.birthday}" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="@dimen/font_size_10"
+                        android:layout_margin="5dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -149,30 +154,31 @@
                         <TextView
                             android:id="@+id/tv_last_connection"
                             style="@style/TextUserDetailsStyleContent"
-                            android:text="Dmitry" />
+                            android:text="" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="@dimen/font_size_10"
+                        android:layout_margin="5dp"
                         android:orientation="horizontal">
 
                         <TextView
                             style="@style/TextUserDetailsStyleName"
                             android:text="@string/last_message" />
 
+
                         <TextView
                             android:id="@+id/tv_last_message"
                             style="@style/TextUserDetailsStyleContent"
-                            android:text="Dmitry" />
+                            android:text="@{people.lastMessage}" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="@dimen/font_size_10"
-                        android:gravity="center_horizontal"
+                        android:layout_margin="5dp"
+                        android:gravity="center"
                         android:orientation="horizontal">
 
                         <TextView
@@ -188,7 +194,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
+                            android:layout_margin="@dimen/font_size_10"
                             android:layout_weight="1">
 
                             <RatingBar
@@ -206,10 +212,11 @@
                     </LinearLayout>
 
                     <Button
-                        android:id="@+id/btn_question"
+                        android:id="@+id/btn_chat"
                         style="@style/ButtonGreenStyle"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
+                        android:onClick="@{viewModel.onChatClick}"
                         android:text="@string/chat" />
                 </LinearLayout>
 

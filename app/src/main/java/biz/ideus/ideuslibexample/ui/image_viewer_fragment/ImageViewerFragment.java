@@ -27,8 +27,10 @@ public class ImageViewerFragment extends BaseFragment<StartView, ImageViewerVM, 
     public static String CURRENT_IMAGE_POSITION = "CURRENT_IMAGE_POSITION";
     public static String URL_LIST = "URL_LIST";
 
+
     private ImageViewerPagerAdapter pagerAdapter;
     private List<String> imageUrlList = new ArrayList<>();
+    private String imageUrl = "";
     private int imagePosition;
 
     public ImageViewerFragment() {
@@ -38,6 +40,13 @@ public class ImageViewerFragment extends BaseFragment<StartView, ImageViewerVM, 
     public ImageViewerFragment(List<String> imageList, int imagePosition) {
         this.imageUrlList = imageList;
         this.imagePosition = imagePosition;
+    }
+
+    @SuppressLint("ValidFragment")
+    public ImageViewerFragment(String imageUrl) {
+        ArrayList<String> urlList = new ArrayList<>();
+        urlList.add(imageUrl);
+        this.imageUrlList = urlList;
     }
 
 

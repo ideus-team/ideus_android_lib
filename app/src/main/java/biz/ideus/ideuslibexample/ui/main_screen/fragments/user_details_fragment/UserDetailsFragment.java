@@ -13,6 +13,9 @@ import biz.ideus.ideuslibexample.databinding.FragmentUserDetailsBinding;
 import biz.ideus.ideuslibexample.ui.base.BaseFragment;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 
+import static biz.ideus.ideuslibexample.SampleApplication.requeryApi;
+import static biz.ideus.ideuslibexample.utils.Constants.PERCENTAGE_ALPHA;
+
 /**
  * Created by blackmamba on 12.01.17.
  */
@@ -20,7 +23,7 @@ import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 public class UserDetailsFragment extends BaseFragment<StartView, UserDetailsVM, FragmentUserDetailsBinding>
         implements StartView {
 
-    protected float percentage;
+    private float percentage;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,15 +35,16 @@ public class UserDetailsFragment extends BaseFragment<StartView, UserDetailsVM, 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putFloat("percentage", percentage);
+        outState.putFloat(PERCENTAGE_ALPHA, percentage);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setModelView(this);
+
         if (savedInstanceState != null) {
-            percentage = savedInstanceState.getFloat("percentage");
+            percentage = savedInstanceState.getFloat(PERCENTAGE_ALPHA);
         }
         if (percentage == 0) {
             scrollUp();
@@ -59,6 +63,17 @@ public class UserDetailsFragment extends BaseFragment<StartView, UserDetailsVM, 
                 getFragmentManager().popBackStack();
             }
         });
+
+        setPeopleEntityToView(getViewModel().getPeopleId());
+    }
+
+
+
+    private void setPeopleEntityToView(String peopleId){
+        requeryApi.getPeopleEntity(peopleId)
+                .subscribe(peopleEntity1 -> {
+                    getBinding().setPeople(peopleEntity1);
+                });
     }
 
     private void changeBackgroundColor(float percentage) {
@@ -69,9 +84,10 @@ public class UserDetailsFragment extends BaseFragment<StartView, UserDetailsVM, 
         getBinding().toolbar.rlMainToolbar.setAlpha(percentage);
     }
 
-
     private void scrollUp() {
-        getBinding().appbar.setExpanded(false, true);
+        getBinding().appbar.postDelayed(() -> getBinding().appbar.setExpanded(false, true), 200);
+
+
     }
 
     @Nullable

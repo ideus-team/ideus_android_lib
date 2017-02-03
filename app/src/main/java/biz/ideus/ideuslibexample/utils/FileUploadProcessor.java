@@ -25,8 +25,8 @@ import rx.schedulers.Schedulers;
 public class FileUploadProcessor {
     private Subscription subscription;
     private List<String> filePathList = new ArrayList<>(), filesToRemove = new ArrayList<>();
-    private List<Integer> fileIdsList = new ArrayList<>();
-    private Map<String, Integer> filesMap = new HashMap<>();
+    private List<String> fileIdsList = new ArrayList<>();
+    private Map<String, String> filesMap = new HashMap<>();
     private ProcessorState state = ProcessorState.COMPLETED;
     private SuccessUploadListener successUploadListener;
 
@@ -57,7 +57,7 @@ public class FileUploadProcessor {
         return state;
     }
 
-    public List<Integer> getFileIdsList() {
+    public List<String> getFileIdsList() {
         fileIdsList.addAll(filesMap.values());
         return fileIdsList;
     }
@@ -69,7 +69,7 @@ public class FileUploadProcessor {
         }
 
         if (!filesMap.containsKey(file)) {
-            filesMap.put(file, 0);
+            filesMap.put(file, "0");
             setState(ProcessorState.INPROGRESS);
         }
     }
@@ -97,11 +97,11 @@ public class FileUploadProcessor {
             }
         }
 
-        if (filesMap.containsValue(0)) {
+        if (filesMap.containsValue("0")) {
             Log.d("fileUpload", "filesMap.containsValue(0)");
             Set<String> files = filesMap.keySet();
             for (String file : files) {
-                if (filesMap.get(file) == 0) {
+                if (filesMap.get(file).equals("0")) {
                     processFile(file);
                     break;
                 }
@@ -115,7 +115,7 @@ public class FileUploadProcessor {
 
     private void processFile(String fileName) {
         Log.d("file", "processFile");
-        //       stopProcess();
+               stopProcess();
 
         NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.NONE);
 

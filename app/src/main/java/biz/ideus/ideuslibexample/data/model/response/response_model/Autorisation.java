@@ -14,7 +14,7 @@ import io.requery.Persistable;
 @Entity
 public interface Autorisation extends Observable, Parcelable, Persistable {
     @Key
-    int getIdent();
+    String getIdent();
 
     String getApi_token();
 
@@ -26,9 +26,9 @@ public interface Autorisation extends Observable, Parcelable, Persistable {
     void setEmail(String email);
 
     @Bindable
-    int getFriendsCount();
+    String getFriendsCount();
 
-    void setFriendsCount(int friendsCount);
+    void setFriendsCount(String friendsCount);
 
     @Bindable
     String getPhoto();

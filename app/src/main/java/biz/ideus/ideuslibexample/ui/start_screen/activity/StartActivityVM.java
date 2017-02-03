@@ -12,6 +12,8 @@ import android.widget.CheckBox;
 
 import com.orhanobut.hawk.Hawk;
 import com.theartofdev.edmodo.cropper.CropImage;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterSession;
 
 import biz.ideus.ideuslib.interfaces.OnValidateField;
 import biz.ideus.ideuslibexample.data.model.request.LoginModelRequest;
@@ -25,7 +27,6 @@ import biz.ideus.ideuslibexample.interfaces.BaseMvvmInterface;
 import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.main_screen.activity.MainActivity;
-import biz.ideus.ideuslibexample.ui.main_screen.fragments.user_details_fragment.UserDetailsFragment;
 import biz.ideus.ideuslibexample.ui.start_screen.SocialsLogin;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.forgot_password_fragment.ForgotPasswordFragment;
@@ -62,7 +63,6 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
         visibilityClearPasswordImage.set(View.INVISIBLE);
         isPasswordShow.set(true);
         setOnValidateField(this);
-
     }
 
 
@@ -70,13 +70,12 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
     public void onBindView(@NonNull StartView view) {
         super.onBindView(view);
         ((StartActivity) context).setGoogleAutorisationListener(this);
+
     }
 
     @DebugLog
     public void onTestClick(View view) {
 
-        ((BaseActivity) context)
-                .addFragmentToBackStack(new UserDetailsFragment(), null, true, null);
     }
 
     private boolean isValidFields() {
@@ -138,7 +137,7 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
                 });
     }
 
-    protected void goToMainScreen() {
+    private void goToMainScreen() {
         StartActivity startActivity = (StartActivity) context;
         startActivity.startActivity(new Intent(startActivity, MainActivity.class));
         startActivity.finish();
@@ -226,26 +225,27 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
 
     @Override
     public void getGoogleToken(String googlePlusToken) {
-        autorisationSocial(googlePlusToken, GOOGLE_PLUS_NET.networkName, null);
+        autorisationSocial(googlePlusToken, null, GOOGLE_PLUS_NET.networkName);
     }
 
 
     @Override
-    public void getTwitterAutorisationData(String userName, String twitterToken) {
-        autorisationSocial(twitterToken, TWITTER_NET.networkName, userName);
+    public void getTwitterAutorisationData(Result<TwitterSession> twitterSessionResult) {
+        autorisationSocial(twitterSessionResult.data.getAuthToken().token,twitterSessionResult.data.getAuthToken().secret
+                , TWITTER_NET.networkName);
     }
 
     @Override
     public void getFacebookToken(String facebookToken) {
-        autorisationSocial(facebookToken, FACEBOOK_NET.networkName, null);
+        autorisationSocial(facebookToken, null, FACEBOOK_NET.networkName);
     }
 
 
-    private void autorisationSocial(String socialToken, String socialName, @Nullable String twitterUserName) {
+    private void autorisationSocial(String socialToken, String twitterSecret, String socialName) {
 
         SocialsAutorisationRequest sotialAuthModel = new SocialsAutorisationRequest(socialToken, socialName);
         if (socialName.equals(TWITTER_NET.networkName)) {
-            sotialAuthModel.setTwitterUsername(twitterUserName);
+            sotialAuthModel.setTwitterSecret(twitterSecret);
         }
         NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
 

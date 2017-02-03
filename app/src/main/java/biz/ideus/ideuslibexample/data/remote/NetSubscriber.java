@@ -99,7 +99,6 @@ public class NetSubscriber <T extends ServerAnswer> extends Subscriber<T> {
 //
 //
 //                }
-//                PreferencesUtil.alertWasShowed(PreferencesUtil.NO_INTERNET_CONNECTION, true);
             } else {
                 Log.d("NetSubscriber", "DialogParams " );
                 DialogParams dialogParams = new DialogParamsBuilder()
@@ -131,10 +130,10 @@ public class NetSubscriber <T extends ServerAnswer> extends Subscriber<T> {
                 RxBusShowDialog.instanceOf().setRxBusShowDialog(PROGRESS_DIALOG);
                 break;
             }
-//            case LINEAR: {
-//                subscriberSettings.showLinearProgress();
-//                break;
-//            }
+            case LINEAR: {
+                subscriberSettings.showLinearProgress();
+                break;
+            }
         }
     }
 
@@ -145,10 +144,10 @@ public class NetSubscriber <T extends ServerAnswer> extends Subscriber<T> {
                 RxBusShowDialog.instanceOf().setRxBusShowDialog(HIDE_PROGRESS_DIALOG);
                 break;
             }
-//            case LINEAR: {
-//                subscriberSettings.hideLinearProgress();
-//                break;
-//            }
+            case LINEAR: {
+                subscriberSettings.hideLinearProgress();
+                break;
+            }
         }
     }
 

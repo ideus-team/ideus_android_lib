@@ -1,13 +1,15 @@
 package biz.ideus.ideuslibexample.ui.common.toolbar;
 
+import android.databinding.BindingAdapter;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import biz.ideus.ideuslib.mvvm_lifecycle.AbstractViewModel;
 import biz.ideus.ideuslib.mvvm_lifecycle.IView;
 import biz.ideus.ideuslibexample.R;
-import biz.ideus.ideuslibexample.dialogs.DialogModel;
-import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 
 /**
@@ -16,7 +18,6 @@ import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 
 public abstract class AbstractViewModelToolbar<T extends IView> extends AbstractViewModel<T>
         implements IToolBar {
-
 
     @Override
     public boolean isLeftBtnVisible() {
@@ -39,20 +40,23 @@ public abstract class AbstractViewModelToolbar<T extends IView> extends Abstract
     }
 
     @Override
-    public Drawable setImageRightBtn() {
+    public Drawable getImageRightBtn() {
         return null;
     }
 
     @Override
-    public Drawable setImageLeftBtn() {
+    public Drawable getImageLeftBtn() {
         return getView().getViewModelBindingConfig().getContext().getResources().getDrawable(R.drawable.ic_left_arrow);
     }
 
-    public void showProgress(){
-        RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.PROGRESS_DIALOG);
+
+    @BindingAdapter("progressColor")
+    public static void setProgressColor(ProgressBar progressBar, boolean isColorChange) {
+        progressBar.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
     }
-    public void hideProgress(){
-        RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.HIDE_PROGRESS_DIALOG);
-    }
+
+
+    @Override
+    public void setVisibilityLinearProgress(boolean isVisible){}
 
 }

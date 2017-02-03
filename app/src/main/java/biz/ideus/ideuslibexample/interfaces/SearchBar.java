@@ -9,5 +9,6 @@ import android.view.View;
 public interface SearchBar {
    void onTextChangedSearch(CharSequence text, int start, int before, int count);
    void onCancelClick(View view);
+   String getSearchText();
 
 }

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="biz.ideus.ideuslibexample.ui.chat_screen.activity.ItemChatTag" />
+
+        <variable
+            name="viewModel"
+            type="biz.ideus.ideuslibexample.ui.chat_screen.MessageViewModel" />
+
+        <variable
+            name="isShowDate"
+            type="java.lang.Boolean"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_header_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <!--<View-->
+                <!--android:layout_width="30dp"-->
+                <!--android:layout_height="2dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@color/light_gray" />-->
+
+            <LinearLayout
+                android:id="@+id/ll_date"
+                android:visibility="@{viewModel.visibleDate ? View.VISIBLE : View.INVISIBLE}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_current_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.dateMessage}"
+                    android:textColor="@color/gray" />
+
+            </LinearLayout>
+
+            <!--<View-->
+                <!--android:layout_width="30dp"-->
+                <!--android:layout_height="2dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@color/light_gray" />-->
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ll_text_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/corners_layout_gray_10dp"
+                android:layout_toEndOf="@+id/iv_user_photo"
+                android:layout_toRightOf="@+id/iv_user_photo"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_message"
+                    android:visibility="@{viewModel.visibleText ? View.VISIBLE : View.GONE}"
+                    android:tag="@{ItemChatTag.TEXT}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="@{viewModel.messageObs}" />
+
+                <LinearLayout
+                    android:id="@+id/ll_image_attach_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:orientation="vertical">
+
+
+                    <biz.ideus.ideuslibexample.ui.widgets.ViewImageLoader
+                        android:tag="@{ItemChatTag.IMAGE}"
+                        android:visibility="@{viewModel.visibleImage ? View.VISIBLE : View.GONE}"
+                        android:id="@+id/iv_image_attach"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:scaleType="centerCrop"
+                        app:imageUrl="@{viewModel.messageObs}" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <biz.ideus.ideuslibexample.ui.widgets.ViewCircleImage
+                android:id="@+id/iv_user_photo"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="10dp"
+                app:imageUrl="@{viewModel.friendPhoto}"
+                android:src="@drawable/logo_temp_app" />
+
+
+
+            <TextView
+                android:id="@+id/tv_current_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/ll_text_container"
+                android:layout_alignStart="@+id/ll_text_container"
+                android:layout_below="@+id/ll_text_container"
+                android:layout_marginTop="5dp"
+                android:text="@{viewModel.timeMessage}"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/font_size_10" />
+
+            <TextView
+                android:id="@+id/tv_messageEdit"
+                android:visibility="@{(boolean)viewModel.updatedObs ? View.VISIBLE : View.INVISIBLE}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="8sp"
+                android:textColor="@color/gray"
+                android:paddingTop="3dp"
+                android:text="@string/edited"
+                android:layout_below="@+id/tv_current_time"
+                android:layout_alignLeft="@+id/ll_text_container"
+                android:layout_alignStart="@+id/ll_text_container" />
+        </RelativeLayout>
+
+    </LinearLayout>
+</layout>

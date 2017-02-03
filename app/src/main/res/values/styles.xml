@@ -3,8 +3,8 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/color_main</item>
+        <item name="colorPrimaryDark">@color/color_main</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
     <!--<item name="android:windowBackground">@drawable/drawable_run_app</item>-->
@@ -69,13 +69,9 @@
         <item name="android:maxHeight">15dp</item>
     </style>
 
-    <style name="StyledLinearProgressBar" parent="Base.Widget.AppCompat.ProgressBar.Horizontal">
-        <item name="colorAccent">@color/color_main</item>
-        <item name="android:progressBackgroundTint">@color/color_main_pressed</item>
-    </style>
 
     <style name="AppTheme.WhiteAccent">
-        <item name="colorAccent">@android:color/white</item> <!-- Whatever color you want-->
+        <item name="colorAccent">@android:color/white</item>
     </style>
 
     <style name="checkBoxComponent" parent="Theme.AppCompat.Light">

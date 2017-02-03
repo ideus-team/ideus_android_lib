@@ -37,6 +37,7 @@ ext.okHttpVersion = '3.4.1'
 ext.requeryVersion = '1.0.2'
 ext.retrofitVersion = '2.1.0'
 ext.parcelerVersion = '1.1.6'
+ext.firebaseVersion = '10.0.1'
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -45,10 +46,13 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
+    compile 'com.annimon:stream:1.1.5'
+    compile 'com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.0'
+    compile "com.google.firebase:firebase-core:${firebaseVersion}"
+    compile "com.google.firebase:firebase-messaging:${firebaseVersion}"
+    compile 'com.android.support:multidex:1.0.1'
     compile 'com.github.ozodrukh:CircularReveal:2.0.1'
     compile 'com.orhanobut:hawk:2.0.1'
-    compile 'com.neovisionaries:nv-websocket-client:1.30'
     compile "io.requery:requery:${requeryVersion}"
     compile "io.requery:requery-android:${requeryVersion}"
     compile 'io.reactivex:rxandroid:1.2.1'
@@ -66,6 +70,7 @@ dependencies {
     apt "io.requery:requery-processor:${requeryVersion}"
     // use an APT plugin
     compile "com.squareup.okhttp3:okhttp:${okHttpVersion}"
+    compile "com.squareup.okhttp3:okhttp-ws:${okHttpVersion}"
     compile "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}"
 
     //compile 'com.android.support:appcompat-v7:25.1.0'
@@ -85,9 +90,8 @@ dependencies {
         transitive = true;
     }
 
-
+    apply plugin: 'com.google.gms.google-services'
 //    compile 'com.race604.waveloading:library:1.0.1'
-
 
     testCompile 'junit:junit:4.12'
     compile project(':ideuslib')

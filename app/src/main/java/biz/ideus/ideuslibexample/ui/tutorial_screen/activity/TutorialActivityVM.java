@@ -16,7 +16,6 @@ import biz.ideus.ideuslib.mvvm_lifecycle.AbstractViewModel;
 import biz.ideus.ideuslibexample.interfaces.BaseMvvmInterface;
 import biz.ideus.ideuslibexample.ui.main_screen.activity.MainActivity;
 import biz.ideus.ideuslibexample.ui.tutorial_screen.TutorialView;
-import biz.ideus.ideuslibexample.ui.tutorial_screen.activity.TutorialActivity;
 import biz.ideus.ideuslibexample.ui.tutorial_screen.adapters.TutorialPagerAdapter;
 import rx.Observable;
 
@@ -70,6 +69,7 @@ private Context context;
     public void onGetStartedClick(View view) {
         if (isBtnActive.get()) {
             ((TutorialActivity)context).startActivity(new Intent(((TutorialActivity) context), MainActivity.class));
+            ((TutorialActivity)context).finish();
         }
     }
 

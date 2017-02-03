@@ -4,8 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.orhanobut.hawk.Hawk;
 
+import java.util.concurrent.TimeUnit;
+
 import biz.ideus.ideuslibexample.BuildConfig;
 import biz.ideus.ideuslibexample.data.remote.NetApi;
+import biz.ideus.ideuslibexample.data.remote.RxErrorHandlingCallAdapterFactory;
 import biz.ideus.ideuslibexample.injection.scopes.PerApplication;
 import biz.ideus.ideuslibexample.utils.Constants;
 import dagger.Module;
@@ -14,9 +17,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import rx.schedulers.Schedulers;
 
 /* Copyright 2016 Patrick Löwenstein
  *
@@ -78,12 +79,13 @@ public class NetModule {
                             .addHeader("Api-Token", (Hawk.contains(Constants.USER_TOKEN)) ? Hawk.get(Constants.USER_TOKEN) : "")
                             .addHeader("Content-Type", "application/x-www-form-urlencoded").build();
                     return chain.proceed(request);
-                }).build();
+                }).connectTimeout(20, TimeUnit.SECONDS).build();
 
         return new Retrofit.Builder()
                 .baseUrl(URL + API_VERSION)
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(Schedulers.io()))
+              //  .addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(Schedulers.io()))
+                .addCallAdapterFactory(RxErrorHandlingCallAdapterFactory.create())
                 .callFactory(defaultHttpClient)
                 .build().create(NetApi.class);
     }

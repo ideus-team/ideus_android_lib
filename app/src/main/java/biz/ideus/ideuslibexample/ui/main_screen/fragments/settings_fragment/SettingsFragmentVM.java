@@ -3,12 +3,10 @@ package biz.ideus.ideuslibexample.ui.main_screen.fragments.settings_fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.ObservableField;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -24,6 +22,7 @@ import biz.ideus.ideuslibexample.data.remote.CheckError;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriberSettings;
 import biz.ideus.ideuslibexample.dialogs.DialogModel;
+import biz.ideus.ideuslibexample.interfaces.ImageChooserListener;
 import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.main_screen.activity.MainActivity;
@@ -36,18 +35,20 @@ import rx.schedulers.Schedulers;
 
 import static biz.ideus.ideuslibexample.SampleApplication.netApi;
 import static biz.ideus.ideuslibexample.SampleApplication.requeryApi;
+import static biz.ideus.ideuslibexample.ui.main_screen.fragments.settings_fragment.SettingsFieldTag.EMAIL;
+import static biz.ideus.ideuslibexample.ui.main_screen.fragments.settings_fragment.SettingsFieldTag.NAME;
+import static biz.ideus.ideuslibexample.ui.main_screen.fragments.settings_fragment.SettingsFieldTag.NEW_PASSWORD;
 
 /**
  * Created by blackmamba on 25.11.16.
  */
 
-public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSignUpScreen, MainActivity.ImageChooserListener, FileUploadProcessor.SuccessUploadListener {
+public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSignUpScreen, ImageChooserListener, FileUploadProcessor.SuccessUploadListener {
     private Context context;
     private boolean isValidName = true;
     private boolean isValidEmail = true;
     private boolean isValidCurrentPassword = false;
     private boolean isValidNewPassword = false;
-    private boolean updateOnlyPhoto = false;
     private SettingsFieldTag settingsFieldTag = SettingsFieldTag.EMPTY_TAG;
     private FileUploadProcessor fileUploadProcessor;
     private String uploadedUrl = "";
@@ -72,16 +73,18 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
 
         fileUploadProcessor = new FileUploadProcessor();
         fileUploadProcessor.setSuccessUploadListener(this);
+        initialStateFields();
+        setOnValidateField(this);
 
-        titleColorCurrentPassword.set(Color.BLACK);
+    }
+
+    private void initialStateFields() {
         visibilityClearEmailImage.set(View.GONE);
         visibilityClearPasswordImage.set(View.GONE);
         visibilityClearNameImage.set(View.GONE);
         visibilityClearImageCurrentPassword.set(View.GONE);
         visibilityChangeInfoLayout.set(View.GONE);
-
-        setOnValidateField(this);
-
+        textCurrentPassword.set("");
     }
 
     @Override
@@ -111,7 +114,8 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
             name.set(userInfo.getFirst_name());
             email.set(userInfo.getEmail());
             photo.set(userInfo.getPhoto());
-            connectionsUsers.set((userInfo.getFriendsCount() != 0) ? "+ " + userInfo.getFriendsCount() + " " + context.getString(R.string.connections) : "");
+            connectionsUsers.set(!(userInfo.getFriendsCount().equals("0")) ?
+                    "+ " + userInfo.getFriendsCount() + " " + context.getString(R.string.connections) : "");
             setFullNameUser(userInfo);
         }
     }
@@ -119,7 +123,6 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
     private void setFullNameUser(AutorisationEntity userInfo) {
         fullNameUser.set(userInfo.getFirst_name() + " " + userInfo.getLast_name());
     }
-
     @Override
     public String getToolbarTitle() {
         return context.getString(R.string.settings);
@@ -190,19 +193,6 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
 
     }
 
-
-    private void updateProfile(boolean updatePhotoOnly) {
-        if (updatePhotoOnly) {
-            requestUpdateProfile(new UpdateProfileRequest(uploadedUrl));
-
-        } else if (isValideFields()) {
-            requestUpdateProfile(new UpdateProfileRequest(email.get().toString()
-                    , "", name.get().toString(), "", uploadedUrl));
-        } else {
-            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.UPDATE_PROFILE_ATTENTION);
-        }
-    }
-
     private void requestUpdateProfile(UpdateProfileRequest updateProfileRequest) {
         NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
         netApi.updateProfile(updateProfileRequest)
@@ -231,21 +221,48 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
     public void onClickChangeInfo(View view) {
         switch (getSettingsFieldTag()) {
             case NAME:
-                Log.d("change", context.getString(settingsFieldTag.nameField));
-                updateProfile(false);
+                if (isValidCurrentField(NAME))
+                    requestUpdateProfile(new UpdateProfileRequest().setName(name.get().toString()));
                 break;
             case EMAIL:
-                Log.d("change", context.getString(settingsFieldTag.nameField));
-                updateProfile(false);
+                if (isValidCurrentField(EMAIL))
+                    requestUpdateProfile(new UpdateProfileRequest().setEmail(email.get().toString()));
                 break;
-//            case CURRENT_PASSWORD:
-//                visibilityChangeInfoLayout.set(View.GONE);
-//                Log.d("change", context.getString(settingsFieldTag.nameField));
-//                break;
             case NEW_PASSWORD:
-                Log.d("change", context.getString(settingsFieldTag.nameField));
-                updateProfile(false);
+                if (isValidCurrentField(NEW_PASSWORD))
+                    requestUpdateProfile(new UpdateProfileRequest()
+                            .setPassword(textCurrentPassword.get().toString(), password.get().toString()));
                 break;
+        }
+    }
+
+    private boolean isValidCurrentField(SettingsFieldTag tagField) {
+        boolean validFlag = false;
+        switch (tagField) {
+            case NAME:
+                validFlag = isValidField(isValidName);
+                break;
+            case EMAIL:
+                validFlag = isValidField(isValidEmail);
+                break;
+            case NEW_PASSWORD:
+                validFlag = isValidField(isValidNewPassword && isValidCurrentPassword);
+                break;
+        }
+        return validFlag;
+    }
+
+    private boolean isValidField(boolean isValid) {
+        if (isValid) {
+            return isValid;
+        } else {
+            if(settingsFieldTag.equals(NEW_PASSWORD)){
+                RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.UPDATE_PROFILE_PASSWORD_ATTENTION);
+                return isValid;
+            } else {
+                RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.UPDATE_PROFILE_ATTENTION);
+                return isValid;
+            }
         }
     }
 
@@ -268,8 +285,14 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
 
     public void onTextChangedCurrentPassword(CharSequence text, int start, int before, int count) {
         textCurrentPassword.set(text);
+        validateCurrentPassword(text);
         visibilityClearImageCurrentPassword.set(getVisibility(text.toString()));
 
+    }
+
+    private void validateCurrentPassword(CharSequence text) {
+        isValidCurrentPassword = text.length() > MIN_COUNT_CHARACTER_PASSWORD;
+        titleColorCurrentPassword.set(getColor(text.length() > MIN_COUNT_CHARACTER_PASSWORD, context));
     }
 
     @Override
@@ -306,6 +329,7 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
         isValidNewPassword = isValid;
     }
 
+
     @Override
     public void setVisibilityImageDeleteName(int visibility) {
         visibilityClearNameImage.set(visibility);
@@ -331,14 +355,10 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
         fileUploadProcessor.addFilePath(imagePath);
     }
 
-    private boolean isValideFields() {
-        return isValidName && isValidEmail;
-    }
-
     @Override
     public void setUploadFileAnswer(UploadFileData uploadData) {
         uploadedUrl = uploadData.getFile();
         photo.set(uploadedUrl);
-        updateProfile(true);
+        requestUpdateProfile(new UpdateProfileRequest().setPhotoUrl(uploadedUrl));
     }
 }
