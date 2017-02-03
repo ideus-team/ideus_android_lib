@@ -80,7 +80,7 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
     public void setAdapter(ChatAdapter adapter) {
         this.adapter = adapter;
         adapter.setOnItemChatClickListener(this);
-        adapter.notifyInsertedItems(messageList, friendForChat);
+        adapter.notifyChatAdapter(messageList, friendForChat);
     }
 
     @Override
@@ -94,7 +94,7 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
         fileUploadProcessor.setSuccessUploadListener(this);
         message.set("");
 
-        webSocketClient.connectHttpClient();
+
         webSocketClient.setMessageListener(new SocketMessageListener() {
             @Override
             public void onMessage(SocketMessageResponse response) {
@@ -123,6 +123,12 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
         startNetworkSubscription();
         rxEditDialogMessageSubscription = getSubscribtionEditDialogMessage();
         fetchMessages(chatUserId);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        webSocketClient.connectHttpClient();
     }
 
     @Override
@@ -193,7 +199,6 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
                 })
                 .subscribe(peopleEntity -> {
                     friendForChat = peopleEntity;
-                    adapter.notifyInsertedItems(messageList, friendForChat);
                     fetchMessagesFromServer(peopleId);
                 });
     }
@@ -226,11 +231,12 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
+                        adapter.notifyChatAdapter(messageList, friendForChat);
                     }
 
                     @Override
                     public void onNext(MessagesResponse answer) {
-                        adapter.notifyInsertedItems(messageList, friendForChat);
+                        adapter.notifyChatAdapter(messageList, friendForChat);
                     }
                 });
     }

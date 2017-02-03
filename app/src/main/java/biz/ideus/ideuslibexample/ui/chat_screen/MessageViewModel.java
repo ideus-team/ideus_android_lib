@@ -106,6 +106,7 @@ public class MessageViewModel extends BaseObservable {
     }
 
     public void setUpdated(boolean isUpdated) {
+        if(!isOwner())
         this.updatedObs.set(isUpdated);
     }
 

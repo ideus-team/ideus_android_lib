@@ -20,14 +20,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/font_size_10"
+        android:layout_margin="5dp"
         android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/ll_header_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/font_size_15"
+            android:layout_marginBottom="10dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -39,7 +39,7 @@
 
             <LinearLayout
                 android:id="@+id/ll_date"
-                android:visibility="@{(boolean)isShowDate ? View.VISIBLE : View.GONE}"
+                android:visibility="@{viewModel.isVisibleDate ? View.VISIBLE : View.INVISIBLE}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -107,19 +107,6 @@
                     app:imageUrl="@{viewModel.messageObs}" />
                 </LinearLayout>
 
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_marginTop="3dp"
-                android:id="@+id/ll_image_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/corners_layout_gray_10dp"
-                android:layout_alignLeft="@+id/ll_text_container"
-                android:layout_alignStart="@+id/ll_text_container"
-                android:layout_below="@+id/ll_text_container"
-                android:orientation="vertical">
             </LinearLayout>
 
             <TextView
@@ -127,13 +114,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-                android:layout_below="@+id/ll_image_container"
+                android:layout_below="@+id/ll_text_container"
                 android:layout_marginTop="5dp"
                 android:text="@{viewModel.timeMessage}"
                 android:textColor="@color/gray"
                 android:textSize="@dimen/font_size_10"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true" />
+
+            <TextView
+                android:id="@+id/tv_messageEdit"
+                android:visibility="@{(boolean)viewModel.updatedObs ? View.VISIBLE : View.INVISIBLE}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="8sp"
+                android:textColor="@color/gray"
+                android:paddingTop="3dp"
+                android:text="@string/edited"
+                android:layout_below="@+id/tv_current_time"
+                android:layout_alignRight="@+id/ll_text_container"
+                android:layout_alignEnd="@+id/ll_text_container" />
         </RelativeLayout>
 
     </LinearLayout>

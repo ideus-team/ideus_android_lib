@@ -36,18 +36,14 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private OnItemChatClickListener onItemChatClickListener;
 
 
-    public void notifyInsertedItems(List<MessageViewModel> newMessageList, PeopleEntity friendForChat) {
-        int notifyCounter = newMessageList.size() - messageList.size();
+    public void notifyChatAdapter(List<MessageViewModel> newMessageList, PeopleEntity friendForChat) {
         this.messageList = newMessageList;
         this.friendForChat = friendForChat;
-//        if (!newMessageList.isEmpty()) {
-//          //  setVisibilityDateInList(messageList);
-//            notifyItemRangeInserted(messageList.size() - 1, notifyCounter);
-//        } else {
-            setVisibilityDateInList(messageList);
-            notifyDataSetChanged();
-        }
-   // }
+        setVisibilityDateInList(messageList);
+        notifyDataSetChanged();
+        scrollToBottom();
+
+    }
 
 
     public void setScrollToBottomListener(ScrollToBottomListener scrollToBottomListener) {
@@ -64,8 +60,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     public void setMessageToList(MessageViewModel message) {
-        this.messageList.add(message);
         setVisibilityDateInMessage(message);
+        this.messageList.add(message);
         notifyItemInserted(messageList.size() - 1);
         scrollToBottom();
     }
@@ -77,6 +73,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public void updateMessage(MessageViewModel message) {
+
         Stream.of(messageList).filter(item ->
                 item.getIdent().equals(message.getIdent())).findFirst().map(item ->
         {
@@ -126,13 +123,9 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     private void setVisibilityDateInList(List<MessageViewModel> list) {
-
         for (int i = 0; i < list.size(); i++) {
-            if (i == 0) {
+            if (i == 0 || !list.get(i).getDateMessage().equals(list.get(i - 1).getDateMessage()))
                 list.get(i).setVisibleDate(true);
-            } else if (!list.get(i).getDateMessage().equals(list.get(i - 1).getDateMessage())) {
-                list.get(i).setVisibleDate(true);
-            }
         }
     }
 
