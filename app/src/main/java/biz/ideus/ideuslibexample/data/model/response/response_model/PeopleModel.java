@@ -26,7 +26,7 @@ public class PeopleModel {
     boolean isFavourite;
 
 
-    public PeopleEntity createPeopleEntity() {
+    public PeopleEntity getPeopleEntity() {
         PeopleEntity peopleEntity = new PeopleEntity();
         peopleEntity.setIdent(this.ident);
         peopleEntity.setFirst_name(this.firstname);

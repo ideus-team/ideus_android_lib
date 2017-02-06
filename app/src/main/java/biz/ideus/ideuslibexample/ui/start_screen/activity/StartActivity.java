@@ -35,11 +35,11 @@ import static biz.ideus.ideuslibexample.utils.Constants.GOOGLE_SIGN_IN;
 public class StartActivity extends BaseActivity<StartView, StartActivityVM, ActivityLoginBinding> implements StartView {
 
     private TwitterAuthClient twitterAuthClient;
-//    protected Subscription RxBusActionEditDialogBtnSubscription;
-    private GoogleAutorisationListener googleAutorisationListener;
+    protected Subscription RxBusActionEditDialogBtnSubscription;
+    private GoogleAuthorisationListener googleAuthorisationListener;
 
-    public void setGoogleAutorisationListener(GoogleAutorisationListener googleAutorisationListener) {
-        this.googleAutorisationListener = googleAutorisationListener;
+    public void setGoogleAuthorisationListener(GoogleAuthorisationListener googleAuthorisationListener) {
+        this.googleAuthorisationListener = googleAuthorisationListener;
     }
 
     public TwitterAuthClient getTwitterAuthClient() {
@@ -56,8 +56,14 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
         twitterAuthClient = new TwitterAuthClient();
         //RxBusActionEditDialogBtnSubscription = startRxBusActionEditDialogBtnSubscription();
 
+
     }
 
+    @Nullable
+    @Override
+    public Class<StartActivityVM> getViewModelClass() {
+        return StartActivityVM.class;
+    }
 
 
 
@@ -74,8 +80,8 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(token -> {
-                    if (googleAutorisationListener != null)
-                        googleAutorisationListener.getGoogleToken(token);
+                    if (googleAuthorisationListener != null)
+                        googleAuthorisationListener.getGoogleToken(token);
                 });
     }
 
@@ -113,12 +119,9 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
     @Override
     public void onDestroy() {
         super.onDestroy();
-    }
+        if (RxBusActionEditDialogBtnSubscription != null && !RxBusActionEditDialogBtnSubscription.isUnsubscribed())
+            RxBusActionEditDialogBtnSubscription.unsubscribe();
 
-    @Nullable
-    @Override
-    public Class<StartActivityVM> getViewModelClass() {
-        return StartActivityVM.class;
     }
 
     @Nullable
@@ -127,7 +130,7 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
         return new ViewModelBindingConfig(R.layout.activity_login, BR.viewModel, this);
     }
 
-    public interface GoogleAutorisationListener {
+    public interface GoogleAuthorisationListener {
         void getGoogleToken(String googlePlusToken);
     }
 

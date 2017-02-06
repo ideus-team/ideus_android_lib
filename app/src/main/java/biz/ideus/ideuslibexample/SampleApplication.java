@@ -8,9 +8,6 @@ import android.util.Log;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
-import com.neovisionaries.ws.client.ProxySettings;
-import com.neovisionaries.ws.client.WebSocket;
-import com.neovisionaries.ws.client.WebSocketFactory;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -44,6 +41,8 @@ import io.requery.sql.Configuration;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static biz.ideus.ideuslibexample.utils.Constants.NO_INTERNET_CONNECTION;
+
 /**
  * Created by user on 09.11.2016.
  */
@@ -54,16 +53,9 @@ public class SampleApplication extends Application {
     private Configuration configuration;
     public static DisplayImageOptions imageLoaderDefaultDisplayOptions;
     public static Application mApplication;
-    private WebSocketFactory factory;
-    private SSLContext sslContext;
-    private ProxySettings proxySettings;
-    private WebSocket webSocket;
     public static RequeryApi requeryApi;
     public static NetApi netApi;
 
-    public WebSocket getWebSocket() {
-        return webSocket;
-    }
 
     protected void setupFonts() {
         DLibTypefaceAdapter.addFontDefinition("normal", "fonts/MuseoSansCyrl.otf");
@@ -86,42 +78,14 @@ public class SampleApplication extends Application {
             e.printStackTrace();
         }
 
-
-        //Web socket
-//        factory = new WebSocketFactory();
-//        try {
-//            sslContext = SSLContext.getInstance("TLS");
-//        } catch (NoSuchAlgorithmException e) {
-//            e.printStackTrace();
-//        }
-//        factory.setSSLContext(sslContext);
-//        factory.setConnectionTimeout(1000);
-//
-//        try {
-//            webSocket = new WebSocketFactory().createSocket("ws://46.101.254.89:8080");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//
-//        webSocket.connectAsynchronously();
-//
-//
-//        webSocket.addListener(new WebSocketAdapter() {
-//            @Override
-//            public void onTextMessage(WebSocket websocket, String text) throws Exception {
-//                RxChatMessageEvent.instanceOf().setRxChatMessageEvent(text);
-//            }
-//        });
-        //
-
         sInstance = this;
         sAppComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
                 .build();
 
         requeryApi = sAppComponent.dataApi();
-         netApi = sAppComponent.netApi();
+        netApi = sAppComponent.netApi();
+
 
 
         setupFaceBookSDK();
@@ -133,8 +97,11 @@ public class SampleApplication extends Application {
        // if(BuildConfig.DEBUG) { Timber.plant(new Timber.DebugTree()); }
 
         CheckVersion();
+        // if(BuildConfig.DEBUG) { Timber.plant(new Timber.DebugTree()); }
 
+        Hawk.put(NO_INTERNET_CONNECTION, false);
     }
+
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -143,7 +110,7 @@ public class SampleApplication extends Application {
     }
 
 
-    private void setupUniversalImageLoaderConfig(){
+    private void setupUniversalImageLoaderConfig() {
         imageLoaderDefaultDisplayOptions = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
@@ -155,11 +122,17 @@ public class SampleApplication extends Application {
         ImageLoader.getInstance().init(config);
     }
 
-    public static SampleApplication getInstance() { return sInstance; }
+    public static SampleApplication getInstance() {
+        return sInstance;
+    }
 
-    public static AppComponent getAppComponent() { return sAppComponent; }
+    public static AppComponent getAppComponent() {
+        return sAppComponent;
+    }
 
-    public static Resources getRes() { return sInstance.getResources(); }
+    public static Resources getRes() {
+        return sInstance.getResources();
+    }
 
     protected void setupFaceBookSDK() {
         FacebookSdk.sdkInitialize(getApplicationContext());

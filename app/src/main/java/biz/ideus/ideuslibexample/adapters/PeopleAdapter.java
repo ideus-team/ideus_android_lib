@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.data.model.response.response_model.PeopleEntity;
@@ -35,7 +34,7 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.PeopleItem
 
     }
 
-    public void setPeopleEntities(Set<PeopleEntity> peopleEntities) {
+    public void setPeopleEntities(List<PeopleEntity> peopleEntities) {
         this.peopleEntities = new ArrayList<>(peopleEntities);
         notifyDataSetChanged();
     }
@@ -69,7 +68,7 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.PeopleItem
     public void onBindViewHolder(PeopleItemHolder holder, int position) {
         PeopleEntity peopleEntity = peopleEntities.get(position);
         holder.binding.setViewModel(peopleEntity);
-        holder.binding.imageViewCircle.loadImage(peopleEntity.getPhoto());
+      //  holder.binding.imageViewCircle.loadImage(peopleEntity.getPhoto());
         holder.binding.favouritesLayout.setOnClickListener(v -> onPeopleClickListener.onClickFavourite(position, peopleEntity));
         holder.binding.rlMain.setOnClickListener(v -> onPeopleClickListener.onClickItem(position, peopleEntity));
     }

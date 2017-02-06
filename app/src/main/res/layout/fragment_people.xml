@@ -38,13 +38,21 @@
             </include>
 
     </RelativeLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rViewPeople"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        android:layout_below="@+id/relativeLayout2" />
+        android:layout_below="@+id/relativeLayout2"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rViewPeople"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+          />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 
 </RelativeLayout>
 </layout>

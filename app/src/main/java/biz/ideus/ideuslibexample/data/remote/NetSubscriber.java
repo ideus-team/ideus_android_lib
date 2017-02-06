@@ -99,7 +99,6 @@ public class NetSubscriber <T extends ServerAnswer> extends Subscriber<T> {
 //
 //
 //                }
-//                PreferencesUtil.alertWasShowed(PreferencesUtil.NO_INTERNET_CONNECTION, true);
             } else {
                 Log.d("NetSubscriber", "DialogParams " );
                 DialogParams dialogParams = new DialogParamsBuilder()

@@ -52,12 +52,22 @@ import static biz.ideus.ideuslibexample.utils.Constants.USER_TOKEN;
  */
 
 public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterface.StartActivityVmListener
-        , OnValidateField, SocialsLogin.SocialRegistrationListener, StartActivity.GoogleAutorisationListener {
+        , OnValidateField, SocialsLogin.SocialRegistrationListener, StartActivity.GoogleAuthorisationListener {
     private boolean isValidEmail = false;
     private boolean isValidPassword = false;
     private SocialsLogin socialsLogin = new SocialsLogin(this);
     public final ObservableField<Drawable> headerImage = new ObservableField<>();
 
+    @Nullable
+    private StartActivityInterface startActivityInterface;
+
+    public void setStartActivityInterface(@Nullable StartActivityInterface startActivityInterface) {
+        this.startActivityInterface = startActivityInterface;
+    }
+
+    public void onAuthorizationSuccess() {
+
+    };
 
     @Override
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
@@ -134,7 +144,7 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
     @Override
     public void onBindView(@NonNull StartView view) {
         super.onBindView(view);
-        ((StartActivity) context).setGoogleAutorisationListener(this);
+        ((StartActivity) context).setGoogleAuthorisationListener(this);
 
     }
 
@@ -197,12 +207,16 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
                     public void onNext(AutorisationAnswer loginAnswer) {
                         Hawk.put(USER_TOKEN, loginAnswer.data.getApi_token());
                         Hawk.put(USER_ID, loginAnswer.data.getIdent());
-                        goToMainScreen();
+
+                        if (null != startActivityInterface) {
+                            startActivityInterface.onAuthorized();
+                        }
+                        //goToMainScreen();
                     }
                 });
     }
 
-    protected void goToMainScreen() {
+    private void goToMainScreen() {
         StartActivity startActivity = (StartActivity) context;
         startActivity.startActivity(new Intent(startActivity, MainActivity.class));
         startActivity.finish();
@@ -327,9 +341,18 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
                     public void onNext(AutorisationAnswer autorisationAnswer) {
                         Hawk.put(USER_TOKEN, autorisationAnswer.data.getApi_token());
                         Hawk.put(USER_ID, autorisationAnswer.data.getIdent());
-                        goToMainScreen();
+
+                        if (null != startActivityInterface) {
+                            startActivityInterface.onAuthorized();
+                        }
+
+                        //onAuthorizationSuccess();
+                        //goToMainScreen();
                     }
                 });
     }
 
+    public interface StartActivityInterface {
+        void onAuthorized();
+    }
 }

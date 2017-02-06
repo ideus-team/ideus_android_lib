@@ -70,6 +70,7 @@
     <string name="copy_text">Copy text </string>
     <string name="details">Details </string>
     <string name="edit">Edit </string>
+    <string name="edited">Edited </string>
     <string name="delete">Delete </string>
     <string name="cancel">Cancel </string>
     <string name="change_name">Change Name </string>
@@ -92,6 +93,13 @@
     <string name="last_message">Last message</string>
     <string name="last_connection">Last connection</string>
     <string name="favorite">Favorite</string>
+    <string name="no_socket_connection">No connection to server, please try again later</string>
+    <string name="no_internet_connection_dialog">Sorry! No internet connection to server, please try again later</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="network_connected">Network Connected</string>
+    <string name="copied_success">Text successfully copied</string>
+    <string name="edit_message_unfortunately">Sorry, You can only edit your own message</string>
 
 
 

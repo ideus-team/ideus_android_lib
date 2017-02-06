@@ -18,12 +18,13 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static biz.ideus.ideuslibexample.ui.main_screen.fragments.people_fragment.PeopleFragmentVM.FetchPeopleMode.FETCH_MORE_MODE;
+import static biz.ideus.ideuslibexample.ui.main_screen.fragments.people_fragment.PeopleFragmentVM.FetchPeopleMode.REFRESH_MODE;
 
 /**
  * Created by blackmamba on 25.11.16.
  */
 
-public class PeopleFragment extends BaseFragment<StartView, PeopleFragmentVM, FragmentPeopleBinding> implements StartView {
+public class PeopleFragment extends BaseFragment<StartView, PeopleFragmentVM, FragmentPeopleBinding> implements StartView, PeopleFragmentVM.SwipeRefreshListener {
 
     private PeopleAdapter adapter;
     private Subscription fetchPeopleEventSubscription;
@@ -48,10 +49,9 @@ public class PeopleFragment extends BaseFragment<StartView, PeopleFragmentVM, Fr
         getBinding().rViewPeople.addOnScrollListener(scrollListener);
         getBinding().rViewPeople.setLayoutManager(linearLayoutManager);
         getViewModel().setAdapter(adapter);
-
-
+        getViewModel().setSwipeRefreshListener(this);
+        getBinding().swipeRefreshLayout.setOnRefreshListener(() -> getViewModel().fetchPeopleRequest(REFRESH_MODE, 0));
     }
-
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -79,6 +79,11 @@ public class PeopleFragment extends BaseFragment<StartView, PeopleFragmentVM, Fr
                 .subscribe(peopleEntities -> {
                     adapter.setPeopleEntities(peopleEntities);
                 });
+    }
+
+    @Override
+    public void hideRefreshLoader() {
+        getBinding().swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override

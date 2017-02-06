@@ -12,6 +12,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import biz.ideus.ideuslib.R;
 
 
+
+
 /**
  * Created by user on 09.11.2016.
  */

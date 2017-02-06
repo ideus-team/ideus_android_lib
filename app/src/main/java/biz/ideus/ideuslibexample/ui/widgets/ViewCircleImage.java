@@ -26,7 +26,6 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 
-import biz.ideus.ideuslib.widget.ImageLoaderView;
 import biz.ideus.ideuslibexample.R;
 
 
@@ -36,9 +35,9 @@ import biz.ideus.ideuslibexample.R;
 
 
 @BindingMethods({
-        @BindingMethod(type = CircleImageView.class, attribute = "imageUrl",
-                method = "loadImage")})
-public class CircleImageView extends ImageLoaderView {
+        @BindingMethod(type = ViewCircleImage.class, attribute = "imageUrl",
+                method = "setLoadImage")})
+public class ViewCircleImage extends ViewImageLoader {
 
     private static final ScaleType SCALE_TYPE = ScaleType.CENTER_CROP;
 
@@ -77,7 +76,7 @@ public class CircleImageView extends ImageLoaderView {
     private boolean mBorderOverlay;
     private boolean mDisableCircularTransformation;
 
-    public CircleImageView(Context context) {
+    public ViewCircleImage(Context context) {
         super(context);
         init();
     }
@@ -86,11 +85,11 @@ public class CircleImageView extends ImageLoaderView {
         loadImage(imageUrl);
     }
 
-    public CircleImageView(Context context, AttributeSet attrs) {
+    public ViewCircleImage(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public CircleImageView(Context context, AttributeSet attrs, int defStyle) {
+    public ViewCircleImage(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
         TypedArray a = context.obtainStyledAttributes(attrs
