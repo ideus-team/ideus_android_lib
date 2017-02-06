@@ -47,9 +47,9 @@ import static biz.ideus.ideuslibexample.dialogs.DialogCommandModel.DETAILS;
 import static biz.ideus.ideuslibexample.dialogs.DialogCommandModel.EDIT;
 import static biz.ideus.ideuslibexample.dialogs.DialogCommandModel.SKIP_UPDATE;
 import static biz.ideus.ideuslibexample.dialogs.DialogCommandModel.UPDATE_NOW;
-import static biz.ideus.ideuslibexample.dialogs.DialogModel.NO_INTERNET_CONNECTION;
 import static biz.ideus.ideuslibexample.dialogs.DialogModel.SOCKET_UNFORTUNATELY_DIALOG;
 import static biz.ideus.ideuslibexample.utils.Constants.NO_INTERNET_CONNECTION;
+
 
 public abstract class BaseActivity<T extends IView, R extends AbstractViewModel<T>, B extends ViewDataBinding>
         extends ViewModelBaseActivity<T, R>

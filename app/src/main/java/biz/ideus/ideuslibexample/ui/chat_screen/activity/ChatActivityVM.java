@@ -34,7 +34,7 @@ import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_request_model.Se
 import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_request_model.UpdateMessageRequest;
 import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_response_model.SocketMessageResponse;
 import biz.ideus.ideuslibexample.interfaces.ImageChooserListener;
-import biz.ideus.ideuslibexample.rx_buses.RxBusActionEditDialogBtn;
+import biz.ideus.ideuslibexample.rx_buses.RxBusCustomAction;
 import biz.ideus.ideuslibexample.rx_buses.RxBusNetworkConnected;
 import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import biz.ideus.ideuslibexample.ui.chat_screen.ChatView;
@@ -264,7 +264,7 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
 
 
     private Subscription getSubscribtionEditDialogMessage() {
-        return RxBusActionEditDialogBtn.instanceOf().getEvents()
+        return RxBusCustomAction.instanceOf().getEvents()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(dialogCommand -> {
