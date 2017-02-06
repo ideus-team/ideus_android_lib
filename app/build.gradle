@@ -29,6 +29,17 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    productFlavors {
+        messengerFlavor {
+            applicationId "biz.ideus.ideuslibexample.messenger"
+            versionName "messenger"
+        }
+        boarderFlavor {
+            applicationId "biz.ideus.ideuslibexample.boarder"
+            versionName "boarder"
+        }
+    }
+
 }
 
 
@@ -80,7 +91,6 @@ dependencies {
 
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4'
-
 
     //Bottom Navigation Bar
     compile 'com.ashokvarma.android:bottom-navigation-bar:1.3.0'

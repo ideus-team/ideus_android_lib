@@ -2,6 +2,7 @@ package biz.ideus.ideuslibexample.ui.main_screen.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,6 +10,8 @@ import android.support.annotation.Nullable;
 import com.orhanobut.hawk.Hawk;
 
 import biz.ideus.ideuslib.mvvm_lifecycle.AbstractViewModel;
+import biz.ideus.ideuslibexample.BuildConfig;
+import biz.ideus.ideuslibexample.boarder.ui.start_screen.activity.BoarderStartActivity;
 import biz.ideus.ideuslibexample.data.remote.socket_chat.WebSocketClient;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.ui.start_screen.activity.StartActivity;
@@ -43,7 +46,11 @@ public class MainActivityVM extends AbstractViewModel<StartView> {
     }
 
     private void goToLoginScreen() {
-        ((MainActivity) context).startActivity(new Intent(((MainActivity) context), StartActivity.class));
+        if (BuildConfig.FLAVOR.contentEquals("boarderFlavor")) {
+            (context).startActivity(new Intent(context, BoarderStartActivity.class));
+        } else {
+            (context).startActivity(new Intent(context, StartActivity.class));
+        }
         ((MainActivity) context).finish();
 
     }

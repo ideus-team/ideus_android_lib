@@ -44,7 +44,7 @@ import static biz.ideus.ideuslibexample.utils.Constants.USER_TOKEN;
  * Created by blackmamba on 16.11.16.
  */
 
-public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSignUpScreen, SocialsLogin.SocialRegistrationListener, StartActivity.GoogleAutorisationListener {
+public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSignUpScreen, SocialsLogin.SocialRegistrationListener, StartActivity.GoogleAuthorisationListener {
     private boolean isValidName = false;
     private boolean isValidEmail = false;
     private boolean isValidPassword = false;
@@ -68,7 +68,7 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
     @Override
     public void onBindView(@NonNull StartView view) {
         super.onBindView(view);
-        ((StartActivity) context).setGoogleAutorisationListener(this);
+        ((StartActivity) context).setGoogleAuthorisationListener(this);
 
 
     }
