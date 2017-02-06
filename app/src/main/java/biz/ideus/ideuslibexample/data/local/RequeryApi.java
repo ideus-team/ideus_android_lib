@@ -126,9 +126,9 @@ public class RequeryApi implements IRequeryApi {
 
     @Override
     public Observable<MessageEntity> storeMessage(MessageEntity messageEntity) {
-        return data.upsert(messageEntity).toObservable()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+        return data.upsert(messageEntity).toObservable();
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override

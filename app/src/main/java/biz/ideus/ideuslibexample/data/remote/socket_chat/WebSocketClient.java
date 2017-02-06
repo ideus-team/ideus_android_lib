@@ -16,6 +16,7 @@ import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_request_model.Re
 import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_request_model.SocketRequestBuilder;
 import biz.ideus.ideuslibexample.dialogs.DialogModel;
 import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
+import biz.ideus.ideuslibexample.rx_buses.RxBusSocketMessageEvent;
 import biz.ideus.ideuslibexample.utils.JSONUtils;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -152,9 +153,10 @@ public final class WebSocketClient implements WebSocketListener {
                 messageCommand = new JSONObject(json).get("command").toString();
                 SocketCommand socketCommand = SocketCommand.getSocketCommandByValue(messageCommand);
                 serverAnswer = new Gson().fromJson(json, socketCommand.responseType);
-                if (messageListener != null) {
-                    messageListener.addToMessageSelector(new SocketMessageWrapper(serverAnswer, socketCommand));
-                }
+                RxBusSocketMessageEvent.getInstance().setRxSocketMessageEvent(new SocketMessageWrapper(serverAnswer, socketCommand));
+//                if (messageListener != null) {
+//                    messageListener.addToMessageSelector(new SocketMessageWrapper(serverAnswer, socketCommand));
+//                }
                 writeExecutor.shutdown();
             } catch (Exception ex) {
                 writeExecutor.shutdown();
