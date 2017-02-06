@@ -8,16 +8,16 @@ import rx.subjects.BehaviorSubject;
  * Created by blackmamba on 02.12.16.
  */
 
-public class RxBusActionEditDialogBtn {
+public class RxBusCustomAction {
 
-    private static RxBusActionEditDialogBtn instance;
+    private static RxBusCustomAction instance;
 
     private BehaviorSubject<DialogCommand> subject = BehaviorSubject.create();
 
 
-    public static RxBusActionEditDialogBtn instanceOf() {
+    public static RxBusCustomAction instanceOf() {
         if (instance == null) {
-            instance = new RxBusActionEditDialogBtn();
+            instance = new RxBusCustomAction();
         }
         return instance;
     }

@@ -30,7 +30,7 @@ import biz.ideus.ideuslibexample.dialogs.CustomDialog;
 import biz.ideus.ideuslibexample.injection.components.ActivityComponent;
 import biz.ideus.ideuslibexample.injection.components.DaggerActivityComponent;
 import biz.ideus.ideuslibexample.injection.modules.ActivityModule;
-import biz.ideus.ideuslibexample.rx_buses.RxBusActionEditDialogBtn;
+import biz.ideus.ideuslibexample.rx_buses.RxBusCustomAction;
 import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import rx.Subscription;
 
@@ -117,7 +117,7 @@ implements IView {
     }
 
     public Subscription startRxBusActionEditDialogBtnSubscription() {
-        return RxBusActionEditDialogBtn.instanceOf().getEvents().filter(s -> s != null)
+        return RxBusCustomAction.instanceOf().getEvents().filter(s -> s != null)
                 .subscribe(dialogCommand -> {
                     switch (dialogCommand.getDialogCommandModel()) {
                         case COPY_TEXT:
@@ -135,7 +135,7 @@ implements IView {
                         case UPDATE_NOW:
                             Log.d("dialogCommand", UPDATE_NOW.name());
                             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + "com.blank_paper.game.leap_frog"/*BuildConfig.APPLICATION_ID*/)));
-                            RxBusActionEditDialogBtn.instanceOf().setRxBusCommit();
+                            RxBusCustomAction.instanceOf().setRxBusCommit();
                             //this.finish();
                             break;
                         case SKIP_UPDATE:

@@ -14,9 +14,10 @@ import android.view.ViewGroup;
 import android.view.Window;
 
 import org.parceler.Parcels;
+
 import biz.ideus.ideuslibexample.BR;
 import biz.ideus.ideuslibexample.R;
-import biz.ideus.ideuslibexample.rx_buses.RxBusActionEditDialogBtn;
+import biz.ideus.ideuslibexample.rx_buses.RxBusCustomAction;
 
 
 /**
@@ -117,11 +118,14 @@ public class CustomDialog extends DialogFragment{
     public void onClick(View view) {
         DialogCommandModel dialogCommandModel = (DialogCommandModel) view.getTag();
         if (dialogCommandModel != null) {
-            RxBusActionEditDialogBtn.instanceOf().setDialogCommand(new DialogCommand(dialogCommandModel, dialogParams.getDialogIntent()));
+            RxBusCustomAction.instanceOf().setDialogCommand(new DialogCommand(dialogCommandModel, dialogParams.getDialogIntent()));
         }
-       // dismiss();
     }
 
+    public void onClickWithClose(View view) {
+        onClick(view);
+        dismiss();
+    }
 }
 
 

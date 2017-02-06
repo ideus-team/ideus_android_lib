@@ -69,7 +69,7 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
     }
 
 //    public Subscription startRxBusActionEditDialogBtnSubscription() {
-//        return RxBusActionEditDialogBtn.instanceOf().getEvents()
+//        return RxBusCustomAction.instanceOf().getEvents()
 //                .subscribe(dialogCommand -> {
 //                    switch (dialogCommand.getDialogCommandModel()) {
 //                        case COPY_TEXT:
@@ -88,7 +88,7 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
 //                            Log.d("dialogCommand", UPDATE_NOW.name());
 //                            StartActivity startActivity = (StartActivity) context;
 //                            startActivity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + BuildConfig.APPLICATION_ID)));
-//                            RxBusActionEditDialogBtn.instanceOf().setRxBusCommit();
+//                            RxBusCustomAction.instanceOf().setRxBusCommit();
 //                            startActivity.finish();
 //                            break;
 //                        case SKIP_UPDATE:

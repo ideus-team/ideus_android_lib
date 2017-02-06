@@ -9,7 +9,7 @@ import biz.ideus.ideuslibexample.R;
  * Created by blackmamba on 01.12.16.
  */
 
-public enum DialogModel {
+public  enum DialogModel {
 
     LOGIN_ATTENTION(R.string.error,R.string.invalidate_login_text, R.layout.dialog_info, View.VISIBLE, Color.RED,R.string.try_again),
     UPDATE_PROFILE_ATTENTION(R.string.error,R.string.invalidate_update_text, R.layout.dialog_info, View.VISIBLE, Color.RED,R.string.try_again),
