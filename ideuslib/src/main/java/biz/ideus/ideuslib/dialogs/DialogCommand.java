@@ -1,10 +1,16 @@
 package biz.ideus.ideuslib.dialogs;
 
 /**
- * Created by user on 15.12.2016.
+ * data model from onClick {@link CustomDialog}
  */
 public class DialogCommand {
+    /**
+     * value from layout Tag
+     */
     private Integer dialogCommandModel;
+    /**
+     * object that will be sent to callback handler for this dialog
+     */
     private Object dialogIntent;
 
 

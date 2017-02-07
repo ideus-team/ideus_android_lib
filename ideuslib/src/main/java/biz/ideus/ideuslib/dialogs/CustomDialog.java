@@ -22,22 +22,17 @@ import biz.ideus.ideuslib.R;
 
 
 /**
- * Created by blackmamba on 18.11.16.
+ * example usage :
+ * dialog = CustomDialog.instance(dialogParams, BR.customVM);
+ * dialog.show(getFragmentManager(), "MyCustomDialog");
  */
-
 public class CustomDialog extends DialogFragment{
     ViewDataBinding binding;
     public static String DIALOG_MODEL_KEY = "DialogModel";
     public static String DIALOG_VM_KEY = "DialogViewModel";
     public static int RESOURCE_EMPTY = 0;
     private int BRClass;
-//    private int layout;
-
-//    private Object dialogIntent;
-//    private DialogModel dialogModel;
     private DialogParams dialogParams;
-//    public DialogModel getDialogModel() {        return dialogModel;    }
-
     public final ObservableField<String> headerText = new ObservableField<>();
     public final ObservableField<String> messageText = new ObservableField<>();
     public final ObservableField<String> btnName = new ObservableField<>();
@@ -46,17 +41,10 @@ public class CustomDialog extends DialogFragment{
 
 
 
-//    public static CustomDialog instance(DialogModel dialogModel) {
-//        if(dialogModel.layoutId != RESOURCE_EMPTY) {
-//            CustomDialog customDialog = new CustomDialog();
-//            customDialog.layout = dialogModel.layoutId;
-//            customDialog.dialogModel = dialogModel;
-//            return customDialog;
-//        } else {
-//            return null;
-//        }
-//    }
-
+    /**
+    @param BRClass id binding variable in layout resource
+    @param dialogParams {@link DialogParams}
+     **/
     public static CustomDialog instance(DialogParams dialogParams, int BRClass) {
         CustomDialog customDialog = null;
         if(dialogParams.getDialogModel().layoutId != RESOURCE_EMPTY) {
@@ -98,25 +86,42 @@ public class CustomDialog extends DialogFragment{
     }
 
     private void setDialogParameters() {
-        String header = dialogParams.isHasHeader() ? dialogParams.getDialogHeader() : getString(dialogParams.getDialogModel().resDialogHeader);
+        String header = "";
+        if (dialogParams.isHasHeader()) {
+            header = dialogParams.getDialogHeader();
+        } else if (dialogParams.getDialogModel().resDialogHeader > 0) {
+            header = getString(dialogParams.getDialogModel().resDialogHeader);
+        }
         headerText.set(header);
 
-        String text = dialogParams.isHasText() ? dialogParams.getDialogText() : getString(dialogParams.getDialogModel().resDialogText);
+
+        String text = "";
+        if (dialogParams.isHasText()) {
+            text = dialogParams.getDialogText();
+        } else if (dialogParams.getDialogModel().resDialogText > 0) {
+            text = getString(dialogParams.getDialogModel().resDialogText);
+        }
         messageText.set(text);
 
         colorTitle.set(dialogParams.getDialogModel().colorTitle);
-       // visibilityAttentionIcon.set(dialogParams.getDialogModel().visibilityIcon);
         if (dialogParams.getDialogModel().resBtnText > 0) btnName.set(getString(dialogParams.getDialogModel().resBtnText));
         this.setCancelable(false);
     }
 
+    /**
+     @param view - View
+     process click event, send to {@link RxBusCustomAction} Tag from Sender View
+     **/
     public void onClick(View view) {
         Integer dialogCommandModel = (Integer) view.getTag();
         if (dialogCommandModel != null) {
             RxBusCustomAction.instanceOf().setDialogCommand(new DialogCommand(dialogCommandModel, dialogParams.getDialogIntent()));
         }
     }
-
+    /**
+    @param view - View
+    process click event, send to {@link RxBusCustomAction} Tag from Sender View, then close dialog
+    **/
     public void onClickWithClose(View view) {
         onClick(view);
         dismiss();
