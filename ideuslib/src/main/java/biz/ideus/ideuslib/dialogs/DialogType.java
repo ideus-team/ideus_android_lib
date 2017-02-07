@@ -5,5 +5,5 @@ package biz.ideus.ideuslib.dialogs;
  */
 
 public enum DialogType {
-    SHOW, HIDE
+    SHOW_DIALOG, HIDE_DIALOG, SHOW_SNACKBAR, HIDE_SNACKBAR
 }

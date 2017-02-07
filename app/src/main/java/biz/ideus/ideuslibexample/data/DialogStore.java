@@ -102,6 +102,7 @@ public class DialogStore {
         return new DialogModelBuilder()
                 .setLayoutId(R.layout.dialog_info)
                 .setResDialogText(R.string.no_socket_connection)
+                .setDialogType(DialogType.SHOW_SNACKBAR)
                 .createDialogModel();
     }
 
@@ -117,7 +118,7 @@ public class DialogStore {
 
     public static DialogModel HIDE_PROGRESS_DIALOG() {
         return new DialogModelBuilder()
-                .setDialogType(DialogType.HIDE)
+                .setDialogType(DialogType.HIDE_DIALOG)
                 .createDialogModel();
     }
 

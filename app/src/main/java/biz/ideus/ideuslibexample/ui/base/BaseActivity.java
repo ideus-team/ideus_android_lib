@@ -28,15 +28,17 @@ import biz.ideus.ideuslib.dialogs.RxBusShowDialog;
 import biz.ideus.ideuslib.mvvm_lifecycle.AbstractViewModel;
 import biz.ideus.ideuslib.mvvm_lifecycle.IView;
 import biz.ideus.ideuslib.mvvm_lifecycle.base.ViewModelBaseActivity;
+import biz.ideus.ideuslibexample.BR;
 import biz.ideus.ideuslibexample.SampleApplication;
 import biz.ideus.ideuslibexample.data.DialogCommandModel;
 import biz.ideus.ideuslibexample.data.DialogStore;
+import biz.ideus.ideuslibexample.data.remote.socket_chat.WebSocketClient;
 import biz.ideus.ideuslibexample.injection.components.ActivityComponent;
 import biz.ideus.ideuslibexample.injection.components.DaggerActivityComponent;
 import biz.ideus.ideuslibexample.injection.modules.ActivityModule;
 import rx.Subscriber;
 import rx.Subscription;
-import biz.ideus.ideuslibexample.BR;
+
 import static biz.ideus.ideuslibexample.data.DialogCommandModel.COPY_TEXT;
 import static biz.ideus.ideuslibexample.data.DialogCommandModel.DELETE;
 import static biz.ideus.ideuslibexample.data.DialogCommandModel.DETAILS;
@@ -115,7 +117,7 @@ public abstract class BaseActivity<T extends IView, R extends AbstractViewModel<
                         if (dialog != null && dialog.isVisible())
                             dialog.dismiss();
                         switch (dialogParams.getDialogModel().dialogType) {
-                            case SHOW:
+                            case SHOW_DIALOG:
                                 dialog = CustomDialog.instance(dialogParams, BR.customVM);
                                 dialog.show(BaseActivity.this.getFragmentManager(), "Dialog");
                                 break;
@@ -127,7 +129,7 @@ public abstract class BaseActivity<T extends IView, R extends AbstractViewModel<
 //                                dialog = CustomDialog.instance(dialogParams);
 //                                dialog.show(getFragmentManager(), "Dialog");
 //                                break;
-                            case HIDE:
+                            case HIDE_DIALOG:
                                 if (dialog != null)
                                     dialog.dismiss();
                                 break;
@@ -136,16 +138,16 @@ public abstract class BaseActivity<T extends IView, R extends AbstractViewModel<
 //                                dialog.show(BaseActivity.this.getFragmentManager(), "Dialog");
 //                                break;
 
-//                            case SOCKET_UNFORTUNATELY_DIALOG:
-//                                if (snackbar != null) {
-//                                    snackbar.dismiss();
-//                                }
-//                                BaseActivity.this.showSneckBarDialog(dialogParams.getDialogModel().resDialogHeader /*SOCKET_UNFORTUNATELY_DIALOG.resDialogName*/, v -> {
-//                                    snackbar.dismiss()
-//                                    ;
-//                                    WebSocketClient.getInstance().connectHttpClient();
-//                                });
-//                                break;
+                            case SHOW_SNACKBAR:
+                                if (snackbar != null) {
+                                    snackbar.dismiss();
+                                }
+                                BaseActivity.this.showSneckBarDialog(dialogParams.getDialogModel().resDialogHeader /*SOCKET_UNFORTUNATELY_DIALOG.resDialogName*/, v -> {
+                                    snackbar.dismiss()
+                                    ;
+                                    WebSocketClient.getInstance().connectHttpClient();
+                                });
+                                break;
                             default:
                                 dialog = CustomDialog.instance(dialogParams, BR.customVM);
                                 dialog.show(BaseActivity.this.getFragmentManager(), "Dialog");
