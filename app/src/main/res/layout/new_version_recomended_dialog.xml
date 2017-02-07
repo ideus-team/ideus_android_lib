@@ -20,17 +20,6 @@
         android:padding="1dip"
         >
 
-        <ImageView
-            android:id="@+id/iv_close"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_margin="5dp"
-            android:padding="5dp"
-            android:onClick="@{customVM.onClick}"
-            android:src="@drawable/ic_cancel"
-            android:layout_gravity="right" />
-
-
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
@@ -42,69 +31,33 @@
             android:textColor="@color/dark_gray_text"
             android:textSize="@dimen/font_size_20" />
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@color/gray" />
+        <TextView
+            android:id="@+id/tv_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dip"
+            android:text="@{customVM.messageText}"
+            android:textColor="@color/dark_gray_text"
+            android:textSize="@dimen/font_size_20" />
+
 
         <TextView
-            android:tag="@{DialogCommandModel.COPY_TEXT}"
-            android:id="@+id/tv_copy_text"
-            android:onClick="@{customVM.onClick}"
+            android:tag="@{DialogCommandModel.SKIP_UPDATE.getValue()}"
+            android:id="@+id/tv_update_later"
+            android:background="@android:color/holo_blue_bright"
+            android:onClick="@{customVM.onClickWithClose}"
             style="@style/DialogEditTextBtn"
-            android:text="@string/copy_text" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@color/gray" />
+            android:text="@string/remind_me_later" />
 
         <TextView
-            android:id="@+id/tv_details"
-            android:tag="@{DialogCommandModel.DETAILS}"
+            android:tag="@{DialogCommandModel.UPDATE_NOW.getValue()}"
+            android:id="@+id/tv_update"
+            android:background="@android:color/holo_green_light"
             android:onClick="@{customVM.onClick}"
             style="@style/DialogEditTextBtn"
-            android:text="@string/details"
-            />
+            android:text="@string/update" />
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@color/gray" />
-
-        <TextView
-            android:id="@+id/tv_edit"
-            android:text="@string/edit"
-            android:onClick="@{customVM.onClick}"
-            android:tag="@{DialogCommandModel.EDIT}"
-            style="@style/DialogEditTextBtn"
-            />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@color/gray" />
-
-        <TextView
-            style="@style/DialogEditTextBtn"
-            android:id="@+id/tv_delete"
-            android:onClick="@{customVM.onClick}"
-            android:tag="@{DialogCommandModel.DELETE}"
-            android:text="@string/delete"
-            />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            />
 
     </LinearLayout>
 </layout>
