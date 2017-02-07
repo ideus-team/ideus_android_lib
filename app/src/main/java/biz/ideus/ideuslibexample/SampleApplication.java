@@ -160,7 +160,7 @@ public class SampleApplication extends Application {
                     public void onNext(CheckUpdateAnswer checkUpdateAnswer) {
                         Log.d("LIFE", "netApi.checkUpdate()" );
                         DialogParams dialogParams = new DialogParamsBuilder()
-                                .setDialogModel(DialogStore.NEW_VERSION_MUST_HAVE())
+                                .setDialogModel(DialogStore.NEW_VERSION_RECOMENDED())
                                 .setDialogHeader(checkUpdateAnswer.data.getRelease().getVersion())
                                 .setDialogText(checkUpdateAnswer.data.getRelease().getDescription())
                                 .createDialogParams();
