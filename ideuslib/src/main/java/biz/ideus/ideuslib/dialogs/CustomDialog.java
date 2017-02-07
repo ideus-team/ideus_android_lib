@@ -86,14 +86,24 @@ public class CustomDialog extends DialogFragment{
     }
 
     private void setDialogParameters() {
-        String header = dialogParams.isHasHeader() ? dialogParams.getDialogHeader() : getString(dialogParams.getDialogModel().resDialogHeader);
+        String header = "";
+        if (dialogParams.isHasHeader()) {
+            header = dialogParams.getDialogHeader();
+        } else if (dialogParams.getDialogModel().resDialogHeader > 0) {
+            header = getString(dialogParams.getDialogModel().resDialogHeader);
+        }
         headerText.set(header);
 
-        String text = dialogParams.isHasText() ? dialogParams.getDialogText() : getString(dialogParams.getDialogModel().resDialogText);
+
+        String text = "";
+        if (dialogParams.isHasText()) {
+            text = dialogParams.getDialogText();
+        } else if (dialogParams.getDialogModel().resDialogText > 0) {
+            text = getString(dialogParams.getDialogModel().resDialogText);
+        }
         messageText.set(text);
 
         colorTitle.set(dialogParams.getDialogModel().colorTitle);
-       // visibilityAttentionIcon.set(dialogParams.getDialogModel().visibilityIcon);
         if (dialogParams.getDialogModel().resBtnText > 0) btnName.set(getString(dialogParams.getDialogModel().resBtnText));
         this.setCancelable(false);
     }
