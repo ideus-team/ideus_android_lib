@@ -82,6 +82,7 @@ public class DialogStore {
 
     public static DialogModel EDIT_TEXT_DIALOG() {
         return new DialogModelBuilder()
+                .setResDialogHeader(R.string.message)
                 .setLayoutId(R.layout.edit_text_dialog)
                 .createDialogModel();
     }

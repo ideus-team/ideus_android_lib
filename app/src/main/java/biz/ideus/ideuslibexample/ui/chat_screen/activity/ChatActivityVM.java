@@ -31,10 +31,10 @@ import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriberSettings;
 import biz.ideus.ideuslibexample.data.remote.network_change.NetworkChangeReceiver;
 import biz.ideus.ideuslibexample.data.remote.network_change.NetworkChangeSubscriber;
-import biz.ideus.ideuslibexample.data.remote.socket_chat.WebSocketClient;
-import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_request_model.SendMessageRequest;
-import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_request_model.UpdateMessageRequest;
-import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_response_model.SocketMessageResponse;
+import biz.ideus.ideuslibexample.data.remote.socket.WebSocketClient;
+import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.SendMessageRequest;
+import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.UpdateMessageRequest;
+import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.SocketMessageResponse;
 import biz.ideus.ideuslibexample.interfaces.ImageChooserListener;
 import biz.ideus.ideuslibexample.rx_buses.RxBusNetworkConnected;
 
@@ -55,8 +55,8 @@ import rx.schedulers.Schedulers;
 import static biz.ideus.ideuslibexample.SampleApplication.netApi;
 import static biz.ideus.ideuslibexample.SampleApplication.requeryApi;
 
-import static biz.ideus.ideuslibexample.data.remote.socket_chat.SocketCommand.MESSAGE_SENT;
-import static biz.ideus.ideuslibexample.data.remote.socket_chat.SocketCommand.RECEIVE_MESSAGE;
+import static biz.ideus.ideuslibexample.data.remote.socket.SocketCommand.MESSAGE_SENT;
+import static biz.ideus.ideuslibexample.data.remote.socket.SocketCommand.RECEIVE_MESSAGE;
 
 
 import static biz.ideus.ideuslibexample.utils.Constants.KIND_IMAGE;

@@ -17,12 +17,7 @@ import com.twitter.sdk.android.core.TwitterSession;
 
 import biz.ideus.ideuslib.dialogs.RxBusShowDialog;
 import biz.ideus.ideuslib.interfaces.OnValidateField;
-
-import biz.ideus.ideuslibexample.BuildConfig;
-import biz.ideus.ideuslibexample.boarder.ui.main_screen.activity.BoardActivityMain;
-
 import biz.ideus.ideuslibexample.data.DialogStore;
-
 import biz.ideus.ideuslibexample.data.model.request.LoginModelRequest;
 import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationRequest;
 import biz.ideus.ideuslibexample.data.model.response.AutorisationAnswer;
@@ -30,8 +25,8 @@ import biz.ideus.ideuslibexample.data.remote.CheckError;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriberSettings;
 import biz.ideus.ideuslibexample.interfaces.BaseMvvmInterface;
-import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.main_screen.activity.MainActivity;
+import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.start_screen.SocialsLogin;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.forgot_password_fragment.ForgotPasswordFragment;
@@ -219,13 +214,7 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
     }
 
     private void goToMainScreen() {
-
-        if (BuildConfig.FLAVOR.contentEquals("boarderFlavor")) {
-            context.startActivity(new Intent(context, BoardActivityMain.class));
-        } else {
-            context.startActivity(new Intent(context, MainActivity.class));
-        }
-
+        context.startActivity(new Intent(context, MainActivity.class));
         ((StartActivity) context).finish();
     }
 

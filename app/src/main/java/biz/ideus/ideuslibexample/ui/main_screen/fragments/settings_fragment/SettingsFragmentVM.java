@@ -25,6 +25,7 @@ import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriberSettings;
 import biz.ideus.ideuslibexample.interfaces.ImageChooserListener;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
+import biz.ideus.ideuslibexample.ui.main_screen.activity.AbstractMainActivity;
 import biz.ideus.ideuslibexample.ui.main_screen.activity.MainActivity;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.ui.start_screen.activity.BaseValidationVM;
@@ -97,7 +98,7 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
     public void onBindView(@NonNull StartView view) {
         super.onBindView(view);
         context = view.getViewModelBindingConfig().getContext();
-        ((MainActivity) context).setImageChooserListener(this);
+        ((AbstractMainActivity) context).setImageChooserListener(this);
     }
 
     private void fetchUserInfo() {
@@ -346,7 +347,7 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
     }
 
     public void selectImage(View view) {
-        Intent chooseImageIntent = CropImage.getPickImageChooserIntent((MainActivity) context);
+        Intent chooseImageIntent = CropImage.getPickImageChooserIntent(context);
         ((MainActivity) context).startActivityForResult(chooseImageIntent, CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE);
     }
 

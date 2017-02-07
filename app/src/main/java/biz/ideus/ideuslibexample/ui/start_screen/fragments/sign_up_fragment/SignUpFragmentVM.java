@@ -14,13 +14,8 @@ import com.twitter.sdk.android.core.TwitterSession;
 
 import biz.ideus.ideuslib.dialogs.RxBusShowDialog;
 import biz.ideus.ideuslib.interfaces.OnValidateSignUpScreen;
-import biz.ideus.ideuslibexample.BuildConfig;
 import biz.ideus.ideuslibexample.R;
-
-import biz.ideus.ideuslibexample.boarder.ui.main_screen.activity.BoardActivityMain;
-
 import biz.ideus.ideuslibexample.data.DialogStore;
-
 import biz.ideus.ideuslibexample.data.model.request.SignUpRequest;
 import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationRequest;
 import biz.ideus.ideuslibexample.data.model.response.AutorisationAnswer;
@@ -230,7 +225,7 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
 
     @Override
     public void getTwitterAutorisationData(Result<TwitterSession> twitterSessionResult) {
-        autorisationSocial(twitterSessionResult.data.getAuthToken().token,twitterSessionResult.data.getAuthToken().secret
+        autorisationSocial(twitterSessionResult.data.getAuthToken().token, twitterSessionResult.data.getAuthToken().secret
                 , TWITTER_NET.networkName);
     }
 
@@ -240,7 +235,7 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
     }
 
 
-    private void autorisationSocial(String socialToken,String twitterSecret, String socialName) {
+    private void autorisationSocial(String socialToken, String twitterSecret, String socialName) {
 
         NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.CIRCULAR);
         SocialsAutorisationRequest sotialAuthModel = new SocialsAutorisationRequest(socialToken, socialName);
@@ -252,7 +247,7 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
         netApi.autorisationSocial(sotialAuthModel)
                 .lift(new CheckError<>())
                 .map(autorisationAnswer -> {
-                     requeryApi.storeAutorisationInfo(autorisationAnswer.data);
+                    requeryApi.storeAutorisationInfo(autorisationAnswer.data);
                     return autorisationAnswer;
                 })
                 .subscribeOn(Schedulers.io())
@@ -260,7 +255,7 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
                 .subscribe(new NetSubscriber<AutorisationAnswer>(netSubscriberSettings) {
                     @Override
                     public void onNext(AutorisationAnswer autorisationAnswer) {
-                       Hawk.put(USER_TOKEN, autorisationAnswer.data.getApi_token());
+                        Hawk.put(USER_TOKEN, autorisationAnswer.data.getApi_token());
                         Hawk.put(USER_ID, autorisationAnswer.data.getIdent());
                         goToTutorialScreen();
                     }
@@ -291,15 +286,9 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
                 });
     }
 
-    protected void goToTutorialScreen() {
-
-            if (BuildConfig.FLAVOR.contentEquals("boarderFlavor")) {
-                context.startActivity(new Intent(context, BoardActivityMain.class));
-            } else {
-                context.startActivity(new Intent(context, TutorialActivity.class));
-            }
-
-            ((StartActivity) context).finish();
-        }
+    private void goToTutorialScreen() {
+        context.startActivity(new Intent(context, TutorialActivity.class));
+        ((StartActivity) context).finish();
+    }
 
 }

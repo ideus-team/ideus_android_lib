@@ -68,7 +68,7 @@ private Context context;
     @Override
     public void onGetStartedClick(View view) {
         if (isBtnActive.get()) {
-            ((TutorialActivity)context).startActivity(new Intent(((TutorialActivity) context), MainActivity.class));
+            context.startActivity(new Intent(context, MainActivity.class));
             ((TutorialActivity)context).finish();
         }
     }

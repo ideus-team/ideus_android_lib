@@ -24,7 +24,7 @@
         <activity
             android:name=".ui.start_screen.activity.StartActivity"
             android:theme="@style/SplashTheme"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden"/>
 
 
         <activity
@@ -49,15 +49,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        ///BorderApp
-        <activity
-            android:name=".boarder.ui.main_screen.activity.BoardActivityMain"
-            android:theme="@style/SplashTheme"
-            android:windowSoftInputMode="stateHidden">
-        </activity>
-        ///
-
 
         <meta-data
             android:name="io.fabric.ApiKey"
