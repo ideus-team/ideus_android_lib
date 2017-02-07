@@ -74,8 +74,7 @@ dependencies {
     compile "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
     compile "com.squareup.retrofit2:adapter-rxjava:${retrofitVersion}"
     compile 'com.squareup.okhttp3:logging-interceptor:3.4.0'
-    compile "org.parceler:parceler-api:${parcelerVersion}"
-    apt "org.parceler:parceler:${parcelerVersion}"
+
 
     // for android
     apt "io.requery:requery-processor:${requeryVersion}"
@@ -100,6 +99,9 @@ dependencies {
         transitive = true;
     }
 
+    compile "org.parceler:parceler-api:${parcelerVersion}"
+    apt "org.parceler:parceler:${parcelerVersion}"
+    
     apply plugin: 'com.google.gms.google-services'
 //    compile 'com.race604.waveloading:library:1.0.1'
 

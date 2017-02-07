@@ -15,16 +15,16 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterSession;
 
+import biz.ideus.ideuslib.dialogs.RxBusShowDialog;
 import biz.ideus.ideuslib.interfaces.OnValidateField;
+import biz.ideus.ideuslibexample.data.DialogStore;
 import biz.ideus.ideuslibexample.data.model.request.LoginModelRequest;
 import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationRequest;
 import biz.ideus.ideuslibexample.data.model.response.AutorisationAnswer;
 import biz.ideus.ideuslibexample.data.remote.CheckError;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriberSettings;
-import biz.ideus.ideuslibexample.dialogs.DialogModel;
 import biz.ideus.ideuslibexample.interfaces.BaseMvvmInterface;
-import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.main_screen.activity.MainActivity;
 import biz.ideus.ideuslibexample.ui.start_screen.SocialsLogin;
@@ -75,6 +75,68 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
         setOnValidateField(this);
     }
 
+//    public Subscription startRxBusActionEditDialogBtnSubscription() {
+//        return RxBusCustomAction.instanceOf().getEvents()
+//                .subscribe(dialogCommand -> {
+//                    switch (dialogCommand.getDialogCommandModel()) {
+//                        case COPY_TEXT:
+//                            Log.d("dialogCommand", COPY_TEXT.name());
+//                            break;
+//                        case EDIT:
+//                            Log.d("dialogCommand", EDIT.name());
+//                            break;
+//                        case DETAILS:
+//                            Log.d("dialogCommand", DETAILS.name());
+//                            break;
+//                        case DELETE:
+//                            Log.d("dialogCommand", DELETE.name());
+//                            break;
+//                        case UPDATE_NOW:
+//                            Log.d("dialogCommand", UPDATE_NOW.name());
+//                            StartActivity startActivity = (StartActivity) context;
+//                            startActivity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + BuildConfig.APPLICATION_ID)));
+//                            RxBusCustomAction.instanceOf().setRxBusCommit();
+//                            startActivity.finish();
+//                            break;
+//                        case SKIP_UPDATE:
+//                            Log.d("dialogCommand", SKIP_UPDATE.name());
+//                            break;
+//                    }
+//                });
+//    }
+
+
+
+//    public Subscription startRxBusShowDialogSubscription() {
+//        return RxBusShowDialog.instanceOf().getEvents().filter(s -> s != null)
+//                .subscribe(dialogParams -> {
+//                    Log.d("getEvents()", dialogParams.getDialogModel().toString());
+//                    //if(dialog != null && dialog.isVisible()) dialog.dismiss();
+//
+//                    switch (dialogParams.getDialogModel()) {
+//                        case NEW_VERSION_MUST_HAVE_DIALOG:
+//                            dialog = CustomDialog.instance(dialogParams);
+//                            dialog.show(getFragmentManager(), "Dialog");
+//                            break;
+//                        case HIDE_PROGRESS_DIALOG:
+//                            if(dialog != null)
+//                                dialog.dismiss();
+//                            break;
+//                        case NO_INTERNET_CONNECTION:
+//                            showSneckBarDialog(NO_INTERNET_CONNECTION.resDialogHeader);
+//                            break;
+//                        default:
+//                            dialog = CustomDialog.instance(dialogParams);
+//                            dialog.show(getFragmentManager(), "Dialog");
+//                            break;
+//                    }
+//                    RxBusShowDialog.instanceOf().setRxBusCommit();
+//
+//                });
+//
+//    }
+
+
 
     @Override
     public void onBindView(@NonNull StartView view) {
@@ -120,7 +182,7 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
         if (isValidFields()) {
             loginUser();
         } else {
-            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.LOGIN_ATTENTION);
+            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogStore.LOGIN_ATTENTION());
         }
 
     }

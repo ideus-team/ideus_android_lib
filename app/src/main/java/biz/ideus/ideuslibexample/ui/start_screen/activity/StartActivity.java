@@ -17,7 +17,6 @@ import biz.ideus.ideuslib.mvvm_lifecycle.binding.ViewModelBindingConfig;
 import biz.ideus.ideuslibexample.BR;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.databinding.ActivityLoginBinding;
-import biz.ideus.ideuslibexample.rx_buses.RxBusActionEditDialogBtn;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.utils.Constants;
@@ -26,10 +25,6 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static biz.ideus.ideuslibexample.dialogs.DialogCommandModel.COPY_TEXT;
-import static biz.ideus.ideuslibexample.dialogs.DialogCommandModel.DELETE;
-import static biz.ideus.ideuslibexample.dialogs.DialogCommandModel.DETAILS;
-import static biz.ideus.ideuslibexample.dialogs.DialogCommandModel.EDIT;
 import static biz.ideus.ideuslibexample.ui.start_screen.SocialsLogin.faceBookCallbackManager;
 import static biz.ideus.ideuslibexample.utils.Constants.GOOGLE_SIGN_IN;
 
@@ -56,10 +51,11 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
+        Log.d("LIFE", "StartActivity onCreate");
         activityComponent().inject(this);
         setModelView(this);
         twitterAuthClient = new TwitterAuthClient();
-        RxBusActionEditDialogBtnSubscription = startRxBusActionEditDialogBtnSubscription();
+        //RxBusActionEditDialogBtnSubscription = startRxBusActionEditDialogBtnSubscription();
 
 
     }
@@ -70,25 +66,7 @@ public class StartActivity extends BaseActivity<StartView, StartActivityVM, Acti
         return StartActivityVM.class;
     }
 
-    public Subscription startRxBusActionEditDialogBtnSubscription() {
-        return RxBusActionEditDialogBtn.instanceOf().getEvents()
-                .subscribe(dialogCommand -> {
-                    switch (dialogCommand.getDialogCommandModel()) {
-                        case COPY_TEXT:
-                            Log.d("dialogCommand", COPY_TEXT.name());
-                            break;
-                        case EDIT:
-                            Log.d("dialogCommand", EDIT.name());
-                            break;
-                        case DETAILS:
-                            Log.d("dialogCommand", DETAILS.name());
-                            break;
-                        case DELETE:
-                            Log.d("dialogCommand", DELETE.name());
-                            break;
-                    }
-                });
-    }
+
 
     private void getTokenGooglePlus(String accName) {
         Observable.just("").map(token -> {

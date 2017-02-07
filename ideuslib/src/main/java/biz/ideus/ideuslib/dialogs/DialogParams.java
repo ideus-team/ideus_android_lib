@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.dialogs;
+package biz.ideus.ideuslib.dialogs;
 
 import org.parceler.Parcel;
 import org.parceler.ParcelConstructor;
@@ -9,13 +9,14 @@ import org.parceler.ParcelConstructor;
 
 @Parcel
 public class DialogParams {
-    DialogModel dialogModel;
-    Integer dialogIntent;
-    boolean hasIntent;
-    String dialogHeader;
-    boolean hasHeader;
-    String dialogText;
-    boolean hasText;
+    public DialogModel dialogModel;
+    public Integer dialogIntent;
+    public boolean hasIntent;
+    public String dialogHeader;
+    public boolean hasHeader;
+    public String dialogText;
+    public boolean hasText;
+
 
     @ParcelConstructor
     public DialogParams(DialogModel dialogModel, Integer dialogIntent, boolean hasIntent
@@ -31,6 +32,7 @@ public class DialogParams {
 
     public DialogParams() {
     }
+
 
     public DialogModel getDialogModel() {
         return dialogModel;

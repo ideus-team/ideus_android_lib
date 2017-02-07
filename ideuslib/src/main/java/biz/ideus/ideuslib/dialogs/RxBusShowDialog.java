@@ -1,8 +1,5 @@
-package biz.ideus.ideuslibexample.rx_buses;
+package biz.ideus.ideuslib.dialogs;
 
-import biz.ideus.ideuslibexample.dialogs.DialogModel;
-import biz.ideus.ideuslibexample.dialogs.DialogParams;
-import biz.ideus.ideuslibexample.dialogs.DialogParamsBuilder;
 import rx.Observable;
 import rx.subjects.BehaviorSubject;
 

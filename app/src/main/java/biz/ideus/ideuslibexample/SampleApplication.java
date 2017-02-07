@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.multidex.MultiDex;
+import android.util.Log;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
@@ -17,15 +18,26 @@ import com.squareup.leakcanary.RefWatcher;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 
+import java.util.concurrent.TimeUnit;
+
 import biz.ideus.ideuslib.adapter.typeface_adapters.DLibTypefaceAdapter;
+import biz.ideus.ideuslib.dialogs.DialogParams;
+import biz.ideus.ideuslib.dialogs.DialogParamsBuilder;
+import biz.ideus.ideuslib.dialogs.RxBusShowDialog;
+import biz.ideus.ideuslibexample.data.DialogStore;
 import biz.ideus.ideuslibexample.data.local.RequeryApi;
+import biz.ideus.ideuslibexample.data.model.response.CheckUpdateAnswer;
 import biz.ideus.ideuslibexample.data.remote.NetApi;
+import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
+import biz.ideus.ideuslibexample.data.remote.NetSubscriberSettings;
 import biz.ideus.ideuslibexample.injection.components.AppComponent;
 import biz.ideus.ideuslibexample.injection.components.DaggerAppComponent;
 import biz.ideus.ideuslibexample.injection.modules.AppModule;
 import biz.ideus.ideuslibexample.utils.Constants;
 import io.fabric.sdk.android.Fabric;
 import io.requery.sql.Configuration;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static biz.ideus.ideuslibexample.utils.Constants.NO_INTERNET_CONNECTION;
 
@@ -55,6 +67,7 @@ public class SampleApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.d("LIFE", "SampleApplication onCreate");
         refWatcher = LeakCanary.install(this);
         mApplication = this;
         try {
@@ -72,12 +85,16 @@ public class SampleApplication extends Application {
         netApi = sAppComponent.netApi();
 
 
+
         setupFaceBookSDK();
         setupTwitterSDK();
         setupUniversalImageLoaderConfig();
         Hawk.init(this)
                 .setEncryption(new NoEncryption())
                 .build();
+       // if(BuildConfig.DEBUG) { Timber.plant(new Timber.DebugTree()); }
+
+        CheckVersion();
         // if(BuildConfig.DEBUG) { Timber.plant(new Timber.DebugTree()); }
 
         Hawk.put(NO_INTERNET_CONNECTION, false);
@@ -131,5 +148,25 @@ public class SampleApplication extends Application {
         return application.refWatcher;
     }
 
+    private void CheckVersion() {
+        NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.NONE);
+
+        netApi.checkUpdate()
+                .delay(2, TimeUnit.SECONDS, Schedulers.trampoline())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new NetSubscriber<CheckUpdateAnswer>(netSubscriberSettings) {
+                    @Override
+                    public void onNext(CheckUpdateAnswer checkUpdateAnswer) {
+                        Log.d("LIFE", "netApi.checkUpdate()" );
+                        DialogParams dialogParams = new DialogParamsBuilder()
+                                .setDialogModel(DialogStore.NEW_VERSION_MUST_HAVE())
+                                .setDialogHeader(checkUpdateAnswer.data.getRelease().getVersion())
+                                .setDialogText(checkUpdateAnswer.data.getRelease().getDescription())
+                                .createDialogParams();
+                        RxBusShowDialog.instanceOf().setRxBusShowDialog(dialogParams);
+                    }
+                });
+    }
 
 }

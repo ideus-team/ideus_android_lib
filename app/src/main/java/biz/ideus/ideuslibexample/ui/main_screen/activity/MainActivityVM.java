@@ -36,6 +36,26 @@ public class MainActivityVM extends AbstractViewModel<StartView> {
 
     }
 
+//    private void CheckVersion() {
+//        NetSubscriberSettings netSubscriberSettings = new NetSubscriberSettings(NetSubscriber.ProgressType.NONE);
+//
+//        netApi.checkUpdate()
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new NetSubscriber<CheckUpdateAnswer>(netSubscriberSettings) {
+//                    @Override
+//                    public void onNext(CheckUpdateAnswer checkUpdateAnswer) {
+//
+//                        DialogParams dialogParams = new DialogParamsBuilder()
+//                                .setDialogModel(DialogModel.NEW_VERSION_MUST_HAVE_DIALOG)
+//                                .setDialogHeader(checkUpdateAnswer.data.getRelease().getVersion())
+//                                .setDialogText(checkUpdateAnswer.data.getRelease().getDescription())
+//                                .createDialogParams();
+//                        RxBusShowDialog.instanceOf().setRxBusShowDialog(dialogParams);
+//                    }
+//                });
+//    }
+
     @Override
     public void onBindView(@NonNull StartView view) {
         super.onBindView(view);

@@ -6,16 +6,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-
-
-import biz.ideus.ideuslibexample.R;
-import biz.ideus.ideuslibexample.ui.base.BaseActivity;
-
 import android.view.ViewGroup;
 
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.databinding.ItemLatestConnectionsBinding;
-
+import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.main_screen.fragments.BaseSearchVM;
 
 /**
@@ -33,7 +28,7 @@ public class HomeFragmentVM extends BaseSearchVM {
     @Override
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
         super.onCreate(arguments, savedInstanceState);
-
+        //BuildConfig.APPLICATION_ID
     }
 
     @Override
