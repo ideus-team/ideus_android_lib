@@ -4,7 +4,7 @@ import org.parceler.Parcel;
 import org.parceler.ParcelConstructor;
 
 /**
- * Created by user on 15.12.2016.
+ * wrapper for {@link DialogModel}, also used for callback
  */
 
 @Parcel

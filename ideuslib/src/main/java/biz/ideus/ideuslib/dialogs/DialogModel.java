@@ -4,16 +4,33 @@ import org.parceler.Parcel;
 import org.parceler.ParcelConstructor;
 
 /**
- * Created by blackmamba on 01.12.16.
+ * settings for {@link CustomDialog}
  */
 @Parcel
 public  class DialogModel {
-
+    /**
+     * Header text
+     */
     public int resDialogHeader;
+    /**
+     * Message text
+     */
     public int resDialogText;
+    /**
+     * Layout id ( R.layout.(smth) )
+     */
     public int layoutId;
+    /**
+     * color for header text (Color.RED for example)
+     */
     public int colorTitle;
+    /**
+     * text for button
+     */
     public int resBtnText;
+    /**
+     * type. SHOW_DIALOG, SHOW_SNACKBAR, HIDE_DIALOG etc.
+     */
     public DialogType dialogType;
 
     @ParcelConstructor
