@@ -12,8 +12,10 @@ import android.widget.EditText;
 
 import com.theartofdev.edmodo.cropper.CropImage;
 
+import biz.ideus.ideuslib.dialogs.RxBusShowDialog;
 import biz.ideus.ideuslib.interfaces.OnValidateSignUpScreen;
 import biz.ideus.ideuslibexample.R;
+import biz.ideus.ideuslibexample.data.DialogStore;
 import biz.ideus.ideuslibexample.data.model.request.UpdateProfileRequest;
 import biz.ideus.ideuslibexample.data.model.response.AutorisationAnswer;
 import biz.ideus.ideuslibexample.data.model.response.data.UploadFileData;
@@ -21,9 +23,7 @@ import biz.ideus.ideuslibexample.data.model.response.response_model.Autorisation
 import biz.ideus.ideuslibexample.data.remote.CheckError;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriberSettings;
-import biz.ideus.ideuslibexample.dialogs.DialogModel;
 import biz.ideus.ideuslibexample.interfaces.ImageChooserListener;
-import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.main_screen.activity.MainActivity;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
@@ -257,10 +257,10 @@ public class SettingsFragmentVM extends BaseValidationVM implements OnValidateSi
             return isValid;
         } else {
             if(settingsFieldTag.equals(NEW_PASSWORD)){
-                RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.UPDATE_PROFILE_PASSWORD_ATTENTION);
+                RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogStore.UPDATE_PROFILE_PASSWORD_ATTENTION());
                 return isValid;
             } else {
-                RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.UPDATE_PROFILE_ATTENTION);
+                RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogStore.UPDATE_PROFILE_ATTENTION());
                 return isValid;
             }
         }

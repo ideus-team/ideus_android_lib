@@ -5,20 +5,17 @@ import android.util.Log;
 import java.io.IOException;
 
 import biz.ideus.ideuslib.Utils.NetworkUtil;
+import biz.ideus.ideuslib.dialogs.DialogParams;
+import biz.ideus.ideuslib.dialogs.DialogParamsBuilder;
+import biz.ideus.ideuslib.dialogs.RxBusShowDialog;
 import biz.ideus.ideuslibexample.SampleApplication;
+import biz.ideus.ideuslibexample.data.DialogStore;
 import biz.ideus.ideuslibexample.data.model.response.ServerAnswer;
-import biz.ideus.ideuslibexample.dialogs.DialogModel;
-import biz.ideus.ideuslibexample.dialogs.DialogParams;
-import biz.ideus.ideuslibexample.dialogs.DialogParamsBuilder;
-import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-
-import static biz.ideus.ideuslibexample.dialogs.DialogModel.HIDE_PROGRESS_DIALOG;
-import static biz.ideus.ideuslibexample.dialogs.DialogModel.PROGRESS_DIALOG;
 
 /**
  * Created by user on 12.12.2016.
@@ -102,7 +99,7 @@ public class NetSubscriber <T extends ServerAnswer> extends Subscriber<T> {
             } else {
                 Log.d("NetSubscriber", "DialogParams " );
                 DialogParams dialogParams = new DialogParamsBuilder()
-                        .setDialogModel(DialogModel.LOGIN_ATTENTION)
+                        .setDialogModel(DialogStore.LOGIN_ATTENTION())
                         .setDialogText(e.getMessage())
                         .createDialogParams();
                 RxBusShowDialog.instanceOf().setRxBusShowDialog(dialogParams);
@@ -127,7 +124,7 @@ public class NetSubscriber <T extends ServerAnswer> extends Subscriber<T> {
 
         switch (subscriberSettings.getProgressType()) {
             case CIRCULAR: {
-                RxBusShowDialog.instanceOf().setRxBusShowDialog(PROGRESS_DIALOG);
+                RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogStore.PROGRESS_DIALOG());
                 break;
             }
             case LINEAR: {
@@ -141,7 +138,7 @@ public class NetSubscriber <T extends ServerAnswer> extends Subscriber<T> {
     private void hideProgress() {
         switch (subscriberSettings.getProgressType()) {
             case CIRCULAR: {
-                RxBusShowDialog.instanceOf().setRxBusShowDialog(HIDE_PROGRESS_DIALOG);
+                RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogStore.HIDE_PROGRESS_DIALOG());
                 break;
             }
             case LINEAR: {

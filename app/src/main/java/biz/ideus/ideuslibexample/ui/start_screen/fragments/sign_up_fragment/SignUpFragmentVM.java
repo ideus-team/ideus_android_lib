@@ -12,18 +12,21 @@ import com.orhanobut.hawk.Hawk;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterSession;
 
+import biz.ideus.ideuslib.dialogs.RxBusShowDialog;
 import biz.ideus.ideuslib.interfaces.OnValidateSignUpScreen;
 import biz.ideus.ideuslibexample.BuildConfig;
 import biz.ideus.ideuslibexample.R;
+
 import biz.ideus.ideuslibexample.boarder.ui.main_screen.activity.BoardActivityMain;
+
+import biz.ideus.ideuslibexample.data.DialogStore;
+
 import biz.ideus.ideuslibexample.data.model.request.SignUpRequest;
 import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationRequest;
 import biz.ideus.ideuslibexample.data.model.response.AutorisationAnswer;
 import biz.ideus.ideuslibexample.data.remote.CheckError;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriberSettings;
-import biz.ideus.ideuslibexample.dialogs.DialogModel;
-import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.start_screen.SocialsLogin;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
@@ -98,7 +101,7 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
             if (isValidData()) {
                 signUpUser();
             } else {
-                RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.SIGN_UP_ATTENTION);
+                RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogStore.SIGN_UP_ATTENTION());
             }
         }
 
@@ -108,7 +111,7 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
         if (isAgreeTermOfService) {
             return isAgreeTermOfService;
         } else {
-            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.TERMS_OF_SERVICE_ATTENTION);
+            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogStore.TERMS_OF_SERVICE_ATTENTION());
             return isAgreeTermOfService;
         }
     }

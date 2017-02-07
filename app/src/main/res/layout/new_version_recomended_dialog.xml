@@ -3,7 +3,7 @@
 
     <data>
         <import type="android.view.View" />
-        <import type="biz.ideus.ideuslibexample.data.DialogCommandModel"/>
+        <import type="biz.ideus.ideuslibexample.data.DialogCommandModel" />
 
         <variable
             name="customVM"
@@ -18,17 +18,17 @@
         android:gravity="center"
         android:orientation="vertical"
         android:padding="1dip"
-     >
+        >
 
-            <ImageView
-                android:id="@+id/iv_close"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_margin="5dp"
-                android:padding="5dp"
-                android:onClick="@{customVM.onClick}"
-                android:src="@drawable/ic_cancel"
-                android:layout_gravity="right" />
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_margin="5dp"
+            android:padding="5dp"
+            android:onClick="@{customVM.onClick}"
+            android:src="@drawable/ic_cancel"
+            android:layout_gravity="right" />
 
 
         <TextView
@@ -53,11 +53,10 @@
             android:tag="@{DialogCommandModel.COPY_TEXT}"
             android:id="@+id/tv_copy_text"
             android:onClick="@{customVM.onClick}"
-          style="@style/DialogEditTextBtn"
+            style="@style/DialogEditTextBtn"
             android:text="@string/copy_text" />
 
         <FrameLayout
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_marginLeft="20dp"
@@ -65,13 +64,12 @@
             android:background="@color/gray" />
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/tv_details"
             android:tag="@{DialogCommandModel.DETAILS}"
             android:onClick="@{customVM.onClick}"
             style="@style/DialogEditTextBtn"
             android:text="@string/details"
-           />
+            />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -86,10 +84,9 @@
             android:onClick="@{customVM.onClick}"
             android:tag="@{DialogCommandModel.EDIT}"
             style="@style/DialogEditTextBtn"
-           />
+            />
 
         <FrameLayout
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_marginLeft="20dp"
@@ -97,17 +94,17 @@
             android:background="@color/gray" />
 
         <TextView
-            android:visibility="gone"
             style="@style/DialogEditTextBtn"
             android:id="@+id/tv_delete"
+            android:onClick="@{customVM.onClick}"
             android:tag="@{DialogCommandModel.DELETE}"
             android:text="@string/delete"
-          />
+            />
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="2dp"
-       />
+            />
 
     </LinearLayout>
 </layout>

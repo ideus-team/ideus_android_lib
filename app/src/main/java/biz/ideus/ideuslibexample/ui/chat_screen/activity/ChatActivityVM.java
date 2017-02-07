@@ -15,8 +15,12 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import java.util.ArrayList;
 import java.util.List;
 
+import biz.ideus.ideuslib.dialogs.RxBusCustomAction;
+import biz.ideus.ideuslib.dialogs.RxBusShowDialog;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.adapters.ChatAdapter;
+import biz.ideus.ideuslibexample.data.DialogCommandModel;
+import biz.ideus.ideuslibexample.data.DialogStore;
 import biz.ideus.ideuslibexample.data.model.request.GetUserMessagesRequest;
 import biz.ideus.ideuslibexample.data.model.response.MessagesResponse;
 import biz.ideus.ideuslibexample.data.model.response.data.UploadFileData;
@@ -32,10 +36,11 @@ import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_request_model.Se
 import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_request_model.UpdateMessageRequest;
 import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_response_model.SocketMessageResponse;
 import biz.ideus.ideuslibexample.interfaces.ImageChooserListener;
-import biz.ideus.ideuslibexample.rx_buses.RxBusActionEditDialogBtn;
 import biz.ideus.ideuslibexample.rx_buses.RxBusNetworkConnected;
-import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
+
+
 import biz.ideus.ideuslibexample.rx_buses.RxBusSocketMessageEvent;
+
 import biz.ideus.ideuslibexample.ui.chat_screen.ChatView;
 import biz.ideus.ideuslibexample.ui.chat_screen.MessageViewModel;
 import biz.ideus.ideuslibexample.ui.common.toolbar.AbstractViewModelToolbar;
@@ -49,9 +54,11 @@ import rx.schedulers.Schedulers;
 
 import static biz.ideus.ideuslibexample.SampleApplication.netApi;
 import static biz.ideus.ideuslibexample.SampleApplication.requeryApi;
+
 import static biz.ideus.ideuslibexample.data.remote.socket_chat.SocketCommand.MESSAGE_SENT;
 import static biz.ideus.ideuslibexample.data.remote.socket_chat.SocketCommand.RECEIVE_MESSAGE;
-import static biz.ideus.ideuslibexample.dialogs.DialogModel.EDIT_TEXT_DIALOG;
+
+
 import static biz.ideus.ideuslibexample.utils.Constants.KIND_IMAGE;
 import static biz.ideus.ideuslibexample.utils.Constants.KIND_TEXT;
 
@@ -123,7 +130,7 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
 //        });
 
         startNetworkSubscription();
-        rxEditDialogMessageSubscription = getSubscriptionEditDialogMessage();
+        rxEditDialogMessageSubscription = getSubscribtionEditDialogMessage();
         rxBusSocketMessageSubscription = getSocketMessageSubscription();
         fetchMessages(chatUserId);
     }
@@ -267,12 +274,12 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
     }
 
 
-    private Subscription getSubscriptionEditDialogMessage() {
-        return RxBusActionEditDialogBtn.instanceOf().getEvents()
+    private Subscription getSubscribtionEditDialogMessage() {
+        return RxBusCustomAction.instanceOf().getEvents()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(dialogCommand -> {
-                    switch (dialogCommand.getDialogCommandModel()) {
+                    switch (DialogCommandModel.fromInt(dialogCommand.getDialogCommandModel())) {
                         case COPY_TEXT:
                             copyText(messageVMForEdit.getMessage());
                             break;
@@ -374,7 +381,7 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
                 break;
             case TEXT:
                 messageVMForEdit = messageViewModel;
-                RxBusShowDialog.instanceOf().setRxBusShowDialog(EDIT_TEXT_DIALOG);
+                RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogStore.EDIT_TEXT_DIALOG());
                 break;
         }
     }

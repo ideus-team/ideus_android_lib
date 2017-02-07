@@ -11,12 +11,15 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import biz.ideus.ideuslib.dialogs.RxBusShowDialog;
+import biz.ideus.ideuslibexample.data.DialogStore;
 import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_request_model.AuthorizeChatRequestSocket;
 import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_request_model.RequestSocketParams;
 import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_request_model.SocketRequestBuilder;
-import biz.ideus.ideuslibexample.dialogs.DialogModel;
-import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
+
+
 import biz.ideus.ideuslibexample.rx_buses.RxBusSocketMessageEvent;
+
 import biz.ideus.ideuslibexample.utils.JSONUtils;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -114,7 +117,7 @@ public final class WebSocketClient implements WebSocketListener {
         if (myWebSocket != null && isConnect) {
             send(requestParams);
         } else {
-            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.SOCKET_UNFORTUNATELY_DIALOG);
+            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogStore.SOCKET_UNFORTUNATELY_DIALOG());
         }
 
     }
@@ -184,7 +187,7 @@ public final class WebSocketClient implements WebSocketListener {
         e.printStackTrace();
         System.out.println("socketFail: " + e);
         isConnect = false;
-        RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.SOCKET_UNFORTUNATELY_DIALOG);
+        RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogStore.SOCKET_UNFORTUNATELY_DIALOG());
 
         if (writeExecutor != null)
             writeExecutor.shutdown();
