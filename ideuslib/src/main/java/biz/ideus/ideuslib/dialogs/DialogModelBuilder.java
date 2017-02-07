@@ -6,7 +6,7 @@ public class DialogModelBuilder {
     private int layoutId;
     private int colorTitle;
     private int resBtnText;
-    private DialogType dialogType = DialogType.SHOW;
+    private DialogType dialogType = DialogType.SHOW_DIALOG;
 
     public DialogModelBuilder setResDialogHeader(int resDialogHeader) {
         this.resDialogHeader = resDialogHeader;
