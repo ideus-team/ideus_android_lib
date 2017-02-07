@@ -15,19 +15,16 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterSession;
 
+import biz.ideus.ideuslib.dialogs.RxBusShowDialog;
 import biz.ideus.ideuslib.interfaces.OnValidateField;
+import biz.ideus.ideuslibexample.data.DialogStore;
 import biz.ideus.ideuslibexample.data.model.request.LoginModelRequest;
 import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationRequest;
 import biz.ideus.ideuslibexample.data.model.response.AutorisationAnswer;
-import biz.ideus.ideuslibexample.data.model.response.CheckUpdateAnswer;
 import biz.ideus.ideuslibexample.data.remote.CheckError;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriberSettings;
-import biz.ideus.ideuslibexample.dialogs.DialogModel;
-import biz.ideus.ideuslibexample.dialogs.DialogParams;
-import biz.ideus.ideuslibexample.dialogs.DialogParamsBuilder;
 import biz.ideus.ideuslibexample.interfaces.BaseMvvmInterface;
-import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.main_screen.activity.MainActivity;
 import biz.ideus.ideuslibexample.ui.start_screen.SocialsLogin;
@@ -126,7 +123,7 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
 //                                dialog.dismiss();
 //                            break;
 //                        case NO_INTERNET_CONNECTION:
-//                            showSneckBarDialog(NO_INTERNET_CONNECTION.resDialogName);
+//                            showSneckBarDialog(NO_INTERNET_CONNECTION.resDialogHeader);
 //                            break;
 //                        default:
 //                            dialog = CustomDialog.instance(dialogParams);
@@ -185,7 +182,7 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
         if (isValidFields()) {
             loginUser();
         } else {
-            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.LOGIN_ATTENTION);
+            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogStore.LOGIN_ATTENTION());
         }
 
     }

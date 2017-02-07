@@ -7,10 +7,10 @@ import android.content.Intent;
 import com.orhanobut.hawk.Hawk;
 
 import biz.ideus.ideuslib.Utils.NetworkUtil;
+import biz.ideus.ideuslib.dialogs.RxBusShowDialog;
 import biz.ideus.ideuslibexample.R;
-import biz.ideus.ideuslibexample.dialogs.DialogModel;
+import biz.ideus.ideuslibexample.data.DialogStore;
 import biz.ideus.ideuslibexample.rx_buses.RxBusNetworkConnected;
-import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import biz.ideus.ideuslibexample.utils.Utils;
 import rx.Subscription;
 
@@ -30,7 +30,7 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
             RxBusNetworkConnected.getInstance().setNetworkConnected();
         } else if(!NetworkUtil.isNetworkConnected(context) && !(boolean)Hawk.get(NO_INTERNET_CONNECTION)) {
             Hawk.put(NO_INTERNET_CONNECTION, true);
-            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.NO_INTERNET_CONNECTION);
+            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogStore.NO_INTERNET_CONNECTION());
         }
     }
 

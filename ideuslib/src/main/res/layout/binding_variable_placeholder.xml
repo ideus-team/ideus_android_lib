@@ -6,6 +6,11 @@
         <variable
             name="viewModel"
             type="boolean" />
+
+        <variable
+        name="customVM"
+        type="boolean" />
+
     </data>
 
     <View android:tag="fake" />

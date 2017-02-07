@@ -1,6 +1,5 @@
-package biz.ideus.ideuslibexample.rx_buses;
+package biz.ideus.ideuslib.dialogs;
 
-import biz.ideus.ideuslibexample.dialogs.DialogCommand;
 import rx.Observable;
 import rx.subjects.PublishSubject;
 

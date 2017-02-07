@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.dialogs;
+package biz.ideus.ideuslib.dialogs;
 
 import android.app.DialogFragment;
 import android.databinding.DataBindingUtil;
@@ -15,9 +15,10 @@ import android.view.Window;
 
 import org.parceler.Parcels;
 
-import biz.ideus.ideuslibexample.BR;
-import biz.ideus.ideuslibexample.R;
-import biz.ideus.ideuslibexample.rx_buses.RxBusCustomAction;
+import biz.ideus.ideuslib.R;
+
+
+//import biz.ideus.ideuslib.BR;
 
 
 /**
@@ -25,11 +26,11 @@ import biz.ideus.ideuslibexample.rx_buses.RxBusCustomAction;
  */
 
 public class CustomDialog extends DialogFragment{
-    private ViewDataBinding binding;
-    public static String LAYOUT_KEY = "layout";
+    ViewDataBinding binding;
     public static String DIALOG_MODEL_KEY = "DialogModel";
+    public static String DIALOG_VM_KEY = "DialogViewModel";
     public static int RESOURCE_EMPTY = 0;
-
+    private int BRClass;
 //    private int layout;
 
 //    private Object dialogIntent;
@@ -56,29 +57,25 @@ public class CustomDialog extends DialogFragment{
 //        }
 //    }
 
-    public static CustomDialog instance(DialogParams dialogParams) {
+    public static CustomDialog instance(DialogParams dialogParams, int BRClass) {
         CustomDialog customDialog = null;
         if(dialogParams.getDialogModel().layoutId != RESOURCE_EMPTY) {
             customDialog = new CustomDialog();
             //customDialog.layout = dialogParams.getDialogModel().layoutId;
             customDialog.dialogParams = dialogParams;
+            customDialog.BRClass = BRClass;
         }
         return customDialog;
     }
-
-
-
-//    public void setLayout(int layout) {        this.layout = layout;    }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, R.style.DialogStyle);
+
         if (savedInstanceState != null) {
             dialogParams = Parcels.unwrap(savedInstanceState.getParcelable(DIALOG_MODEL_KEY));
-           // layout = savedInstanceState.getInt(LAYOUT_KEY);
-           // dialogParams.setDialogModel((DialogModel) savedInstanceState.getSerializable(DIALOG_MODEL_KEY));
+            BRClass = savedInstanceState.getInt(DIALOG_VM_KEY);
         }
     }
 
@@ -87,7 +84,7 @@ public class CustomDialog extends DialogFragment{
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         binding = DataBindingUtil.inflate(inflater, dialogParams.getDialogModel().layoutId, container, true);
-        binding.setVariable(BR.customVM, this);
+        binding.setVariable(BRClass, this);
         setDialogParameters();
         return binding.getRoot();
     }
@@ -97,26 +94,24 @@ public class CustomDialog extends DialogFragment{
         super.onSaveInstanceState(outState);
         Parcelable wrapped = Parcels.wrap(dialogParams);
         outState.putParcelable(DIALOG_MODEL_KEY, wrapped);
-
-//        outState.putInt(LAYOUT_KEY, layout);
-//        outState.putSerializable(DIALOG_MODEL_KEY, dialogParams);
+        outState.putInt(DIALOG_VM_KEY, BRClass);
     }
 
     private void setDialogParameters() {
-        String header = dialogParams.isHasHeader() ? dialogParams.getDialogHeader() : getString(dialogParams.getDialogModel().resDialogName);
+        String header = dialogParams.isHasHeader() ? dialogParams.getDialogHeader() : getString(dialogParams.getDialogModel().resDialogHeader);
         headerText.set(header);
 
-        String text = dialogParams.isHasText() ? dialogParams.getDialogText() : getString(dialogParams.getDialogModel().resAboutDialogText);
+        String text = dialogParams.isHasText() ? dialogParams.getDialogText() : getString(dialogParams.getDialogModel().resDialogText);
         messageText.set(text);
 
         colorTitle.set(dialogParams.getDialogModel().colorTitle);
-        visibilityAttentionIcon.set(dialogParams.getDialogModel().visibilityIcon);
-        btnName.set(getString(dialogParams.getDialogModel().resBtnName));
+       // visibilityAttentionIcon.set(dialogParams.getDialogModel().visibilityIcon);
+        if (dialogParams.getDialogModel().resBtnText > 0) btnName.set(getString(dialogParams.getDialogModel().resBtnText));
         this.setCancelable(false);
     }
 
     public void onClick(View view) {
-        DialogCommandModel dialogCommandModel = (DialogCommandModel) view.getTag();
+        Integer dialogCommandModel = (Integer) view.getTag();
         if (dialogCommandModel != null) {
             RxBusCustomAction.instanceOf().setDialogCommand(new DialogCommand(dialogCommandModel, dialogParams.getDialogIntent()));
         }

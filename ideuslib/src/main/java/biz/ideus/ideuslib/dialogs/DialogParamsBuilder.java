@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.dialogs;
+package biz.ideus.ideuslib.dialogs;
 
 public class DialogParamsBuilder {
     private DialogModel dialogModel;

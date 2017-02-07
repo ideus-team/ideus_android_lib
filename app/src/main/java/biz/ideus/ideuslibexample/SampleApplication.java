@@ -20,21 +20,19 @@ import com.twitter.sdk.android.core.TwitterAuthConfig;
 
 import java.util.concurrent.TimeUnit;
 
-import javax.net.ssl.SSLContext;
-
 import biz.ideus.ideuslib.adapter.typeface_adapters.DLibTypefaceAdapter;
+import biz.ideus.ideuslib.dialogs.DialogParams;
+import biz.ideus.ideuslib.dialogs.DialogParamsBuilder;
+import biz.ideus.ideuslib.dialogs.RxBusShowDialog;
+import biz.ideus.ideuslibexample.data.DialogStore;
 import biz.ideus.ideuslibexample.data.local.RequeryApi;
 import biz.ideus.ideuslibexample.data.model.response.CheckUpdateAnswer;
 import biz.ideus.ideuslibexample.data.remote.NetApi;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriberSettings;
-import biz.ideus.ideuslibexample.dialogs.DialogModel;
-import biz.ideus.ideuslibexample.dialogs.DialogParams;
-import biz.ideus.ideuslibexample.dialogs.DialogParamsBuilder;
 import biz.ideus.ideuslibexample.injection.components.AppComponent;
 import biz.ideus.ideuslibexample.injection.components.DaggerAppComponent;
 import biz.ideus.ideuslibexample.injection.modules.AppModule;
-import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import biz.ideus.ideuslibexample.utils.Constants;
 import io.fabric.sdk.android.Fabric;
 import io.requery.sql.Configuration;
@@ -162,7 +160,7 @@ public class SampleApplication extends Application {
                     public void onNext(CheckUpdateAnswer checkUpdateAnswer) {
                         Log.d("LIFE", "netApi.checkUpdate()" );
                         DialogParams dialogParams = new DialogParamsBuilder()
-                                .setDialogModel(DialogModel.NEW_VERSION_MUST_HAVE_DIALOG)
+                                .setDialogModel(DialogStore.NEW_VERSION_MUST_HAVE())
                                 .setDialogHeader(checkUpdateAnswer.data.getRelease().getVersion())
                                 .setDialogText(checkUpdateAnswer.data.getRelease().getDescription())
                                 .createDialogParams();

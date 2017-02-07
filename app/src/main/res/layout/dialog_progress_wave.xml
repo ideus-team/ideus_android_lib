@@ -2,14 +2,14 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:bind="http://schemas.android.com/tools">
 
-    <data>
-        <import type="android.view.View" />
-        <import type="biz.ideus.ideuslibexample.dialogs.DialogCommandModel"/>
+    <!--<data>-->
+        <!--<import type="android.view.View" />-->
+        <!--<import type="biz.ideus.ideuslibexample.dialogs.DialogCommandModel"/>-->
 
-        <variable
-            name="customVM"
-            type="biz.ideus.ideuslibexample.dialogs.CustomDialog" />
-    </data>
+        <!--<variable-->
+            <!--name="customVM"-->
+            <!--type="biz.ideus.ideuslibexample.dialogs.CustomDialog" />-->
+    <!--</data>-->
 
 
         <RelativeLayout

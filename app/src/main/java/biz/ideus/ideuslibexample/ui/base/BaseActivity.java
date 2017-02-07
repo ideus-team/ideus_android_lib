@@ -1,13 +1,9 @@
 package biz.ideus.ideuslibexample.ui.base;
 
 import android.app.DialogFragment;
-import android.content.Context;
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
-import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
@@ -25,29 +21,28 @@ import com.squareup.leakcanary.RefWatcher;
 import org.jetbrains.annotations.NotNull;
 
 import biz.ideus.ideuslib.Utils.NetworkUtil;
+import biz.ideus.ideuslib.dialogs.CustomDialog;
+import biz.ideus.ideuslib.dialogs.DialogParams;
+import biz.ideus.ideuslib.dialogs.RxBusCustomAction;
+import biz.ideus.ideuslib.dialogs.RxBusShowDialog;
 import biz.ideus.ideuslib.mvvm_lifecycle.AbstractViewModel;
 import biz.ideus.ideuslib.mvvm_lifecycle.IView;
 import biz.ideus.ideuslib.mvvm_lifecycle.base.ViewModelBaseActivity;
 import biz.ideus.ideuslibexample.SampleApplication;
-import biz.ideus.ideuslibexample.data.remote.socket_chat.WebSocketClient;
-import biz.ideus.ideuslibexample.dialogs.CustomDialog;
-import biz.ideus.ideuslibexample.dialogs.DialogModel;
-import biz.ideus.ideuslibexample.dialogs.DialogParams;
+import biz.ideus.ideuslibexample.data.DialogCommandModel;
+import biz.ideus.ideuslibexample.data.DialogStore;
 import biz.ideus.ideuslibexample.injection.components.ActivityComponent;
 import biz.ideus.ideuslibexample.injection.components.DaggerActivityComponent;
 import biz.ideus.ideuslibexample.injection.modules.ActivityModule;
-import biz.ideus.ideuslibexample.rx_buses.RxBusCustomAction;
-import biz.ideus.ideuslibexample.rx_buses.RxBusShowDialog;
 import rx.Subscriber;
 import rx.Subscription;
-
-import static biz.ideus.ideuslibexample.dialogs.DialogCommandModel.COPY_TEXT;
-import static biz.ideus.ideuslibexample.dialogs.DialogCommandModel.DELETE;
-import static biz.ideus.ideuslibexample.dialogs.DialogCommandModel.DETAILS;
-import static biz.ideus.ideuslibexample.dialogs.DialogCommandModel.EDIT;
-import static biz.ideus.ideuslibexample.dialogs.DialogCommandModel.SKIP_UPDATE;
-import static biz.ideus.ideuslibexample.dialogs.DialogCommandModel.UPDATE_NOW;
-import static biz.ideus.ideuslibexample.dialogs.DialogModel.SOCKET_UNFORTUNATELY_DIALOG;
+import biz.ideus.ideuslibexample.BR;
+import static biz.ideus.ideuslibexample.data.DialogCommandModel.COPY_TEXT;
+import static biz.ideus.ideuslibexample.data.DialogCommandModel.DELETE;
+import static biz.ideus.ideuslibexample.data.DialogCommandModel.DETAILS;
+import static biz.ideus.ideuslibexample.data.DialogCommandModel.EDIT;
+import static biz.ideus.ideuslibexample.data.DialogCommandModel.SKIP_UPDATE;
+import static biz.ideus.ideuslibexample.data.DialogCommandModel.UPDATE_NOW;
 import static biz.ideus.ideuslibexample.utils.Constants.NO_INTERNET_CONNECTION;
 
 
@@ -80,7 +75,7 @@ public abstract class BaseActivity<T extends IView, R extends AbstractViewModel<
     private void checkNetworkConnection() {
         if (!NetworkUtil.isNetworkConnected(this) && !(boolean) Hawk.get(NO_INTERNET_CONNECTION)) {
             Hawk.put(NO_INTERNET_CONNECTION, true);
-            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogModel.NO_INTERNET_CONNECTION);
+            RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogStore.NO_INTERNET_CONNECTION());
         }
     }
 
@@ -119,39 +114,40 @@ public abstract class BaseActivity<T extends IView, R extends AbstractViewModel<
                         Log.d("getEvents()", dialogParams.getDialogModel().toString());
                         if (dialog != null && dialog.isVisible())
                             dialog.dismiss();
-                        switch (dialogParams.getDialogModel()) {
-                            case PROGRESS_DIALOG:
-                                dialog = CustomDialog.instance(dialogParams);
+                        switch (dialogParams.getDialogModel().dialogType) {
+                            case SHOW:
+                                dialog = CustomDialog.instance(dialogParams, BR.customVM);
                                 dialog.show(BaseActivity.this.getFragmentManager(), "Dialog");
                                 break;
-                            case NEW_VERSION_MUST_HAVE_DIALOG:
-                                dialog = CustomDialog.instance(dialogParams);
-                                dialog.show(getFragmentManager(), "Dialog");
-                                break;
-                            case NEW_VERSION_RECOMENDED_DIALOG:
-                                dialog = CustomDialog.instance(dialogParams);
-                                dialog.show(getFragmentManager(), "Dialog");
-                                break;
-                            case HIDE_PROGRESS_DIALOG:
+//                            case NEW_VERSION_MUST_HAVE_DIALOG:
+//                                dialog = CustomDialog.instance(dialogParams);
+//                                dialog.show(getFragmentManager(), "Dialog");
+//                                break;
+//                            case NEW_VERSION_RECOMENDED_DIALOG:
+//                                dialog = CustomDialog.instance(dialogParams);
+//                                dialog.show(getFragmentManager(), "Dialog");
+//                                break;
+                            case HIDE:
                                 if (dialog != null)
                                     dialog.dismiss();
                                 break;
-                            case NO_INTERNET_CONNECTION:
-                                dialog = CustomDialog.instance(dialogParams);
-                                dialog.show(BaseActivity.this.getFragmentManager(), "Dialog");
-                                break;
-                            case SOCKET_UNFORTUNATELY_DIALOG:
-                                if (snackbar != null) {
-                                    snackbar.dismiss();
-                                }
-                                BaseActivity.this.showSneckBarDialog(SOCKET_UNFORTUNATELY_DIALOG.resDialogName, v -> {
-                                    snackbar.dismiss()
-                                    ;
-                                    WebSocketClient.getInstance().connectHttpClient();
-                                });
-                                break;
+//                            case NO_INTERNET_CONNECTION:
+//                                dialog = CustomDialog.instance(dialogParams);
+//                                dialog.show(BaseActivity.this.getFragmentManager(), "Dialog");
+//                                break;
+
+//                            case SOCKET_UNFORTUNATELY_DIALOG:
+//                                if (snackbar != null) {
+//                                    snackbar.dismiss();
+//                                }
+//                                BaseActivity.this.showSneckBarDialog(dialogParams.getDialogModel().resDialogHeader /*SOCKET_UNFORTUNATELY_DIALOG.resDialogName*/, v -> {
+//                                    snackbar.dismiss()
+//                                    ;
+//                                    WebSocketClient.getInstance().connectHttpClient();
+//                                });
+//                                break;
                             default:
-                                dialog = CustomDialog.instance(dialogParams);
+                                dialog = CustomDialog.instance(dialogParams, BR.customVM);
                                 dialog.show(BaseActivity.this.getFragmentManager(), "Dialog");
                                 break;
                         }
@@ -168,7 +164,7 @@ public abstract class BaseActivity<T extends IView, R extends AbstractViewModel<
     public Subscription startRxBusActionEditDialogBtnSubscription() {
         return RxBusCustomAction.instanceOf().getEvents().filter(s -> s != null)
                 .subscribe(dialogCommand -> {
-                    switch (dialogCommand.getDialogCommandModel()) {
+                    switch (DialogCommandModel.fromInt(dialogCommand.getDialogCommandModel())) {
                         case COPY_TEXT:
                             Log.d("dialogCommand", COPY_TEXT.name());
                             break;

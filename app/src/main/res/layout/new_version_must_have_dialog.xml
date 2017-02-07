@@ -3,11 +3,11 @@
 
     <data>
         <import type="android.view.View" />
-        <import type="biz.ideus.ideuslibexample.dialogs.DialogCommandModel"/>
+        <import type="biz.ideus.ideuslibexample.data.DialogCommandModel" />
 
         <variable
             name="customVM"
-            type="biz.ideus.ideuslibexample.dialogs.CustomDialog" />
+            type="biz.ideus.ideuslib.dialogs.CustomDialog" />
     </data>
 
     <LinearLayout
@@ -49,7 +49,7 @@
             android:background="@color/gray" />
 
         <TextView
-            android:tag="@{DialogCommandModel.UPDATE_NOW}"
+            android:tag="@{DialogCommandModel.UPDATE_NOW.getValue()}"
             android:id="@+id/tv_update"
             android:onClick="@{customVM.onClick}"
             style="@style/DialogEditTextBtn"

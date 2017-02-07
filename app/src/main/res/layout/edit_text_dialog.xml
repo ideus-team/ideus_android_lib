@@ -3,11 +3,11 @@
 
     <data>
         <import type="android.view.View" />
-        <import type="biz.ideus.ideuslibexample.dialogs.DialogCommandModel"/>
+        <import type="biz.ideus.ideuslibexample.data.DialogCommandModel"/>
 
         <variable
             name="customVM"
-            type="biz.ideus.ideuslibexample.dialogs.CustomDialog" />
+            type="biz.ideus.ideuslib.dialogs.CustomDialog" />
     </data>
 
     <LinearLayout
