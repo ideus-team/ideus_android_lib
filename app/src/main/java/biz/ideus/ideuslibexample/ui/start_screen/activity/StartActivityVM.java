@@ -16,6 +16,8 @@ import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterSession;
 
 import biz.ideus.ideuslib.interfaces.OnValidateField;
+import biz.ideus.ideuslibexample.BuildConfig;
+import biz.ideus.ideuslibexample.boarder.ui.main_screen.activity.BoardActivityMain;
 import biz.ideus.ideuslibexample.data.model.request.LoginModelRequest;
 import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationRequest;
 import biz.ideus.ideuslibexample.data.model.response.AutorisationAnswer;
@@ -146,15 +148,20 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
                         if (null != startActivityInterface) {
                             startActivityInterface.onAuthorized();
                         }
-                        //goToMainScreen();
+                        goToMainScreen();
                     }
                 });
     }
 
     private void goToMainScreen() {
-        StartActivity startActivity = (StartActivity) context;
-        startActivity.startActivity(new Intent(startActivity, MainActivity.class));
-        startActivity.finish();
+
+        if (BuildConfig.FLAVOR.contentEquals("boarderFlavor")) {
+            context.startActivity(new Intent(context, BoardActivityMain.class));
+        } else {
+            context.startActivity(new Intent(context, MainActivity.class));
+        }
+
+        ((StartActivity) context).finish();
     }
 
 
@@ -277,12 +284,7 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
                         Hawk.put(USER_TOKEN, autorisationAnswer.data.getApi_token());
                         Hawk.put(USER_ID, autorisationAnswer.data.getIdent());
 
-                        if (null != startActivityInterface) {
-                            startActivityInterface.onAuthorized();
-                        }
-
-                        //onAuthorizationSuccess();
-                        //goToMainScreen();
+                        goToMainScreen();
                     }
                 });
     }

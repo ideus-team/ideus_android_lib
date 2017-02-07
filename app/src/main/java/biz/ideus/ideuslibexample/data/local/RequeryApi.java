@@ -100,6 +100,7 @@ public class RequeryApi implements IRequeryApi {
         data.upsert(peopleEntity).subscribe();
     }
 
+
     @Override
     public void deletePeopleList() {
         data.delete(PeopleEntity.class).get().value();

@@ -1,6 +1,7 @@
 package biz.ideus.ideuslibexample.injection.components;
 
 
+import biz.ideus.ideuslibexample.boarder.ui.main_screen.activity.BoardActivityMain;
 import biz.ideus.ideuslibexample.injection.modules.ActivityModule;
 import biz.ideus.ideuslibexample.injection.modules.ViewModelModule;
 import biz.ideus.ideuslibexample.injection.scopes.PerActivity;
@@ -31,4 +32,6 @@ public interface ActivityComponent {
    void inject(MainActivity activity);
     void inject(StartActivity activity);
     void inject(ChatActivity activity);
+    //BoarderApp
+    void inject(BoardActivityMain activity);
 }

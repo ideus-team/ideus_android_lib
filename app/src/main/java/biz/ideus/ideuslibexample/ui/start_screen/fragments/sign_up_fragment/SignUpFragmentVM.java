@@ -13,7 +13,9 @@ import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterSession;
 
 import biz.ideus.ideuslib.interfaces.OnValidateSignUpScreen;
+import biz.ideus.ideuslibexample.BuildConfig;
 import biz.ideus.ideuslibexample.R;
+import biz.ideus.ideuslibexample.boarder.ui.main_screen.activity.BoardActivityMain;
 import biz.ideus.ideuslibexample.data.model.request.SignUpRequest;
 import biz.ideus.ideuslibexample.data.model.request.SocialsAutorisationRequest;
 import biz.ideus.ideuslibexample.data.model.response.AutorisationAnswer;
@@ -287,9 +289,14 @@ public class SignUpFragmentVM extends BaseValidationVM implements OnValidateSign
     }
 
     protected void goToTutorialScreen() {
-        StartActivity startActivity = (StartActivity) context;
-        startActivity.startActivity(new Intent(startActivity, TutorialActivity.class));
-        startActivity.finish();
-    }
+
+            if (BuildConfig.FLAVOR.contentEquals("boarderFlavor")) {
+                context.startActivity(new Intent(context, BoardActivityMain.class));
+            } else {
+                context.startActivity(new Intent(context, TutorialActivity.class));
+            }
+
+            ((StartActivity) context).finish();
+        }
 
 }
