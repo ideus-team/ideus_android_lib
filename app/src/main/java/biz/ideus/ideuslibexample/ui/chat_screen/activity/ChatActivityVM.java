@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.theartofdev.edmodo.cropper.CropImage;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +33,7 @@ import biz.ideus.ideuslibexample.data.remote.NetSubscriberSettings;
 import biz.ideus.ideuslibexample.data.remote.network_change.NetworkChangeReceiver;
 import biz.ideus.ideuslibexample.data.remote.network_change.NetworkChangeSubscriber;
 import biz.ideus.ideuslibexample.data.remote.socket.AbsWebSocketClient;
+import biz.ideus.ideuslibexample.data.remote.socket.SocketResponseListener;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.SendMessageRequest;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.UpdateMessageRequest;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.SocketMessageResponse;
@@ -96,7 +98,8 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
         fileUploadProcessor.setSuccessUploadListener(this);
         message.set("");
 
-        webSocketClient.addResponseListener(SocketMessageResponse.class, new AbsWebSocketClient.SocketResponseListener<SocketMessageResponse>() {
+        webSocketClient.addResponseListener(new SocketResponseListener<SocketMessageResponse>(SocketMessageResponse.class) {
+
             @Override
             public void onGotResponseData(SocketMessageResponse data) {
                 if (checkCurrentFriend(data.getData().getUserId())) {
@@ -359,7 +362,7 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
             rxEditDialogMessageSubscription.unsubscribe();
 
         }
-        webSocketClient.removeResponseListener(SocketMessageData.class);
+        //webSocketClient.removeResponseListener(SocketMessageData.class);
     }
 
     @Override

@@ -1,10 +1,6 @@
 package biz.ideus.ideuslibexample.network;
 
-import java.util.HashMap;
-
 import biz.ideus.ideuslibexample.data.remote.socket.AbsWebSocketClient;
-import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.SocketMessageResponse;
-import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.data.SocketAutorisedData;
 
 /**
  * Created by blackmamba on 08.02.17.
@@ -21,7 +17,7 @@ public class WebSocketClient extends AbsWebSocketClient {
         return instance;
     }
 
-    @Override
+    /*@Override
     public HashMap<String, Class> getSocketResponseCommand() {
 
         HashMap<String, Class> socketResponseCommand = new HashMap<>();
@@ -31,5 +27,5 @@ public class WebSocketClient extends AbsWebSocketClient {
 
 
         return socketResponseCommand;
-    }
+    }*/
 }
