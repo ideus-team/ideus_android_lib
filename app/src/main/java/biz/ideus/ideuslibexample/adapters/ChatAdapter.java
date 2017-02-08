@@ -27,8 +27,7 @@ import biz.ideus.ideuslibexample.ui.chat_screen.activity.ItemChatTag;
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int MY_ITEM = 0;
     private static final int FRIEND_ITEM = 1;
-    private static final int DATE_ITEM = 2;
-    private String tempDate = "";
+
     private PeopleEntity friendForChat = new PeopleEntity();
     public List<MessageViewModel> messageList = new ArrayList<>();
     private ChatActivity activity;
@@ -41,7 +40,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.friendForChat = friendForChat;
         setVisibilityDateInList(messageList);
         notifyDataSetChanged();
-        scrollToBottom();
+       scrollToBottom();
 
     }
 
@@ -104,6 +103,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         MessageViewModel messageViewModel = messageList.get(position).setFriendPhoto(friendForChat.getPhoto());
         if (holder instanceof MyMessageItemHolder) {
             ((MyMessageItemHolder) holder).binding.setViewModel(messageViewModel);
+            ((MyMessageItemHolder) holder).binding.llImageAttachContainer.setVisibility(messageViewModel.isVisibleImage()? View.VISIBLE : View.GONE);
             ((MyMessageItemHolder) holder).binding.tvMessage.setOnLongClickListener(v -> {
                 onItemChatClickListener.onClickItem(messageViewModel, (ItemChatTag) v.getTag());
                 return false;
@@ -112,6 +112,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     onItemChatClickListener.onClickItem(messageViewModel, (ItemChatTag) v.getTag()));
         } else {
             ((FriendMessageItemHolder) holder).binding.setViewModel(messageViewModel);
+            ((FriendMessageItemHolder) holder).binding.llImageAttachContainer.setVisibility(messageViewModel.isVisibleImage()? View.VISIBLE : View.GONE);
             ((FriendMessageItemHolder) holder).binding.tvMessage.setOnLongClickListener(v -> {
                 onItemChatClickListener.onClickItem(messageViewModel, (ItemChatTag) v.getTag());
                 return false;

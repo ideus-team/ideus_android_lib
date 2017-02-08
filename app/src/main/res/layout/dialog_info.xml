@@ -33,7 +33,7 @@
                 android:paddingLeft="5dip"
                 android:paddingRight="10dip"
                 android:paddingTop="20dip"
-                android:textColor="@{customVM.colorTitle}"
+                android:textColor="@{(int)customVM.colorTitle}"
                 android:text="@{customVM.headerText}"
                 android:textSize="@dimen/font_size_18" />
 
@@ -44,7 +44,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/tv_title"
                 android:layout_toStartOf="@+id/tv_title"
-                android:visibility="@{customVM.visibilityAttentionIcon}"
+                android:visibility="@{(int)customVM.visibilityAttentionIcon}"
                 android:src="@drawable/ic_warning" />
 
             <ImageView
@@ -55,7 +55,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
                 android:padding="5dp"
-                android:onClick="@{customVM.onClick}"
+                android:onClick="@{customVM.onClickWithClose}"
                 android:src="@drawable/ic_cancel" />
         </RelativeLayout>
 

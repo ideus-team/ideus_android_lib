@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -113,9 +114,11 @@ public class CustomDialog extends DialogFragment{
      process click event, send to {@link RxBusCustomAction} Tag from Sender View
      **/
     public void onClick(View view) {
+        Log.d("dialogCommandModel",view.getTag() + "");
         Integer dialogCommandModel = (Integer) view.getTag();
         if (dialogCommandModel != null) {
             RxBusCustomAction.instanceOf().setDialogCommand(new DialogCommand(dialogCommandModel, dialogParams.getDialogIntent()));
+            dismiss();
         }
     }
     /**

@@ -25,8 +25,8 @@ import biz.ideus.ideuslibexample.data.remote.CheckError;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriberSettings;
 import biz.ideus.ideuslibexample.interfaces.BaseMvvmInterface;
-import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.main_screen.activity.MainActivity;
+import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.start_screen.SocialsLogin;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.ui.start_screen.fragments.forgot_password_fragment.ForgotPasswordFragment;
@@ -208,15 +208,14 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
                         if (null != startActivityInterface) {
                             startActivityInterface.onAuthorized();
                         }
-                        //goToMainScreen();
+                        goToMainScreen();
                     }
                 });
     }
 
     private void goToMainScreen() {
-        StartActivity startActivity = (StartActivity) context;
-        startActivity.startActivity(new Intent(startActivity, MainActivity.class));
-        startActivity.finish();
+        context.startActivity(new Intent(context, MainActivity.class));
+        ((StartActivity) context).finish();
     }
 
 
@@ -339,12 +338,7 @@ public class StartActivityVM extends BaseValidationVM implements BaseMvvmInterfa
                         Hawk.put(USER_TOKEN, autorisationAnswer.data.getApi_token());
                         Hawk.put(USER_ID, autorisationAnswer.data.getIdent());
 
-                        if (null != startActivityInterface) {
-                            startActivityInterface.onAuthorized();
-                        }
-
-                        //onAuthorizationSuccess();
-                        //goToMainScreen();
+                        goToMainScreen();
                     }
                 });
     }

@@ -94,7 +94,7 @@ public class SampleApplication extends Application {
                 .build();
        // if(BuildConfig.DEBUG) { Timber.plant(new Timber.DebugTree()); }
 
-        CheckVersion();
+        //CheckVersion();
         // if(BuildConfig.DEBUG) { Timber.plant(new Timber.DebugTree()); }
 
         Hawk.put(NO_INTERNET_CONNECTION, false);

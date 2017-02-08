@@ -8,9 +8,9 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import biz.ideus.ideuslibexample.R;
+import biz.ideus.ideuslibexample.ui.main_screen.activity.MainActivity;
 import biz.ideus.ideuslibexample.ui.chat_screen.activity.ChatActivity;
 import biz.ideus.ideuslibexample.ui.common.toolbar.AbstractViewModelToolbar;
-import biz.ideus.ideuslibexample.ui.main_screen.activity.MainActivity;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.utils.Constants;
 
@@ -47,7 +47,7 @@ public class UserDetailsVM  extends AbstractViewModelToolbar<StartView>{
     public void onChatClick(View view){
         Intent intent = new Intent(((MainActivity)context), ChatActivity.class);
         intent.putExtra(Constants.CHAT_PEOPLE_ID, peopleId);
-        ((MainActivity)context).startActivity(intent);
+        context.startActivity(intent);
 
     }
 

@@ -100,6 +100,7 @@ public class RequeryApi implements IRequeryApi {
         data.upsert(peopleEntity).subscribe();
     }
 
+
     @Override
     public void deletePeopleList() {
         data.delete(PeopleEntity.class).get().value();
@@ -126,9 +127,9 @@ public class RequeryApi implements IRequeryApi {
 
     @Override
     public Observable<MessageEntity> storeMessage(MessageEntity messageEntity) {
-        return data.upsert(messageEntity).toObservable()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+        return data.upsert(messageEntity).toObservable();
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override

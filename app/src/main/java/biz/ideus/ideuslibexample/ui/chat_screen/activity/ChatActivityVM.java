@@ -31,14 +31,16 @@ import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriberSettings;
 import biz.ideus.ideuslibexample.data.remote.network_change.NetworkChangeReceiver;
 import biz.ideus.ideuslibexample.data.remote.network_change.NetworkChangeSubscriber;
-import biz.ideus.ideuslibexample.data.remote.socket_chat.SocketCommand;
-import biz.ideus.ideuslibexample.data.remote.socket_chat.SocketMessageListener;
-import biz.ideus.ideuslibexample.data.remote.socket_chat.WebSocketClient;
-import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_request_model.SendMessageRequest;
-import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_request_model.UpdateMessageRequest;
-import biz.ideus.ideuslibexample.data.remote.socket_chat.socket_response_model.SocketMessageResponse;
+import biz.ideus.ideuslibexample.data.remote.socket.WebSocketClient;
+import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.SendMessageRequest;
+import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.UpdateMessageRequest;
+import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.SocketMessageResponse;
 import biz.ideus.ideuslibexample.interfaces.ImageChooserListener;
 import biz.ideus.ideuslibexample.rx_buses.RxBusNetworkConnected;
+
+
+import biz.ideus.ideuslibexample.rx_buses.RxBusSocketMessageEvent;
+
 import biz.ideus.ideuslibexample.ui.chat_screen.ChatView;
 import biz.ideus.ideuslibexample.ui.chat_screen.MessageViewModel;
 import biz.ideus.ideuslibexample.ui.common.toolbar.AbstractViewModelToolbar;
@@ -52,6 +54,11 @@ import rx.schedulers.Schedulers;
 
 import static biz.ideus.ideuslibexample.SampleApplication.netApi;
 import static biz.ideus.ideuslibexample.SampleApplication.requeryApi;
+
+import static biz.ideus.ideuslibexample.data.remote.socket.SocketCommand.MESSAGE_SENT;
+import static biz.ideus.ideuslibexample.data.remote.socket.SocketCommand.RECEIVE_MESSAGE;
+
+
 import static biz.ideus.ideuslibexample.utils.Constants.KIND_IMAGE;
 import static biz.ideus.ideuslibexample.utils.Constants.KIND_TEXT;
 
@@ -76,6 +83,7 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
     private String uploadedUrl = "";
 
     private Subscription rxBusNetworkSubscription;
+    private Subscription rxBusSocketMessageSubscription;
     private Subscription rxEditDialogMessageSubscription;
 
     public void setAdapter(ChatAdapter adapter) {
@@ -96,33 +104,34 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
         message.set("");
 
 
-        webSocketClient.setMessageListener(new SocketMessageListener() {
-            @Override
-            public void onMessage(SocketMessageResponse response) {
-                super.onMessage(response);
-
-                if (adapter == null) {
-                    return;
-                }
-                if (checkCurrentFriend(response.data.getMessageEntity().getUserId())) {
-                    MessageEntity messageEntity = response.data.getMessageEntity();
-
-                    requeryApi.storeMessage(messageEntity).subscribe(messageEntity1 -> {
-                        switch (SocketCommand.getSocketCommandByValue(response.command)) {
-                            case RECEIVE_MESSAGE:
-                                setMessageModel(response, messageEntity1);
-                                break;
-                            case MESSAGE_SENT:
-                                updatedMessageModel(response);
-                                break;
-                        }
-                    });
-                }
-            }
-        });
+//        webSocketClient.setMessageListener(new SocketMessageListener() {
+//            @Override
+//            public void onMessage(SocketMessageResponse response) {
+//                super.onMessage(response);
+//
+//                if (adapter == null) {
+//                    return;
+//                }
+//                if (checkCurrentFriend(response.data.getMessageEntity().getUserId())) {
+//                    MessageEntity messageEntity = response.data.getMessageEntity();
+//
+//                    requeryApi.storeMessage(messageEntity).subscribe(messageEntity1 -> {
+//                        switch (SocketCommand.getSocketCommandByValue(response.command)) {
+//                            case RECEIVE_MESSAGE:
+//                                setMessageModel(response, messageEntity1);
+//                                break;
+//                            case MESSAGE_SENT:
+//                                updatedMessageModel(response);
+//                                break;
+//                        }
+//                    });
+//                }
+//            }
+//        });
 
         startNetworkSubscription();
         rxEditDialogMessageSubscription = getSubscribtionEditDialogMessage();
+        rxBusSocketMessageSubscription = getSocketMessageSubscription();
         fetchMessages(chatUserId);
     }
 
@@ -139,20 +148,20 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
         ((ChatActivity) context).setImageChooserListener(this);
     }
 
-    private void updatedMessageModel(SocketMessageResponse response) {
-        adapter.updateMessage(new MessageViewModel(response.data.getMessageEntity()));
+    private void updatedMessageModel(MessageEntity messageEntity) {
+        adapter.updateMessage(new MessageViewModel(messageEntity));
         disableEditMessage();
     }
 
-    private void setMessageModel(SocketMessageResponse response, MessageEntity messageEntity) {
+    private void setMessageModel(MessageEntity messageEntity) {
         if (messageEntity.isUpdated()) {
-            adapter.updateMessage(new MessageViewModel(response.data.getMessageEntity()));
+            adapter.updateMessage(new MessageViewModel(messageEntity));
         } else {
-            adapter.setMessageToList(new MessageViewModel(response.data.getMessageEntity()));
+            adapter.setMessageToList(new MessageViewModel(messageEntity));
         }
 
-        if(!isEditMessageEnabled.get())
-        message.set("");
+        if (!isEditMessageEnabled.get())
+            message.set("");
     }
 
     private boolean checkCurrentFriend(String fromUserId) {
@@ -230,13 +239,14 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new NetSubscriber<MessagesResponse>(netSubscriberSettings) {
                     @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
+                    public void onCompleted() {
+                        super.onCompleted();
                         adapter.notifyChatAdapter(messageList, friendForChat);
                     }
 
                     @Override
-                    public void onNext(MessagesResponse answer) {
+                    public void onError(Throwable e) {
+                        super.onError(e);
                         adapter.notifyChatAdapter(messageList, friendForChat);
                     }
                 });
@@ -307,14 +317,59 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
         Utils.toast(context, context.getString(R.string.copied_success));
     }
 
+    private Subscription getSocketMessageSubscription() {
+        return RxBusSocketMessageEvent.getInstance().getEvents()
+                .filter(socketMessageWrapper -> socketMessageWrapper.getSocketCommand().equals(RECEIVE_MESSAGE)
+                        || socketMessageWrapper.getSocketCommand().equals(MESSAGE_SENT))
+                .flatMap(socketMessageWrapper -> {
+                    MessageEntity messageEntity = null;
+                    if (checkCurrentFriend(((SocketMessageResponse) socketMessageWrapper.getResponse()).data.getMessageEntity().getUserId())) {
+                        messageEntity = ((SocketMessageResponse) socketMessageWrapper.getResponse()).data.getMessageEntity();
+                        return requeryApi.storeMessage(messageEntity);
+                    }
+                    return null;
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(messageEntity -> {
+                    if (messageEntity != null) {
+                        if (messageEntity.isOwner() && messageEntity.isUpdated()) {
+                            updatedMessageModel(messageEntity);
+                        } else {
+                            setMessageModel(messageEntity);
+                        }
+                    }
+                });
+
+    }
+    //  if (checkCurrentFriend(response.data.getMessageEntity().getUserId())) {
+//                    MessageEntity messageEntity = response.data.getMessageEntity();
+//
+//                    requeryApi.storeMessage(messageEntity).subscribe(messageEntity1 -> {
+//                        switch (SocketCommand.getSocketCommandByValue(response.command)) {
+//                            case RECEIVE_MESSAGE:
+//                                setMessageModel(response, messageEntity1);
+//                                break;
+//                            case MESSAGE_SENT:
+//                                updatedMessageModel(response);
+//                                break;
+//                        }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        unsubscribeAllRxBuses();
+        //  adapter = null;
+    }
+
+    private void unsubscribeAllRxBuses() {
         if (rxEditDialogMessageSubscription != null && !rxEditDialogMessageSubscription.isUnsubscribed()) {
             rxEditDialogMessageSubscription.unsubscribe();
+
         }
-        adapter = null;
+        if (rxBusSocketMessageSubscription != null && !rxBusSocketMessageSubscription.isUnsubscribed()) {
+            rxBusSocketMessageSubscription.unsubscribe();
+        }
     }
 
 

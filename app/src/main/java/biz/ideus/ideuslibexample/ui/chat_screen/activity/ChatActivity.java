@@ -46,7 +46,7 @@ public class ChatActivity extends BaseActivity<ChatView, ChatActivityVM, Activit
         getBinding().rViewChat.setAdapter(adapter);
         getBinding().rViewChat.setHasFixedSize(true);
         getBinding().rViewChat.setLayoutManager(linearLayoutManager);
-        adapter.setScrollToBottomListener(position -> getBinding().rViewChat.smoothScrollToPosition(position));
+        adapter.setScrollToBottomListener(position -> getBinding().rViewChat.postDelayed(() -> getBinding().rViewChat.smoothScrollToPosition(position), 400));
         getViewModel().setAdapter(adapter);
     }
 

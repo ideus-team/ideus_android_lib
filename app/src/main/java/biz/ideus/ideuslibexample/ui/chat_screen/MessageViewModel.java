@@ -78,7 +78,7 @@ public class MessageViewModel extends BaseObservable {
         return getKind().equals("text");
     }
 
-    @Bindable
+   
     public boolean isVisibleImage() {
         return getKind().equals("image");
     }

@@ -26,7 +26,7 @@
                 android:layout_height="20dp"
                 android:layout_margin="5dp"
                 android:padding="5dp"
-                android:onClick="@{customVM.onClick}"
+                android:onClick="@{customVM.onClickWithClose}"
                 android:src="@drawable/ic_cancel"
                 android:layout_gravity="right" />
 
@@ -50,7 +50,7 @@
             android:background="@color/gray" />
 
         <TextView
-            android:tag="@{DialogCommandModel.COPY_TEXT}"
+            android:tag="@{DialogCommandModel.COPY_TEXT.getValue()}"
             android:id="@+id/tv_copy_text"
             android:onClick="@{customVM.onClick}"
           style="@style/DialogEditTextBtn"
@@ -67,7 +67,7 @@
         <TextView
             android:visibility="gone"
             android:id="@+id/tv_details"
-            android:tag="@{DialogCommandModel.DETAILS}"
+            android:tag="@{DialogCommandModel.DETAILS.getValue()}"
             android:onClick="@{customVM.onClick}"
             style="@style/DialogEditTextBtn"
             android:text="@string/details"
@@ -84,7 +84,7 @@
             android:id="@+id/tv_edit"
             android:text="@string/edit"
             android:onClick="@{customVM.onClick}"
-            android:tag="@{DialogCommandModel.EDIT}"
+            android:tag="@{DialogCommandModel.EDIT.getValue()}"
             style="@style/DialogEditTextBtn"
            />
 
@@ -100,7 +100,7 @@
             android:visibility="gone"
             style="@style/DialogEditTextBtn"
             android:id="@+id/tv_delete"
-            android:tag="@{DialogCommandModel.DELETE}"
+            android:tag="@{DialogCommandModel.DELETE.getValue()}"
             android:text="@string/delete"
           />
 
