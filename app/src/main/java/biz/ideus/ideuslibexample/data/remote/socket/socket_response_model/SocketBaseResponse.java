@@ -16,6 +16,16 @@ public abstract class SocketBaseResponse<T> {
     };
 
     @SerializedName("command")
+    private String commandFromServer;
+
+    // if commandFromServer as 'getCommand()' from decelerated by 'user'
+    public boolean hasValidCommand() {
+        if (commandFromServer.contentEquals(getCommand())) {
+            return true;
+        }
+        return false;
+    }
+
     abstract public String getCommand();
 }
 
