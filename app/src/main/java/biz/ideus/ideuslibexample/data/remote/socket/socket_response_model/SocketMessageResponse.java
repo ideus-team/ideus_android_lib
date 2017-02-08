@@ -7,7 +7,9 @@ import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.data.S
  */
 
 public class SocketMessageResponse extends SocketBaseResponse<SocketMessageData> {
-    public SocketMessageResponse(SocketMessageData data) {
-        super(data);
+
+    @Override
+    public String getCommand() {
+        return "receive_message";
     }
 }

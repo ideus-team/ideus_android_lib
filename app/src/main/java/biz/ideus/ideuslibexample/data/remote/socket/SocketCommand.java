@@ -26,6 +26,7 @@ public enum SocketCommand {
 //    , DEL_USER_FROM_CHAT("del_user_from_chat")
 //    , USERS_DELETED("users_deleted");
 
+
     public String commandName;
      public Class responseType;
 

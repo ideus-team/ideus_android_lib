@@ -6,19 +6,16 @@ import com.google.gson.annotations.SerializedName;
  * Created by blackmamba on 24.01.17.
  */
 
-public class SocketBaseResponse<T> {
-        @SerializedName("data")
-        public T data;
+public abstract class SocketBaseResponse<T> {
 
-        @SerializedName("command")
-        public String command;
+    @SerializedName("data")
+    private T data;
 
-        public SocketBaseResponse(T data) {
-            this.data = data;
-        }
+    public T getData() {
+        return data;
+    };
 
-        public T getData() {
-            return data;
-        }
-    }
+    @SerializedName("command")
+    abstract public String getCommand();
+}
 

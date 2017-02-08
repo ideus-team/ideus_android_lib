@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.data.model.response.response_model;
+package biz.ideus.ideuslibexample.network.response.entity_model;
 
 import android.databinding.Bindable;
 import android.databinding.Observable;
@@ -13,11 +13,8 @@ import io.requery.Persistable;
  */
 
 @Entity
-public interface Board extends Observable, Parcelable, Persistable {
+public interface Boards extends Observable, Parcelable, Persistable {
 
-//    request: {"command": "get_boards"}
-//
-//    response ok: {"command": "boards_list", "data": {"boards": [{"cards_deadline_count": "2", "board": {"ident": "1", "name": "new board name"}, "cards_count": "4"}]}}
 
     @Key
     String getIdent();

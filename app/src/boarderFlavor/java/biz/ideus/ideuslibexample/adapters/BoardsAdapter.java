@@ -8,15 +8,15 @@ public class BoardsAdapter {}
        // extends RecyclerView.Adapter<BoardsAdapter.BoardItemHolder> {
 //
 //
-//    private List<BoardEntity> boardEntities = new ArrayList<>();
+//    private List<BoardsEntity> boardEntities = new ArrayList<>();
 //    private OnSelectClickListener onSelectClickListener;
 //
-//    public BoardsAdapter(OnSelectClickListener onSelectClickListener, List<BoardEntity> boardEntities) {
+//    public BoardsAdapter(OnSelectClickListener onSelectClickListener, List<BoardsEntity> boardEntities) {
 //        this.boardEntities = boardEntities;
 //        this.onSelectClickListener = onSelectClickListener;
 //    }
 //
-//    public void setBoardEntities(List<BoardEntity> boardEntities){
+//    public void setBoardEntities(List<BoardsEntity> boardEntities){
 //        this.boardEntities = boardEntities;
 //        notifyDataSetChanged();
 //    }
@@ -33,7 +33,7 @@ public class BoardsAdapter {}
 //
 //    @Override
 //    public void onBindViewHolder(BoardItemHolder holder, int position) {
-//        BoardEntity boardEntity = boardEntities.get(position);
+//        BoardsEntity boardEntity = boardEntities.get(position);
 //        holder.binding.setViewModel(boardEntity);
 //        holder.binding.getRoot().setOnClickListener(v -> onSelectClickListener.onClickPosition(boardEntity));
 //    }
@@ -60,7 +60,7 @@ public class BoardsAdapter {}
 //    }
 //
 //    public interface OnSelectClickListener{
-//        void onClickPosition(BoardEntity boardEntity);
+//        void onClickPosition(BoardsEntity boardEntity);
 //    }
 //
 //}

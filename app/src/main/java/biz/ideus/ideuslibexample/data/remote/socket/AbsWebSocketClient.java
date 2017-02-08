@@ -4,9 +4,12 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -16,10 +19,6 @@ import biz.ideus.ideuslibexample.data.DialogStore;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.AuthorizeChatRequestSocket;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.RequestSocketParams;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.SocketRequestBuilder;
-
-
-import biz.ideus.ideuslibexample.rx_buses.RxBusSocketMessageEvent;
-
 import biz.ideus.ideuslibexample.utils.JSONUtils;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -38,38 +37,61 @@ import rx.schedulers.Schedulers;
 
 import static okhttp3.ws.WebSocket.TEXT;
 
-public final class WebSocketClient implements WebSocketListener {
+public abstract class AbsWebSocketClient implements WebSocketListener {
+
     private ExecutorService writeExecutor;
+
     private WebSocket myWebSocket = null;
-    private Object serverAnswer;
-    private SocketMessageListener messageListener;
-    public static WebSocketClient instance = null;
+
     private Subscription pingSubscription;
-    private OkHttpClient client;
-    private Request request;
     private boolean isConnect = false;
 
-    public void setMessageListener(SocketMessageListener messageListener) {
-        this.messageListener = messageListener;
-    }
+    private final HashMap<String, Class> socketResponseCommand = new HashMap<>();
 
-    public static WebSocketClient getInstance() {
-        if (instance == null) {
-            instance = new WebSocketClient();
+    private HashMap<Class, SocketResponseListener> responseListeners = new HashMap<>();
+
+    private void handleJson(String json) throws JSONException {
+        String messageCommand = new JSONObject(json).get("command").toString();
+
+        Class responseDataClass = socketResponseCommand.get(messageCommand);
+
+        for(Map.Entry<Class, SocketResponseListener> entry : responseListeners.entrySet()) {
+            Class responseDataClassLocal = entry.getKey();
+            SocketResponseListener responseListener = entry.getValue();
+
+            if (responseDataClass == responseDataClassLocal) {
+                responseListener.onGotResponseData(new Gson().fromJson(json, responseDataClass));
+            }
         }
-        return instance;
     }
 
-    public WebSocketClient() {
+    public abstract HashMap<String, Class> getSocketResponseCommand();
+
+    public void addResponseListener(Class responseDataClass, SocketResponseListener socketResponseListener) {
+        responseListeners.put(responseDataClass, socketResponseListener);
+    }
+
+    public void removeResponseListener(Class responseDataClass) {
+        if (responseListeners.containsKey(responseDataClass)) {
+            responseListeners.remove(responseDataClass);
+        }
+    }
+
+    public AbsWebSocketClient() {
+        fillAllCommands();
         connectHttpClient();
-        // pingSubscription = getPingSubscription();
+    }
+
+    private void fillAllCommands() {
+        socketResponseCommand.putAll(getSocketResponseCommand());
+
     }
 
     public void connectHttpClient() {
-        client = new OkHttpClient.Builder()
+        OkHttpClient client = new OkHttpClient.Builder()
                 .readTimeout(0, TimeUnit.MILLISECONDS)
                 .build();
-        request = new Request.Builder()
+        Request request = new Request.Builder()
                 .url("ws://46.101.254.89:8020")
                 .build();
         WebSocketCall.create(client, request).enqueue(this);
@@ -119,7 +141,6 @@ public final class WebSocketClient implements WebSocketListener {
         } else {
             RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogStore.SOCKET_UNFORTUNATELY_DIALOG());
         }
-
     }
 
     private void send(RequestSocketParams requestParams) {
@@ -147,16 +168,22 @@ public final class WebSocketClient implements WebSocketListener {
 
     @Override
     public void onMessage(ResponseBody message) throws IOException {
+
         String json = null;
-        String messageCommand = null;
-        json = message.string();
+
+        try {
+            json = message.string();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Log.d("json", json);
         if (message.contentType() == TEXT && JSONUtils.isJSONValid(json)) {
             try {
-                messageCommand = new JSONObject(json).get("command").toString();
-                SocketCommand socketCommand = SocketCommand.getSocketCommandByValue(messageCommand);
-                serverAnswer = new Gson().fromJson(json, socketCommand.responseType);
-                RxBusSocketMessageEvent.getInstance().setRxSocketMessageEvent(new SocketMessageWrapper(serverAnswer, socketCommand));
+                handleJson(json);
+
+                /*biz.ideus.ideuslibexample.network.SocketCommand socketCommand = biz.ideus.ideuslibexample.network.SocketCommand.getSocketCommandByValue(messageCommand);
+                Object serverAnswer = new Gson().fromJson(json, socketCommand.responseType);
+                RxBusBoardSocketEvent.getInstance().setRxBusBoardSocketEvent(new BoardSocketMessageWrapper(serverAnswer, socketCommand));*/
 //                if (messageListener != null) {
 //                    messageListener.addToMessageSelector(new SocketMessageWrapper(serverAnswer, socketCommand));
 //                }
@@ -165,6 +192,7 @@ public final class WebSocketClient implements WebSocketListener {
                 writeExecutor.shutdown();
             }
         }
+
     }
 
     @Override
@@ -205,5 +233,9 @@ public final class WebSocketClient implements WebSocketListener {
                     e.printStackTrace();
                 }
             }).start();
+    }
+
+    public interface SocketResponseListener<T> {
+        void onGotResponseData(T data);
     }
 }

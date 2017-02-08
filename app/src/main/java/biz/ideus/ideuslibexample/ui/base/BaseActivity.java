@@ -32,10 +32,10 @@ import biz.ideus.ideuslibexample.BR;
 import biz.ideus.ideuslibexample.SampleApplication;
 import biz.ideus.ideuslibexample.data.DialogCommandModel;
 import biz.ideus.ideuslibexample.data.DialogStore;
-import biz.ideus.ideuslibexample.data.remote.socket.WebSocketClient;
 import biz.ideus.ideuslibexample.injection.components.ActivityComponent;
 import biz.ideus.ideuslibexample.injection.components.DaggerActivityComponent;
 import biz.ideus.ideuslibexample.injection.modules.ActivityModule;
+import biz.ideus.ideuslibexample.network.WebSocketClient;
 import rx.Subscriber;
 import rx.Subscription;
 

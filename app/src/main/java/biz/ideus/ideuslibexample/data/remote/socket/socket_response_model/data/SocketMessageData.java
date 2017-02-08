@@ -25,6 +25,11 @@ public class SocketMessageData {
     @SerializedName("is_owner")
     private boolean isOwner;
 
+    public String getUserId() {
+        return userId;
+    }
+
+
 
     public MessageEntity getMessageEntity() {
         MessageEntity messageEntity = new MessageEntity();

@@ -8,7 +8,7 @@ import android.support.annotation.Nullable;
 
 import com.orhanobut.hawk.Hawk;
 
-import biz.ideus.ideuslibexample.data.remote.socket.WebSocketClient;
+import biz.ideus.ideuslibexample.network.WebSocketClient;
 import biz.ideus.ideuslibexample.ui.common.toolbar.AbstractViewModelToolbar;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.ui.start_screen.activity.StartActivity;
