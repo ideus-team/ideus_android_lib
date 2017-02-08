@@ -76,7 +76,6 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
     private String uploadedUrl = "";
 
     private Subscription rxBusNetworkSubscription;
-    private Subscription rxBusSocketMessageSubscription;
     private Subscription rxEditDialogMessageSubscription;
 
     public void setAdapter(ChatAdapter adapter) {
@@ -112,32 +111,6 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
                 }
             }
         });
-
-
-//        webSocketClient.setMessageListener(new SocketMessageListener() {
-//            @Override
-//            public void onMessage(SocketMessageResponse response) {
-//                super.onMessage(response);
-//
-//                if (adapter == null) {
-//                    return;
-//                }
-//                if (checkCurrentFriend(response.data.getMessageEntity().getUserId())) {
-//                    MessageEntity messageEntity = response.data.getMessageEntity();
-//
-//                    requeryApi.storeMessage(messageEntity).subscribe(messageEntity1 -> {
-//                        switch (SocketCommand.getSocketCommandByValue(response.command)) {
-//                            case RECEIVE_MESSAGE:
-//                                setMessageModel(response, messageEntity1);
-//                                break;
-//                            case MESSAGE_SENT:
-//                                updatedMessageModel(response);
-//                                break;
-//                        }
-//                    });
-//                }
-//            }
-//        });
 
         startNetworkSubscription();
         rxEditDialogMessageSubscription = getSubscribtionEditDialogMessage();
@@ -326,31 +299,6 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
         Utils.toast(context, context.getString(R.string.copied_success));
     }
 
-//    private Subscription getSocketMessageSubscription() {
-//        return RxBusSocketMessageEvent.getInstance().getEvents()
-//                .filter(socketMessageWrapper -> socketMessageWrapper.getSocketCommand().equals(RECEIVE_MESSAGE)
-//                        || socketMessageWrapper.getSocketCommand().equals(MESSAGE_SENT))
-//                .flatMap(socketMessageWrapper -> {
-//                    MessageEntity messageEntity = null;
-//                    if (checkCurrentFriend(((SocketMessageResponse) socketMessageWrapper.getResponse()).data.getMessageEntity().getUserId())) {
-//                        messageEntity = ((SocketMessageResponse) socketMessageWrapper.getResponse()).data.getMessageEntity();
-//                        return requeryApi.storeMessage(messageEntity);
-//                    }
-//                    return null;
-//                })
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(messageEntity -> {
-//                    if (messageEntity != null) {
-//                        if (messageEntity.isOwner() && messageEntity.isUpdated()) {
-//                            updatedMessageModel(messageEntity);
-//                        } else {
-//                            setMessageModel(messageEntity);
-//                        }
-//                    }
-//                });
-
-  //  }
 
     @Override
     public void onDestroy() {

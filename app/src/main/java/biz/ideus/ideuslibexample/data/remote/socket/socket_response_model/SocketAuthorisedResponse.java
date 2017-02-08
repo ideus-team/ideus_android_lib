@@ -7,8 +7,5 @@ import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.data.S
  */
 
 public class SocketAuthorisedResponse extends SocketBaseResponse<SocketAutorisedData> {
-    @Override
-    public String getCommand() {
-        return "authorize";
-    }
+
 }

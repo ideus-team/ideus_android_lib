@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="boards">Boards</string>
+    <string name="board_card_count">Cards count:</string>
+    <string name="board_deadline_count">Deadline Cards count:</string>
 </resources>

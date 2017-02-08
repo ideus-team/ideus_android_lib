@@ -60,7 +60,6 @@ public abstract class AbsWebSocketClient implements WebSocketListener {
             SocketResponseListener responseListener = entry.getValue();
 
             if (responseDataClass == responseDataClassLocal) {
-
                 responseListener.onGotResponseData(new Gson().fromJson(json, responseDataClass));
             }
         }
@@ -181,13 +180,6 @@ public abstract class AbsWebSocketClient implements WebSocketListener {
         if (message.contentType() == TEXT && JSONUtils.isJSONValid(json)) {
             try {
                 handleJson(json);
-
-                /*biz.ideus.ideuslibexample.network.SocketCommand socketCommand = biz.ideus.ideuslibexample.network.SocketCommand.getSocketCommandByValue(messageCommand);
-                Object serverAnswer = new Gson().fromJson(json, socketCommand.responseType);
-                RxBusBoardSocketEvent.getInstance().setRxBusBoardSocketEvent(new BoardSocketMessageWrapper(serverAnswer, socketCommand));*/
-//                if (messageListener != null) {
-//                    messageListener.addToMessageSelector(new SocketMessageWrapper(serverAnswer, socketCommand));
-//                }
                 writeExecutor.shutdown();
             } catch (Exception ex) {
                 writeExecutor.shutdown();
