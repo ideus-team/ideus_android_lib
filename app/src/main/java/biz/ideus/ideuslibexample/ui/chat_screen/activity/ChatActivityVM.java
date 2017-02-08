@@ -34,6 +34,7 @@ import biz.ideus.ideuslibexample.data.remote.network_change.NetworkChangeSubscri
 import biz.ideus.ideuslibexample.data.remote.socket.AbsWebSocketClient;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.SendMessageRequest;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.UpdateMessageRequest;
+import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.SocketMessageResponse;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.data.SocketMessageData;
 import biz.ideus.ideuslibexample.interfaces.ImageChooserListener;
 import biz.ideus.ideuslibexample.network.WebSocketClient;
@@ -95,11 +96,11 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
         fileUploadProcessor.setSuccessUploadListener(this);
         message.set("");
 
-        webSocketClient.addResponseListener(SocketMessageData.class, new AbsWebSocketClient.SocketResponseListener<SocketMessageData>() {
+        webSocketClient.addResponseListener(SocketMessageResponse.class, new AbsWebSocketClient.SocketResponseListener<SocketMessageResponse>() {
             @Override
-            public void onGotResponseData(SocketMessageData data) {
-                if (checkCurrentFriend(data.getUserId())) {
-                    MessageEntity messageEntity = data.getMessageEntity();
+            public void onGotResponseData(SocketMessageResponse data) {
+                if (checkCurrentFriend(data.getData().getUserId())) {
+                    MessageEntity messageEntity = data.getData().getMessageEntity();
 
                     requeryApi.storeMessage(messageEntity).subscribe(messageEntity1 -> {
                         if (messageEntity1.isOwner() && messageEntity1.isUpdated()) {

@@ -60,6 +60,7 @@ public abstract class AbsWebSocketClient implements WebSocketListener {
             SocketResponseListener responseListener = entry.getValue();
 
             if (responseDataClass == responseDataClassLocal) {
+
                 responseListener.onGotResponseData(new Gson().fromJson(json, responseDataClass));
             }
         }
