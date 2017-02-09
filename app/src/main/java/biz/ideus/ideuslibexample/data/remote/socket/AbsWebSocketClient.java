@@ -44,23 +44,46 @@ public abstract class AbsWebSocketClient implements WebSocketListener {
     private boolean isConnect = false;
 
 
-    private List<SocketResponseListener> responseListeners = new ArrayList<>();
+    private List<ResponseDataKeeperModel> responseListeners = new ArrayList<>();
 
     private void handleJson(SocketResponseListener responseListener, String json) throws JSONException {
 
-            SocketBaseResponse socketBaseResponse = ((SocketBaseResponse) new Gson().fromJson(json, responseListener.getResponseClass()));
+        SocketBaseResponse socketBaseResponse = ((SocketBaseResponse) new Gson().fromJson(json, responseListener.getResponseClass()));
 
-            if (socketBaseResponse.hasValidCommand()) {
-                responseListener.onGotResponseData(socketBaseResponse);
+        if (socketBaseResponse.hasValidCommand()) {
+            responseListener.onGotResponseData(socketBaseResponse);
+        }
+    }
+
+    /**
+     * Method for adding response listeners. May multiply called.
+     *
+     * @param dependencyObject for link response listener with activity, or fragment, or view model. (Usually pass 'this')
+     * @param socketResponseListener response listener (what to do when we got response from server)
+     */
+    public void addResponseListener(Object dependencyObject, SocketResponseListener<?> socketResponseListener) {
+        responseListeners.add(new ResponseDataKeeperModel(dependencyObject, socketResponseListener));
+    }
+
+    /**
+     * Warning! If you called 'addResponseListener(...)' you MUST called this method in 'onDestroy()' for correct work.
+     *
+     * @param dependencyObject as 'dependencyObject' in 'addResponseListener(...)' method. (Usually pass 'this')
+     */
+    public void removeResponseListener(Object dependencyObject) {
+        if (responseListeners.isEmpty()) {
+            return;
+        }
+
+        int i = 0;
+
+        while (i < responseListeners.size()) {
+            if (responseListeners.get(i).getLinkedObject().equals(dependencyObject)) {
+                responseListeners.remove(responseListeners.get(i));
+            } else {
+                i++;
             }
-    }
-
-    public void addResponseListener(SocketResponseListener<?> socketResponseListener) {
-        responseListeners.add(socketResponseListener);
-    }
-
-    public void removeResponseListener(SocketResponseListener socketResponseListener) {
-        responseListeners.remove(socketResponseListener);
+        }
     }
 
     public AbsWebSocketClient() {
@@ -159,9 +182,9 @@ public abstract class AbsWebSocketClient implements WebSocketListener {
         Log.d("json", json);
         if (message.contentType() == TEXT && JSONUtils.isJSONValid(json)) {
 
-            for (SocketResponseListener responseListener: responseListeners) {
+            for (ResponseDataKeeperModel responseDataKeeperModel : responseListeners) {
                 try {
-                    handleJson(responseListener, json);
+                    handleJson(responseDataKeeperModel.getSocketResponseListener(), json);
                     writeExecutor.shutdown();
                 } catch (Exception ex) {
                     writeExecutor.shutdown();
@@ -206,4 +229,22 @@ public abstract class AbsWebSocketClient implements WebSocketListener {
             }).start();
     }
 
+    private class ResponseDataKeeperModel {
+
+        ResponseDataKeeperModel(Object linkedObject, SocketResponseListener<?> socketResponseListener) {
+            this.linkedObject = linkedObject;
+            this.socketResponseListener = socketResponseListener;
+        }
+
+        Object linkedObject; // for keep link to father class. For identity when we want to remove listeners.
+        SocketResponseListener<?> socketResponseListener;
+
+        public SocketResponseListener<?> getSocketResponseListener() {
+            return socketResponseListener;
+        }
+
+        public Object getLinkedObject() {
+            return linkedObject;
+        }
+    }
 }

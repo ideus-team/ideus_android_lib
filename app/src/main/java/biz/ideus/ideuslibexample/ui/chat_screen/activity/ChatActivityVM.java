@@ -97,47 +97,47 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
 
         //test
 
-            webSocketClient.addResponseListener(new SocketResponseListener<SocketMessageResponse>(SocketMessageResponse.class) {
+        webSocketClient.addResponseListener(this, new SocketResponseListener<SocketMessageResponse>(SocketMessageResponse.class) {
 
-                @Override
-                public void onGotResponseData(SocketMessageResponse data) {
-                    //test
-                    if (adapter != null) {
-                        if (checkCurrentFriend(data.getData().getUserId())) {
-                            MessageEntity messageEntity = data.getData().getMessageEntity();
+            @Override
+            public void onGotResponseData(SocketMessageResponse data) {
+                //test
+                if (adapter != null) {
+                    if (checkCurrentFriend(data.getData().getUserId())) {
+                        MessageEntity messageEntity = data.getData().getMessageEntity();
 
-                            requeryApi.storeMessage(messageEntity).subscribe(messageEntity1 -> {
-                                if (messageEntity1.isOwner() && messageEntity1.isUpdated()) {
-                                    updatedMessageModel(messageEntity);
-                                } else {
-                                    setMessageModel(messageEntity);
-                                }
-                            });
-                        }
-                        //
+                        requeryApi.storeMessage(messageEntity).subscribe(messageEntity1 -> {
+                            if (messageEntity1.isOwner() && messageEntity1.isUpdated()) {
+                                updatedMessageModel(messageEntity);
+                            } else {
+                                setMessageModel(messageEntity);
+                            }
+                        });
+                    }
+                    //
+                }
+            }
+        });
+
+        webSocketClient.addResponseListener(this, new SocketResponseListener<SocketMessageUpdateResponse>(SocketMessageUpdateResponse.class) {
+
+            @Override
+            public void onGotResponseData(SocketMessageUpdateResponse data) {
+                //test
+                if (adapter != null) {
+                    if (checkCurrentFriend(data.getData().getUserId())) {
+                        MessageEntity messageEntity = data.getData().getMessageEntity();
+
+                        requeryApi.storeMessage(messageEntity).subscribe(messageEntity1 -> {
+                            if (messageEntity1.isOwner() && messageEntity1.isUpdated()) {
+                                updatedMessageModel(messageEntity);
+                            }
+                        });
                     }
                 }
-            });
-
-            webSocketClient.addResponseListener(new SocketResponseListener<SocketMessageUpdateResponse>(SocketMessageUpdateResponse.class) {
-
-                @Override
-                public void onGotResponseData(SocketMessageUpdateResponse data) {
-                    //test
-                    if (adapter != null) {
-                        if (checkCurrentFriend(data.getData().getUserId())) {
-                            MessageEntity messageEntity = data.getData().getMessageEntity();
-
-                            requeryApi.storeMessage(messageEntity).subscribe(messageEntity1 -> {
-                                if (messageEntity1.isOwner() && messageEntity1.isUpdated()) {
-                                    updatedMessageModel(messageEntity);
-                                }
-                            });
-                        }
-                    }
-                }
-                //
-            });
+            }
+            //
+        });
 
 
         startNetworkSubscription();
@@ -336,7 +336,8 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
 
         }
         adapter = null;
-        //webSocketClient.removeResponseListener(SocketMessageData.class);
+
+        webSocketClient.removeResponseListener(this);
     }
 
     @Override
