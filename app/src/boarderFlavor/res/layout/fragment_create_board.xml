@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="biz.ideus.ideuslibexample.ui.main_screen.fragments.create_board_screen.CreateBoardVM" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/light_gray">
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"
+            bind:viewModel="@{viewModel}" />
+
+        <Button
+            android:id="@+id/create_board"
+            android:layout_margin="@dimen/font_size_10"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="false"
+            android:text="@string/create_board" />
+
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toolbar"
+            android:layout_margin="@dimen/font_size_10"
+            android:maxLines="1"
+            android:onTextChanged="@{viewModel::onTextChangedBoardName}"
+            android:hint="@string/name_board"
+            android:inputType="textPersonName" />
+
+
+    </RelativeLayout>
+</layout>

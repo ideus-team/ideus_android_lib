@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/tools">
 
     <data>
@@ -12,81 +13,92 @@
             type="biz.ideus.ideuslibexample.network.response.entity_model.Board" />
     </data>
 
-    <RelativeLayout
+
+    <android.support.v7.widget.CardView
+        android:layout_margin="@dimen/font_size_10"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:layout_marginBottom="1dp"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:text="@{viewModel.name}"
-            android:textColor="@color/color_main"
-            android:textSize="@dimen/font_size_20"
-            android:layout_margin="15dp"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/tv_name_board" />
+            android:background="@color/white"
+            android:layout_marginBottom="1dp"
+            android:orientation="vertical">
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_below="@+id/tv_name_board"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="@dimen/font_size_10"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="false"
-            android:layout_centerInParent="true">
-
-            <LinearLayout
-                android:orientation="horizontal"
+            <TextView
+                android:text="@{viewModel.name}"
+                android:textColor="@color/color_main"
+                android:textSize="@dimen/font_size_20"
+                android:layout_margin="15dp"
                 android:gravity="center"
-                android:layout_marginLeft="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:text="@string/board_card_count"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:text="@{viewModel.cardsCount}"
-                    android:layout_margin="5dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tv_count_cards" />
-
-            </LinearLayout>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_name_board" />
 
             <LinearLayout
-                android:orientation="horizontal"
-                android:gravity="left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:orientation="vertical"
+                android:layout_below="@+id/tv_name_board"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="@dimen/font_size_10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="false"
+                android:layout_centerInParent="true">
 
-                <TextView
-                    android:text="@string/board_deadline_count"
-                    android:textColor="@color/red"
-                    android:textSize="@dimen/font_size_14"
-                    android:layout_margin="5dp"
-                    android:ellipsize="end"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-                <TextView
-                    android:text="@{viewModel.cardsDeadlineCount}"
-                    android:textColor="@color/red"
-                    android:textSize="@dimen/font_size_14"
-                    android:layout_margin="5dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tv_deadline" />
+                    <TextView
+                        android:text="@string/board_card_count"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:text="@{viewModel.cardsCount}"
+                        android:layout_margin="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_count_cards" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:gravity="left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="@string/board_deadline_count"
+                        android:textColor="@color/red"
+                        android:textSize="@dimen/font_size_14"
+                        android:layout_margin="5dp"
+                        android:ellipsize="end"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:text="@{viewModel.cardsDeadlineCount}"
+                        android:textColor="@color/red"
+                        android:textSize="@dimen/font_size_14"
+                        android:layout_margin="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_deadline" />
+                </LinearLayout>
+
             </LinearLayout>
 
-        </LinearLayout>
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
 
 
-    </RelativeLayout>
+
 </layout>

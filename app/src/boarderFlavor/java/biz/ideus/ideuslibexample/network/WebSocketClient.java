@@ -16,16 +16,4 @@ public class WebSocketClient extends AbsWebSocketClient {
         }
         return instance;
     }
-
-    /*@Override
-    public HashMap<String, Class> getSocketResponseCommand() {
-
-        HashMap<String, Class> socketResponseCommand = new HashMap<>();
-
-        socketResponseCommand.put("boards", GetBoardsResponse.class);
-        socketResponseCommand.put("board_created", CreateBoardResponse.class);
-        socketResponseCommand.put("board_updated", UpdateBoardResponse.class);
-
-        return socketResponseCommand;
-    }*/
 }

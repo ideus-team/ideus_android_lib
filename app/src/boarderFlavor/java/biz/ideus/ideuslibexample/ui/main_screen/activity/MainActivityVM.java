@@ -11,13 +11,14 @@ import java.util.List;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.adapters.BoardsAdapter;
 import biz.ideus.ideuslibexample.data.remote.socket.SocketResponseListener;
-import biz.ideus.ideuslibexample.network.request.CreateBoardRequest;
+import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.SocketAuthorisedResponse;
 import biz.ideus.ideuslibexample.network.request.GetBoardListRequest;
-import biz.ideus.ideuslibexample.network.request.UpdateBoardRequest;
 import biz.ideus.ideuslibexample.network.response.CreateBoardResponse;
 import biz.ideus.ideuslibexample.network.response.GetBoardsResponse;
 import biz.ideus.ideuslibexample.network.response.UpdateBoardResponse;
 import biz.ideus.ideuslibexample.network.response.entity_model.BoardEntity;
+import biz.ideus.ideuslibexample.ui.base.BaseActivity;
+import biz.ideus.ideuslibexample.ui.main_screen.fragments.create_board_screen.CreateBoardFragment;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 
 
@@ -34,35 +35,44 @@ public class MainActivityVM extends AbstractMainActivityVM implements BoardsAdap
     public void setAdapter(BoardsAdapter adapter) {
         this.adapter = adapter;
         adapter.setOnSelectClickListener(this);
+        adapter.setBoardEntities(boardsEntityList);
     }
 
     @Override
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
         super.onCreate(arguments, savedInstanceState);
-        webSocketClient.addResponseListener(new SocketResponseListener<GetBoardsResponse>(GetBoardsResponse.class) {
+        webSocketClient.addResponseListener(this, new SocketResponseListener<SocketAuthorisedResponse>(SocketAuthorisedResponse.class) {
+            @Override
+            public void onGotResponseData(SocketAuthorisedResponse data) {
+                getBoards();
+            }
+        });
+
+
+        webSocketClient.addResponseListener(this, new SocketResponseListener<GetBoardsResponse>(GetBoardsResponse.class) {
             @Override
             public void onGotResponseData(GetBoardsResponse data) {
-                boardsEntityList =  data.getData().getBoardsEntitysList();
+                boardsEntityList.addAll(data.getData().getBoardsEntitysList());
                 adapter.setBoardEntities(boardsEntityList);
             }
         });
 
-        webSocketClient.addResponseListener(new SocketResponseListener<CreateBoardResponse>(CreateBoardResponse.class) {
+        webSocketClient.addResponseListener(this, new SocketResponseListener<CreateBoardResponse>(CreateBoardResponse.class) {
             @Override
             public void onGotResponseData(CreateBoardResponse data) {
                 boardsEntityList.add(data.getData().getBoardEntity());
-                adapter.setBoardEntities(boardsEntityList);
+                ((MainActivity)context).runOnUiThread(() -> adapter.setBoardEntities(boardsEntityList));
             }
         });
 
-        webSocketClient.addResponseListener(new SocketResponseListener<UpdateBoardResponse>(UpdateBoardResponse.class) {
+        webSocketClient.addResponseListener(this, new SocketResponseListener<UpdateBoardResponse>(UpdateBoardResponse.class) {
             @Override
             public void onGotResponseData(UpdateBoardResponse data) {
                 getBoards();
             }
         });
 
-        getBoards();
+
     }
 
     @Override
@@ -74,15 +84,10 @@ public class MainActivityVM extends AbstractMainActivityVM implements BoardsAdap
         webSocketClient.sendMessage(new GetBoardListRequest());
     }
 
-    private void createBoard(){
-        webSocketClient.sendMessage(new CreateBoardRequest("board name test"));
-    }
-    private void updateBoard(){
-        webSocketClient.sendMessage(new UpdateBoardRequest("board name test update", "bordId"));
-    }
+
 
     public void onAddBoardClick(View view){
-        createBoard();
+        ((BaseActivity)context).addFragmentToBackStack(new CreateBoardFragment(), null, true, null);
     }
 
     @Override
@@ -94,7 +99,7 @@ public class MainActivityVM extends AbstractMainActivityVM implements BoardsAdap
     public void onDestroy() {
         super.onDestroy();
 
-        //webSocketClient.removeResponseListener(GetBoardsListData.class);
+        webSocketClient.removeResponseListener(this);
     }
 
     @Override
