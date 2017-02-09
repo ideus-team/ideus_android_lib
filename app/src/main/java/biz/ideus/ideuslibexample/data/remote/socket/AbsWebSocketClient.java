@@ -5,13 +5,9 @@ import android.util.Log;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -50,16 +46,13 @@ public abstract class AbsWebSocketClient implements WebSocketListener {
 
     private List<SocketResponseListener> responseListeners = new ArrayList<>();
 
-    private void handleJson(String json) throws JSONException {
-
-        for (SocketResponseListener responseListener: responseListeners) {
+    private void handleJson(SocketResponseListener responseListener, String json) throws JSONException {
 
             SocketBaseResponse socketBaseResponse = ((SocketBaseResponse) new Gson().fromJson(json, responseListener.getResponseClass()));
 
             if (socketBaseResponse.hasValidCommand()) {
                 responseListener.onGotResponseData(socketBaseResponse);
             }
-        }
     }
 
     public void addResponseListener(SocketResponseListener<?> socketResponseListener) {
@@ -165,18 +158,14 @@ public abstract class AbsWebSocketClient implements WebSocketListener {
         }
         Log.d("json", json);
         if (message.contentType() == TEXT && JSONUtils.isJSONValid(json)) {
-            try {
-                handleJson(json);
 
-                /*biz.ideus.ideuslibexample.network.SocketCommand socketCommand = biz.ideus.ideuslibexample.network.SocketCommand.getSocketCommandByValue(messageCommand);
-                Object serverAnswer = new Gson().fromJson(json, socketCommand.responseType);
-                RxBusBoardSocketEvent.getInstance().setRxBusBoardSocketEvent(new BoardSocketMessageWrapper(serverAnswer, socketCommand));*/
-//                if (messageListener != null) {
-//                    messageListener.addToMessageSelector(new SocketMessageWrapper(serverAnswer, socketCommand));
-//                }
-                writeExecutor.shutdown();
-            } catch (Exception ex) {
-                writeExecutor.shutdown();
+            for (SocketResponseListener responseListener: responseListeners) {
+                try {
+                    handleJson(responseListener, json);
+                    writeExecutor.shutdown();
+                } catch (Exception ex) {
+                    writeExecutor.shutdown();
+                }
             }
         }
 

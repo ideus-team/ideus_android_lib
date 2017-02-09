@@ -1,8 +1,5 @@
 package biz.ideus.ideuslibexample.data.remote.socket;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-
 /**
  * Created by walkmn on 08.02.17.
  */

@@ -25,6 +25,7 @@ public abstract class AbstractMainActivity extends BaseActivity<StartView, MainA
 
     private ImageChooserListener imageChooserListener;
 
+
     public void setImageChooserListener(ImageChooserListener imageChooserListener) {
         this.imageChooserListener = imageChooserListener;
     }
@@ -70,7 +71,9 @@ public abstract class AbstractMainActivity extends BaseActivity<StartView, MainA
     @Nullable
     @Override
     public ViewModelBindingConfig getViewModelBindingConfig() {
-        return new ViewModelBindingConfig(R.layout.activity_main, BR.viewModel, this);
+        return new ViewModelBindingConfig(getLayout(), BR.viewModel, this);
     }
+
+    abstract int getLayout();
 }
 

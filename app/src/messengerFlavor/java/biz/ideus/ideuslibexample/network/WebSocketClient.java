@@ -21,7 +21,8 @@ public class WebSocketClient extends AbsWebSocketClient {
     public HashMap<String, Class> getSocketResponseCommand() {
 
         HashMap<String, Class> socketResponseCommand = new HashMap<>();
-        socketResponseCommand.put("authorize", SocketAutorisedData.class);
+
+        socketResponseCommand.put("authorize", SocketAuthorisedResponse.class);
         socketResponseCommand.put("receive_message", SocketMessageResponse.class);
         socketResponseCommand.put("message_sent", SocketMessageResponse.class);
 
