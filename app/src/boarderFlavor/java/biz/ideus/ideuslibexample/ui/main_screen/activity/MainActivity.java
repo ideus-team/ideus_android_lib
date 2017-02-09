@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.adapters.BoardsAdapter;
+import biz.ideus.ideuslibexample.ui.view_behavior.ScrollListenerForFAB;
 
 
 public class MainActivity extends AbstractMainActivity {
@@ -21,6 +22,18 @@ public class MainActivity extends AbstractMainActivity {
         getBinding().rViewBoards.setHasFixedSize(true);
         getBinding().rViewBoards.setLayoutManager(linearLayoutManager);
         getBinding().rViewBoards.setAdapter(adapter);
+        getBinding().rViewBoards.addOnScrollListener(new ScrollListenerForFAB() {
+            @Override
+            public void showFab() {
+                getBinding().fabAddBoard.show();
+            }
+
+            @Override
+            public void hideFab() {
+                getBinding().fabAddBoard.hide();
+            }
+        });
+
         getViewModel().setAdapter(adapter);
 
     }

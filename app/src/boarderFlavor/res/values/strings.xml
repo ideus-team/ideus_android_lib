@@ -3,4 +3,7 @@
     <string name="boards">Boards</string>
     <string name="board_card_count">Cards count:</string>
     <string name="board_deadline_count">Deadline Cards count:</string>
+    <string name="create_new_board">Create new Board</string>
+    <string name="create_board">Create Board</string>
+    <string name="name_board">Board name</string>
 </resources>

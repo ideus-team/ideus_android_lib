@@ -19,6 +19,8 @@ import biz.ideus.ideuslibexample.network.response.CreateBoardResponse;
 import biz.ideus.ideuslibexample.network.response.GetBoardsResponse;
 import biz.ideus.ideuslibexample.network.response.UpdateBoardResponse;
 import biz.ideus.ideuslibexample.network.response.entity_model.BoardEntity;
+import biz.ideus.ideuslibexample.ui.base.BaseActivity;
+import biz.ideus.ideuslibexample.ui.main_screen.fragments.create_board_screen.CreateBoardFragment;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 
 
@@ -92,8 +94,7 @@ public class MainActivityVM extends AbstractMainActivityVM implements BoardsAdap
     }
 
     public void onAddBoardClick(View view){
-        getBoards();
-       // createBoard();
+        ((BaseActivity)context).addFragmentToBackStack(new CreateBoardFragment(), null, true, null);
     }
 
     @Override

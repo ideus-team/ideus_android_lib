@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.boarder.ui.main_screen.activity;
+package biz.ideus.ideuslibexample.ui.main_screen;
 
 import biz.ideus.ideuslib.mvvm_lifecycle.IView;
 
