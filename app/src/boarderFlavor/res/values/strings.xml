@@ -5,5 +5,7 @@
     <string name="board_deadline_count">Deadline Cards count:</string>
     <string name="create_new_board">Create new Board</string>
     <string name="create_board">Create Board</string>
+    <string name="update_board">Update Board</string>
     <string name="name_board">Board name</string>
+    <string name="name_is_empty">"Name" field should not be empty</string>
 </resources>

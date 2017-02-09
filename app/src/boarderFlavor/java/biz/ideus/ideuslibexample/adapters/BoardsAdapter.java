@@ -32,6 +32,12 @@ public class BoardsAdapter extends RecyclerView.Adapter<BoardsAdapter.BoardItemH
         notifyDataSetChanged();
     }
 
+    public void setNewBoardToList(BoardEntity boardEntity) {
+        this.boardEntities.add(boardEntity);
+        notifyItemInserted(boardEntities.size() - 1);
+    }
+
+
 
     @Override
     public BoardItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
