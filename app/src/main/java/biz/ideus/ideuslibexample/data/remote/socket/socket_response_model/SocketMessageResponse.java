@@ -13,3 +13,6 @@ public class SocketMessageResponse extends SocketBaseResponse<SocketMessageData>
         return "receive_message";
     }
 }
+//socketResponseCommand.put("authorize", SocketAuthorisedResponse.class);
+//        socketResponseCommand.put("receive_message", SocketMessageResponse.class);
+//        socketResponseCommand.put("message_sent", SocketMessageResponse.class);

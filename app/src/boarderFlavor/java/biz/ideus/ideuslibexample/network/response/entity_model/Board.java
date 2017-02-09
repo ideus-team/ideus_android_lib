@@ -13,7 +13,7 @@ import io.requery.Persistable;
  */
 
 @Entity
-public interface Boards extends Observable, Parcelable, Persistable {
+public interface Board extends Observable, Parcelable, Persistable {
 
 
     @Key
