@@ -5,11 +5,10 @@ import android.util.Log;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -19,6 +18,7 @@ import biz.ideus.ideuslibexample.data.DialogStore;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.AuthorizeChatRequestSocket;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.RequestSocketParams;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.SocketRequestBuilder;
+import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.SocketBaseResponse;
 import biz.ideus.ideuslibexample.utils.JSONUtils;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -40,51 +40,31 @@ import static okhttp3.ws.WebSocket.TEXT;
 public abstract class AbsWebSocketClient implements WebSocketListener {
 
     private ExecutorService writeExecutor;
-
     private WebSocket myWebSocket = null;
-
-    private Subscription pingSubscription;
     private boolean isConnect = false;
 
-    private final HashMap<String, Class> socketResponseCommand = new HashMap<>();
 
-    private HashMap<Class, SocketResponseListener> responseListeners = new HashMap<>();
+    private List<SocketResponseListener> responseListeners = new ArrayList<>();
 
-    private void handleJson(String json) throws JSONException {
-        String messageCommand = new JSONObject(json).get("command").toString();
+    private void handleJson(SocketResponseListener responseListener, String json) throws JSONException {
 
-        Class responseDataClass = socketResponseCommand.get(messageCommand);
+            SocketBaseResponse socketBaseResponse = ((SocketBaseResponse) new Gson().fromJson(json, responseListener.getResponseClass()));
 
-        for(Map.Entry<Class, SocketResponseListener> entry : responseListeners.entrySet()) {
-            Class responseDataClassLocal = entry.getKey();
-            SocketResponseListener responseListener = entry.getValue();
-
-            if (responseDataClass == responseDataClassLocal) {
-                responseListener.onGotResponseData(new Gson().fromJson(json, responseDataClass));
+            if (socketBaseResponse.hasValidCommand()) {
+                responseListener.onGotResponseData(socketBaseResponse);
             }
-        }
     }
 
-    public abstract HashMap<String, Class> getSocketResponseCommand();
-
-    public void addResponseListener(Class responseDataClass, SocketResponseListener socketResponseListener) {
-        responseListeners.put(responseDataClass, socketResponseListener);
+    public void addResponseListener(SocketResponseListener<?> socketResponseListener) {
+        responseListeners.add(socketResponseListener);
     }
 
-    public void removeResponseListener(Class responseDataClass) {
-        if (responseListeners.containsKey(responseDataClass)) {
-            responseListeners.remove(responseDataClass);
-        }
+    public void removeResponseListener(SocketResponseListener socketResponseListener) {
+        responseListeners.remove(socketResponseListener);
     }
 
     public AbsWebSocketClient() {
-        fillAllCommands();
         connectHttpClient();
-    }
-
-    private void fillAllCommands() {
-        socketResponseCommand.putAll(getSocketResponseCommand());
-
     }
 
     public void connectHttpClient() {
@@ -178,11 +158,14 @@ public abstract class AbsWebSocketClient implements WebSocketListener {
         }
         Log.d("json", json);
         if (message.contentType() == TEXT && JSONUtils.isJSONValid(json)) {
-            try {
-                handleJson(json);
-                writeExecutor.shutdown();
-            } catch (Exception ex) {
-                writeExecutor.shutdown();
+
+            for (SocketResponseListener responseListener: responseListeners) {
+                try {
+                    handleJson(responseListener, json);
+                    writeExecutor.shutdown();
+                } catch (Exception ex) {
+                    writeExecutor.shutdown();
+                }
             }
         }
 
@@ -196,8 +179,6 @@ public abstract class AbsWebSocketClient implements WebSocketListener {
 
     @Override
     public void onClose(int code, String reason) {
-        if (pingSubscription != null && !pingSubscription.isUnsubscribed())
-            pingSubscription.unsubscribe();
         isConnect = false;
         System.out.println("CLOSE: " + code + " " + reason);
 
@@ -212,9 +193,6 @@ public abstract class AbsWebSocketClient implements WebSocketListener {
 
         if (writeExecutor != null)
             writeExecutor.shutdown();
-
-        if (pingSubscription != null && !pingSubscription.isUnsubscribed())
-            pingSubscription.unsubscribe();
     }
 
     public void closeWebSocket() {
@@ -228,7 +206,4 @@ public abstract class AbsWebSocketClient implements WebSocketListener {
             }).start();
     }
 
-    public interface SocketResponseListener<T> {
-        void onGotResponseData(T data);
-    }
 }

@@ -8,4 +8,8 @@ import biz.ideus.ideuslibexample.network.response.data.GetBoardsListData;
  */
 
 public class GetBoardsResponse extends SocketBaseResponse<GetBoardsListData> {
+    @Override
+    public String getCommand() {
+        return "boards";
+    }
 }

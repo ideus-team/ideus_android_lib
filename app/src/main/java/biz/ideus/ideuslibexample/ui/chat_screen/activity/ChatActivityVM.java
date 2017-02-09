@@ -31,11 +31,11 @@ import biz.ideus.ideuslibexample.data.remote.NetSubscriber;
 import biz.ideus.ideuslibexample.data.remote.NetSubscriberSettings;
 import biz.ideus.ideuslibexample.data.remote.network_change.NetworkChangeReceiver;
 import biz.ideus.ideuslibexample.data.remote.network_change.NetworkChangeSubscriber;
-import biz.ideus.ideuslibexample.data.remote.socket.AbsWebSocketClient;
+import biz.ideus.ideuslibexample.data.remote.socket.SocketResponseListener;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.SendMessageRequest;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.UpdateMessageRequest;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.SocketMessageResponse;
-import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.data.SocketMessageData;
+import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.SocketMessageUpdateResponse;
 import biz.ideus.ideuslibexample.interfaces.ImageChooserListener;
 import biz.ideus.ideuslibexample.network.WebSocketClient;
 import biz.ideus.ideuslibexample.rx_buses.RxBusNetworkConnected;
@@ -95,22 +95,50 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
         fileUploadProcessor.setSuccessUploadListener(this);
         message.set("");
 
-        webSocketClient.addResponseListener(SocketMessageResponse.class, new AbsWebSocketClient.SocketResponseListener<SocketMessageResponse>() {
-            @Override
-            public void onGotResponseData(SocketMessageResponse data) {
-                if (checkCurrentFriend(data.getData().getUserId())) {
-                    MessageEntity messageEntity = data.getData().getMessageEntity();
+        //test
 
-                    requeryApi.storeMessage(messageEntity).subscribe(messageEntity1 -> {
-                        if (messageEntity1.isOwner() && messageEntity1.isUpdated()) {
-                            updatedMessageModel(messageEntity);
-                        } else {
-                            setMessageModel(messageEntity);
+            webSocketClient.addResponseListener(new SocketResponseListener<SocketMessageResponse>(SocketMessageResponse.class) {
+
+                @Override
+                public void onGotResponseData(SocketMessageResponse data) {
+                    //test
+                    if (adapter != null) {
+                        if (checkCurrentFriend(data.getData().getUserId())) {
+                            MessageEntity messageEntity = data.getData().getMessageEntity();
+
+                            requeryApi.storeMessage(messageEntity).subscribe(messageEntity1 -> {
+                                if (messageEntity1.isOwner() && messageEntity1.isUpdated()) {
+                                    updatedMessageModel(messageEntity);
+                                } else {
+                                    setMessageModel(messageEntity);
+                                }
+                            });
                         }
-                    });
+                        //
+                    }
                 }
-            }
-        });
+            });
+
+            webSocketClient.addResponseListener(new SocketResponseListener<SocketMessageUpdateResponse>(SocketMessageUpdateResponse.class) {
+
+                @Override
+                public void onGotResponseData(SocketMessageUpdateResponse data) {
+                    //test
+                    if (adapter != null) {
+                        if (checkCurrentFriend(data.getData().getUserId())) {
+                            MessageEntity messageEntity = data.getData().getMessageEntity();
+
+                            requeryApi.storeMessage(messageEntity).subscribe(messageEntity1 -> {
+                                if (messageEntity1.isOwner() && messageEntity1.isUpdated()) {
+                                    updatedMessageModel(messageEntity);
+                                }
+                            });
+                        }
+                    }
+                }
+                //
+            });
+
 
         startNetworkSubscription();
         rxEditDialogMessageSubscription = getSubscribtionEditDialogMessage();
@@ -307,7 +335,8 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
             rxEditDialogMessageSubscription.unsubscribe();
 
         }
-        webSocketClient.removeResponseListener(SocketMessageData.class);
+        adapter = null;
+        //webSocketClient.removeResponseListener(SocketMessageData.class);
     }
 
     @Override

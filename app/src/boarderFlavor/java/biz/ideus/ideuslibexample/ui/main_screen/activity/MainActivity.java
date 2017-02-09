@@ -18,6 +18,7 @@ public class MainActivity extends AbstractMainActivity {
         setModelView(this);
         adapter = new BoardsAdapter();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        getBinding().rViewBoards.setHasFixedSize(true);
         getBinding().rViewBoards.setLayoutManager(linearLayoutManager);
         getBinding().rViewBoards.setAdapter(adapter);
         getViewModel().setAdapter(adapter);

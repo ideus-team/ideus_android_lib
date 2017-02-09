@@ -40,7 +40,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.friendForChat = friendForChat;
         setVisibilityDateInList(messageList);
         notifyDataSetChanged();
-       scrollToBottom();
+      // scrollToBottom();
 
     }
 

@@ -9,4 +9,8 @@ import biz.ideus.ideuslibexample.network.response.data.BoardData;
 
 public class UpdateBoardResponse extends SocketBaseResponse<BoardData> {
 
+    @Override
+    public String getCommand() {
+        return "board_updated";
+    }
 }

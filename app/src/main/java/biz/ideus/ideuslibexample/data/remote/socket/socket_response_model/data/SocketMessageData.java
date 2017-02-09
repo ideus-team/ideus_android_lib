@@ -29,8 +29,6 @@ public class SocketMessageData {
         return userId;
     }
 
-
-
     public MessageEntity getMessageEntity() {
         MessageEntity messageEntity = new MessageEntity();
         messageEntity.setIdent(ident);
