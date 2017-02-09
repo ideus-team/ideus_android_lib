@@ -3,7 +3,7 @@ package biz.ideus.ideuslibexample.injection.modules;
 import android.content.Context;
 
 import biz.ideus.ideuslibexample.BuildConfig;
-import biz.ideus.ideuslibexample.data.Models;
+import biz.ideus.ideuslibexample.Models;
 import biz.ideus.ideuslibexample.data.local.IRequeryApi;
 import biz.ideus.ideuslibexample.data.local.RequeryApi;
 import biz.ideus.ideuslibexample.injection.qualifier.AppContext;

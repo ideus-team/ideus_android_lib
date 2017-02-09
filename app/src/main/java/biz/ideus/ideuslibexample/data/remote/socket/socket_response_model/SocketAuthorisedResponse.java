@@ -10,6 +10,6 @@ public class SocketAuthorisedResponse extends SocketBaseResponse<SocketAutorised
 
     @Override
     public String getCommand() {
-        return "authorize";
+        return "authorized";
     }
 }

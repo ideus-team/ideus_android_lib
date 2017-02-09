@@ -11,6 +11,7 @@ import java.util.List;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.adapters.BoardsAdapter;
 import biz.ideus.ideuslibexample.data.remote.socket.SocketResponseListener;
+import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.SocketAuthorisedResponse;
 import biz.ideus.ideuslibexample.network.request.CreateBoardRequest;
 import biz.ideus.ideuslibexample.network.request.GetBoardListRequest;
 import biz.ideus.ideuslibexample.network.request.UpdateBoardRequest;
@@ -34,15 +35,24 @@ public class MainActivityVM extends AbstractMainActivityVM implements BoardsAdap
     public void setAdapter(BoardsAdapter adapter) {
         this.adapter = adapter;
         adapter.setOnSelectClickListener(this);
+        adapter.setBoardEntities(boardsEntityList);
     }
 
     @Override
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
         super.onCreate(arguments, savedInstanceState);
+        webSocketClient.addResponseListener(new SocketResponseListener<SocketAuthorisedResponse>(SocketAuthorisedResponse.class) {
+            @Override
+            public void onGotResponseData(SocketAuthorisedResponse data) {
+                getBoards();
+            }
+        });
+
+
         webSocketClient.addResponseListener(new SocketResponseListener<GetBoardsResponse>(GetBoardsResponse.class) {
             @Override
             public void onGotResponseData(GetBoardsResponse data) {
-                boardsEntityList =  data.getData().getBoardsEntitysList();
+                boardsEntityList.addAll(data.getData().getBoardsEntitysList());
                 adapter.setBoardEntities(boardsEntityList);
             }
         });
@@ -51,7 +61,7 @@ public class MainActivityVM extends AbstractMainActivityVM implements BoardsAdap
             @Override
             public void onGotResponseData(CreateBoardResponse data) {
                 boardsEntityList.add(data.getData().getBoardEntity());
-                adapter.setBoardEntities(boardsEntityList);
+                ((MainActivity)context).runOnUiThread(() -> adapter.setBoardEntities(boardsEntityList));
             }
         });
 
@@ -62,7 +72,7 @@ public class MainActivityVM extends AbstractMainActivityVM implements BoardsAdap
             }
         });
 
-        getBoards();
+
     }
 
     @Override
@@ -82,7 +92,8 @@ public class MainActivityVM extends AbstractMainActivityVM implements BoardsAdap
     }
 
     public void onAddBoardClick(View view){
-        createBoard();
+        getBoards();
+       // createBoard();
     }
 
     @Override
