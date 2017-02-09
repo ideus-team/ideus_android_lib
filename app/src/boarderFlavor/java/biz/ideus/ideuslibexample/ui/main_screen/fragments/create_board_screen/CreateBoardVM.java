@@ -37,6 +37,17 @@ public class CreateBoardVM  extends AbstractViewModelToolbar<BoardMainView>  {
         boardName.set(text.toString());
     }
 
+    public void onCreateBoardClick(){
+
+    }
+
+//    private void createBoard(){
+//        webSocketClient.sendMessage(new CreateBoardRequest("board name test"));
+//    }
+//    private void updateBoard(){
+//        webSocketClient.sendMessage(new UpdateBoardRequest("board name test update", "bordId"));
+//    }
+
     @Override
     public String getToolbarTitle() {
         return context.getString(R.string.create_new_board);

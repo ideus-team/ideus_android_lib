@@ -95,14 +95,12 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
         fileUploadProcessor.setSuccessUploadListener(this);
         message.set("");
 
-        //test
 
         webSocketClient.addResponseListener(this, new SocketResponseListener<SocketMessageResponse>(SocketMessageResponse.class) {
 
             @Override
             public void onGotResponseData(SocketMessageResponse data) {
-                //test
-                if (adapter != null) {
+
                     if (checkCurrentFriend(data.getData().getUserId())) {
                         MessageEntity messageEntity = data.getData().getMessageEntity();
 
@@ -114,8 +112,6 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
                             }
                         });
                     }
-                    //
-                }
             }
         });
 
@@ -123,8 +119,6 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
 
             @Override
             public void onGotResponseData(SocketMessageUpdateResponse data) {
-                //test
-                if (adapter != null) {
                     if (checkCurrentFriend(data.getData().getUserId())) {
                         MessageEntity messageEntity = data.getData().getMessageEntity();
 
@@ -135,8 +129,6 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
                         });
                     }
                 }
-            }
-            //
         });
 
 
@@ -335,7 +327,6 @@ public class ChatActivityVM extends AbstractViewModelToolbar<ChatView> implement
             rxEditDialogMessageSubscription.unsubscribe();
 
         }
-        adapter = null;
 
         webSocketClient.removeResponseListener(this);
     }

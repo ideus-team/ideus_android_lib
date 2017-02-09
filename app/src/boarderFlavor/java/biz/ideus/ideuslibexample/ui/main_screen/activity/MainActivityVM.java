@@ -12,9 +12,7 @@ import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.adapters.BoardsAdapter;
 import biz.ideus.ideuslibexample.data.remote.socket.SocketResponseListener;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.SocketAuthorisedResponse;
-import biz.ideus.ideuslibexample.network.request.CreateBoardRequest;
 import biz.ideus.ideuslibexample.network.request.GetBoardListRequest;
-import biz.ideus.ideuslibexample.network.request.UpdateBoardRequest;
 import biz.ideus.ideuslibexample.network.response.CreateBoardResponse;
 import biz.ideus.ideuslibexample.network.response.GetBoardsResponse;
 import biz.ideus.ideuslibexample.network.response.UpdateBoardResponse;
@@ -43,7 +41,7 @@ public class MainActivityVM extends AbstractMainActivityVM implements BoardsAdap
     @Override
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
         super.onCreate(arguments, savedInstanceState);
-        webSocketClient.addResponseListener(new SocketResponseListener<SocketAuthorisedResponse>(SocketAuthorisedResponse.class) {
+        webSocketClient.addResponseListener(this, new SocketResponseListener<SocketAuthorisedResponse>(SocketAuthorisedResponse.class) {
             @Override
             public void onGotResponseData(SocketAuthorisedResponse data) {
                 getBoards();
@@ -51,7 +49,7 @@ public class MainActivityVM extends AbstractMainActivityVM implements BoardsAdap
         });
 
 
-        webSocketClient.addResponseListener(new SocketResponseListener<GetBoardsResponse>(GetBoardsResponse.class) {
+        webSocketClient.addResponseListener(this, new SocketResponseListener<GetBoardsResponse>(GetBoardsResponse.class) {
             @Override
             public void onGotResponseData(GetBoardsResponse data) {
                 boardsEntityList.addAll(data.getData().getBoardsEntitysList());
@@ -59,7 +57,7 @@ public class MainActivityVM extends AbstractMainActivityVM implements BoardsAdap
             }
         });
 
-        webSocketClient.addResponseListener(new SocketResponseListener<CreateBoardResponse>(CreateBoardResponse.class) {
+        webSocketClient.addResponseListener(this, new SocketResponseListener<CreateBoardResponse>(CreateBoardResponse.class) {
             @Override
             public void onGotResponseData(CreateBoardResponse data) {
                 boardsEntityList.add(data.getData().getBoardEntity());
@@ -67,7 +65,7 @@ public class MainActivityVM extends AbstractMainActivityVM implements BoardsAdap
             }
         });
 
-        webSocketClient.addResponseListener(new SocketResponseListener<UpdateBoardResponse>(UpdateBoardResponse.class) {
+        webSocketClient.addResponseListener(this, new SocketResponseListener<UpdateBoardResponse>(UpdateBoardResponse.class) {
             @Override
             public void onGotResponseData(UpdateBoardResponse data) {
                 getBoards();
@@ -86,12 +84,7 @@ public class MainActivityVM extends AbstractMainActivityVM implements BoardsAdap
         webSocketClient.sendMessage(new GetBoardListRequest());
     }
 
-    private void createBoard(){
-        webSocketClient.sendMessage(new CreateBoardRequest("board name test"));
-    }
-    private void updateBoard(){
-        webSocketClient.sendMessage(new UpdateBoardRequest("board name test update", "bordId"));
-    }
+
 
     public void onAddBoardClick(View view){
         ((BaseActivity)context).addFragmentToBackStack(new CreateBoardFragment(), null, true, null);
@@ -106,7 +99,7 @@ public class MainActivityVM extends AbstractMainActivityVM implements BoardsAdap
     public void onDestroy() {
         super.onDestroy();
 
-        //webSocketClient.removeResponseListener(GetBoardsListData.class);
+        webSocketClient.removeResponseListener(this);
     }
 
     @Override
