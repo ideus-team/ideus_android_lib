@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="biz.ideus.ideuslibexample.ui.main_screen.fragments.board_screen.view_model.MainBoardVM" />
+            type="biz.ideus.ideuslibexample.ui.main_screen.fragments.board_screen.view_model.UpdateBoardVM" />
     </data>
 
     <RelativeLayout
@@ -24,7 +24,7 @@
         <Button
             android:id="@+id/create_board"
             android:layout_margin="@dimen/font_size_10"
-            android:onClick="@{viewModel.onBoardButtonClick}"
+            android:onClick="@{viewModel.onBoardActionButtonClick}"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_alignParentBottom="true"
@@ -41,6 +41,7 @@
             android:maxLines="1"
             android:onTextChanged="@{viewModel::onTextChangedBoardName}"
             android:hint="@string/name_board"
+            android:text="@{viewModel.boardName}"
             android:inputType="textPersonName" />
 
 

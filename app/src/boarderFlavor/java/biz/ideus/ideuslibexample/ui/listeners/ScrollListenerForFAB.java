@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.ui.view_behavior;
+package biz.ideus.ideuslibexample.ui.listeners;
 
 import android.support.v7.widget.RecyclerView;
 
@@ -17,7 +17,7 @@ public abstract class ScrollListenerForFAB extends RecyclerView.OnScrollListener
 
     @Override
     public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-        if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+        if (newState == RecyclerView.SCROLL_STATE_IDLE ) {
             showFab();
         }
 

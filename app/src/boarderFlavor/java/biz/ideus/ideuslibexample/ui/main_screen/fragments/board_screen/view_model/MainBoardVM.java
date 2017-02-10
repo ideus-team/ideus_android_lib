@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.network.WebSocketClient;
 import biz.ideus.ideuslibexample.ui.common.toolbar.AbstractViewModelToolbar;
 import biz.ideus.ideuslibexample.ui.main_screen.BoardMainView;
@@ -30,9 +29,8 @@ public class MainBoardVM extends AbstractViewModelToolbar<BoardMainView>  {
     @Override
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
         super.onCreate(arguments, savedInstanceState);
-
+        boardName.set("");
     }
-
 
     @Override
     public void onBindView(@NonNull BoardMainView view) {
@@ -44,21 +42,20 @@ public class MainBoardVM extends AbstractViewModelToolbar<BoardMainView>  {
         boardName.set(text.toString());
     }
 
-    public void onBoardButtonClick(View view){
+    public void onBoardActionButtonClick(View view){
         onClickActionBtnListener.onClickActionBtn();
     }
 
-
-
-    @Override
-    public String getToolbarTitle() {
-        return context.getString(R.string.create_new_board);
-    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         webSocketClient.removeResponseListener(this);
+    }
+
+    @Override
+    public String getToolbarTitle() {
+        return "";
     }
 
     public interface OnClickActionBtnListener{

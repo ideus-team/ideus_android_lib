@@ -37,6 +37,8 @@ public class MainActivity extends AbstractMainActivity {
         initPager();
     }
 
+
+
     private void initPager() {
         getBinding().viewPager.setOffscreenPageLimit(Constants.MAIN_SCREEN_PAGES_COUNT);
         ViewPager.OnPageChangeListener pageListeneer = new ViewPager.OnPageChangeListener() {

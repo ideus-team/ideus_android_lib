@@ -1,7 +1,6 @@
 package biz.ideus.ideuslibexample.ui.main_screen.activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,7 +10,6 @@ import com.orhanobut.hawk.Hawk;
 import biz.ideus.ideuslibexample.network.WebSocketClient;
 import biz.ideus.ideuslibexample.ui.common.toolbar.AbstractViewModelToolbar;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
-import biz.ideus.ideuslibexample.ui.start_screen.activity.StartActivity;
 
 import static biz.ideus.ideuslibexample.utils.Constants.USER_TOKEN;
 
@@ -31,23 +29,12 @@ public abstract class AbstractMainActivityVM extends AbstractViewModelToolbar<St
         if (Hawk.contains(USER_TOKEN)) {
             webSocketClient = WebSocketClient.getInstance();
         }
-
     }
 
     @Override
     public void onBindView(@NonNull StartView view) {
         super.onBindView(view);
         context = getView().getViewModelBindingConfig().getContext();
-        if (!Hawk.contains(USER_TOKEN)) {
-            goToLoginScreen();
-        }
-    }
-
-
-    private void goToLoginScreen() {
-        context.startActivity(new Intent(context, StartActivity.class));
-        ((AbstractMainActivity) context).finish();
-
     }
 
 

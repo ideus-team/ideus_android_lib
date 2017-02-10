@@ -29,6 +29,10 @@ public class RequeryApi implements IRequeryApi {
 
     private final SingleEntityStore<Persistable> data;
 
+    public SingleEntityStore<Persistable> getData() {
+        return data;
+    }
+
     @Inject
     public RequeryApi(SingleEntityStore<Persistable> data) {
         this.data = data;

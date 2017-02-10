@@ -5,11 +5,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.orhanobut.hawk.Hawk;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.adapters.BoardsAdapter;
+import biz.ideus.ideuslibexample.data.local.BoardRequeryApi;
 import biz.ideus.ideuslibexample.data.remote.socket.SocketResponseListener;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.SocketAuthorisedResponse;
 import biz.ideus.ideuslibexample.network.request.GetBoardListRequest;
@@ -17,13 +20,12 @@ import biz.ideus.ideuslibexample.network.response.GetBoardsResponse;
 import biz.ideus.ideuslibexample.network.response.entity_model.BoardEntity;
 import biz.ideus.ideuslibexample.rx_buses.RxBoardCommandEvent;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
-import biz.ideus.ideuslibexample.ui.main_screen.BoardCommandWrapper;
 import biz.ideus.ideuslibexample.ui.main_screen.fragments.board_screen.fragments.CreateBoardFragment;
 import biz.ideus.ideuslibexample.ui.main_screen.fragments.board_screen.fragments.UpdateBoardFragment;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
+import biz.ideus.ideuslibexample.utils.Constants;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 
@@ -31,24 +33,35 @@ import rx.schedulers.Schedulers;
  * Created by blackmamba on 07.02.17.
  */
 
-public class MainActivityVM extends AbstractMainActivityVM implements BoardsAdapter.OnSelectClickListener{
+public class MainActivityVM extends AbstractMainActivityVM implements BoardsAdapter.OnSelectClickListener {
 
     private List<BoardEntity> boardsEntityList = new ArrayList<>();
     private BoardsAdapter adapter;
     private Subscription boardCommandEventSubscription;
 
 
+    public static BoardRequeryApi boardRequeryApi = new BoardRequeryApi();
+
+
+
     public void setAdapter(BoardsAdapter adapter) {
         this.adapter = adapter;
         adapter.setOnSelectClickListener(this);
-        adapter.setBoardEntities(boardsEntityList);
+      //  getBoardListFromDB();
+
     }
 
     @Override
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
         super.onCreate(arguments, savedInstanceState);
-        boardCommandEventSubscription = getBoardCommandEventSubscription();
+        if(Hawk.contains(Constants.USER_TOKEN)){
+            boardCommandEventSubscription = getBoardCommandEventSubscription();
+            initSocketlisteners();
+        }
+    }
 
+
+    private void initSocketlisteners() {
         webSocketClient.addResponseListener(this, new SocketResponseListener<SocketAuthorisedResponse>(SocketAuthorisedResponse.class) {
             @Override
             public void onGotResponseData(SocketAuthorisedResponse data) {
@@ -59,31 +72,40 @@ public class MainActivityVM extends AbstractMainActivityVM implements BoardsAdap
         webSocketClient.addResponseListener(this, new SocketResponseListener<GetBoardsResponse>(GetBoardsResponse.class) {
             @Override
             public void onGotResponseData(GetBoardsResponse data) {
-                boardsEntityList = data.getData().getBoardsEntitysList();
-                adapter.setBoardEntities(boardsEntityList);
+                boardRequeryApi.storeBoardList(data.getData().getBoardsEntitysList())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread()).subscribe(boardEntities -> {
+                            boardsEntityList = (List<BoardEntity>) boardEntities;
+                            adapter.setBoardEntities(boardsEntityList);
+                        });
             }
         });
-
     }
 
-    private Subscription getBoardCommandEventSubscription(){
+    private void getBoardListFromDB(){
+        boardRequeryApi.getBoardList().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(boardEntities -> {
+                    boardsEntityList = boardEntities.toList();
+                    adapter.setBoardEntities(boardsEntityList);
+                });
+    }
+
+    private Subscription getBoardCommandEventSubscription() {
         return RxBoardCommandEvent.instanceOf().getEvents()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<BoardCommandWrapper>() {
-            @Override
-            public void call(BoardCommandWrapper boardCommandWrapper) {
-                switch (boardCommandWrapper.getBoardCommand()){
-                    case NEW_BOARD:
-                        adapter.setNewBoardToList(boardCommandWrapper.getBoardEntity());
-                        break;
-                    case UPDATE_BOARD:
-                        getBoards();
-                        break;
-                }
+                .subscribe(boardCommandWrapper -> {
+                    switch (boardCommandWrapper.getBoardCommand()) {
+                        case NEW_BOARD:
+                            adapter.setNewBoardToList(boardCommandWrapper.getBoardEntity());
+                            break;
+                        case UPDATE_BOARD:
+                            adapter.updateBoardInList(boardCommandWrapper.getBoardEntity());
+                            break;
+                    }
 
-            }
-        });
+                });
     }
 
     @Override
@@ -91,14 +113,13 @@ public class MainActivityVM extends AbstractMainActivityVM implements BoardsAdap
         super.onBindView(view);
     }
 
-    private void getBoards(){
+    private void getBoards() {
         webSocketClient.sendMessage(new GetBoardListRequest());
     }
 
 
-
-    public void onAddBoardClick(View view){
-        ((BaseActivity)context).addFragmentToBackStack(new CreateBoardFragment(), null, true, null);
+    public void onAddBoardClick(View view) {
+        ((BaseActivity) context).addFragmentToBackStack(new CreateBoardFragment(), null, true, null);
     }
 
     @Override
@@ -109,11 +130,18 @@ public class MainActivityVM extends AbstractMainActivityVM implements BoardsAdap
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if(webSocketClient != null)
         webSocketClient.removeResponseListener(this);
     }
 
     @Override
     public void onClickPosition(BoardEntity boardEntity) {
-        ((BaseActivity)context).addFragmentToBackStack(new UpdateBoardFragment().setBoardEntity(boardEntity), null, true, null);
+
+    }
+
+    @Override
+    public void onLongClickPosition(BoardEntity boardEntity) {
+        ((BaseActivity) context).addFragmentToBackStack(new UpdateBoardFragment().setBoardId(boardEntity.getIdent()), null, true, null);
     }
 }
+

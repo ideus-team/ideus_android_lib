@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import biz.ideus.ideuslibexample.network.response.entity_model.BoardEntity;
 
+
 /**
  * Created by blackmamba on 08.02.17.
  */

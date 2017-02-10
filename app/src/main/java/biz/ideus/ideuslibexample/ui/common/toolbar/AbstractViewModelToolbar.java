@@ -31,7 +31,7 @@ public abstract class AbstractViewModelToolbar<T extends IView> extends Abstract
 
     @Override
     public void onClickLeftBtn(View view) {
-        ((BaseActivity) getView().getViewModelBindingConfig().getContext()).onBackPressed();
+        ((BaseActivity) context).onBackPressed();
     }
 
     @Override
@@ -46,7 +46,7 @@ public abstract class AbstractViewModelToolbar<T extends IView> extends Abstract
 
     @Override
     public Drawable getImageLeftBtn() {
-        return getView().getViewModelBindingConfig().getContext().getResources().getDrawable(R.drawable.ic_left_arrow);
+            return context.getResources().getDrawable(R.drawable.ic_left_arrow);
     }
 
 

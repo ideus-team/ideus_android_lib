@@ -6,12 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.annimon.stream.Stream;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.databinding.ItemBoardBinding;
 import biz.ideus.ideuslibexample.network.response.entity_model.BoardEntity;
+
 
 /**
  * Created by blackmamba on 07.02.17.
@@ -37,6 +40,16 @@ public class BoardsAdapter extends RecyclerView.Adapter<BoardsAdapter.BoardItemH
         notifyItemInserted(boardEntities.size() - 1);
     }
 
+    public void updateBoardInList(BoardEntity boardEntity) {
+        Stream.of(boardEntities).filter(item ->
+                item.getIdent().equals(boardEntity.getIdent())).findFirst().map(item ->
+        {
+            boardEntities.set(boardEntities.indexOf(item), boardEntity);
+            notifyItemInserted(boardEntities.indexOf(item));
+            return item;
+        });
+    }
+
 
 
     @Override
@@ -53,6 +66,13 @@ public class BoardsAdapter extends RecyclerView.Adapter<BoardsAdapter.BoardItemH
         BoardEntity boardEntity = boardEntities.get(position);
         holder.binding.setViewModel(boardEntity);
         holder.binding.getRoot().setOnClickListener(v -> onSelectClickListener.onClickPosition(boardEntity));
+
+        holder.binding.getRoot().setOnLongClickListener(v -> {
+            onSelectClickListener.onLongClickPosition(boardEntity);
+            return true;
+        });
+
+
     }
 
 
@@ -79,6 +99,7 @@ public class BoardsAdapter extends RecyclerView.Adapter<BoardsAdapter.BoardItemH
 
     public interface OnSelectClickListener{
         void onClickPosition(BoardEntity boardEntity);
+        void onLongClickPosition(BoardEntity boardEntity);
     }
 
 }

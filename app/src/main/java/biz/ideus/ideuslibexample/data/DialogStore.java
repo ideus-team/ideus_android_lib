@@ -87,6 +87,7 @@ public class DialogStore {
                 .createDialogModel();
     }
 
+
     public static DialogModel NEW_VERSION_MUST_HAVE() {
         return new DialogModelBuilder()
                 .setLayoutId(R.layout.new_version_must_have_dialog)
