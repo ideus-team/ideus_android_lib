@@ -62,7 +62,7 @@ public class SampleApplication extends Application {
 
     private static SampleApplication sInstance = null;
 
-    private static AppComponent sAppComponent = null;
+    public static AppComponent sAppComponent = null;
 
     @Override
     public void onCreate() {

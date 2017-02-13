@@ -1,6 +1,7 @@
 package biz.ideus.ideuslib.mvvm_lifecycle;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
@@ -12,7 +13,7 @@ import android.view.View;
 
 public abstract class AbstractViewModel<T extends IView>{
 
-
+public Context context;
     @Nullable
     private String mUniqueIdentifier;
 
@@ -60,6 +61,7 @@ public abstract class AbstractViewModel<T extends IView>{
     public void onBindView(@NonNull T view) {
         mBindViewWasCalled = true;
         mView = view;
+        context = getView().getViewModelBindingConfig().getContext();
     }
 
     @Nullable

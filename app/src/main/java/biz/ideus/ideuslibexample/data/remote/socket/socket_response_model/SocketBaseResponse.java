@@ -6,19 +6,26 @@ import com.google.gson.annotations.SerializedName;
  * Created by blackmamba on 24.01.17.
  */
 
-public class SocketBaseResponse<T> {
-        @SerializedName("data")
-        public T data;
+public abstract class SocketBaseResponse<T> {
 
-        @SerializedName("command")
-        public String command;
+    @SerializedName("data")
+    private T data;
 
-        public SocketBaseResponse(T data) {
-            this.data = data;
+    public T getData() {
+        return data;
+    };
+
+    @SerializedName("command")
+    private String commandFromServer;
+
+    // if commandFromServer as 'getCommand()' from decelerated by 'user'
+    public boolean hasValidCommand() {
+        if (commandFromServer.contentEquals(getCommand())) {
+            return true;
         }
-
-        public T getData() {
-            return data;
-        }
+        return false;
     }
+
+    abstract public String getCommand();
+}
 

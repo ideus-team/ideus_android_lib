@@ -4,9 +4,11 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
-import org.json.JSONObject;
+import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -16,10 +18,7 @@ import biz.ideus.ideuslibexample.data.DialogStore;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.AuthorizeChatRequestSocket;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.RequestSocketParams;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.SocketRequestBuilder;
-
-
-import biz.ideus.ideuslibexample.rx_buses.RxBusSocketMessageEvent;
-
+import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.SocketBaseResponse;
 import biz.ideus.ideuslibexample.utils.JSONUtils;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -38,38 +37,64 @@ import rx.schedulers.Schedulers;
 
 import static okhttp3.ws.WebSocket.TEXT;
 
-public final class WebSocketClient implements WebSocketListener {
+public abstract class AbsWebSocketClient implements WebSocketListener {
+
     private ExecutorService writeExecutor;
     private WebSocket myWebSocket = null;
-    private Object serverAnswer;
-    private SocketMessageListener messageListener;
-    public static WebSocketClient instance = null;
-    private Subscription pingSubscription;
-    private OkHttpClient client;
-    private Request request;
     private boolean isConnect = false;
 
-    public void setMessageListener(SocketMessageListener messageListener) {
-        this.messageListener = messageListener;
-    }
 
-    public static WebSocketClient getInstance() {
-        if (instance == null) {
-            instance = new WebSocketClient();
+    private List<ResponseDataKeeperModel> responseListeners = new ArrayList<>();
+
+    private void handleJson(SocketResponseListener responseListener, String json) throws JSONException {
+
+        SocketBaseResponse socketBaseResponse = ((SocketBaseResponse) new Gson().fromJson(json, responseListener.getResponseClass()));
+
+        if (socketBaseResponse.hasValidCommand()) {
+            responseListener.onGotResponseData(socketBaseResponse);
         }
-        return instance;
     }
 
-    public WebSocketClient() {
+    /**
+     * Method for adding response listeners. May multiply called.
+     *
+     * @param dependencyObject for link response listener with activity, or fragment, or view model. (Usually pass 'this')
+     * @param socketResponseListener response listener (what to do when we got response from server)
+     */
+    public void addResponseListener(Object dependencyObject, SocketResponseListener<?> socketResponseListener) {
+        responseListeners.add(new ResponseDataKeeperModel(dependencyObject, socketResponseListener));
+    }
+
+    /**
+     * Warning! If you called 'addResponseListener(...)' you MUST called this method in 'onDestroy()' for correct work.
+     *
+     * @param dependencyObject as 'dependencyObject' in 'addResponseListener(...)' method. (Usually pass 'this')
+     */
+    public void removeResponseListener(Object dependencyObject) {
+        if (responseListeners.isEmpty()) {
+            return;
+        }
+
+        int i = 0;
+
+        while (i < responseListeners.size()) {
+            if (responseListeners.get(i).getLinkedObject().equals(dependencyObject)) {
+                responseListeners.remove(responseListeners.get(i));
+            } else {
+                i++;
+            }
+        }
+    }
+
+    public AbsWebSocketClient() {
         connectHttpClient();
-        // pingSubscription = getPingSubscription();
     }
 
     public void connectHttpClient() {
-        client = new OkHttpClient.Builder()
+        OkHttpClient client = new OkHttpClient.Builder()
                 .readTimeout(0, TimeUnit.MILLISECONDS)
                 .build();
-        request = new Request.Builder()
+        Request request = new Request.Builder()
                 .url("ws://46.101.254.89:8020")
                 .build();
         WebSocketCall.create(client, request).enqueue(this);
@@ -119,7 +144,6 @@ public final class WebSocketClient implements WebSocketListener {
         } else {
             RxBusShowDialog.instanceOf().setRxBusShowDialog(DialogStore.SOCKET_UNFORTUNATELY_DIALOG());
         }
-
     }
 
     private void send(RequestSocketParams requestParams) {
@@ -147,24 +171,27 @@ public final class WebSocketClient implements WebSocketListener {
 
     @Override
     public void onMessage(ResponseBody message) throws IOException {
+
         String json = null;
-        String messageCommand = null;
-        json = message.string();
+
+        try {
+            json = message.string();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Log.d("json", json);
         if (message.contentType() == TEXT && JSONUtils.isJSONValid(json)) {
-            try {
-                messageCommand = new JSONObject(json).get("command").toString();
-                SocketCommand socketCommand = SocketCommand.getSocketCommandByValue(messageCommand);
-                serverAnswer = new Gson().fromJson(json, socketCommand.responseType);
-                RxBusSocketMessageEvent.getInstance().setRxSocketMessageEvent(new SocketMessageWrapper(serverAnswer, socketCommand));
-//                if (messageListener != null) {
-//                    messageListener.addToMessageSelector(new SocketMessageWrapper(serverAnswer, socketCommand));
-//                }
-                writeExecutor.shutdown();
-            } catch (Exception ex) {
-                writeExecutor.shutdown();
+
+            for (ResponseDataKeeperModel responseDataKeeperModel : responseListeners) {
+                try {
+                    handleJson(responseDataKeeperModel.getSocketResponseListener(), json);
+                    writeExecutor.shutdown();
+                } catch (Exception ex) {
+                    writeExecutor.shutdown();
+                }
             }
         }
+
     }
 
     @Override
@@ -175,8 +202,6 @@ public final class WebSocketClient implements WebSocketListener {
 
     @Override
     public void onClose(int code, String reason) {
-        if (pingSubscription != null && !pingSubscription.isUnsubscribed())
-            pingSubscription.unsubscribe();
         isConnect = false;
         System.out.println("CLOSE: " + code + " " + reason);
 
@@ -191,9 +216,6 @@ public final class WebSocketClient implements WebSocketListener {
 
         if (writeExecutor != null)
             writeExecutor.shutdown();
-
-        if (pingSubscription != null && !pingSubscription.isUnsubscribed())
-            pingSubscription.unsubscribe();
     }
 
     public void closeWebSocket() {
@@ -205,5 +227,24 @@ public final class WebSocketClient implements WebSocketListener {
                     e.printStackTrace();
                 }
             }).start();
+    }
+
+    private class ResponseDataKeeperModel {
+
+        ResponseDataKeeperModel(Object linkedObject, SocketResponseListener<?> socketResponseListener) {
+            this.linkedObject = linkedObject;
+            this.socketResponseListener = socketResponseListener;
+        }
+
+        Object linkedObject; // for keep link to father class. For identity when we want to remove listeners.
+        SocketResponseListener<?> socketResponseListener;
+
+        public SocketResponseListener<?> getSocketResponseListener() {
+            return socketResponseListener;
+        }
+
+        public Object getLinkedObject() {
+            return linkedObject;
+        }
     }
 }

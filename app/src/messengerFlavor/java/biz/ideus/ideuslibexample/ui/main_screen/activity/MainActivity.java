@@ -24,6 +24,11 @@ public class MainActivity extends AbstractMainActivity {
     MainFragmentPagerAdapter pagerAdapter;
 
     @Override
+    int getLayout() {
+        return R.layout.activity_main;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityComponent().inject(this);
@@ -31,6 +36,8 @@ public class MainActivity extends AbstractMainActivity {
         initBottomBar();
         initPager();
     }
+
+
 
     private void initPager() {
         getBinding().viewPager.setOffscreenPageLimit(Constants.MAIN_SCREEN_PAGES_COUNT);
@@ -98,18 +105,4 @@ public class MainActivity extends AbstractMainActivity {
         });
     }
 
-
-
-
-    @Nullable
-    @Override
-    public Class<MainActivityVM> getViewModelClass() {
-        return MainActivityVM.class;
-    }
-
-    @Nullable
-    @Override
-    public ViewModelBindingConfig getViewModelBindingConfig() {
-        return new ViewModelBindingConfig(R.layout.activity_main, BR.viewModel, this);
-    }
 }
