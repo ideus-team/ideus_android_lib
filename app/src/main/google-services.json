@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "173741521860",
+    "firebase_url": "https://ideuslibexample.firebaseio.com",
+    "project_id": "ideuslibexample",
+    "storage_bucket": "ideuslibexample.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:173741521860:android:1185ccc39d531218",
+        "android_client_info": {
+          "package_name": "biz.ideus.ideuslibexample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "173741521860-uubh7ulmqtubiq6mb2ae0nkks50o663q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDVmn5wbrmyl2Gjmqt3u-b1pdaAin5hrU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

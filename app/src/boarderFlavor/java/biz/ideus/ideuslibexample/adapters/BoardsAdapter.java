@@ -13,6 +13,7 @@ import java.util.List;
 
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.databinding.ItemBoardBinding;
+import biz.ideus.ideuslibexample.enums.BoardClickActionTag;
 import biz.ideus.ideuslibexample.network.response.entity_model.BoardEntity;
 
 
@@ -44,8 +45,9 @@ public class BoardsAdapter extends RecyclerView.Adapter<BoardsAdapter.BoardItemH
         Stream.of(boardEntities).filter(item ->
                 item.getIdent().equals(boardEntity.getIdent())).findFirst().map(item ->
         {
-            boardEntities.set(boardEntities.indexOf(item), boardEntity);
-            notifyItemInserted(boardEntities.indexOf(item));
+            int indexItemForUpdate = boardEntities.indexOf(item);
+            boardEntities.set(indexItemForUpdate, boardEntity);
+            notifyItemChanged(indexItemForUpdate);
             return item;
         });
     }
@@ -65,13 +67,8 @@ public class BoardsAdapter extends RecyclerView.Adapter<BoardsAdapter.BoardItemH
     public void onBindViewHolder(BoardItemHolder holder, int position) {
         BoardEntity boardEntity = boardEntities.get(position);
         holder.binding.setViewModel(boardEntity);
-        holder.binding.getRoot().setOnClickListener(v -> onSelectClickListener.onClickPosition(boardEntity));
-
-        holder.binding.getRoot().setOnLongClickListener(v -> {
-            onSelectClickListener.onLongClickPosition(boardEntity);
-            return true;
-        });
-
+        holder.binding.rlBoard.setOnClickListener(v -> onSelectClickListener.onClickPosition((BoardClickActionTag)v.getTag(), boardEntity));
+        holder.binding.ivEdit.setOnClickListener(v -> onSelectClickListener.onClickPosition((BoardClickActionTag)v.getTag(), boardEntity));
 
     }
 
@@ -98,8 +95,7 @@ public class BoardsAdapter extends RecyclerView.Adapter<BoardsAdapter.BoardItemH
     }
 
     public interface OnSelectClickListener{
-        void onClickPosition(BoardEntity boardEntity);
-        void onLongClickPosition(BoardEntity boardEntity);
+        void onClickPosition(BoardClickActionTag tag, BoardEntity boardEntity);
     }
 
 }
