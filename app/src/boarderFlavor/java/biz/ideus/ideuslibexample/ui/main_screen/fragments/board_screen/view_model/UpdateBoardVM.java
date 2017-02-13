@@ -46,7 +46,8 @@ public class UpdateBoardVM extends MainBoardVM implements MainBoardVM.OnClickAct
             public void onGotResponseData(UpdateBoardResponse data) {
                 boardRequeryApi.storeBoard(data.getData().getBoardEntity())
                         .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread()).subscribe(boardEntities -> {
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(boardEntities -> {
                     RxBoardCommandEvent.instanceOf().setRxBoardCommandEvent(new BoardCommandWrapper(UPDATE_BOARD, data.getData().getBoardEntity()));
                     ((MainActivity)context).onBackPressed();
                     Utils.toast(context, context.getString(R.string.board_updated));

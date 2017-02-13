@@ -1,31 +1,34 @@
 package biz.ideus.ideuslibexample.ui.listeners;
 
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 
 /**
  * Created by blackmamba on 09.02.17.
  */
-public abstract class ScrollListenerForFAB extends RecyclerView.OnScrollListener {
+public class ScrollListenerForFAB extends RecyclerView.OnScrollListener {
 
+    private FloatingActionButton fabButton;
 
-    @Override
-    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-        if (dy > 0 || dy < 0) {
-            hideFab();
-        }
+    public ScrollListenerForFAB(FloatingActionButton fabButton){
+        this.fabButton = fabButton;
     }
 
-    @Override
-    public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-        if (newState == RecyclerView.SCROLL_STATE_IDLE ) {
-            showFab();
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            if (fabButton != null && (dy > 0 || dy < 0)) {
+                fabButton.hide();
+            }
         }
 
-        super.onScrollStateChanged(recyclerView, newState);
-    }
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+            if (fabButton != null && newState == RecyclerView.SCROLL_STATE_IDLE ) {
+                fabButton.show();
+            }
+        }
 
-    public abstract void showFab();
-
-    public abstract void hideFab();
 
 }
