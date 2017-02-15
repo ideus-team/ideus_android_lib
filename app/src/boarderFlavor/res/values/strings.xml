@@ -9,5 +9,9 @@
     <string name="name_board">Board name</string>
     <string name="board_updated">Board updated</string>
     <string name="board_created">Board created</string>
+    <string name="board_list_created">Board list created</string>
+    <string name="board_details">Board details</string>
+    <string name="add_new_list">Add List</string>
+    <string name="name_list">Name List</string>
     <string name="name_is_empty">"Name" field should not be empty</string>
 </resources>

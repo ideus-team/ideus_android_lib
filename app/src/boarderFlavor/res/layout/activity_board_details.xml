@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="biz.ideus.ideuslibexample.ui.board_details_screen.activity.BoardDetailsVM" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/font_size_10"
+        android:background="@color/color_background_mine">
+
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"
+            bind:viewModel="@{viewModel}" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rViewBoards_detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/ll_add_board_list"
+            android:layout_below="@+id/toolbar" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/ll_add_board_list"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="@dimen/font_size_10"
+            android:layout_marginBottom="@dimen/font_size_10"
+            android:layout_marginLeft="@dimen/font_size_10"
+            android:layout_marginRight="@dimen/font_size_10"
+            android:background="?android:attr/selectableItemBackground"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:onClick="@{viewModel.onClickAddList}"
+                    android:text="@string/add_new_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:textSize="@dimen/font_size_17"
+                    android:textColor="@color/color_main"
+                    android:gravity="center"
+                    android:layout_centerInParent="true"
+                    android:id="@+id/textView5" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_centerInParent="true"
+                    android:background="@color/white"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:imeOptions="actionDone"
+                    android:onTextChanged="@{viewModel::onTextChangedNameList}"
+                    android:hint="@string/name_list"
+                    android:text="@{viewModel.listName}"
+                    android:visibility="@{(boolean)viewModel.isVisibleETName ? View.VISIBLE : View.INVISIBLE}"
+                    android:maxLines="1"
+                    app:isFocus="@{(boolean)viewModel.isVisibleETName}"
+                    android:id="@+id/et_name_List" />
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+</RelativeLayout></layout>

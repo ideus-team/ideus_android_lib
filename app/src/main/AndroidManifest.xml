@@ -40,6 +40,10 @@
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <activity
+            android:name="biz.ideus.ideuslibexample.ui.board_details_screen.activity.BoardDetailsActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+
+        <activity
             android:name=".ui.main_screen.activity.MainActivity"
             android:theme="@style/SplashTheme"
             android:windowSoftInputMode="stateHidden">
