@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 
 import com.orhanobut.hawk.Hawk;
@@ -14,6 +15,8 @@ import java.util.List;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.adapters.BoardsAdapter;
 import biz.ideus.ideuslibexample.data.local.BoardRequeryApi;
+import biz.ideus.ideuslibexample.data.remote.network_change.NetworkChangeReceiver;
+import biz.ideus.ideuslibexample.data.remote.network_change.NetworkChangeSubscriber;
 import biz.ideus.ideuslibexample.data.remote.socket.SocketResponseListener;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.SocketAuthorisedResponse;
 import biz.ideus.ideuslibexample.enums.BoardClickActionTag;
@@ -21,8 +24,9 @@ import biz.ideus.ideuslibexample.network.request.GetBoardListRequest;
 import biz.ideus.ideuslibexample.network.response.GetBoardsResponse;
 import biz.ideus.ideuslibexample.network.response.entity_model.BoardEntity;
 import biz.ideus.ideuslibexample.rx_buses.RxBoardCommandEvent;
+import biz.ideus.ideuslibexample.rx_buses.RxBusNetworkConnected;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
-import biz.ideus.ideuslibexample.ui.board_details_screen.activity.BoardDetailsActivity;
+import biz.ideus.ideuslibexample.ui.board_details_screen.activity.BoardStoriesActivity;
 import biz.ideus.ideuslibexample.ui.main_screen.fragments.board_screen.fragments.CreateBoardFragment;
 import biz.ideus.ideuslibexample.ui.main_screen.fragments.board_screen.fragments.UpdateBoardFragment;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
@@ -44,6 +48,7 @@ public class MainActivityVM extends AbstractMainActivityVM implements BoardsAdap
     private List<BoardEntity> boardsEntityList = new ArrayList<>();
     private BoardsAdapter adapter;
     private Subscription boardCommandEventSubscription;
+    private Subscription networkSubscription;
 
 
     public static BoardRequeryApi boardRequeryApi;
@@ -61,6 +66,7 @@ public class MainActivityVM extends AbstractMainActivityVM implements BoardsAdap
         if (Hawk.contains(Constants.USER_TOKEN)) {
             boardRequeryApi = BoardRequeryApi.getInstance();
             boardCommandEventSubscription = getBoardCommandEventSubscription();
+            startNetworkSubscription();
             getBoardListFromDB();
             initSocketlisteners();
         }
@@ -79,8 +85,7 @@ public class MainActivityVM extends AbstractMainActivityVM implements BoardsAdap
             @Override
             public void onGotResponseData(GetBoardsResponse data) {
                 boardRequeryApi.storeBoardList(data.getData().getBoardsEntitysList())
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread()).subscribe(boardEntities -> {
+                      .subscribe(boardEntities -> {
                     boardsEntityList = (List<BoardEntity>) boardEntities;
                     adapter.setBoardEntities(boardsEntityList);
                 });
@@ -151,9 +156,20 @@ public class MainActivityVM extends AbstractMainActivityVM implements BoardsAdap
                 break;
         }
     }
+    public void startNetworkSubscription() {
+        NetworkChangeReceiver.unsubscribe(networkSubscription);
+        networkSubscription = RxBusNetworkConnected.getInstance().getEvents()
+                .subscribe(new NetworkChangeSubscriber<Object>() {
+                    @Override
+                    public void complete() {
+                       webSocketClient.connectHttpClient();
+                        Log.d("complete", "complete");
+                    }
+                });
+    }
 
     private void goToBoardDetails(String boardID) {
-        Intent intent = new Intent(context, BoardDetailsActivity.class);
+        Intent intent = new Intent(context, BoardStoriesActivity.class);
         intent.putExtra(BOARD_ID, boardID);
         context.startActivity(intent);
     }

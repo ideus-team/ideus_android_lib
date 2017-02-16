@@ -40,7 +40,7 @@
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <activity
-            android:name="biz.ideus.ideuslibexample.ui.board_details_screen.activity.BoardDetailsActivity"
+            android:name="biz.ideus.ideuslibexample.ui.board_details_screen.activity.BoardStoriesActivity"
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <activity

@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="biz.ideus.ideuslibexample.ui.board_details_screen.activity.BoardDetailsVM" />
+            type="biz.ideus.ideuslibexample.ui.board_details_screen.activity.BoardStoriesVM" />
     </data>
 
     <RelativeLayout

@@ -16,8 +16,6 @@ import biz.ideus.ideuslibexample.ui.main_screen.BoardMainView;
 import biz.ideus.ideuslibexample.ui.main_screen.activity.MainActivity;
 import biz.ideus.ideuslibexample.utils.Utils;
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 import static biz.ideus.ideuslibexample.enums.BoardCommands.UPDATE_BOARD;
 import static biz.ideus.ideuslibexample.ui.main_screen.activity.MainActivityVM.boardRequeryApi;
@@ -45,8 +43,6 @@ public class UpdateBoardVM extends MainBoardVM implements MainBoardVM.OnClickAct
             @Override
             public void onGotResponseData(UpdateBoardResponse data) {
                 boardRequeryApi.storeBoard(data.getData().getBoardEntity())
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(boardEntities -> {
                     RxBoardCommandEvent.instanceOf().setRxBoardCommandEvent(new BoardCommandWrapper(UPDATE_BOARD, data.getData().getBoardEntity()));
                     ((MainActivity)context).onBackPressed();
@@ -59,8 +55,7 @@ public class UpdateBoardVM extends MainBoardVM implements MainBoardVM.OnClickAct
     }
 
     private void getBoardForUpdate(String boardId){
-        boardRequeryApi.getBoardById(boardId).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+        boardRequeryApi.getBoardById(boardId)
                 .subscribe(new Subscriber<BoardEntity>() {
                     @Override
                     public void onCompleted() {

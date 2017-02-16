@@ -13,8 +13,6 @@ import biz.ideus.ideuslibexample.ui.main_screen.BoardCommandWrapper;
 import biz.ideus.ideuslibexample.ui.main_screen.BoardMainView;
 import biz.ideus.ideuslibexample.ui.main_screen.activity.MainActivity;
 import biz.ideus.ideuslibexample.utils.Utils;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 import static biz.ideus.ideuslibexample.enums.BoardCommands.NEW_BOARD;
 import static biz.ideus.ideuslibexample.ui.main_screen.activity.MainActivityVM.boardRequeryApi;
@@ -36,8 +34,7 @@ public class CreateBoardVM extends MainBoardVM implements MainBoardVM.OnClickAct
             @Override
             public void onGotResponseData(CreateBoardResponse data) {
                 boardRequeryApi.storeBoard(data.getData().getBoardEntity())
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread()).subscribe(boardEntities -> {
+                        .subscribe(boardEntities -> {
                     RxBoardCommandEvent.instanceOf().setRxBoardCommandEvent(new BoardCommandWrapper(NEW_BOARD, data.getData().getBoardEntity()));
                     ((MainActivity)context).onBackPressed();
                     Utils.toast(context, context.getString(R.string.board_created));

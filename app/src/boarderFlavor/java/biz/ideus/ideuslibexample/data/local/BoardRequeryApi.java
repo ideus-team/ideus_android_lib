@@ -7,6 +7,8 @@ import biz.ideus.ideuslibexample.network.response.entity_model.BoardEntity;
 import io.requery.Persistable;
 import io.requery.rx.SingleEntityStore;
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static biz.ideus.ideuslibexample.SampleApplication.requeryApi;
 
@@ -29,17 +31,25 @@ public class BoardRequeryApi implements IBoardRequeryApi {
 
     @Override
     public Observable<BoardEntity> storeBoard(BoardEntity boardEntity) {
-        return data.upsert(boardEntity).toObservable();
+        return data.upsert(boardEntity)
+                .toObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
     public Observable<Iterable<BoardEntity>> storeBoardList(Iterable<BoardEntity> boardEntityList) {
-        return data.upsert(boardEntityList).toObservable();
+        return data.upsert(boardEntityList).toObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
     public Observable<BoardEntity> getBoardById(String boardId) {
-        return data.select(BoardEntity.class).where(BoardEntity.IDENT.eq(boardId)).get().toObservable();
+        return data.select(BoardEntity.class).where(BoardEntity.IDENT.eq(boardId)).get()
+                .toObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override

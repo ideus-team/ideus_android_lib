@@ -6,5 +6,5 @@ import biz.ideus.ideuslib.mvvm_lifecycle.IView;
  * Created by blackmamba on 14.02.17.
  */
 
-public interface BoardDetailsView extends IView {
+public interface BoardStoriesView extends IView {
 }

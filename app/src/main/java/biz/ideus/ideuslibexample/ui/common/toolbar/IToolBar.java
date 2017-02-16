@@ -15,6 +15,7 @@ public interface IToolBar {
     Drawable getImageLeftBtn();
     Drawable getImageRightBtn();
     String getToolbarTitle();
+    void setToolbarTitle(String title);
     void setVisibilityLinearProgress(boolean isVisible);
 
 }

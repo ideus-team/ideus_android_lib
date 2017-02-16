@@ -5,6 +5,7 @@ import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -12,29 +13,35 @@ import android.widget.EditText;
 import java.util.ArrayList;
 import java.util.List;
 
-import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.adapters.CardsAdapter;
 import biz.ideus.ideuslibexample.data.local.BoardRequeryApi;
+import biz.ideus.ideuslibexample.data.remote.network_change.NetworkChangeReceiver;
+import biz.ideus.ideuslibexample.data.remote.network_change.NetworkChangeSubscriber;
 import biz.ideus.ideuslibexample.data.remote.socket.SocketResponseListener;
 import biz.ideus.ideuslibexample.network.WebSocketClient;
 import biz.ideus.ideuslibexample.network.request.CreateBoardStoryRequest;
 import biz.ideus.ideuslibexample.network.request.GetBoardStoriesRequest;
 import biz.ideus.ideuslibexample.network.response.CreateBoardStoryResponse;
 import biz.ideus.ideuslibexample.network.response.GetBoardStoriesResponse;
+import biz.ideus.ideuslibexample.network.response.entity_model.BoardEntity;
+import biz.ideus.ideuslibexample.rx_buses.RxBusNetworkConnected;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.board_details_screen.BoardDetailsVMListener;
-import biz.ideus.ideuslibexample.ui.board_details_screen.BoardDetailsView;
+import biz.ideus.ideuslibexample.ui.board_details_screen.BoardStoriesView;
 import biz.ideus.ideuslibexample.ui.common.toolbar.AbstractViewModelToolbar;
+import rx.Subscription;
 
 /**
  * Created by blackmamba on 14.02.17.
  */
 
-public class BoardDetailsVM extends AbstractViewModelToolbar<BoardDetailsView> implements BoardDetailsVMListener {
+public class BoardStoriesVM extends AbstractViewModelToolbar<BoardStoriesView> implements BoardDetailsVMListener {
 
     private List<String> cardsEntitiesList = new ArrayList<>();
     private CardsAdapter adapter;
+    private BoardEntity boardEntity;
     private String boardId;
+    private Subscription networkSubscription;
 
     public ObservableField<Boolean> isVisibleETName = new ObservableField<>();
     public ObservableField<String> listName = new ObservableField<>();
@@ -43,7 +50,7 @@ public class BoardDetailsVM extends AbstractViewModelToolbar<BoardDetailsView> i
 
     public void setBoardId(String boardId) {
         this.boardId = boardId;
-        getBoardStories(boardId);
+        getBoardFormDb(boardId);
     }
 
     public BoardDetailsVMListener getBoardDetailsListener() {
@@ -60,6 +67,7 @@ public class BoardDetailsVM extends AbstractViewModelToolbar<BoardDetailsView> i
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
         super.onCreate(arguments, savedInstanceState);
         isVisibleETName.set(false);
+        startNetworkSubscription();
         initSocketlisteners();
 
     }
@@ -76,9 +84,18 @@ public class BoardDetailsVM extends AbstractViewModelToolbar<BoardDetailsView> i
         webSocketClient.addResponseListener(this, new SocketResponseListener<GetBoardStoriesResponse>(GetBoardStoriesResponse.class) {
             @Override
             public void onGotResponseData(GetBoardStoriesResponse data) {
-                makeCreateListBtnDefault();
+                setToolbarTitle(data.getData().getBoardModel().getName());
             }
         });
+    }
+
+    private void getBoardFormDb(String boardId) {
+        boardRequeryApi.getBoardById(boardId).subscribe(boardEntity1 -> {
+            boardEntity = boardEntity1;
+            setToolbarTitle(boardEntity.getName());
+            getBoardStories(boardEntity.getIdent());
+        });
+
     }
 
     public void onClickAddList(View view) {
@@ -90,19 +107,15 @@ public class BoardDetailsVM extends AbstractViewModelToolbar<BoardDetailsView> i
     }
 
     @Override
-    public void onBindView(@NonNull BoardDetailsView view) {
+    public void onBindView(@NonNull BoardStoriesView view) {
         super.onBindView(view);
     }
 
-    @Override
-    public String getToolbarTitle() {
-        return context.getString(R.string.board_details);
-    }
 
     @Override
     public void onBackPressed() {
         if (!isVisibleETName.get()) {
-            ((BoardDetailsActivity) context).finish();
+            ((BoardStoriesActivity) context).finish();
         } else {
             makeCreateListBtnDefault();
         }
@@ -143,4 +156,17 @@ public class BoardDetailsVM extends AbstractViewModelToolbar<BoardDetailsView> i
         if (webSocketClient != null)
             webSocketClient.removeResponseListener(this);
     }
+
+    public void startNetworkSubscription() {
+        NetworkChangeReceiver.unsubscribe(networkSubscription);
+        networkSubscription = RxBusNetworkConnected.getInstance().getEvents()
+                .subscribe(new NetworkChangeSubscriber<Object>() {
+                    @Override
+                    public void complete() {
+                        webSocketClient.connectHttpClient();
+                        Log.d("complete", "complete");
+                    }
+                });
+    }
+
 }

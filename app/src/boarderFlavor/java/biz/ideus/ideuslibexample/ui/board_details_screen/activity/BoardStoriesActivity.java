@@ -12,10 +12,10 @@ import biz.ideus.ideuslib.mvvm_lifecycle.binding.ViewModelBindingConfig;
 import biz.ideus.ideuslibexample.BR;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.adapters.CardsAdapter;
-import biz.ideus.ideuslibexample.databinding.ActivityBoardDetailsBinding;
+import biz.ideus.ideuslibexample.databinding.ActivityBoardStoriesBinding;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.board_details_screen.BoardDetailsVMListener;
-import biz.ideus.ideuslibexample.ui.board_details_screen.BoardDetailsView;
+import biz.ideus.ideuslibexample.ui.board_details_screen.BoardStoriesView;
 
 import static biz.ideus.ideuslibexample.utils.BoardAppConstants.BOARD_ID;
 
@@ -24,19 +24,19 @@ import static biz.ideus.ideuslibexample.utils.BoardAppConstants.BOARD_ID;
  * Created by blackmamba on 14.02.17.
  */
 
-public class BoardDetailsActivity extends BaseActivity<BoardDetailsView, BoardDetailsVM, ActivityBoardDetailsBinding>
-        implements BoardDetailsView{
+public class BoardStoriesActivity extends BaseActivity<BoardStoriesView, BoardStoriesVM, ActivityBoardStoriesBinding>
+        implements BoardStoriesView {
 
     private CardsAdapter adapter;
     private String boardID;
     private BoardDetailsVMListener boardDetailsListener;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setModelView(this);
         boardID = getBoardID(savedInstanceState, getIntent());
-
 
         adapter = new CardsAdapter();
         RecyclerView recyclerView = getBinding().rViewBoardsDetail;
@@ -82,14 +82,14 @@ public class BoardDetailsActivity extends BaseActivity<BoardDetailsView, BoardDe
 
     @Nullable
     @Override
-    public Class<BoardDetailsVM> getViewModelClass() {
-        return BoardDetailsVM.class;
+    public Class<BoardStoriesVM> getViewModelClass() {
+        return BoardStoriesVM.class;
     }
 
     @Nullable
     @Override
     public ViewModelBindingConfig getViewModelBindingConfig() {
-        return new ViewModelBindingConfig(R.layout.activity_board_details, BR.viewModel, this);
+        return new ViewModelBindingConfig(R.layout.activity_board_stories, BR.viewModel, this);
     }
 }
 
