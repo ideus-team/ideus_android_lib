@@ -17,8 +17,10 @@ import biz.ideus.ideuslibexample.adapters.CardsAdapter;
 import biz.ideus.ideuslibexample.data.local.BoardRequeryApi;
 import biz.ideus.ideuslibexample.data.remote.socket.SocketResponseListener;
 import biz.ideus.ideuslibexample.network.WebSocketClient;
-import biz.ideus.ideuslibexample.network.request.CreateBoardListRequest;
-import biz.ideus.ideuslibexample.network.response.CreateBoardListResponse;
+import biz.ideus.ideuslibexample.network.request.CreateBoardStoryRequest;
+import biz.ideus.ideuslibexample.network.request.GetBoardStoriesRequest;
+import biz.ideus.ideuslibexample.network.response.CreateBoardStoryResponse;
+import biz.ideus.ideuslibexample.network.response.GetBoardStoriesResponse;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.board_details_screen.BoardDetailsVMListener;
 import biz.ideus.ideuslibexample.ui.board_details_screen.BoardDetailsView;
@@ -41,6 +43,7 @@ public class BoardDetailsVM extends AbstractViewModelToolbar<BoardDetailsView> i
 
     public void setBoardId(String boardId) {
         this.boardId = boardId;
+        getBoardStories(boardId);
     }
 
     public BoardDetailsVMListener getBoardDetailsListener() {
@@ -49,13 +52,8 @@ public class BoardDetailsVM extends AbstractViewModelToolbar<BoardDetailsView> i
 
     public void setAdapter(CardsAdapter adapter) {
         this.adapter = adapter;
-        // test
-        cardsEntitiesList.clear();
-        for (int i = 0; i < 10; i++) {
-            cardsEntitiesList.add(i + "");
-        }
-        //
         adapter.setCardEntities(cardsEntitiesList);
+
     }
 
     @Override
@@ -63,14 +61,21 @@ public class BoardDetailsVM extends AbstractViewModelToolbar<BoardDetailsView> i
         super.onCreate(arguments, savedInstanceState);
         isVisibleETName.set(false);
         initSocketlisteners();
+
     }
 
     private void initSocketlisteners() {
 
-        webSocketClient.addResponseListener(this, new SocketResponseListener<CreateBoardListResponse>(CreateBoardListResponse.class) {
+        webSocketClient.addResponseListener(this, new SocketResponseListener<CreateBoardStoryResponse>(CreateBoardStoryResponse.class) {
             @Override
-            public void onGotResponseData(CreateBoardListResponse data) {
-                // Utils.toast(context, context.getString(R.string.board_list_created));
+            public void onGotResponseData(CreateBoardStoryResponse data) {
+                makeCreateListBtnDefault();
+            }
+        });
+
+        webSocketClient.addResponseListener(this, new SocketResponseListener<GetBoardStoriesResponse>(GetBoardStoriesResponse.class) {
+            @Override
+            public void onGotResponseData(GetBoardStoriesResponse data) {
                 makeCreateListBtnDefault();
             }
         });
@@ -121,11 +126,15 @@ public class BoardDetailsVM extends AbstractViewModelToolbar<BoardDetailsView> i
 
     @Override
     public void onClickDone() {
-        createNewBoardList();
+        createNewBoardStory();
     }
 
-    private void createNewBoardList() {
-        webSocketClient.sendMessage(new CreateBoardListRequest(listName.get(), boardId));
+    private void createNewBoardStory() {
+        webSocketClient.sendMessage(new CreateBoardStoryRequest(listName.get(), boardId));
+    }
+
+    private void getBoardStories(String boardId) {
+        webSocketClient.sendMessage(new GetBoardStoriesRequest(boardId));
     }
 
     @Override

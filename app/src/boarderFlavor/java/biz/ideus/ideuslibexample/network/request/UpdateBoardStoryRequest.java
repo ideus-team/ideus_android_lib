@@ -8,7 +8,7 @@ import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.Request
  * Created by blackmamba on 15.02.17.
  */
 
-public class UpdateBoardListRequest extends RequestSocketParams {
+public class UpdateBoardStoryRequest extends RequestSocketParams {
     @SerializedName("name")
     String boardName;
 
@@ -20,7 +20,7 @@ public class UpdateBoardListRequest extends RequestSocketParams {
         return "update_board_list";
     }
 
-    public UpdateBoardListRequest(String boardName, String listId) {
+    public UpdateBoardStoryRequest(String boardName, String listId) {
         this.boardName = boardName;
         this.listId = listId;
     }
