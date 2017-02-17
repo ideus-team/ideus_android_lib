@@ -49,10 +49,16 @@ public abstract class AbsWebSocketClient implements WebSocketListener {
     private void handleJson(SocketResponseListener responseListener, String json) throws JSONException {
 
         SocketBaseResponse socketBaseResponse = ((SocketBaseResponse) new Gson().fromJson(json, responseListener.getResponseClass()));
+        Observable.just(socketBaseResponse)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(socketBaseResponse1 -> {
+                    if (socketBaseResponse1.hasValidCommand()) {
+                        responseListener.onGotResponseData(socketBaseResponse1);
+                    }
+                });
 
-        if (socketBaseResponse.hasValidCommand()) {
-            responseListener.onGotResponseData(socketBaseResponse);
-        }
+
     }
 
     /**
@@ -180,6 +186,7 @@ public abstract class AbsWebSocketClient implements WebSocketListener {
             e.printStackTrace();
         }
         Log.d("json", json);
+
         if (message.contentType() == TEXT && JSONUtils.isJSONValid(json)) {
 
             for (ResponseDataKeeperModel responseDataKeeperModel : responseListeners) {

@@ -14,6 +14,7 @@ import android.view.View;
 public abstract class AbstractViewModel<T extends IView>{
 
 public Context context;
+
     @Nullable
     private String mUniqueIdentifier;
 
@@ -89,6 +90,7 @@ public Context context;
         if (mView == null && !mBindViewWasCalled) {
             Log.e("AndroidViewModel", this.getClass().getSimpleName() + " - no view associated. You probably did not call setModelView() in your Fragment or Activity");
         }
+
     }
 
     /**

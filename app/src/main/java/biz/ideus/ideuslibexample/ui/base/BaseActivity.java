@@ -108,7 +108,7 @@ public abstract class BaseActivity<T extends IView, R extends AbstractViewModel<
 
                     @Override
                     public void onError(Throwable e) {
-
+Log.d("error", e.getMessage());
                     }
 
                     @Override
@@ -142,7 +142,7 @@ public abstract class BaseActivity<T extends IView, R extends AbstractViewModel<
                                 if (snackbar != null) {
                                     snackbar.dismiss();
                                 }
-                                BaseActivity.this.showSneckBarDialog(dialogParams.getDialogModel().resDialogHeader /*SOCKET_UNFORTUNATELY_DIALOG.resDialogName*/, v -> {
+                                showSneckBarDialog(dialogParams.getDialogModel().resDialogText /*SOCKET_UNFORTUNATELY_DIALOG.resDialogName*/, v -> {
                                     snackbar.dismiss()
                                     ;
                                     WebSocketClient.getInstance().connectHttpClient();
@@ -154,7 +154,6 @@ public abstract class BaseActivity<T extends IView, R extends AbstractViewModel<
                                 break;
                         }
                         RxBusShowDialog.instanceOf().setRxBusCommit();
-
                     }
 
                 });
