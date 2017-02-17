@@ -46,7 +46,14 @@ public class ChatActivity extends BaseActivity<ChatView, ChatActivityVM, Activit
         getBinding().rViewChat.setAdapter(adapter);
         getBinding().rViewChat.setHasFixedSize(true);
         getBinding().rViewChat.setLayoutManager(linearLayoutManager);
-        adapter.setScrollToBottomListener(position -> getBinding().rViewChat.postDelayed(() -> getBinding().rViewChat.smoothScrollToPosition(position), 400));
+        adapter.setScrollToBottomListener(new ChatAdapter.ScrollToBottomListener() {
+            @Override
+            public void onBottomScroll(int position) {
+                ChatActivity.this.getBinding().rViewChat.postDelayed(() -> {
+                    ChatActivity.this.getBinding().rViewChat.smoothScrollToPosition(position);
+                }, 400);
+            }
+        });
         getViewModel().setAdapter(adapter);
     }
 

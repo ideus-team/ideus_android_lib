@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="java.lang.String" />
+            type="biz.ideus.ideuslibexample.ui.board_stories_screen.activity.StoryVM" />
 
     </data>
 
@@ -35,7 +35,7 @@
                 android:layout_below="@id/iv_edit"
                 android:layout_margin="15dp"
                 android:gravity="center"
-                android:text="@{viewModel}"
+                android:text="@{viewModel.name}"
                 android:textColor="@color/color_main"
                 android:textSize="@dimen/font_size_20" />
 

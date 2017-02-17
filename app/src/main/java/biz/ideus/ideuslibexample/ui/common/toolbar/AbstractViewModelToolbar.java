@@ -18,7 +18,6 @@ import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 
 public abstract class AbstractViewModelToolbar<T extends IView> extends AbstractViewModel<T>
         implements IToolBar {
-   private String toolbartitle = "";
 
     @Override
     public boolean isLeftBtnVisible() {
@@ -37,18 +36,6 @@ public abstract class AbstractViewModelToolbar<T extends IView> extends Abstract
 
     @Override
     public void onClickRightBtn(View view) {
-
-    }
-
-    @Override
-    public void setToolbarTitle(String title) {
-        toolbartitle = title;
-        getToolbarTitle();
-    }
-
-    @Override
-    public String getToolbarTitle() {
-       return toolbartitle;
 
     }
 

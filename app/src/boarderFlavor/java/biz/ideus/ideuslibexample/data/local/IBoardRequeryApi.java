@@ -13,6 +13,6 @@ import rx.Observable;
 public interface IBoardRequeryApi {
     Observable<BoardEntity> storeBoard(BoardEntity boardEntity);
     Observable<Iterable<BoardEntity>> storeBoardList(Iterable<BoardEntity> boardEntityList);
-    Observable<BoardEntity> getBoardById(String boardId);
+    BoardEntity getBoardById(String boardId);
     List<BoardEntity> getBoardList();
 }

@@ -2,6 +2,10 @@ package biz.ideus.ideuslibexample.network.response.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
+import biz.ideus.ideuslibexample.ui.board_stories_screen.activity.StoryVM;
+
 /**
  * Created by blackmamba on 16.02.17.
  */
@@ -11,13 +15,14 @@ public class StoryModel {
     private String ident;
 
     @SerializedName("name")
+
     private String name;
 
     @SerializedName("cards")
-    private CardModel cardModel;
+    private List<CardModel> cardModelList;
 
-    public CardModel getCardModel() {
-        return cardModel;
+    public List<CardModel> getCardModelList() {
+        return cardModelList;
     }
 
     public String getName() {
@@ -31,4 +36,9 @@ public class StoryModel {
     public void setIdent(String ident) {
         this.ident = ident;
     }
+
+    public StoryVM getStoryVM(){
+        return new StoryVM(this);
+    }
+
 }

@@ -2,7 +2,10 @@ package biz.ideus.ideuslibexample.network.response.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import biz.ideus.ideuslibexample.ui.board_stories_screen.activity.StoryVM;
 
 /**
  * Created by blackmamba on 16.02.17.
@@ -32,6 +35,14 @@ public class BoardModel {
 
     public void setIdent(String ident) {
         this.ident = ident;
+    }
+
+    public List<StoryVM> getStoryVMList(){
+        List<StoryVM> storyVMlist = new ArrayList<>();
+        for (int i = 0; i < stories.size() ; i++) {
+            storyVMlist.add(stories.get(i).getStoryVM());
+        }
+        return storyVMlist;
     }
 }
 

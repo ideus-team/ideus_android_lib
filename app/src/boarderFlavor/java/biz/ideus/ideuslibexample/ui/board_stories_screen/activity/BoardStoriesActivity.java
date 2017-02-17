@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.ui.board_details_screen.activity;
+package biz.ideus.ideuslibexample.ui.board_stories_screen.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,11 +11,11 @@ import android.view.inputmethod.EditorInfo;
 import biz.ideus.ideuslib.mvvm_lifecycle.binding.ViewModelBindingConfig;
 import biz.ideus.ideuslibexample.BR;
 import biz.ideus.ideuslibexample.R;
-import biz.ideus.ideuslibexample.adapters.CardsAdapter;
+import biz.ideus.ideuslibexample.adapters.StoriesAdapter;
 import biz.ideus.ideuslibexample.databinding.ActivityBoardStoriesBinding;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
-import biz.ideus.ideuslibexample.ui.board_details_screen.BoardDetailsVMListener;
-import biz.ideus.ideuslibexample.ui.board_details_screen.BoardStoriesView;
+import biz.ideus.ideuslibexample.ui.board_stories_screen.BoardStoriesVMListener;
+import biz.ideus.ideuslibexample.ui.board_stories_screen.BoardStoriesView;
 
 import static biz.ideus.ideuslibexample.utils.BoardAppConstants.BOARD_ID;
 
@@ -27,30 +27,35 @@ import static biz.ideus.ideuslibexample.utils.BoardAppConstants.BOARD_ID;
 public class BoardStoriesActivity extends BaseActivity<BoardStoriesView, BoardStoriesVM, ActivityBoardStoriesBinding>
         implements BoardStoriesView {
 
-    private CardsAdapter adapter;
+    private StoriesAdapter adapter;
     private String boardID;
-    private BoardDetailsVMListener boardDetailsListener;
+    private BoardStoriesVMListener boardStoriesListener;
+
+    public String getBoardID() {
+        return boardID;
+    }
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setModelView(this);
         boardID = getBoardID(savedInstanceState, getIntent());
+        setModelView(this);
 
-        adapter = new CardsAdapter();
+
+        adapter = new StoriesAdapter();
         RecyclerView recyclerView = getBinding().rViewBoardsDetail;
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(adapter);
         getViewModel().setAdapter(adapter);
-        getViewModel().setBoardId(boardID);
-        boardDetailsListener = getViewModel().getBoardDetailsListener();
+        adapter.setScrollToBottomListener(position -> recyclerView.postDelayed(() -> {recyclerView.smoothScrollToPosition(position);}, 400));
+        boardStoriesListener = getViewModel().getBoardStoriesListener();
 
 
         getBinding().etNameList.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                boardDetailsListener.onClickDone();
+                boardStoriesListener.onClickDone();
                 return true;
             }
             return false;
@@ -59,7 +64,7 @@ public class BoardStoriesActivity extends BaseActivity<BoardStoriesView, BoardSt
 
     @Override
     public void onBackPressed() {
-        boardDetailsListener.onBackPressed();
+        boardStoriesListener.onBackPressed();
     }
 
 

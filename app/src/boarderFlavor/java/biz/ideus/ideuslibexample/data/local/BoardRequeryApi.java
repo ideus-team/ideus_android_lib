@@ -33,24 +33,24 @@ public class BoardRequeryApi implements IBoardRequeryApi {
     public Observable<BoardEntity> storeBoard(BoardEntity boardEntity) {
         return data.upsert(boardEntity)
                 .toObservable()
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
+
     }
 
     @Override
     public Observable<Iterable<BoardEntity>> storeBoardList(Iterable<BoardEntity> boardEntityList) {
-        return data.upsert(boardEntityList).toObservable()
-                .subscribeOn(Schedulers.io())
+        return data.upsert(boardEntityList)
+                .toObservable()
+                .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
-    public Observable<BoardEntity> getBoardById(String boardId) {
-        return data.select(BoardEntity.class).where(BoardEntity.IDENT.eq(boardId)).get()
-                .toObservable()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+    public BoardEntity getBoardById(String boardId) {
+        return data.select(BoardEntity.class).where(BoardEntity.IDENT.eq(boardId)).get().first();
     }
+
 
     @Override
     public List<BoardEntity> getBoardList() {

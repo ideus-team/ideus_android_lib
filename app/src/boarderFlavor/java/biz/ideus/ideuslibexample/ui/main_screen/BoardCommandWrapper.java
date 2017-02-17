@@ -2,7 +2,6 @@ package biz.ideus.ideuslibexample.ui.main_screen;
 
 
 import biz.ideus.ideuslibexample.enums.BoardCommands;
-import biz.ideus.ideuslibexample.network.response.entity_model.BoardEntity;
 
 
 /**
@@ -10,19 +9,31 @@ import biz.ideus.ideuslibexample.network.response.entity_model.BoardEntity;
  */
 
 public class BoardCommandWrapper {
-    private BoardEntity boardEntity;
+    private String boardName;
+    private String ident;
+
     private BoardCommands boardCommand;
 
-    public BoardEntity getBoardEntity() {
-        return boardEntity;
+    public String getIdent() {
+        return ident;
+    }
+
+    public String getBoardName() {
+        return boardName;
     }
 
     public BoardCommands getBoardCommand() {
         return boardCommand;
     }
 
-    public BoardCommandWrapper(BoardCommands boardCommand, BoardEntity boardEntity){
+    public BoardCommandWrapper(BoardCommands boardCommand, String boardName){
         this.boardCommand = boardCommand;
-        this.boardEntity = boardEntity;
+        this.boardName = boardName;
+    }
+
+    public BoardCommandWrapper(BoardCommands boardCommand, String boardName, String ident){
+        this.boardCommand = boardCommand;
+        this.boardName = boardName;
+        this.ident = ident;
     }
 }

@@ -11,33 +11,37 @@ import java.util.List;
 
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.databinding.ItemBoardCardBinding;
-import biz.ideus.ideuslibexample.enums.BoardClickActionTag;
-import biz.ideus.ideuslibexample.network.response.entity_model.BoardEntity;
+import biz.ideus.ideuslibexample.ui.board_stories_screen.activity.StoryVM;
 
 
 /**
  * Created by blackmamba on 14.02.17.
  */
 
-public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardItemHolder> {
+public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.CardItemHolder> {
 
 
-    private List<String> cardEntities = new ArrayList<>();
+    private List<StoryVM> storiesVMList = new ArrayList<>();
+    private ScrollToBottomListener scrollToBottomListener;
 
-    public List<String> getCardEntities() {
-        return cardEntities;
+
+    public List<StoryVM> getStoriesVMList() {
+        return storiesVMList;
     }
 
-    private OnSelectClickListener onSelectClickListener;
-
-
-    public void setOnSelectClickListener(OnSelectClickListener onSelectClickListener) {
-        this.onSelectClickListener = onSelectClickListener;
+    public void setScrollToBottomListener(ScrollToBottomListener scrollToBottomListener) {
+        this.scrollToBottomListener = scrollToBottomListener;
     }
 
-    public void setCardEntities(List<String> cardEntities) {
-        this.cardEntities = cardEntities;
+    public void setStoryModelList(List<StoryVM> storiesList) {
+        this.storiesVMList = storiesList;
         notifyDataSetChanged();
+    }
+
+    public void setNewStoryModel(StoryVM story) {
+        this.storiesVMList.add(story);
+        notifyItemInserted(storiesVMList.size() - 1);
+       scrollToBottomListener.onBottomScroll(storiesVMList.size() - 1);
     }
 
 
@@ -45,21 +49,21 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardItemHold
     public CardItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return new CardsAdapter.CardItemHolder(DataBindingUtil.inflate(inflater,
+        return new StoriesAdapter.CardItemHolder(DataBindingUtil.inflate(inflater,
                 R.layout.item_board_card, parent, false).getRoot());
 
     }
 
     @Override
     public void onBindViewHolder(CardItemHolder holder, int position) {
-        String cardEntity = cardEntities.get(position);
-        holder.binding.setViewModel(cardEntity);
+        StoryVM storyVM = storiesVMList.get(position);
+        holder.binding.setViewModel(storyVM);
     }
 
 
     @Override
     public int getItemCount() {
-        return cardEntities.size();
+        return storiesVMList.size();
     }
 
     @Override
@@ -78,7 +82,8 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardItemHold
 
     }
 
-    public interface OnSelectClickListener {
-        void onClickPosition(BoardClickActionTag tag, BoardEntity boardEntity);
+    public interface ScrollToBottomListener {
+        void onBottomScroll(int position);
     }
+
 }

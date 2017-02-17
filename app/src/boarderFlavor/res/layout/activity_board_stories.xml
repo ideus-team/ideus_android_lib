@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="biz.ideus.ideuslibexample.ui.board_details_screen.activity.BoardStoriesVM" />
+            type="biz.ideus.ideuslibexample.ui.board_stories_screen.activity.BoardStoriesVM" />
     </data>
 
     <RelativeLayout
@@ -71,9 +71,9 @@
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     android:imeOptions="actionDone"
-                    android:onTextChanged="@{viewModel::onTextChangedNameList}"
+                    android:onTextChanged="@{viewModel::onTextChangedNameStory}"
                     android:hint="@string/name_list"
-                    android:text="@{viewModel.listName}"
+                    android:text="@{viewModel.storyName}"
                     android:visibility="@{(boolean)viewModel.isVisibleETName ? View.VISIBLE : View.INVISIBLE}"
                     android:maxLines="1"
                     app:isFocus="@{(boolean)viewModel.isVisibleETName}"
