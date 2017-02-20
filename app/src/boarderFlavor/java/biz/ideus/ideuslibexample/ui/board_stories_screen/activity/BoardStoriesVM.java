@@ -28,14 +28,17 @@ import biz.ideus.ideuslibexample.rx_buses.RxBusNetworkConnected;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.board_stories_screen.BoardStoriesVMListener;
 import biz.ideus.ideuslibexample.ui.board_stories_screen.BoardStoriesView;
+import biz.ideus.ideuslibexample.ui.boardview.BoardView;
 import biz.ideus.ideuslibexample.ui.common.toolbar.AbstractViewModelToolbar;
+import biz.ideus.ideuslibexample.utils.Utils;
 import rx.Subscription;
 
 /**
  * Created by blackmamba on 14.02.17.
  */
 
-public class BoardStoriesVM extends AbstractViewModelToolbar<BoardStoriesView> implements BoardStoriesVMListener {
+public class BoardStoriesVM extends AbstractViewModelToolbar<BoardStoriesView>
+        implements BoardStoriesVMListener, BoardView.BoardListener {
 
     private List<StoryVM> storyVMList = new ArrayList<>();
     private StoriesAdapter adapter;
@@ -79,7 +82,7 @@ public class BoardStoriesVM extends AbstractViewModelToolbar<BoardStoriesView> i
         webSocketClient.addResponseListener(this, new SocketResponseListener<CreateBoardStoryResponse>(CreateBoardStoryResponse.class) {
             @Override
             public void onGotResponseData(CreateBoardStoryResponse data) {
-                adapter.setNewStoryModel(data.getData().getStoryVM());
+            //    adapter.setNewStoryModel(data.getData().getStoryVM());
                 makeCreateStoryBtnDefault();
             }
         });
@@ -88,7 +91,7 @@ public class BoardStoriesVM extends AbstractViewModelToolbar<BoardStoriesView> i
             @Override
             public void onGotResponseData(GetBoardStoriesResponse data) {
                 storyVMList = data.getData().getBoardModel().getStoryVMList();
-                adapter.setStoryModelList(storyVMList);
+               // adapter.setStoryModelList(storyVMList);
 
             }
         });
@@ -176,4 +179,21 @@ public class BoardStoriesVM extends AbstractViewModelToolbar<BoardStoriesView> i
     public String getToolbarTitle() {
         return boardEntity.getName();
     }
+
+    @Override
+    public void onItemDragStarted(int column, int row) {
+        Utils.toast(context, "onItemDragStarted: Start - column: " + column + " row: " + row);
+        //Toast.makeText(mBoardView.getContext(), "Start - column: " + column + " row: " + row, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onItemChangedColumn(int oldColumn, int newColumn) {
+        Utils.toast(context, "onItemChangedColumn: oldColumn: " + oldColumn + " newColumn: " + newColumn);
+    }
+
+    @Override
+    public void onItemDragEnded(int fromColumn, int fromRow, int toColumn, int toRow) {
+        Utils.toast(context, "onItemDragEnded: fromColumn: " + fromColumn + " fromRow: " + fromRow  + " toColumn: " + toColumn  + " toRow: " + toRow);
+    }
+
 }
