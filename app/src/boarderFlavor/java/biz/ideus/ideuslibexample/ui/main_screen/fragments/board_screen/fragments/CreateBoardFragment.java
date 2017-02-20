@@ -29,7 +29,6 @@ public class CreateBoardFragment extends BaseFragment<BoardMainView, CreateBoard
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setModelView(this);
-
     }
 
 

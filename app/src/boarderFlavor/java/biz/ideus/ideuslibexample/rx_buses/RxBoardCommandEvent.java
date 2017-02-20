@@ -21,8 +21,8 @@ public class RxBoardCommandEvent {
             return instance;
         }
 
-        public void setRxBoardCommandEvent(BoardCommandWrapper boardCommandWrapper) {
-            subject.onNext(boardCommandWrapper);
+        public void setRxBoardCommandEvent(BoardCommandWrapper command) {
+            subject.onNext(command);
         }
         public void onCompleted() {
             subject.onCompleted();

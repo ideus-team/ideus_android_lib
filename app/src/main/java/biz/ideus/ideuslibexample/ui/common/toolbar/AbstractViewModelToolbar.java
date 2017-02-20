@@ -49,7 +49,6 @@ public abstract class AbstractViewModelToolbar<T extends IView> extends Abstract
             return context.getResources().getDrawable(R.drawable.ic_left_arrow);
     }
 
-
     @BindingAdapter("progressColor")
     public static void setProgressColor(ProgressBar progressBar, boolean isColorChange) {
         progressBar.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);

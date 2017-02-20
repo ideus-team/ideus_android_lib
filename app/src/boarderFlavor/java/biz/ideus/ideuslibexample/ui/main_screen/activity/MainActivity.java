@@ -20,10 +20,9 @@ public class MainActivity extends AbstractMainActivity {
 
         adapter = new BoardsAdapter();
 
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        getBinding().rViewBoards.setHasFixedSize(true);
         getBinding().rViewBoards.setLayoutManager(linearLayoutManager);
+        getBinding().rViewBoards.setHasFixedSize(true);
         getBinding().rViewBoards.setAdapter(adapter);
         getViewModel().setAdapter(adapter);
         getBinding().rViewBoards.addOnScrollListener(new ScrollListenerForFAB(getBinding().fabAddBoard));

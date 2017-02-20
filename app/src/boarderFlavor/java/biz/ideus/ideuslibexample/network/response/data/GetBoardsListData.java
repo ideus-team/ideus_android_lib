@@ -22,10 +22,10 @@ public class GetBoardsListData {
     }
 
     public List<BoardEntity> getBoardsEntitysList() {
-        return createMessageEntityList(boardsDataList);
+        return createBoardEntityList(boardsDataList);
     }
 
-    private List<BoardEntity> createMessageEntityList(List<BoardData> boardsDataList) {
+    private List<BoardEntity> createBoardEntityList(List<BoardData> boardsDataList) {
         boardsEntityList = new ArrayList<>();
         for (int i = 0; i < boardsDataList.size(); i++) {
             boardsEntityList.add(boardsDataList.get(i).getBoardEntity());
