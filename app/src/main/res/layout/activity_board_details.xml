@@ -7,15 +7,21 @@
         <import type="android.view.View" />
         <variable
             name="viewModel"
-            type="biz.ideus.ideuslibexample.ui.main_screen.activity.MainActivityVM"  />
+            type="biz.ideus.ideuslibexample.ui.board_details.activity.BoardDetailsVM"  />
 
 
     </data>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        >
+        <biz.ideus.ideuslibexample.ui.boardview.BoardView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/board_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    </LinearLayout>
+        </biz.ideus.ideuslibexample.ui.boardview.BoardView>
+    </FrameLayout>
 </layout>

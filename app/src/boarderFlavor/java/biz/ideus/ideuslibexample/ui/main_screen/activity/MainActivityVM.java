@@ -60,6 +60,7 @@ public class MainActivityVM extends AbstractMainActivityVM implements BoardsAdap
             getBoardListFromDB();
             initSocketlisteners();
         }
+
     }
 
 
