@@ -77,6 +77,7 @@ public class MainActivityVM extends AbstractMainActivityVM implements BoardsAdap
             startNetworkSubscription();
             getBoardListFromDB();
         }
+
     }
 
 
