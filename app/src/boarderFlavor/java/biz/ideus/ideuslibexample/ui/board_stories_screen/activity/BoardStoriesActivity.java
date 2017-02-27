@@ -11,6 +11,7 @@ import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.databinding.ActivityBoardStoriesBinding;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.board_stories_screen.BoardStoriesView;
+import biz.ideus.ideuslibexample.ui.boardview.BoardView;
 
 import static biz.ideus.ideuslibexample.utils.BoardAppConstants.BOARD_ID;
 
@@ -30,6 +31,10 @@ public class BoardStoriesActivity extends BaseActivity<BoardStoriesView, BoardSt
         return boardID;
     }
 
+    @Override
+    public BoardView getBoardView() {
+        return binding.boardView;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

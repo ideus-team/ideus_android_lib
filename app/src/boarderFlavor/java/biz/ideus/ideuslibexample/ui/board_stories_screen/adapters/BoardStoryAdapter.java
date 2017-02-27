@@ -1,38 +1,54 @@
 package biz.ideus.ideuslibexample.ui.board_stories_screen.adapters;
 
-import android.support.v4.util.Pair;
+import android.databinding.DataBindingUtil;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import biz.ideus.ideuslibexample.R;
+import biz.ideus.ideuslibexample.databinding.ItemBoardRecordBinding;
+import biz.ideus.ideuslibexample.ui.board_stories_screen.activity.StoryVM;
 import biz.ideus.ideuslibexample.ui.boardview.DragItemAdapter;
 
 /**
  * Created by user on 20.02.2017.
  */
 
-public class BoardStoryAdapter extends DragItemAdapter<Pair<Long, String>, BoardStoryAdapter.ViewHolder>{
+public class BoardStoryAdapter extends DragItemAdapter<StoryVM, BoardStoryAdapter.ViewHolder>{
 
     private int mLayoutId;
     private int mGrabHandleId;
     private boolean mDragOnLongPress;
 
+//ItemAdapter(ArrayList<Pair<Long, String>> list, int layoutId, int grabHandleId, boolean dragOnLongPress) {
 
+
+    public BoardStoryAdapter(int mLayoutId, int mGrabHandleId, boolean mDragOnLongPress) {
+        this.mLayoutId = mLayoutId;
+        this.mGrabHandleId = mGrabHandleId;
+        this.mDragOnLongPress = mDragOnLongPress;
+    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+        View view = LayoutInflater.from(parent.getContext()).inflate(mLayoutId, parent, false);
+        return new ViewHolder(view);
     }
 
-    public class ViewHolder extends DragItemAdapter.ViewHolder {
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
+       // holder.binding.setViewModel();
+    }
 
-        public TextView mText;
+
+    public class ViewHolder extends DragItemAdapter.ViewHolder {
+        ItemBoardRecordBinding binding;
+
 
         public ViewHolder(final View itemView) {
             super(itemView, mGrabHandleId, mDragOnLongPress);
-            mText = (TextView) itemView.findViewById(R.id.text);
+            binding = DataBindingUtil.bind(itemView);
         }
 
         @Override

@@ -67,6 +67,8 @@ public class BoardStoriesVM extends AbstractViewModelToolbar<BoardStoriesView>
         isVisibleETName.set(false);
         startNetworkSubscription();
         initSocketlisteners();
+        BoardView boardView ;
+        //boardView.addColumnList()
 
     }
 
@@ -76,6 +78,7 @@ public class BoardStoriesVM extends AbstractViewModelToolbar<BoardStoriesView>
             @Override
             public void onGotResponseData(SocketAuthorisedResponse data) {
                 getBoardStories(boardEntity.getIdent());
+                //
             }
         });
 
@@ -92,9 +95,19 @@ public class BoardStoriesVM extends AbstractViewModelToolbar<BoardStoriesView>
             public void onGotResponseData(GetBoardStoriesResponse data) {
                 storyVMList = data.getData().getBoardModel().getStoryVMList();
                // adapter.setStoryModelList(storyVMList);
-
+                refreshBoardViewData(storyVMList);
             }
         });
+    }
+
+    private void refreshBoardViewData(List<StoryVM> storyVMList) {
+        if (getView()!=null) {
+            getView().getBoardView().clearBoard();
+            for (StoryVM storyModel: storyVMList) {
+                //getView().getBoardView().addColumnList(new BoardStoryAdapter(storyModel.), null, false );
+                //ItemAdapter(mItemArray, R.layout.grid_item, R.id.item_layout, true);
+            }
+        }
     }
 
     private BoardEntity getBoardFormDb(String boardId) {

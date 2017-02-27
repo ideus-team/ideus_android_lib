@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="biz.ideus.ideuslibexample.ui.board_stories_screen.activity.BoardStoriesVM" />
+            type="biz.ideus.ideuslibexample.ui.board_stories_screen.activity.StoryVM" />
     </data>
 
     <FrameLayout
