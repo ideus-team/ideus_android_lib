@@ -7,23 +7,33 @@ import android.support.annotation.Nullable;
 
 import biz.ideus.ideuslib.mvvm_lifecycle.AbstractViewModel;
 import biz.ideus.ideuslib.mvvm_lifecycle.IView;
+import biz.ideus.ideuslib.mvvm_lifecycle.ProxyViewHelper;
 import biz.ideus.ideuslib.mvvm_lifecycle.ViewModelHelper;
-import biz.ideus.ideuslib.mvvm_lifecycle.ViewModelProvider;
+import biz.ideus.ideuslib.mvvm_lifecycle.binding.ViewModelBindingConfig;
 
 
 public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractViewModel<T>> extends ViewModelBaseEmptyActivity implements IView  {
 
     @NonNull
-    protected final ViewModelHelper<T, R> mViewModeHelper = new ViewModelHelper<>();
-    @Nullable
-    private ViewModelProvider mViewModelProvider;
+    private final ViewModelHelper<T, R> mViewModeHelper = new ViewModelHelper<>();
+
+    @NonNull
+    public ViewModelHelper<T, R> getmViewModeHelper() {
+        return mViewModeHelper;
+    }
+
     @CallSuper
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
-        mViewModelProvider = ViewModelProvider.newInstance(this);
         super.onCreate(savedInstanceState);
 
-        mViewModeHelper.onCreate(this, savedInstanceState, getViewModelClass(), getIntent().getExtras());
+        Class<? extends AbstractViewModel<T>> viewModelClass = getViewModelClass();
+        // try to extract the ViewModel class from the implementation
+        if (viewModelClass == null) {
+            //noinspection unchecked
+            viewModelClass = (Class<? extends AbstractViewModel<T>>) ProxyViewHelper.getGenericType(getClass(), AbstractViewModel.class);
+        }
+        mViewModeHelper.onCreate(this, savedInstanceState, viewModelClass, getIntent().getExtras());
     }
 
     /**
@@ -36,7 +46,9 @@ public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractV
     }
 
     @Nullable
-    public abstract Class<R> getViewModelClass();
+    public Class<R> getViewModelClass() {
+        return null;
+    }
 
     @CallSuper
     @Override
@@ -78,5 +90,11 @@ public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractV
     @Override
     public void removeViewModel() {
         mViewModeHelper.removeViewModel(this);
+    }
+
+    @Nullable
+    @Override
+    public ViewModelBindingConfig getViewModelBindingConfig() {
+        return null;
     }
 }

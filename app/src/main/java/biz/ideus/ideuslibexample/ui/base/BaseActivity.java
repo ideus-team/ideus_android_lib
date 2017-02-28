@@ -62,7 +62,8 @@ public abstract class BaseActivity<T extends IView, R extends AbstractViewModel<
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModeHelper.performBinding(this);
+
+        getmViewModeHelper().performBinding(this);
         binding = getBinding();
         viewModel = getViewModel();
     }
@@ -213,7 +214,7 @@ Log.d("error", e.getMessage());
     @NotNull
     public B getBinding() {
         try {
-            return (B) mViewModeHelper.getBinding();
+            return (B) getmViewModeHelper().getBinding();
         } catch (ClassCastException ex) {
             throw new IllegalStateException("Method getViewModelBindingConfig() has to return same " +
                     "ViewDataBinding type as it is set to base Fragment");

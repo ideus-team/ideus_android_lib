@@ -12,6 +12,7 @@ import android.widget.EditText;
 import java.util.ArrayList;
 import java.util.List;
 
+import biz.ideus.ideuslibexample.SampleApplication;
 import biz.ideus.ideuslibexample.adapters.StoriesAdapter;
 import biz.ideus.ideuslibexample.data.local.BoardRequeryApi;
 import biz.ideus.ideuslibexample.data.remote.network_change.NetworkChangeReceiver;
@@ -25,9 +26,7 @@ import biz.ideus.ideuslibexample.network.response.CreateBoardStoryResponse;
 import biz.ideus.ideuslibexample.network.response.GetBoardStoriesResponse;
 import biz.ideus.ideuslibexample.network.response.entity_model.BoardEntity;
 import biz.ideus.ideuslibexample.rx_buses.RxBusNetworkConnected;
-import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.board_stories_screen.BoardStoriesVMListener;
-import biz.ideus.ideuslibexample.ui.board_stories_screen.BoardStoriesView;
 import biz.ideus.ideuslibexample.ui.boardview.BoardView;
 import biz.ideus.ideuslibexample.ui.common.toolbar.AbstractViewModelToolbar;
 import biz.ideus.ideuslibexample.utils.Utils;
@@ -101,12 +100,10 @@ public class BoardStoriesVM extends AbstractViewModelToolbar<BoardStoriesView>
     }
 
     private void refreshBoardViewData(List<StoryVM> storyVMList) {
-        if (getView()!=null) {
-            getView().getBoardView().clearBoard();
-            for (StoryVM storyModel: storyVMList) {
-                //getView().getBoardView().addColumnList(new BoardStoryAdapter(storyModel.), null, false );
-                //ItemAdapter(mItemArray, R.layout.grid_item, R.id.item_layout, true);
-            }
+        getViewOptional().getBoardView().clearBoard();
+        for (StoryVM storyModel : storyVMList) {
+            //getView().getBoardView().addColumnList(new BoardStoryAdapter(storyModel.), null, false );
+            //ItemAdapter(mItemArray, R.layout.grid_item, R.id.item_layout, true);
         }
     }
 
@@ -126,7 +123,7 @@ public class BoardStoriesVM extends AbstractViewModelToolbar<BoardStoriesView>
     public void onBindView(@NonNull BoardStoriesView view) {
         super.onBindView(view);
         if(boardEntity.getIdent() == null ) {
-            boardEntity = getBoardFormDb(((BoardStoriesActivity) context).getBoardID());
+            //boardEntity = getBoardFormDb(((BoardStoriesActivity) context).getBoardID());
             getBoardStories(boardEntity.getIdent());
         }
     }
@@ -135,7 +132,7 @@ public class BoardStoriesVM extends AbstractViewModelToolbar<BoardStoriesView>
     @Override
     public void onBackPressed() {
         if (!isVisibleETName.get()) {
-            ((BoardStoriesActivity) context).finish();
+          //  ((BoardStoriesActivity) context).finish();
         } else {
             makeCreateStoryBtnDefault();
         }
@@ -154,7 +151,7 @@ public class BoardStoriesVM extends AbstractViewModelToolbar<BoardStoriesView>
     private void makeCreateStoryBtnDefault() {
         isVisibleETName.set(false);
         storyName.set("");
-        ((BaseActivity) context).hideKeyboard();
+       // ((BaseActivity) context).hideKeyboard();
     }
 
     @Override
@@ -195,18 +192,18 @@ public class BoardStoriesVM extends AbstractViewModelToolbar<BoardStoriesView>
 
     @Override
     public void onItemDragStarted(int column, int row) {
-        Utils.toast(context, "onItemDragStarted: Start - column: " + column + " row: " + row);
+        Utils.toast(SampleApplication.getInstance(), "onItemDragStarted: Start - column: " + column + " row: " + row);
         //Toast.makeText(mBoardView.getContext(), "Start - column: " + column + " row: " + row, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onItemChangedColumn(int oldColumn, int newColumn) {
-        Utils.toast(context, "onItemChangedColumn: oldColumn: " + oldColumn + " newColumn: " + newColumn);
+        Utils.toast(SampleApplication.getInstance(), "onItemChangedColumn: oldColumn: " + oldColumn + " newColumn: " + newColumn);
     }
 
     @Override
     public void onItemDragEnded(int fromColumn, int fromRow, int toColumn, int toRow) {
-        Utils.toast(context, "onItemDragEnded: fromColumn: " + fromColumn + " fromRow: " + fromRow  + " toColumn: " + toColumn  + " toRow: " + toRow);
+        Utils.toast(SampleApplication.getInstance(), "onItemDragEnded: fromColumn: " + fromColumn + " fromRow: " + fromRow  + " toColumn: " + toColumn  + " toRow: " + toRow);
     }
 
 }

@@ -3,7 +3,7 @@ package biz.ideus.ideuslib.mvvm_lifecycle.binding;
 import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-
+import biz.ideus.ideuslib.BR;
 
 
 /**
@@ -39,9 +39,9 @@ public class ViewModelBindingConfig {
      *
      * param layoutResource Layout resource ID
      */
-//    public ViewModelBindingConfig(@LayoutRes int layoutResource, @NonNull Context context) {
-//        this(layoutResource, BR.viewModel, context);
-//    }
+    public ViewModelBindingConfig(@LayoutRes int layoutResource, @NonNull Context context) {
+        this(layoutResource, BR.viewModel, context);
+    }
 
     @LayoutRes
     public int getLayoutResource() {

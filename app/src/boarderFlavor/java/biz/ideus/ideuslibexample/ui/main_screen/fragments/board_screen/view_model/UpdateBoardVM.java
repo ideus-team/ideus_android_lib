@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import biz.ideus.ideuslibexample.R;
+import biz.ideus.ideuslibexample.SampleApplication;
 import biz.ideus.ideuslibexample.network.request.UpdateBoardRequest;
 import biz.ideus.ideuslibexample.network.response.entity_model.BoardEntity;
 import biz.ideus.ideuslibexample.rx_buses.RxBoardCommandEvent;
@@ -44,7 +45,7 @@ public class UpdateBoardVM extends MainBoardVM implements MainBoardVM.OnClickAct
     @Override
     public void onBindView(@NonNull BoardMainView view) {
         super.onBindView(view);
-        actionButtonText.set(context.getString(R.string.update_board));
+        actionButtonText.set(SampleApplication.getInstance().getString(R.string.update_board));
     }
 
 
@@ -53,7 +54,7 @@ public class UpdateBoardVM extends MainBoardVM implements MainBoardVM.OnClickAct
             RxBoardCommandEvent.instanceOf().setRxBoardCommandEvent( new BoardCommandWrapper(UPDATE_BOARD, boardName.get()));
             webSocketClient.sendMessage(new UpdateBoardRequest(boardName.get(), updateBoardEntity.getIdent()));
         } else {
-            Utils.toast(context, context.getString(R.string.name_is_empty));
+            Utils.toast(SampleApplication.getInstance(), SampleApplication.getInstance().getString(R.string.name_is_empty));
         }
     }
 
@@ -64,6 +65,6 @@ public class UpdateBoardVM extends MainBoardVM implements MainBoardVM.OnClickAct
 
     @Override
     public String getToolbarTitle() {
-        return context.getString(R.string.update_board);
+        return SampleApplication.getInstance().getString(R.string.update_board);
     }
 }
