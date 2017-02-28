@@ -17,15 +17,14 @@ import biz.ideus.ideuslibexample.adapters.BoardsAdapter;
 import biz.ideus.ideuslibexample.data.local.BoardRequeryApi;
 import biz.ideus.ideuslibexample.data.remote.network_change.NetworkChangeReceiver;
 import biz.ideus.ideuslibexample.data.remote.network_change.NetworkChangeSubscriber;
-import biz.ideus.ideuslibexample.data.remote.socket.SocketResponseListener;
-import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.SocketAuthorisedResponse;
+import biz.ideus.ideuslibexample.data.remote.socket.SocketPlay;
+import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.data.SocketAutorisedData;
 import biz.ideus.ideuslibexample.enums.BoardClickActionTag;
 import biz.ideus.ideuslibexample.network.request.CreateBoardRequest;
 import biz.ideus.ideuslibexample.network.request.GetBoardListRequest;
 import biz.ideus.ideuslibexample.network.request.UpdateBoardRequest;
-import biz.ideus.ideuslibexample.network.response.CreateBoardResponse;
-import biz.ideus.ideuslibexample.network.response.GetBoardsResponse;
-import biz.ideus.ideuslibexample.network.response.UpdateBoardResponse;
+import biz.ideus.ideuslibexample.network.response.data.BoardStoryData;
+import biz.ideus.ideuslibexample.network.response.data.StoryData;
 import biz.ideus.ideuslibexample.network.response.entity_model.BoardEntity;
 import biz.ideus.ideuslibexample.rx_buses.RxBoardCommandEvent;
 import biz.ideus.ideuslibexample.rx_buses.RxBusNetworkConnected;
@@ -36,7 +35,6 @@ import biz.ideus.ideuslibexample.ui.main_screen.fragments.board_screen.fragments
 import biz.ideus.ideuslibexample.ui.main_screen.fragments.board_screen.fragments.UpdateBoardFragment;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.utils.Constants;
-import biz.ideus.ideuslibexample.utils.Utils;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
@@ -50,7 +48,9 @@ import static biz.ideus.ideuslibexample.utils.BoardAppConstants.BOARD_ID;
  * Created by blackmamba on 07.02.17.
  */
 
-public class MainActivityVM extends AbstractMainActivityVM implements BoardsAdapter.OnSelectClickListener {
+public class MainActivityVM extends AbstractMainActivityVM
+        implements BoardsAdapter.OnSelectClickListener
+        , SocketPlay.MainScreen {
 
     private List<BoardEntity> boardsEntityList = new ArrayList<>();
     private BoardsAdapter adapter;
@@ -60,6 +60,21 @@ public class MainActivityVM extends AbstractMainActivityVM implements BoardsAdap
 
     public static BoardRequeryApi boardRequeryApi;
 
+    @Override
+    public void gotData(BoardStoryData data) {
+        Log.d("got data", "GetBoardStoriesResponse");
+    }
+
+    @Override
+    public void gotData(SocketAutorisedData data) {
+        Log.d("got data", "SocketAuthorisedResponse");
+        getBoards();
+    }
+
+    @Override
+    public void gotData(StoryData data) {
+        Log.d("got data", "CreateBoardStoryResponse");
+    }
 
     public void setAdapter(BoardsAdapter adapter) {
         this.adapter = adapter;
@@ -82,49 +97,51 @@ public class MainActivityVM extends AbstractMainActivityVM implements BoardsAdap
 
 
     private void initSocketlisteners() {
-        webSocketClient.addResponseListener(this, new SocketResponseListener<SocketAuthorisedResponse>(SocketAuthorisedResponse.class) {
-            @Override
-            public void onGotResponseData(SocketAuthorisedResponse data) {
-                getBoards();
-            }
-        });
+        webSocketClient.addResponseListener(this);
 
-        webSocketClient.addResponseListener(this, new SocketResponseListener<GetBoardsResponse>(GetBoardsResponse.class) {
-            @Override
-            public void onGotResponseData(GetBoardsResponse data) {
-                boardRequeryApi.storeBoardList(data.getData().getBoardsEntitysList())
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(boardEntities -> {
-                            boardsEntityList = (ArrayList<BoardEntity>) boardEntities;
-                            adapter.setBoardEntities(boardsEntityList);
-                        });
-            }
-        });
-
-        webSocketClient.addResponseListener(this, new SocketResponseListener<UpdateBoardResponse>(UpdateBoardResponse.class) {
-            @Override
-            public void onGotResponseData(UpdateBoardResponse data) {
-                boardRequeryApi.storeBoard(data.getData().getBoardEntity())
-                        .subscribe(boardEntities -> {
-                            ((MainActivity) context).onBackPressed();
-                            Utils.toast(context, context.getString(R.string.board_updated));
-                            adapter.updateBoardInList(boardEntities);
-                        });
-            }
-        });
-
-        webSocketClient.addResponseListener(this, new SocketResponseListener<CreateBoardResponse>(CreateBoardResponse.class) {
-            @Override
-            public void onGotResponseData(CreateBoardResponse data) {
-                boardRequeryApi.storeBoard(data.getData().getBoardEntity())
-                        .subscribe(boardEntity -> {
-                            ((MainActivity) context).onBackPressed();
-                            Utils.toast(context, context.getString(R.string.board_created));
-                            adapter.setNewBoardToList(boardEntity);
-                        });
-            }
-        });
+//        webSocketClient.addResponseListener(this, new SocketResponseListener<SocketAuthorisedResponse>(SocketAuthorisedResponse.class) {
+//            @Override
+//            public void onGotResponseData(SocketAuthorisedResponse data) {
+//                getBoards();
+//            }
+//        });
+//
+//        webSocketClient.addResponseListener(this, new SocketResponseListener<GetBoardsResponse>(GetBoardsResponse.class) {
+//            @Override
+//            public void onGotResponseData(GetBoardsResponse data) {
+//                boardRequeryApi.storeBoardList(data.getData().getBoardsEntitysList())
+//                        .subscribeOn(Schedulers.io())
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribe(boardEntities -> {
+//                            boardsEntityList = (ArrayList<BoardEntity>) boardEntities;
+//                            adapter.setBoardEntities(boardsEntityList);
+//                        });
+//            }
+//        });
+//
+//        webSocketClient.addResponseListener(this, new SocketResponseListener<UpdateBoardResponse>(UpdateBoardResponse.class) {
+//            @Override
+//            public void onGotResponseData(UpdateBoardResponse data) {
+//                boardRequeryApi.storeBoard(data.getData().getBoardEntity())
+//                        .subscribe(boardEntities -> {
+//                            ((MainActivity) context).onBackPressed();
+//                            Utils.toast(context, context.getString(R.string.board_updated));
+//                            adapter.updateBoardInList(boardEntities);
+//                        });
+//            }
+//        });
+//
+//        webSocketClient.addResponseListener(this, new SocketResponseListener<CreateBoardResponse>(CreateBoardResponse.class) {
+//            @Override
+//            public void onGotResponseData(CreateBoardResponse data) {
+//                boardRequeryApi.storeBoard(data.getData().getBoardEntity())
+//                        .subscribe(boardEntity -> {
+//                            ((MainActivity) context).onBackPressed();
+//                            Utils.toast(context, context.getString(R.string.board_created));
+//                            adapter.setNewBoardToList(boardEntity);
+//                        });
+//            }
+//        });
     }
 
     private void getBoardListFromDB() {

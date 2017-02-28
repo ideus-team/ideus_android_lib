@@ -3,10 +3,12 @@ package biz.ideus.ideuslibexample.data.remote.socket;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -18,7 +20,9 @@ import biz.ideus.ideuslibexample.data.DialogStore;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.AuthorizeChatRequestSocket;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.RequestSocketParams;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.SocketRequestBuilder;
+import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.DataAdapter;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.SocketBaseResponse;
+import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.SocketCommonResponse;
 import biz.ideus.ideuslibexample.utils.JSONUtils;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -42,6 +46,10 @@ public abstract class AbsWebSocketClient implements WebSocketListener {
     private ExecutorService writeExecutor;
     private WebSocket myWebSocket = null;
     private boolean isConnect = false;
+    public static Gson gson = new GsonBuilder()
+            .registerTypeAdapter(SocketCommonResponse.class, new DataAdapter())
+            .create();
+
 
 
     private List<ResponseDataKeeperModel> responseListeners = new ArrayList<>();
@@ -49,6 +57,7 @@ public abstract class AbsWebSocketClient implements WebSocketListener {
     private void handleJson(SocketResponseListener responseListener, String json) throws JSONException {
 
         SocketBaseResponse socketBaseResponse = ((SocketBaseResponse) new Gson().fromJson(json, responseListener.getResponseClass()));
+        //SocketBaseResponse socketBaseResponse = ((SocketBaseResponse) new Gson().fromJson(json, responseListener.response.getClass()));
         Observable.just(socketBaseResponse)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -65,10 +74,14 @@ public abstract class AbsWebSocketClient implements WebSocketListener {
      * Method for adding response listeners. May multiply called.
      *
      * @param dependencyObject for link response listener with activity, or fragment, or view model. (Usually pass 'this')
-     * @param socketResponseListener response listener (what to do when we got response from server)
      */
-    public void addResponseListener(Object dependencyObject, SocketResponseListener<?> socketResponseListener) {
-        responseListeners.add(new ResponseDataKeeperModel(dependencyObject, socketResponseListener));
+     //param socketResponseListener response listener (what to do when we got response from server)
+//    public void addResponseListener(Object dependencyObject, SocketResponseListener<?> socketResponseListener) {
+//        responseListeners.add(new ResponseDataKeeperModel(dependencyObject, socketResponseListener));
+//    }
+
+    public void addResponseListener(Object dependencyObject) {
+        responseListeners.add(new ResponseDataKeeperModel(dependencyObject));
     }
 
     /**
@@ -188,10 +201,17 @@ public abstract class AbsWebSocketClient implements WebSocketListener {
         Log.d("json", json);
 
         if (message.contentType() == TEXT && JSONUtils.isJSONValid(json)) {
+            SocketCommonResponse socketCommonResponse = gson.fromJson(json, SocketCommonResponse.class);
 
             for (ResponseDataKeeperModel responseDataKeeperModel : responseListeners) {
+                Object callbackListener = responseDataKeeperModel.getLinkedObject();
                 try {
-                    handleJson(responseDataKeeperModel.getSocketResponseListener(), json);
+                    //responseDataKeeperModel.getLinkedObject() instanceof SocketPlay.BoardStory
+                    Class c = socketCommonResponse.getData().getClass();
+                    Method m = callbackListener.getClass().getDeclaredMethod("gotData", c);
+                    m.invoke(callbackListener, socketCommonResponse.getData());
+                    //SocketPlay.class.getMethod("gotIt", GetBoardStoriesResponse.class).
+                //    handleJson(responseDataKeeperModel.getSocketResponseListener(), json);
                     writeExecutor.shutdown();
                 } catch (Exception ex) {
                     writeExecutor.shutdown();
@@ -238,17 +258,22 @@ public abstract class AbsWebSocketClient implements WebSocketListener {
 
     private class ResponseDataKeeperModel {
 
-        ResponseDataKeeperModel(Object linkedObject, SocketResponseListener<?> socketResponseListener) {
+//        ResponseDataKeeperModel(Object linkedObject, SocketResponseListener<?> socketResponseListener) {
+//            this.linkedObject = linkedObject;
+//            this.socketResponseListener = socketResponseListener;
+//        }
+
+
+        public ResponseDataKeeperModel(Object linkedObject) {
             this.linkedObject = linkedObject;
-            this.socketResponseListener = socketResponseListener;
         }
 
         Object linkedObject; // for keep link to father class. For identity when we want to remove listeners.
-        SocketResponseListener<?> socketResponseListener;
+        //SocketResponseListener<?> socketResponseListener;
 
-        public SocketResponseListener<?> getSocketResponseListener() {
-            return socketResponseListener;
-        }
+//        public SocketResponseListener<?> getSocketResponseListener() {
+//            return socketResponseListener;
+//        }
 
         public Object getLinkedObject() {
             return linkedObject;
