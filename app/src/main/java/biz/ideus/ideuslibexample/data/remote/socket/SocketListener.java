@@ -1,6 +1,7 @@
 package biz.ideus.ideuslibexample.data.remote.socket;
 
 import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.data.SocketAutorisedData;
+import biz.ideus.ideuslibexample.network.response.data.BoardData;
 import biz.ideus.ideuslibexample.network.response.data.BoardStoryData;
 import biz.ideus.ideuslibexample.network.response.data.GetBoardsListData;
 import biz.ideus.ideuslibexample.network.response.data.StoryData;
@@ -19,6 +20,8 @@ public interface SocketListener {
     interface MainScreen {
         void authorized(SocketAutorisedData data);
         void boards(GetBoardsListData data);
+        void board_updated(BoardData data);
+        void board_created(StoryData data);
         void board_list_created(StoryData data);
     }
 }

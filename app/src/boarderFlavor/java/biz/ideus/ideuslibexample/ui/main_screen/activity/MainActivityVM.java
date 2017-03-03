@@ -23,6 +23,7 @@ import biz.ideus.ideuslibexample.enums.BoardClickActionTag;
 import biz.ideus.ideuslibexample.network.request.CreateBoardRequest;
 import biz.ideus.ideuslibexample.network.request.GetBoardListRequest;
 import biz.ideus.ideuslibexample.network.request.UpdateBoardRequest;
+import biz.ideus.ideuslibexample.network.response.data.BoardData;
 import biz.ideus.ideuslibexample.network.response.data.GetBoardsListData;
 import biz.ideus.ideuslibexample.network.response.data.StoryData;
 import biz.ideus.ideuslibexample.network.response.entity_model.BoardEntity;
@@ -76,6 +77,15 @@ public class MainActivityVM extends AbstractMainActivityVM
 
     }
 
+    @Override
+    public void board_updated(BoardData data) {
+
+    }
+
+    @Override
+    public void board_created(StoryData data) {
+
+    }
 
     public void setAdapter(BoardsAdapter adapter) {
         this.adapter = adapter;
@@ -99,6 +109,7 @@ public class MainActivityVM extends AbstractMainActivityVM
 
     private void initSocketlisteners() {
         webSocketClient.addResponseListener(this);
+
 
 //        webSocketClient.addResponseListener(this, new SocketResponseListener<SocketAuthorisedResponse>(SocketAuthorisedResponse.class) {
 //            @Override
