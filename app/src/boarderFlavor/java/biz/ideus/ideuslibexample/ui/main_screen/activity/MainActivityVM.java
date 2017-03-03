@@ -25,7 +25,6 @@ import biz.ideus.ideuslibexample.network.request.GetBoardListRequest;
 import biz.ideus.ideuslibexample.network.request.UpdateBoardRequest;
 import biz.ideus.ideuslibexample.network.response.data.BoardData;
 import biz.ideus.ideuslibexample.network.response.data.GetBoardsListData;
-import biz.ideus.ideuslibexample.network.response.data.StoryData;
 import biz.ideus.ideuslibexample.network.response.entity_model.BoardEntity;
 import biz.ideus.ideuslibexample.rx_buses.RxBoardCommandEvent;
 import biz.ideus.ideuslibexample.rx_buses.RxBusNetworkConnected;
@@ -73,18 +72,18 @@ public class MainActivityVM extends AbstractMainActivityVM
     }
 
     @Override
-    public void board_list_created(StoryData data) {
-
+    public void board_list_created(GetBoardsListData data) {
+        adapter.setBoardEntities(data.getBoardsEntitysList());
     }
 
     @Override
     public void board_updated(BoardData data) {
-
+        adapter.updateBoardInList(data.getBoardEntity());
     }
 
     @Override
-    public void board_created(StoryData data) {
-
+    public void board_created(BoardData data) {
+        adapter.setNewBoardToList(data.getBoardEntity());
     }
 
     public void setAdapter(BoardsAdapter adapter) {

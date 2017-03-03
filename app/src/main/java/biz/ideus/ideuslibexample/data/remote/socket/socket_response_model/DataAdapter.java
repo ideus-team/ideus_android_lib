@@ -11,6 +11,7 @@ import java.lang.reflect.Type;
 import biz.ideus.ideuslib.Utils.JsonUtils;
 import biz.ideus.ideuslibexample.data.remote.socket.AbsWebSocketClient;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.data.SocketAutorisedData;
+import biz.ideus.ideuslibexample.network.response.data.BoardData;
 import biz.ideus.ideuslibexample.network.response.data.BoardStoryData;
 import biz.ideus.ideuslibexample.network.response.data.GetBoardsListData;
 import biz.ideus.ideuslibexample.network.response.data.StoryData;
@@ -27,7 +28,7 @@ public class DataAdapter implements JsonDeserializer<SocketCommonResponse> {
         String command = JsonUtils.getString(root, "command");
         result.setCommandFromServer(command);
         switch (command) {
-            case "board_created" : result.setData(AbsWebSocketClient.gson.fromJson(root.getAsJsonObject("data"), BoardStoryData.class));
+            case "board_created" : result.setData(AbsWebSocketClient.gson.fromJson(root.getAsJsonObject("data"), BoardData.class));
                 break;
             case "authorized" : result.setData(AbsWebSocketClient.gson.fromJson(root.getAsJsonObject("data"), SocketAutorisedData.class));
                 break;
@@ -35,13 +36,13 @@ public class DataAdapter implements JsonDeserializer<SocketCommonResponse> {
                 break;
             case "board_found" : result.setData(AbsWebSocketClient.gson.fromJson(root.getAsJsonObject("data"), BoardStoryData.class));
                 break;
-            case "board_updated" : result.setData(AbsWebSocketClient.gson.fromJson(root.getAsJsonObject("data"), BoardStoryData.class));
+            case "board_updated" : result.setData(AbsWebSocketClient.gson.fromJson(root.getAsJsonObject("data"), BoardData.class));
                 break;
             case "board_list_deleted" :
                 break;
             case "boards" : result.setData(AbsWebSocketClient.gson.fromJson(root.getAsJsonObject("data"), GetBoardsListData.class));
                 break;
-            case "board_list_updated" : result.setData(AbsWebSocketClient.gson.fromJson(root.getAsJsonObject("data"), BoardStoryData.class));
+            case "board_list_updated" : result.setData(AbsWebSocketClient.gson.fromJson(root.getAsJsonObject("data"), StoryData.class));
                 break;
 
         }

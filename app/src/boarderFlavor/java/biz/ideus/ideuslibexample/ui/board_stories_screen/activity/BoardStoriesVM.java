@@ -86,6 +86,10 @@ public class BoardStoriesVM extends AbstractViewModelToolbar<BoardStoriesView>
 
     }
 
+    public void onFabClick(View v){
+        Utils.toast(SampleApplication.getInstance(), "FAP");
+    }
+
     private void initSocketlisteners() {
 //
 //        webSocketClient.addResponseListener(this, new SocketResponseListener<SocketAuthorisedResponse>(SocketAuthorisedResponse.class) {

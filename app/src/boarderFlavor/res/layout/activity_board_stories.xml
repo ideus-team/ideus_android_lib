@@ -12,7 +12,7 @@
             type="biz.ideus.ideuslibexample.ui.board_stories_screen.activity.BoardStoriesVM" />
     </data>
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
@@ -24,7 +24,19 @@
             android:layout_height="match_parent">
 
         </biz.ideus.ideuslibexample.ui.boardview.BoardView>
-    </FrameLayout>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_add_board"
+            android:onClick="@{viewModel::onFabClick}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="20dp"
+            android:src="@drawable/ic_plus_symbol"
+            app:backgroundTint="@color/color_main"
+            bind:fabSize="normal" />
+    </RelativeLayout>
     <!--<RelativeLayout-->
         <!--android:id="@+id/relativeLayout2"-->
         <!--android:layout_width="match_parent"-->
