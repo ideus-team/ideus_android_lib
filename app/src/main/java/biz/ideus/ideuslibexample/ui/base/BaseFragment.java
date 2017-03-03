@@ -23,7 +23,7 @@ import android.view.ViewGroup;
 
 import com.squareup.leakcanary.RefWatcher;
 
-import org.jetbrains.annotations.NotNull;
+//import org.jetbrains.annotations.NotNull;
 
 import biz.ideus.ideuslib.mvvm_lifecycle.AbstractViewModel;
 import biz.ideus.ideuslib.mvvm_lifecycle.IView;
@@ -85,7 +85,7 @@ public abstract class BaseFragment<T extends IView, R extends AbstractViewModel<
     }
 
     @SuppressWarnings("unused")
-    @NotNull
+   // @NotNull
     public B getBinding() {
         try {
             return (B) getViewModelHelper().getBinding();

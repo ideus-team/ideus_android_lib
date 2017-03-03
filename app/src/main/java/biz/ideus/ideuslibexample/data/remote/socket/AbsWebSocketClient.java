@@ -206,11 +206,11 @@ public abstract class AbsWebSocketClient implements WebSocketListener {
             for (ResponseDataKeeperModel responseDataKeeperModel : responseListeners) {
                 Object callbackListener = responseDataKeeperModel.getLinkedObject();
                 try {
-                    //responseDataKeeperModel.getLinkedObject() instanceof SocketPlay.BoardStory
+                    //responseDataKeeperModel.getLinkedObject() instanceof SocketListener.BoardStory
                     Class c = socketCommonResponse.getData().getClass();
-                    Method m = callbackListener.getClass().getDeclaredMethod("gotData", c);
+                    Method m = callbackListener.getClass().getDeclaredMethod(socketCommonResponse.getCommandFromServer(), c);
                     m.invoke(callbackListener, socketCommonResponse.getData());
-                    //SocketPlay.class.getMethod("gotIt", GetBoardStoriesResponse.class).
+                    //SocketListener.class.getMethod("gotIt", GetBoardStoriesResponse.class).
                 //    handleJson(responseDataKeeperModel.getSocketResponseListener(), json);
                     writeExecutor.shutdown();
                 } catch (Exception ex) {

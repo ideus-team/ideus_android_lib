@@ -5,7 +5,6 @@ import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -18,17 +17,11 @@ import biz.ideus.ideuslibexample.adapters.StoriesAdapter;
 import biz.ideus.ideuslibexample.data.local.BoardRequeryApi;
 import biz.ideus.ideuslibexample.data.remote.network_change.NetworkChangeReceiver;
 import biz.ideus.ideuslibexample.data.remote.network_change.NetworkChangeSubscriber;
-import biz.ideus.ideuslibexample.data.remote.socket.SocketPlay;
-import biz.ideus.ideuslibexample.data.remote.socket.SocketResponseListener;
-import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.SocketAuthorisedResponse;
-import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.data.SocketAutorisedData;
+import biz.ideus.ideuslibexample.data.remote.socket.SocketListener;
 import biz.ideus.ideuslibexample.network.WebSocketClient;
 import biz.ideus.ideuslibexample.network.request.CreateBoardStoryRequest;
 import biz.ideus.ideuslibexample.network.request.GetBoardStoriesRequest;
-import biz.ideus.ideuslibexample.network.response.CreateBoardStoryResponse;
-import biz.ideus.ideuslibexample.network.response.GetBoardStoriesResponse;
 import biz.ideus.ideuslibexample.network.response.data.BoardStoryData;
-import biz.ideus.ideuslibexample.network.response.data.StoryData;
 import biz.ideus.ideuslibexample.network.response.entity_model.BoardEntity;
 import biz.ideus.ideuslibexample.rx_buses.RxBusNetworkConnected;
 import biz.ideus.ideuslibexample.ui.board_stories_screen.BoardStoriesVMListener;
@@ -43,7 +36,7 @@ import rx.Subscription;
 
 public class BoardStoriesVM extends AbstractViewModelToolbar<BoardStoriesView>
         implements BoardStoriesVMListener, BoardView.BoardListener
-        , SocketPlay.BoardStory
+        , SocketListener.BoardStory
 {
 
     private List<StoryVM> storyVMList = new ArrayList<>();
@@ -78,48 +71,49 @@ public class BoardStoriesVM extends AbstractViewModelToolbar<BoardStoriesView>
 
     }
 
+    @Override
+    public void board_created(BoardStoryData data) {
+
+    }
+
+    @Override
+    public void board_found(BoardStoryData data) {
+
+    }
+
+    @Override
+    public void board_updated(BoardStoryData data) {
+
+    }
+
     private void initSocketlisteners() {
-
-        webSocketClient.addResponseListener(this, new SocketResponseListener<SocketAuthorisedResponse>(SocketAuthorisedResponse.class) {
-            @Override
-            public void onGotResponseData(SocketAuthorisedResponse data) {
-                getBoardStories(boardEntity.getIdent());
-                //
-            }
-        });
-
-        webSocketClient.addResponseListener(this, new SocketResponseListener<CreateBoardStoryResponse>(CreateBoardStoryResponse.class) {
-            @Override
-            public void onGotResponseData(CreateBoardStoryResponse data) {
-            //    adapter.setNewStoryModel(data.getData().getStoryVM());
-                makeCreateStoryBtnDefault();
-            }
-        });
-
-        webSocketClient.addResponseListener(this, new SocketResponseListener<GetBoardStoriesResponse>(GetBoardStoriesResponse.class) {
-            @Override
-            public void onGotResponseData(GetBoardStoriesResponse data) {
-                storyVMList = data.getData().getBoardModel().getStoryVMList();
-               // adapter.setStoryModelList(storyVMList);
-                refreshBoardViewData(storyVMList);
-            }
-        });
+//
+//        webSocketClient.addResponseListener(this, new SocketResponseListener<SocketAuthorisedResponse>(SocketAuthorisedResponse.class) {
+//            @Override
+//            public void onGotResponseData(SocketAuthorisedResponse data) {
+//                getBoardStories(boardEntity.getIdent());
+//                //
+//            }
+//        });
+//
+//        webSocketClient.addResponseListener(this, new SocketResponseListener<CreateBoardStoryResponse>(CreateBoardStoryResponse.class) {
+//            @Override
+//            public void onGotResponseData(CreateBoardStoryResponse data) {
+//            //    adapter.setNewStoryModel(data.getData().getStoryVM());
+//                makeCreateStoryBtnDefault();
+//            }
+//        });
+//
+//        webSocketClient.addResponseListener(this, new SocketResponseListener<GetBoardStoriesResponse>(GetBoardStoriesResponse.class) {
+//            @Override
+//            public void onGotResponseData(GetBoardStoriesResponse data) {
+//                storyVMList = data.getData().getBoardModel().getStoryVMList();
+//               // adapter.setStoryModelList(storyVMList);
+//                refreshBoardViewData(storyVMList);
+//            }
+//        });
     }
 
-    @Override
-    public void gotData(BoardStoryData data) {
-        Log.d("got data", "GetBoardStoriesResponse");
-    }
-
-    @Override
-    public void gotData(SocketAutorisedData data) {
-        Log.d("got data", "SocketAuthorisedResponse");
-    }
-
-    @Override
-    public void gotData(StoryData data) {
-        Log.d("got data", "CreateBoardStoryResponse");
-    }
 
     private void refreshBoardViewData(List<StoryVM> storyVMList) {
         getViewOptional().getBoardView().clearBoard();

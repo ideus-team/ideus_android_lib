@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.jetbrains.annotations.NotNull;
+//import org.jetbrains.annotations.NotNull;
 
 import biz.ideus.ideuslib.mvvm_lifecycle.AbstractViewModel;
 import biz.ideus.ideuslib.mvvm_lifecycle.IView;
@@ -37,7 +37,7 @@ public abstract class ViewModelBaseBindingFragment<T extends IView, R extends Ab
     }
 
     @SuppressWarnings("unused")
-    @NotNull
+   // @NotNull
     public B getBinding() {
         try {
             return (B) getViewModelHelper().getBinding();

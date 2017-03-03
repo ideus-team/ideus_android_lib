@@ -17,13 +17,13 @@ import biz.ideus.ideuslibexample.adapters.BoardsAdapter;
 import biz.ideus.ideuslibexample.data.local.BoardRequeryApi;
 import biz.ideus.ideuslibexample.data.remote.network_change.NetworkChangeReceiver;
 import biz.ideus.ideuslibexample.data.remote.network_change.NetworkChangeSubscriber;
-import biz.ideus.ideuslibexample.data.remote.socket.SocketPlay;
+import biz.ideus.ideuslibexample.data.remote.socket.SocketListener;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.data.SocketAutorisedData;
 import biz.ideus.ideuslibexample.enums.BoardClickActionTag;
 import biz.ideus.ideuslibexample.network.request.CreateBoardRequest;
 import biz.ideus.ideuslibexample.network.request.GetBoardListRequest;
 import biz.ideus.ideuslibexample.network.request.UpdateBoardRequest;
-import biz.ideus.ideuslibexample.network.response.data.BoardStoryData;
+import biz.ideus.ideuslibexample.network.response.data.GetBoardsListData;
 import biz.ideus.ideuslibexample.network.response.data.StoryData;
 import biz.ideus.ideuslibexample.network.response.entity_model.BoardEntity;
 import biz.ideus.ideuslibexample.rx_buses.RxBoardCommandEvent;
@@ -50,7 +50,7 @@ import static biz.ideus.ideuslibexample.utils.BoardAppConstants.BOARD_ID;
 
 public class MainActivityVM extends AbstractMainActivityVM
         implements BoardsAdapter.OnSelectClickListener
-        , SocketPlay.MainScreen {
+        , SocketListener.MainScreen {
 
     private List<BoardEntity> boardsEntityList = new ArrayList<>();
     private BoardsAdapter adapter;
@@ -61,20 +61,21 @@ public class MainActivityVM extends AbstractMainActivityVM
     public static BoardRequeryApi boardRequeryApi;
 
     @Override
-    public void gotData(BoardStoryData data) {
-        Log.d("got data", "GetBoardStoriesResponse");
+    public void boards(GetBoardsListData data) {
+
     }
 
     @Override
-    public void gotData(SocketAutorisedData data) {
+    public void authorized(SocketAutorisedData data) {
         Log.d("got data", "SocketAuthorisedResponse");
         getBoards();
     }
 
     @Override
-    public void gotData(StoryData data) {
-        Log.d("got data", "CreateBoardStoryResponse");
+    public void board_list_created(StoryData data) {
+
     }
+
 
     public void setAdapter(BoardsAdapter adapter) {
         this.adapter = adapter;

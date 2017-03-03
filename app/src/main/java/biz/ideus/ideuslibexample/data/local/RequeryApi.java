@@ -19,6 +19,8 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+//import io.requery.query.Result;
+
 /**
  * Created by user on 18.11.2016.
  */
@@ -69,6 +71,8 @@ public class RequeryApi implements IRequeryApi {
     }
 
     public Observable<Result<PeopleEntity>> getPeopleEntity() {
+
+
         return data.select(PeopleEntity.class).get()
                 .toSelfObservable()
                 .subscribeOn(Schedulers.io())

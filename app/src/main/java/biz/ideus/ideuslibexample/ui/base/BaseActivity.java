@@ -18,8 +18,6 @@ import android.view.inputmethod.InputMethodManager;
 import com.orhanobut.hawk.Hawk;
 import com.squareup.leakcanary.RefWatcher;
 
-import org.jetbrains.annotations.NotNull;
-
 import biz.ideus.ideuslib.Utils.NetworkUtil;
 import biz.ideus.ideuslib.dialogs.CustomDialog;
 import biz.ideus.ideuslib.dialogs.DialogParams;
@@ -211,7 +209,7 @@ Log.d("error", e.getMessage());
     }
 
     @SuppressWarnings("unused")
-    @NotNull
+    //@NotNull
     public B getBinding() {
         try {
             return (B) getmViewModeHelper().getBinding();
