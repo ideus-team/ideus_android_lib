@@ -22,6 +22,10 @@ buildscript {
     }
 }
 
+configure(subprojects.findAll {}) {
+    test.onlyIf { false }
+}
+
 allprojects {
     repositories {
         jcenter()
@@ -30,6 +34,10 @@ allprojects {
     }
 }
 
+//project(':app').tasks.withType(Test){
+//    enabled = false
+//}
+//Test.onlyIf { false }
 
 task clean(type: Delete) {
     delete rootProject.buildDir

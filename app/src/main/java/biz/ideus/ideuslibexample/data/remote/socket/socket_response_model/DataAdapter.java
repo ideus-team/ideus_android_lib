@@ -27,6 +27,7 @@ public class DataAdapter implements JsonDeserializer<SocketCommonResponse> {
         SocketCommonResponse result = new SocketCommonResponse();
         String command = JsonUtils.getString(root, "command");
         result.setCommandFromServer(command);
+
         switch (command) {
             case "board_created" : result.setData(AbsWebSocketClient.gson.fromJson(root.getAsJsonObject("data"), BoardData.class));
                 break;

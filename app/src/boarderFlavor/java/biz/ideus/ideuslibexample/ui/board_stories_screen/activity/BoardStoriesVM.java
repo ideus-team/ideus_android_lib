@@ -5,6 +5,7 @@ import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -22,6 +23,7 @@ import biz.ideus.ideuslibexample.network.WebSocketClient;
 import biz.ideus.ideuslibexample.network.request.CreateBoardStoryRequest;
 import biz.ideus.ideuslibexample.network.request.GetBoardStoriesRequest;
 import biz.ideus.ideuslibexample.network.response.data.BoardStoryData;
+import biz.ideus.ideuslibexample.network.response.data.StoryData;
 import biz.ideus.ideuslibexample.network.response.entity_model.BoardEntity;
 import biz.ideus.ideuslibexample.rx_buses.RxBusNetworkConnected;
 import biz.ideus.ideuslibexample.ui.board_stories_screen.BoardStoriesVMListener;
@@ -29,6 +31,8 @@ import biz.ideus.ideuslibexample.ui.boardview.BoardView;
 import biz.ideus.ideuslibexample.ui.common.toolbar.AbstractViewModelToolbar;
 import biz.ideus.ideuslibexample.utils.Utils;
 import rx.Subscription;
+
+import static biz.ideus.ideuslibexample.utils.BoardAppConstants.BOARD_ID;
 
 /**
  * Created by blackmamba on 14.02.17.
@@ -63,6 +67,7 @@ public class BoardStoriesVM extends AbstractViewModelToolbar<BoardStoriesView>
     @Override
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
         super.onCreate(arguments, savedInstanceState);
+        boardEntity.setIdent(arguments.getString(BOARD_ID));
         isVisibleETName.set(false);
         startNetworkSubscription();
         initSocketlisteners();
@@ -72,25 +77,28 @@ public class BoardStoriesVM extends AbstractViewModelToolbar<BoardStoriesView>
     }
 
     @Override
-    public void board_created(BoardStoryData data) {
-
+    public void board_list_created(StoryData data) {
+        Log.d("board_created", data.toString());
     }
 
     @Override
     public void board_found(BoardStoryData data) {
-
+        Log.d("board_found", data.toString());
     }
 
     @Override
-    public void board_updated(BoardStoryData data) {
-
+    public void board_updated(StoryData data) {
+        Log.d("board_updated", data.toString());
     }
 
     public void onFabClick(View v){
         Utils.toast(SampleApplication.getInstance(), "FAP");
+
+        webSocketClient.sendMessage(new CreateBoardStoryRequest("Test1", boardEntity.getIdent()));
     }
 
     private void initSocketlisteners() {
+        webSocketClient.addResponseListener(this);
 //
 //        webSocketClient.addResponseListener(this, new SocketResponseListener<SocketAuthorisedResponse>(SocketAuthorisedResponse.class) {
 //            @Override
