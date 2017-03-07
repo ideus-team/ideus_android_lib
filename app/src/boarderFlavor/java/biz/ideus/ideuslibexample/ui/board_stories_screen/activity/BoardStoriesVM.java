@@ -73,12 +73,11 @@ public class BoardStoriesVM extends AbstractViewModelToolbar<BoardStoriesView>
         initSocketlisteners();
         BoardView boardView ;
         //boardView.addColumnList()
-
     }
 
     @Override
     public void board_list_created(StoryData data) {
-        Log.d("board_created", data.toString());
+        Log.d("board_created", "asdf");
     }
 
     @Override
@@ -99,6 +98,7 @@ public class BoardStoriesVM extends AbstractViewModelToolbar<BoardStoriesView>
 
     private void initSocketlisteners() {
         webSocketClient.addResponseListener(this);
+       // board_list_created(null);
 //
 //        webSocketClient.addResponseListener(this, new SocketResponseListener<SocketAuthorisedResponse>(SocketAuthorisedResponse.class) {
 //            @Override

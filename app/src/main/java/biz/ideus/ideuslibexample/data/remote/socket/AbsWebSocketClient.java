@@ -16,11 +16,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import biz.ideus.ideuslib.dialogs.RxBusShowDialog;
+import biz.ideus.ideuslibexample.adapters.DataAdapter;
 import biz.ideus.ideuslibexample.data.DialogStore;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.AuthorizeChatRequestSocket;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.RequestSocketParams;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.SocketRequestBuilder;
-import biz.ideus.ideuslibexample.adapters.DataAdapter;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.SocketBaseResponse;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.SocketCommonResponse;
 import biz.ideus.ideuslibexample.utils.JSONUtils;
@@ -208,9 +208,12 @@ public abstract class AbsWebSocketClient implements WebSocketListener {
                 try {
                     //responseDataKeeperModel.getLinkedObject() instanceof SocketListener.BoardStory
                     Class c = socketCommonResponse.getData().getClass();
-                    Method m = callbackListener.getClass().getDeclaredMethod(socketCommonResponse.getCommandFromServer(), c);
                     Method[] m2 = callbackListener.getClass().getDeclaredMethods();
+                    Method m = callbackListener.getClass().getDeclaredMethod(socketCommonResponse.getCommandFromServer(), c);
+
                     m.invoke(callbackListener, socketCommonResponse.getData());
+                    //m.invoke(callbackListener, "board_found");
+
                     //SocketListener.class.getMethod("gotIt", GetBoardStoriesResponse.class).
                 //    handleJson(responseDataKeeperModel.getSocketResponseListener(), json);
                     writeExecutor.shutdown();
