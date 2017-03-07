@@ -18,3 +18,9 @@
 -keep interface org.parceler.Parcel
 -keep @org.parceler.Parcel class * { *; }
 -keep class **$$Parcelable { *; }
+-keep class biz.ideus.ideuslibexample.ui.board_stories_screen.activity.BoardStoriesVM {
+    public <methods>;
+}
+-keep class biz.ideus.ideuslibexample.ui.main_screen.activity.MainActivityVM {
+    public <methods>;
+}
