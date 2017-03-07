@@ -5,7 +5,6 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 
 
-
 /**
  * Use this to define a ViewModelBinding Config for a specific screen.
  * <p>

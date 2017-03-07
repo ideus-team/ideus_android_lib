@@ -3,6 +3,7 @@ package biz.ideus.ideuslibexample.ui.boardview;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.databinding.BindingAdapter;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -507,6 +508,12 @@ public class BoardView extends HorizontalScrollView implements AutoScroller.Auto
         mBoardListener = listener;
     }
 
+    @BindingAdapter("bind:itemDragListener")
+    public static void bindBoardListener(BoardView view, BoardListener listener) {
+        view.setBoardListener(listener);
+    }
+
+
     public void setCustomDragItem(DragItem dragItem) {
         DragItem newDragItem;
         if (dragItem != null) {
@@ -610,4 +617,5 @@ public class BoardView extends HorizontalScrollView implements AutoScroller.Auto
             return true;
         }
     }
+
 }

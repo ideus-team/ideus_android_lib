@@ -12,8 +12,14 @@ public abstract class SocketResponseListener<T> {
 
     private Class<T> responseClass;
 
+    T response;
+
     public SocketResponseListener (Class<T> responseClass) {
         this.responseClass = responseClass;
     }
+
+    public SocketResponseListener () {
+    }
+
     protected abstract void onGotResponseData(T data);
 }

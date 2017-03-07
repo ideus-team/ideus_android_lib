@@ -15,7 +15,6 @@ public class StoryModel {
     private String ident;
 
     @SerializedName("name")
-
     private String name;
 
     @SerializedName("cards")

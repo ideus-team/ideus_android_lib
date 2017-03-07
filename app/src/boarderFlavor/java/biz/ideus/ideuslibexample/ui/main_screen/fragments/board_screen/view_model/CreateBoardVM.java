@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import biz.ideus.ideuslibexample.R;
+import biz.ideus.ideuslibexample.SampleApplication;
 import biz.ideus.ideuslibexample.rx_buses.RxBoardCommandEvent;
 import biz.ideus.ideuslibexample.ui.main_screen.BoardCommandWrapper;
 import biz.ideus.ideuslibexample.ui.main_screen.BoardMainView;
@@ -29,14 +30,14 @@ public class CreateBoardVM extends MainBoardVM implements MainBoardVM.OnClickAct
     @Override
     public void onBindView(@NonNull BoardMainView view) {
         super.onBindView(view);
-        actionButtonText.set(context.getString(R.string.create_board));
+        actionButtonText.set(SampleApplication.getInstance().getString(R.string.create_board));
     }
 
     private void createBoard() {
         if (!boardName.get().isEmpty()) {
             RxBoardCommandEvent.instanceOf().setRxBoardCommandEvent(new BoardCommandWrapper(NEW_BOARD, boardName.get()));
         } else {
-            Utils.toast(context, context.getString(R.string.name_is_empty));
+            Utils.toast(SampleApplication.getInstance(), SampleApplication.getInstance().getString(R.string.name_is_empty));
         }
     }
 
@@ -47,7 +48,7 @@ public class CreateBoardVM extends MainBoardVM implements MainBoardVM.OnClickAct
 
     @Override
     public String getToolbarTitle() {
-        return context.getString(R.string.create_board);
+        return SampleApplication.getInstance().getString(R.string.create_board);
     }
 
 }

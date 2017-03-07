@@ -1,19 +1,17 @@
 package biz.ideus.ideuslib.mvvm_lifecycle;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
+import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 
-public abstract class AbstractViewModel<T extends IView>{
-
-public Context context;
+public abstract class AbstractViewModel<T extends IView> {
 
     @Nullable
     private String mUniqueIdentifier;
@@ -21,13 +19,18 @@ public Context context;
     @Nullable
     private T mView;
 
+    @Nullable
+    private final Class<?> mClassType;
+
     private boolean mBindViewWasCalled;
+
+    public AbstractViewModel() {
+        mClassType = ProxyViewHelper.getGenericType(getClass(), IView.class);
+    }
 
     void setUniqueIdentifier(@NonNull final String uniqueIdentifier) {
         mUniqueIdentifier = uniqueIdentifier;
     }
-
-
 
     /**
      *
@@ -62,12 +65,31 @@ public Context context;
     public void onBindView(@NonNull T view) {
         mBindViewWasCalled = true;
         mView = view;
-        context = getView().getViewModelBindingConfig().getContext();
     }
 
+    @CheckResult
     @Nullable
     public T getView() {
         return mView;
+    }
+
+    /**
+     * Alternative to {@link #getView()}. This method will never return a null view - not even in case the current Fragment or
+     * Activity is already destroyed or between orientation change. It will return a dummy
+     * implementation in that case.
+     * @return the View instance which implements {@link T}. It's never null.
+     */
+    @CheckResult
+    @NonNull
+    public T getViewOptional() {
+        if (mView != null) {
+            return mView;
+        } else {
+            if (mClassType == null) {
+                throw new IllegalStateException("Your view must implement IView");
+            }
+            return ProxyViewHelper.init(mClassType);
+        }
     }
 
     @CallSuper
@@ -90,7 +112,6 @@ public Context context;
         if (mView == null && !mBindViewWasCalled) {
             Log.e("AndroidViewModel", this.getClass().getSimpleName() + " - no view associated. You probably did not call setModelView() in your Fragment or Activity");
         }
-
     }
 
     /**
@@ -99,5 +120,6 @@ public Context context;
      */
     @SuppressWarnings("EmptyMethod")
     public void onDestroy() {
+
     }
 }

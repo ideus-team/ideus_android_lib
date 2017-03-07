@@ -5,9 +5,11 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.View;
 
 import biz.ideus.ideuslib.mvvm_lifecycle.AbstractViewModel;
 import biz.ideus.ideuslib.mvvm_lifecycle.IView;
+import biz.ideus.ideuslib.mvvm_lifecycle.ProxyViewHelper;
 import biz.ideus.ideuslib.mvvm_lifecycle.ViewModelHelper;
 import biz.ideus.ideuslib.mvvm_lifecycle.binding.ViewModelBindingConfig;
 
@@ -21,7 +23,14 @@ public abstract class ViewModelBaseFragment<T extends IView, R extends AbstractV
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getViewModelHelper().onCreate(getActivity(), savedInstanceState, getViewModelClass(), getArguments());
+
+        Class<? extends AbstractViewModel<T>> viewModelClass = getViewModelClass();
+        // try to extract the ViewModel class from the implementation
+        if (viewModelClass == null) {
+            //noinspection unchecked
+            viewModelClass = (Class<? extends AbstractViewModel<T>>) ProxyViewHelper.getGenericType(getClass(), AbstractViewModel.class);
+        }
+        getViewModelHelper().onCreate(getActivity(), savedInstanceState, viewModelClass, getArguments());
     }
 
     @CallSuper
@@ -60,7 +69,9 @@ public abstract class ViewModelBaseFragment<T extends IView, R extends AbstractV
     }
 
     @Nullable
-    public abstract Class<R> getViewModelClass();
+    public Class<R> getViewModelClass() {
+        return null;
+    }
 
     /**
      * @see ViewModelHelper#getViewModel()
@@ -88,7 +99,7 @@ public abstract class ViewModelBaseFragment<T extends IView, R extends AbstractV
     }
 
     /**
-     * Call this after your view is ready - usually on the end of {link
+     * Call this after your view is ready - usually on the end of {@link
      * Fragment#onViewCreated(View, Bundle)}
      *
      * @param view view

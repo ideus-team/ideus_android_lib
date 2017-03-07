@@ -19,6 +19,8 @@ import io.requery.sql.Configuration;
 import io.requery.sql.EntityDataStore;
 import io.requery.sql.TableCreationMode;
 
+
+
 /**
  * Created by user on 21.11.2016.
  */

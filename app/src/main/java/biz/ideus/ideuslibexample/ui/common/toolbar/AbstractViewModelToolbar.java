@@ -10,7 +10,7 @@ import android.widget.ProgressBar;
 import biz.ideus.ideuslib.mvvm_lifecycle.AbstractViewModel;
 import biz.ideus.ideuslib.mvvm_lifecycle.IView;
 import biz.ideus.ideuslibexample.R;
-import biz.ideus.ideuslibexample.ui.base.BaseActivity;
+import biz.ideus.ideuslibexample.SampleApplication;
 
 /**
  * Created by user on 02.12.2016.
@@ -31,7 +31,8 @@ public abstract class AbstractViewModelToolbar<T extends IView> extends Abstract
 
     @Override
     public void onClickLeftBtn(View view) {
-        ((BaseActivity) context).onBackPressed();
+        //TODO make interface
+        //((BaseActivity) context).onBackPressed();
     }
 
     @Override
@@ -46,7 +47,7 @@ public abstract class AbstractViewModelToolbar<T extends IView> extends Abstract
 
     @Override
     public Drawable getImageLeftBtn() {
-            return context.getResources().getDrawable(R.drawable.ic_left_arrow);
+            return SampleApplication.getInstance().getResources().getDrawable(R.drawable.ic_left_arrow);
     }
 
     @BindingAdapter("progressColor")

@@ -18,8 +18,6 @@ import android.view.inputmethod.InputMethodManager;
 import com.orhanobut.hawk.Hawk;
 import com.squareup.leakcanary.RefWatcher;
 
-import org.jetbrains.annotations.NotNull;
-
 import biz.ideus.ideuslib.Utils.NetworkUtil;
 import biz.ideus.ideuslib.dialogs.CustomDialog;
 import biz.ideus.ideuslib.dialogs.DialogParams;
@@ -62,7 +60,8 @@ public abstract class BaseActivity<T extends IView, R extends AbstractViewModel<
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModeHelper.performBinding(this);
+
+        getmViewModeHelper().performBinding(this);
         binding = getBinding();
         viewModel = getViewModel();
     }
@@ -210,10 +209,10 @@ Log.d("error", e.getMessage());
     }
 
     @SuppressWarnings("unused")
-    @NotNull
+    //@NotNull
     public B getBinding() {
         try {
-            return (B) mViewModeHelper.getBinding();
+            return (B) getmViewModeHelper().getBinding();
         } catch (ClassCastException ex) {
             throw new IllegalStateException("Method getViewModelBindingConfig() has to return same " +
                     "ViewDataBinding type as it is set to base Fragment");

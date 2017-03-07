@@ -1,16 +1,12 @@
 package biz.ideus.ideuslibexample.ui.main_screen.activity;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
-
-import com.ashokvarma.bottomnavigation.BottomNavigationBar;
-import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 
 import javax.inject.Inject;
 
-import biz.ideus.ideuslib.mvvm_lifecycle.binding.ViewModelBindingConfig;
-import biz.ideus.ideuslibexample.BR;
+import biz.ideus.ideuslib.widget.bottom_navigation.BottomNavigationBar;
+import biz.ideus.ideuslib.widget.bottom_navigation.BottomNavigationItem;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.ui.main_screen.MainFragmentPagerAdapter;
 import biz.ideus.ideuslibexample.utils.Constants;

@@ -7,11 +7,11 @@ buildscript {
 
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.android.tools.build:gradle:2.2.0'
         classpath 'com.google.gms:google-services:3.0.0'
         classpath 'me.tatarka:gradle-retrolambda:3.2.0'
         classpath 'io.fabric.tools:gradle:1.+'
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        //classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'com.jakewharton.hugo:hugo-plugin:1.2.1'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
@@ -22,6 +22,10 @@ buildscript {
     }
 }
 
+configure(subprojects.findAll {}) {
+    test.onlyIf { false }
+}
+
 allprojects {
     repositories {
         jcenter()
@@ -30,6 +34,10 @@ allprojects {
     }
 }
 
+//project(':app').tasks.withType(Test){
+//    enabled = false
+//}
+//Test.onlyIf { false }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
