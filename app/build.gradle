@@ -21,6 +21,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), "$project.rootDir/tools/rules-proguard-debug.pro"
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
@@ -112,6 +113,6 @@ dependencies {
     apply plugin: 'com.google.gms.google-services'
     //    compile 'com.race604.waveloading:library:1.0.1'
      compile project(':ideuslib')
-    compile 'org.reflections:reflections:0.9.10'
+    //compile 'org.reflections:reflections:0.9.10'
 }
 

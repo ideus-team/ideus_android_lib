@@ -20,7 +20,7 @@ import biz.ideus.ideuslibexample.data.DialogStore;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.AuthorizeChatRequestSocket;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.RequestSocketParams;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_request_model.SocketRequestBuilder;
-import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.DataAdapter;
+import biz.ideus.ideuslibexample.adapters.DataAdapter;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.SocketBaseResponse;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.SocketCommonResponse;
 import biz.ideus.ideuslibexample.utils.JSONUtils;

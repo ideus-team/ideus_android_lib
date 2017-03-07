@@ -25,7 +25,7 @@
              />
         <!--app:adapter="@{viewModel.pagerAdapter}"-->
 
-        <com.ashokvarma.bottomnavigation.BottomNavigationBar
+        <biz.ideus.ideuslib.widget.bottom_navigation.BottomNavigationBar
             android:id="@+id/ab_bottom_navigation_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

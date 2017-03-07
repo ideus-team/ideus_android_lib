@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.data.remote.socket;
+package biz.ideus.ideuslibexample.network;
 
 import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.data.SocketAutorisedData;
 import biz.ideus.ideuslibexample.network.response.data.BoardData;

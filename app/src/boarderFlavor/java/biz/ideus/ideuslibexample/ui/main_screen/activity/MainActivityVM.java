@@ -17,7 +17,7 @@ import biz.ideus.ideuslibexample.adapters.BoardsAdapter;
 import biz.ideus.ideuslibexample.data.local.BoardRequeryApi;
 import biz.ideus.ideuslibexample.data.remote.network_change.NetworkChangeReceiver;
 import biz.ideus.ideuslibexample.data.remote.network_change.NetworkChangeSubscriber;
-import biz.ideus.ideuslibexample.data.remote.socket.SocketListener;
+import biz.ideus.ideuslibexample.network.SocketListener;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.data.SocketAutorisedData;
 import biz.ideus.ideuslibexample.enums.BoardClickActionTag;
 import biz.ideus.ideuslibexample.network.request.CreateBoardRequest;

@@ -1,4 +1,4 @@
-package biz.ideus.ideuslibexample.data.remote.socket.socket_response_model;
+package biz.ideus.ideuslibexample.adapters;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -10,6 +10,7 @@ import java.lang.reflect.Type;
 
 import biz.ideus.ideuslib.Utils.JsonUtils;
 import biz.ideus.ideuslibexample.data.remote.socket.AbsWebSocketClient;
+import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.SocketCommonResponse;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.data.SocketAutorisedData;
 import biz.ideus.ideuslibexample.network.response.data.BoardData;
 import biz.ideus.ideuslibexample.network.response.data.BoardStoryData;
