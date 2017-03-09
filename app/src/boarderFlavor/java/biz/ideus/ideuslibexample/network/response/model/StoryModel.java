@@ -4,8 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import biz.ideus.ideuslibexample.ui.board_stories_screen.activity.StoryVM;
-
 /**
  * Created by blackmamba on 16.02.17.
  */
@@ -36,8 +34,8 @@ public class StoryModel {
         this.ident = ident;
     }
 
-    public StoryVM getStoryVM(){
-        return new StoryVM(this);
-    }
+//    public StoryVM getStoryVM(){
+//        return new StoryVM(this);
+//    }
 
 }

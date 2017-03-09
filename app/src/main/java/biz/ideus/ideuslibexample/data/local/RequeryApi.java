@@ -13,7 +13,7 @@ import biz.ideus.ideuslibexample.data.model.response.response_model.PeopleEntity
 import biz.ideus.ideuslibexample.injection.scopes.PerApplication;
 import biz.ideus.ideuslibexample.ui.chat_screen.MessageViewModel;
 import io.requery.Persistable;
-import io.requery.query.Result;
+import io.requery.rx.RxResult;
 import io.requery.rx.SingleEntityStore;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -70,9 +70,7 @@ public class RequeryApi implements IRequeryApi {
         return peopleEntitiesList;
     }
 
-    public Observable<Result<PeopleEntity>> getPeopleEntity() {
-
-
+    public Observable<RxResult<PeopleEntity>> getPeopleEntity() {
         return data.select(PeopleEntity.class).get()
                 .toSelfObservable()
                 .subscribeOn(Schedulers.io())

@@ -6,7 +6,7 @@ import biz.ideus.ideuslibexample.data.model.response.response_model.Autorisation
 import biz.ideus.ideuslibexample.data.model.response.response_model.MessageEntity;
 import biz.ideus.ideuslibexample.data.model.response.response_model.PeopleEntity;
 import biz.ideus.ideuslibexample.ui.chat_screen.MessageViewModel;
-import io.requery.query.Result;
+import io.requery.rx.RxResult;
 import rx.Observable;
 
 /**
@@ -18,7 +18,8 @@ public interface IRequeryApi {
     void storePeopleList(Iterable<PeopleEntity> peopleEntityList);
     void updateAutorisationInfo(AutorisationEntity autorisationEntity);
     List<PeopleEntity> getPeopleEntityList();
-    Observable<Result<PeopleEntity>> getPeopleEntity();
+    //Observable<Result<PeopleEntity>> getPeopleEntity();
+    Observable<RxResult<PeopleEntity>> getPeopleEntity();
 
     Observable<AutorisationEntity> getAutorisationInfo();
     void storeAutorisationInfo(AutorisationEntity autorisationEntity);
