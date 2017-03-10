@@ -15,7 +15,7 @@ public class BoardModel {
     @SerializedName("name")
     private String name;
 
-    @SerializedName("lists")
+    @SerializedName("boardStories")
     private List<StoryModel> stories;
 
     public List<StoryModel> getStories() {

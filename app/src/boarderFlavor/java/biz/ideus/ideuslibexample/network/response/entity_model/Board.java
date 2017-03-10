@@ -15,7 +15,6 @@ import io.requery.Persistable;
 @Entity
 public interface Board extends Observable, Parcelable, Persistable {
 
-
     @Key
     String getIdent();
 

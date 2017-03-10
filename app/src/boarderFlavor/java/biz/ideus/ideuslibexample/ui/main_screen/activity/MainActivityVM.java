@@ -11,8 +11,9 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.orhanobut.hawk.Hawk;
 
+import org.parceler.Parcels;
+
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ import biz.ideus.ideuslibexample.network.request.UpdateBoardRequest;
 import biz.ideus.ideuslibexample.network.response.data.BoardData;
 import biz.ideus.ideuslibexample.network.response.data.GetBoardsListData;
 import biz.ideus.ideuslibexample.network.response.entity_model.BoardEntity;
-import biz.ideus.ideuslibexample.network.response.entity_model.StoryBoard;
+import biz.ideus.ideuslibexample.network.response.entity_model.BoardStories;
 import biz.ideus.ideuslibexample.rx_buses.RxBoardCommandEvent;
 import biz.ideus.ideuslibexample.rx_buses.RxBusNetworkConnected;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
@@ -123,7 +124,7 @@ public class MainActivityVM extends AbstractMainActivityVM
     }
 
     private void startTest() {
-        String s = "{\"lists\": [{\"cards\": [{\"files\": [{\"ident\": \"1\", \"file\": \"http://46.101.254.89/static/uploads/7ffc2f2e-2809-41f9-99b7-77b8d288d23e.jpeg\"}, {\"ident\": \"2\", \"file\": \"http://46.101.254.89/static/uploads/f38aea53-0891-4e1c-978e-b2e2ccba79ee.jpeg\"}], \"color\": \"CCCCCC\", \"ident\": \"11\", \"name\": \"card 1\"}, {\"files\": [], \"color\": \"FFFFFF\", \"ident\": \"13\", \"name\": \"card 3\"}], \"ident\": \"52\", \"name\": \"two\"}, {\"cards\": [{\"files\": [], \"color\": \"CCCCCC\", \"ident\": \"12\", \"name\": \"card 2\"}, {\"files\": [], \"color\": \"CCCCCC\", \"ident\": \"14\", \"name\": \"card 4\"}], \"ident\": \"51\", \"name\": \"one\"}, {\"cards\": [], \"ident\": \"53\", \"name\": \"three\"}], \"ident\": \"1\", \"name\": \"new board name\"}";
+        String s = "{\"boardStories\": [{\"cards\": [{\"files\": [{\"ident\": \"1\", \"file\": \"http://46.101.254.89/static/uploads/7ffc2f2e-2809-41f9-99b7-77b8d288d23e.jpeg\"}, {\"ident\": \"2\", \"file\": \"http://46.101.254.89/static/uploads/f38aea53-0891-4e1c-978e-b2e2ccba79ee.jpeg\"}], \"color\": \"CCCCCC\", \"ident\": \"11\", \"name\": \"card 1\"}, {\"files\": [], \"color\": \"FFFFFF\", \"ident\": \"13\", \"name\": \"card 3\"}], \"ident\": \"52\", \"name\": \"two\"}, {\"cards\": [{\"files\": [], \"color\": \"CCCCCC\", \"ident\": \"12\", \"name\": \"card 2\"}, {\"files\": [], \"color\": \"CCCCCC\", \"ident\": \"14\", \"name\": \"card 4\"}], \"ident\": \"51\", \"name\": \"one\"}, {\"cards\": [], \"ident\": \"53\", \"name\": \"three\"}], \"ident\": \"1\", \"name\": \"new board name\"}";
         SingleEntityStore<Persistable> data1 = requeryApi.getData();
 
 //        BoardStoriesEntity bb;
@@ -131,27 +132,54 @@ public class MainActivityVM extends AbstractMainActivityVM
 //        if (bb == null) {
 //            Log.d("bb", "null");
 //        }
-        StoryBoard event = new StoryBoard();
-        event.setIdent("1");
-        event.setName("qwer");
+//        StoryBoard event = new StoryBoard();
+//        event.setIdent("1");
+//        event.setName("qwer");
        // data1.insert(event).toObservable().subscribe();
 
-        ObjectMapper mapper = new EntityMapper(Models.DEFAULT, data1).configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        StringWriter writer = new StringWriter();
-        try {
-            mapper.writeValue(writer, event);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        String value = writer.toString();
-        Log.d("test", value);
+        BoardStories t2 = data1.select(BoardStories.class).get().firstOrNull();
+    //    Log.d("test", "" + t2.getLists().size());
 
-        StoryBoard en;
+        data1.delete(BoardStories.class).get().value();
+
+        ObjectMapper mapper = new EntityMapper(Models.DEFAULT, data1).configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        //StringWriter writer = new StringWriter();
+//        try {
+//            mapper.writeValue(writer, event);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//        String value = writer.toString();
+//        Log.d("test", value);
+
+        BoardStories en;
         try {
-            en = mapper.readValue(s, StoryBoard.class);
+            en = mapper.readValue(s, BoardStories.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("example", Parcels.wrap(en));
+        BoardStories dest = Parcels.unwrap(bundle.getParcelable("example"));
+        Log.d("test", dest.getLists().size()+"");
+//        Example example = Parcels.unwrap(getIntent().getParcelableExtra("example"));
+
+//
+//        BoardStories res = new BoardStories();
+//        res.getListType();
+//
+//        res.setIdent(en.getIdent());
+//        res.setName(en.getName());
+//        for(Story c : en.getLists()) {
+//            c.setTasks(res);
+//            res.getLists().add(c);
+//        }
+//        data1.insert(res).subscribe();
+        //Log.d("test", en.);
+
+        BoardStories t3 = data1.select(BoardStories.class).get().firstOrNull();
 
         Log.d("test", "234");
         /*
