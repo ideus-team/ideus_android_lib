@@ -8,7 +8,7 @@ import biz.ideus.ideuslib.mvvm_lifecycle.binding.ViewModelBindingConfig;
 import biz.ideus.ideuslibexample.BR;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.databinding.ActivityBoardStoriesBinding;
-import biz.ideus.ideuslibexample.network.response.data.BoardStoryData;
+import biz.ideus.ideuslibexample.network.response.entity_model.BoardStories;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
 import biz.ideus.ideuslibexample.ui.boardview.BoardView;
 
@@ -33,8 +33,9 @@ public class BoardStoriesActivity extends BaseActivity<BoardStoriesView, BoardSt
     }
 
     @Override
-    public void rebuildBoardView(BoardStoryData data) {
-
+    public void rebuildBoardView(BoardStories data) {
+        getBoardView().clearBoard();
+        //getBoardView().addColumnList()
     }
 
     @Override
@@ -53,6 +54,7 @@ public class BoardStoriesActivity extends BaseActivity<BoardStoriesView, BoardSt
     public ViewModelBindingConfig getViewModelBindingConfig() {
         return new ViewModelBindingConfig(R.layout.activity_board_stories, BR.viewModel, this);
     }
+
 }
 
 

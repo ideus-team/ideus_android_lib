@@ -85,6 +85,7 @@ public class BoardStoriesVM extends AbstractViewModelToolbar<BoardStoriesView>
 
     private void refreshBoardView(BoardStories boardStories) {
         Log.d("asdf", boardStories.getName());
+        getViewOptional().rebuildBoardView(boardStories);
     }
 
     @Override

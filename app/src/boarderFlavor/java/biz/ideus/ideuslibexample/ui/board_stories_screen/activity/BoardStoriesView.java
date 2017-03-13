@@ -1,7 +1,7 @@
 package biz.ideus.ideuslibexample.ui.board_stories_screen.activity;
 
 import biz.ideus.ideuslib.mvvm_lifecycle.IView;
-import biz.ideus.ideuslibexample.network.response.data.BoardStoryData;
+import biz.ideus.ideuslibexample.network.response.entity_model.BoardStories;
 import biz.ideus.ideuslibexample.ui.boardview.BoardView;
 
 /**
@@ -10,5 +10,5 @@ import biz.ideus.ideuslibexample.ui.boardview.BoardView;
 
 public interface BoardStoriesView extends IView {
     BoardView getBoardView();
-    void rebuildBoardView(BoardStoryData data);
+    void rebuildBoardView(BoardStories data);
 }
