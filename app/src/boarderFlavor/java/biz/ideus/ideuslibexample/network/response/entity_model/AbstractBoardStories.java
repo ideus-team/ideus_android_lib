@@ -22,7 +22,7 @@ public abstract class AbstractBoardStories {
     @JsonProperty("name")
     protected String name;
 
-    @JsonProperty("boardStories")
+    @JsonProperty("lists")
     @OneToMany
     protected List<Story> lists;
 
@@ -34,14 +34,26 @@ public abstract class AbstractBoardStories {
     public abstract void setName(String name);
 
 
-    public void TransformTo(AbstractBoardStories dest){
+//    public void TransformTo(AbstractBoardStories dest){
+//        dest.setIdent(this.getIdent());
+//        dest.setName(this.getName());
+//        for(Story c : this.getLists()) {
+//            Story newCard = new Story();
+//            c.TransformTo(newCard);
+//            newCard.setBoardStories((BoardStories) dest);
+//            dest.getLists().add(newCard);
+//        }
+//    }
+
+    public BoardStories getTransformed() {
+        BoardStories dest = new BoardStories();
         dest.setIdent(this.getIdent());
         dest.setName(this.getName());
         for(Story c : this.getLists()) {
-            Story newCard = new Story();
-            c.TransformTo(newCard);
+            Story newCard = c.getTransformed();
             newCard.setBoardStories((BoardStories) dest);
             dest.getLists().add(newCard);
         }
+        return dest;
     }
 }

@@ -34,14 +34,26 @@ public abstract class AbstractStory {
     public abstract void setName(String name);
     public abstract List<Card> getCards();
 
-    public void TransformTo(AbstractStory dest) {
+
+//    public void TransformTo(AbstractStory dest) {
+//        dest.setIdent(this.getIdent());
+//        dest.setName(this.getName());
+//        for(Card c : this.getCards()) {
+//            Card newCard = new Card();
+//            c.TransformTo(newCard);
+//            newCard.setStory((Story) dest);
+//            dest.getCards().add(newCard);
+//        }
+//    }
+    public Story getTransformed() {
+        Story dest = new Story();
         dest.setIdent(this.getIdent());
         dest.setName(this.getName());
         for(Card c : this.getCards()) {
-            Card newCard = new Card();
-            c.TransformTo(newCard);
-            newCard.setTasks((BoardStories) dest);
-            dest.getLists().add(newCard);
+            Card newCard = c.getTransformed();
+            newCard.setStory((Story) dest);
+            dest.getCards().add(newCard);
         }
+        return dest;
     }
 }

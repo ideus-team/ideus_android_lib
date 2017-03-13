@@ -11,6 +11,7 @@ import biz.ideus.ideuslibexample.data.model.response.response_model.Autorisation
 import biz.ideus.ideuslibexample.data.model.response.response_model.MessageEntity;
 import biz.ideus.ideuslibexample.data.model.response.response_model.PeopleEntity;
 import biz.ideus.ideuslibexample.injection.scopes.PerApplication;
+import biz.ideus.ideuslibexample.network.response.entity_model.BoardStories;
 import biz.ideus.ideuslibexample.ui.chat_screen.MessageViewModel;
 import io.requery.Persistable;
 import io.requery.rx.RxResult;
@@ -147,6 +148,8 @@ public class RequeryApi implements IRequeryApi {
     public Observable<Void> deleteMessage(MessageEntity messageEntity) {
         return data.delete(messageEntity).toObservable();
     }
+
+
 
 }
 

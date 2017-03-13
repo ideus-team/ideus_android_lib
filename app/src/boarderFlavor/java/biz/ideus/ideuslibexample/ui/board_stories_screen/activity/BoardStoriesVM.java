@@ -23,12 +23,14 @@ import biz.ideus.ideuslibexample.network.request.GetBoardStoriesRequest;
 import biz.ideus.ideuslibexample.network.response.data.BoardStoryData;
 import biz.ideus.ideuslibexample.network.response.data.StoryData;
 import biz.ideus.ideuslibexample.network.response.entity_model.BoardEntity;
+import biz.ideus.ideuslibexample.network.response.entity_model.BoardStories;
 import biz.ideus.ideuslibexample.rx_buses.RxBusNetworkConnected;
 import biz.ideus.ideuslibexample.ui.board_stories_screen.BoardStoriesVMListener;
 import biz.ideus.ideuslibexample.ui.boardview.BoardView;
 import biz.ideus.ideuslibexample.ui.common.toolbar.AbstractViewModelToolbar;
 import biz.ideus.ideuslibexample.utils.Utils;
 import rx.Subscription;
+import rx.functions.Action1;
 
 import static biz.ideus.ideuslibexample.utils.BoardAppConstants.BOARD_ID;
 
@@ -73,25 +75,16 @@ public class BoardStoriesVM extends AbstractViewModelToolbar<BoardStoriesView>
 
     @Override
     public void board_found(BoardStoryData data) {
+        boardRequeryApi.storeBoardStories(data.getBoardStories()).subscribe(new Action1<BoardStories>() {
+            @Override
+            public void call(BoardStories boardStories) {
+                refreshBoardView(boardStories);
+            }
+        });
+    }
 
-//        String s = "{\"boardStories\": [{\"cards\": [{\"files\": [{\"ident\": \"1\", \"file\": \"http://46.101.254.89/static/uploads/7ffc2f2e-2809-41f9-99b7-77b8d288d23e.jpeg\"}, {\"ident\": \"2\", \"file\": \"http://46.101.254.89/static/uploads/f38aea53-0891-4e1c-978e-b2e2ccba79ee.jpeg\"}], \"color\": \"CCCCCC\", \"ident\": \"11\", \"name\": \"card 1\"}, {\"files\": [], \"color\": \"FFFFFF\", \"ident\": \"13\", \"name\": \"card 3\"}], \"ident\": \"52\", \"name\": \"two\"}, {\"cards\": [{\"files\": [], \"color\": \"CCCCCC\", \"ident\": \"12\", \"name\": \"card 2\"}, {\"files\": [], \"color\": \"CCCCCC\", \"ident\": \"14\", \"name\": \"card 4\"}], \"ident\": \"51\", \"name\": \"one\"}, {\"cards\": [], \"ident\": \"53\", \"name\": \"three\"}], \"ident\": \"1\", \"name\": \"new board name\"}";
-//        SingleEntityStore<Persistable> data1 = requeryApi.getData();
-//
-//        BoardStoriesEntity bb;
-//        bb = data1.select(BoardStoriesEntity.class).get().first();
-//
-//        ObjectMapper mapper = new EntityMapper(Models.DEFAULT, data1);
-//        //Event read = mapper.readValue(value, Event.class);
-//        BoardStoriesEntity en;
-//        try {
-//             en = mapper.readValue(s, BoardStoriesEntity.class);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        data1.insert(en).toObservable().subscribe();
-//
-//
-//        Log.d("board_found", data.toString());
+    private void refreshBoardView(BoardStories boardStories) {
+        Log.d("asdf", boardStories.getName());
     }
 
     @Override

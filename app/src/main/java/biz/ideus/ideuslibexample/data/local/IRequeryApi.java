@@ -36,5 +36,4 @@ public interface IRequeryApi {
     Observable<MessageEntity> updateMessage(MessageEntity messageEntity);
     Observable<Void> deleteMessage(MessageEntity messageEntity);
 
-
 }

@@ -7,17 +7,11 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.orhanobut.hawk.Hawk;
 
-import org.parceler.Parcels;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import biz.ideus.ideuslibexample.Models;
 import biz.ideus.ideuslibexample.R;
 import biz.ideus.ideuslibexample.adapters.BoardsAdapter;
 import biz.ideus.ideuslibexample.data.local.BoardRequeryApi;
@@ -32,7 +26,6 @@ import biz.ideus.ideuslibexample.network.request.UpdateBoardRequest;
 import biz.ideus.ideuslibexample.network.response.data.BoardData;
 import biz.ideus.ideuslibexample.network.response.data.GetBoardsListData;
 import biz.ideus.ideuslibexample.network.response.entity_model.BoardEntity;
-import biz.ideus.ideuslibexample.network.response.entity_model.BoardStories;
 import biz.ideus.ideuslibexample.rx_buses.RxBoardCommandEvent;
 import biz.ideus.ideuslibexample.rx_buses.RxBusNetworkConnected;
 import biz.ideus.ideuslibexample.ui.base.BaseActivity;
@@ -42,16 +35,12 @@ import biz.ideus.ideuslibexample.ui.main_screen.fragments.board_screen.fragments
 import biz.ideus.ideuslibexample.ui.main_screen.fragments.board_screen.fragments.UpdateBoardFragment;
 import biz.ideus.ideuslibexample.ui.start_screen.StartView;
 import biz.ideus.ideuslibexample.utils.Constants;
-import io.requery.Persistable;
-import io.requery.jackson.EntityMapper;
-import io.requery.rx.SingleEntityStore;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static biz.ideus.ideuslibexample.SampleApplication.requeryApi;
 import static biz.ideus.ideuslibexample.utils.BoardAppConstants.BOARD_ID;
 
 
@@ -73,33 +62,37 @@ public class MainActivityVM extends AbstractMainActivityVM
 
     @Override
     public void boards(GetBoardsListData data) {
-
+        boardRequeryApi.storeBoardList(data.getBoardsEntitysList())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(boardEntities -> {
+                            boardsEntityList = (ArrayList<BoardEntity>) boardEntities;
+                            adapter.setBoardEntities(boardsEntityList);
+                        });
+        //adapter.setBoardEntities(data.getBoardsEntitysList());
     }
 
     @Override
     public void authorized(SocketAutorisedData data) {
-
-
-
-        Log.d("board_found", data.toString());
-
-
-        Log.d("got data", "SocketAuthorisedResponse");
+        Log.d("got data", "authorized");
         getBoards();
     }
 
     @Override
     public void board_list_created(GetBoardsListData data) {
+        Log.d("got data", "board_list_created");
         adapter.setBoardEntities(data.getBoardsEntitysList());
     }
 
     @Override
     public void board_updated(BoardData data) {
+        Log.d("got data", "board_updated");
         adapter.updateBoardInList(data.getBoardEntity());
     }
 
     @Override
     public void board_created(BoardData data) {
+        Log.d("got data", "board_created");
         adapter.setNewBoardToList(data.getBoardEntity());
     }
 
@@ -118,90 +111,10 @@ public class MainActivityVM extends AbstractMainActivityVM
             initSocketlisteners();
             startNetworkSubscription();
             getBoardListFromDB();
-            startTest();
         }
 
     }
 
-    private void startTest() {
-        String s = "{\"boardStories\": [{\"cards\": [{\"files\": [{\"ident\": \"1\", \"file\": \"http://46.101.254.89/static/uploads/7ffc2f2e-2809-41f9-99b7-77b8d288d23e.jpeg\"}, {\"ident\": \"2\", \"file\": \"http://46.101.254.89/static/uploads/f38aea53-0891-4e1c-978e-b2e2ccba79ee.jpeg\"}], \"color\": \"CCCCCC\", \"ident\": \"11\", \"name\": \"card 1\"}, {\"files\": [], \"color\": \"FFFFFF\", \"ident\": \"13\", \"name\": \"card 3\"}], \"ident\": \"52\", \"name\": \"two\"}, {\"cards\": [{\"files\": [], \"color\": \"CCCCCC\", \"ident\": \"12\", \"name\": \"card 2\"}, {\"files\": [], \"color\": \"CCCCCC\", \"ident\": \"14\", \"name\": \"card 4\"}], \"ident\": \"51\", \"name\": \"one\"}, {\"cards\": [], \"ident\": \"53\", \"name\": \"three\"}], \"ident\": \"1\", \"name\": \"new board name\"}";
-        SingleEntityStore<Persistable> data1 = requeryApi.getData();
-
-//        BoardStoriesEntity bb;
-//        bb = data1.select(BoardStoriesEntity.class).get().first();
-//        if (bb == null) {
-//            Log.d("bb", "null");
-//        }
-//        StoryBoard event = new StoryBoard();
-//        event.setIdent("1");
-//        event.setName("qwer");
-       // data1.insert(event).toObservable().subscribe();
-
-        BoardStories t2 = data1.select(BoardStories.class).get().firstOrNull();
-    //    Log.d("test", "" + t2.getLists().size());
-
-        data1.delete(BoardStories.class).get().value();
-
-        ObjectMapper mapper = new EntityMapper(Models.DEFAULT, data1).configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        //StringWriter writer = new StringWriter();
-//        try {
-//            mapper.writeValue(writer, event);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        String value = writer.toString();
-//        Log.d("test", value);
-
-        BoardStories en;
-        try {
-            en = mapper.readValue(s, BoardStories.class);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("example", Parcels.wrap(en));
-        BoardStories dest = Parcels.unwrap(bundle.getParcelable("example"));
-        Log.d("test", dest.getLists().size()+"");
-//        Example example = Parcels.unwrap(getIntent().getParcelableExtra("example"));
-
-//
-//        BoardStories res = new BoardStories();
-//        res.getListType();
-//
-//        res.setIdent(en.getIdent());
-//        res.setName(en.getName());
-//        for(Story c : en.getLists()) {
-//            c.setTasks(res);
-//            res.getLists().add(c);
-//        }
-//        data1.insert(res).subscribe();
-        //Log.d("test", en.);
-
-        BoardStories t3 = data1.select(BoardStories.class).get().firstOrNull();
-
-        Log.d("test", "234");
-        /*
-
-        ObjectMapper mapper = new EntityMapper(Models.MODEL3, data);
-        StringWriter writer = new StringWriter();
-        try {
-            mapper.writeValue(writer, event);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        String value = writer.toString();
-        System.out.println(value);
-
-        try {
-            Event read = mapper.readValue(value, Event.class);
-            assertSame(event, read);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-         */
-    }
 
 
     private void initSocketlisteners() {
@@ -311,7 +224,6 @@ public class MainActivityVM extends AbstractMainActivityVM
 
 
     public void onAddBoardClick(View view) {
-        startTest();
         ((BaseActivity) context).addFragmentToBackStack(new CreateBoardFragment(), null, true, null);
     }
 
