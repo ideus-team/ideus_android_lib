@@ -50,6 +50,7 @@ public class BoardStoriesVM extends AbstractViewModelToolbar<BoardStoriesView>
     private ObservableField<String> storyName = new ObservableField<>();
     private BoardRequeryApi boardRequeryApi = BoardRequeryApi.getInstance();
     private WebSocketClient webSocketClient = WebSocketClient.getInstance();
+    private BoardStories mBoardStories;
 
 
     public BoardStoriesVMListener getBoardStoriesListener() {
@@ -85,7 +86,7 @@ public class BoardStoriesVM extends AbstractViewModelToolbar<BoardStoriesView>
 
     private void refreshBoardView(BoardStories boardStories) {
         Log.d("asdf", boardStories.getName());
-        getViewOptional().rebuildBoardView(boardStories);
+        mBoardStories = boardStories;
     }
 
     @Override
@@ -95,8 +96,8 @@ public class BoardStoriesVM extends AbstractViewModelToolbar<BoardStoriesView>
 
     public void onFabClick(View v){
         Utils.toast(SampleApplication.getInstance(), "FAB");
-
-        webSocketClient.sendMessage(new CreateBoardStoryRequest("Test1", boardEntity.getIdent()));
+        getView().rebuildBoardView(mBoardStories);
+        //webSocketClient.sendMessage(new CreateBoardStoryRequest("Test1", boardEntity.getIdent()));
     }
 
 

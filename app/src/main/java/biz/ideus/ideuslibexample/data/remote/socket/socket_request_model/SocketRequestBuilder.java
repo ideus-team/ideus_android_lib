@@ -1,5 +1,7 @@
 package biz.ideus.ideuslibexample.data.remote.socket.socket_request_model;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 
 /**
@@ -32,6 +34,7 @@ public class SocketRequestBuilder {
 
     public String createJson(SocketRequest socketRequest){
         String json =  new Gson().toJson(socketRequest);
+        Log.d("JSON", json);
         return json;
     }
 }
