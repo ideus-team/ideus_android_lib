@@ -10,8 +10,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 
-import java.util.List;
-
 import biz.ideus.ideuslibexample.SampleApplication;
 import biz.ideus.ideuslibexample.data.local.BoardRequeryApi;
 import biz.ideus.ideuslibexample.data.remote.network_change.NetworkChangeReceiver;
@@ -30,7 +28,8 @@ import biz.ideus.ideuslibexample.ui.boardview.BoardView;
 import biz.ideus.ideuslibexample.ui.common.toolbar.AbstractViewModelToolbar;
 import biz.ideus.ideuslibexample.utils.Utils;
 import rx.Subscription;
-import rx.functions.Action1;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static biz.ideus.ideuslibexample.utils.BoardAppConstants.BOARD_ID;
 
@@ -42,21 +41,13 @@ public class BoardStoriesVM extends AbstractViewModelToolbar<BoardStoriesView>
         implements BoardStoriesVMListener, BoardView.BoardListener, SocketListener.BoardStory
 {
 
-   // private List<StoryVM> storyVMList = new ArrayList<>();
     private BoardEntity boardEntity = new BoardEntity();
     private Subscription networkSubscription;
-    private BoardStoryData boardStoryData;
     private ObservableField<Boolean> isVisibleETName = new ObservableField<>();
     private ObservableField<String> storyName = new ObservableField<>();
     private BoardRequeryApi boardRequeryApi = BoardRequeryApi.getInstance();
     private WebSocketClient webSocketClient = WebSocketClient.getInstance();
-    private BoardStories mBoardStories;
-
-
-    public BoardStoriesVMListener getBoardStoriesListener() {
-        return this;
-    }
-
+    private BoardStories mBoardStories = new BoardStories();
 
     @Override
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
@@ -64,9 +55,12 @@ public class BoardStoriesVM extends AbstractViewModelToolbar<BoardStoriesView>
         if (arguments != null) boardEntity.setIdent(arguments.getString(BOARD_ID));
         isVisibleETName.set(false);
         startNetworkSubscription();
-        initSocketlisteners();
-        getBoardStories(boardEntity.getIdent());
-        //boardView.addColumnList()
+        webSocketClient.addResponseListener(this);
+        boardRequeryApi.getBoardStories(Integer.valueOf(boardEntity.getIdent()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::refreshBoardView);
+        pullBoardStories(boardEntity.getIdent());
     }
 
     @Override
@@ -76,17 +70,21 @@ public class BoardStoriesVM extends AbstractViewModelToolbar<BoardStoriesView>
 
     @Override
     public void board_found(BoardStoryData data) {
-        boardRequeryApi.storeBoardStories(data.getBoardStories()).subscribe(new Action1<BoardStories>() {
-            @Override
-            public void call(BoardStories boardStories) {
-                refreshBoardView(boardStories);
-            }
-        });
+        boardRequeryApi
+                .storeBoardStories(data.getBoardStories())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::refreshBoardView);
     }
 
     private void refreshBoardView(BoardStories boardStories) {
-        Log.d("asdf", boardStories.getName());
+        Log.d("refresh",  boardStories.getName());
         mBoardStories = boardStories;
+        if (getView() != null) {
+            getView().rebuildBoardView(mBoardStories);
+        } else {
+            Utils.toast(SampleApplication.getInstance(), "getView null");
+        }
     }
 
     @Override
@@ -95,58 +93,18 @@ public class BoardStoriesVM extends AbstractViewModelToolbar<BoardStoriesView>
     }
 
     public void onFabClick(View v){
-        Utils.toast(SampleApplication.getInstance(), "FAB");
-        getView().rebuildBoardView(mBoardStories);
+        //getViewOptional().rebuildBoardView(mBoardStories);
+        pullBoardStories(boardEntity.getIdent());
+        //Utils.toast(SampleApplication.getInstance(), "FAB");
         //webSocketClient.sendMessage(new CreateBoardStoryRequest("Test1", boardEntity.getIdent()));
     }
 
 
 
-
-    private void refreshBoardViewData(List<StoryVM> storyVMList) {
-        getViewOptional().getBoardView().clearBoard();
-        for (StoryVM storyModel : storyVMList) {
-            //getView().getBoardView().addColumnList(new BoardStoryAdapter(storyModel.), null, false );
-            //ItemAdapter(mItemArray, R.layout.grid_item, R.id.item_layout, true);
-        }
-    }
-
-    private BoardEntity getBoardFormDb(String boardId) {
-       return boardRequeryApi.getBoardById(boardId);
-    }
-
-    public void onClickAddList(View view) {
-        isVisibleETName.set(true);
-    }
-
-    public void onTextChangedNameStory(CharSequence text, int start, int before, int count) {
-        storyName.set(text.toString());
-    }
-
     @Override
     public void onBindView(@NonNull BoardStoriesView view) {
         super.onBindView(view);
-
-    }
-
-
-    @Override
-    public void onBackPressed() {
-//        if (!isVisibleETName.get()) {
-//          //  ((BoardStoriesActivity) context).finish();
-//        } else {
-//            makeCreateStoryBtnDefault();
-//        }
-    }
-
-    @BindingAdapter("isFocus")
-    public static void setFocus(EditText editText, boolean isFocus) {
-        if (isFocus) {
-            editText.post(() -> {
-                editText.requestFocus();
-                editText.onKeyUp(KeyEvent.KEYCODE_DPAD_CENTER, new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_DPAD_CENTER));
-            });
-        }
+        getView().rebuildBoardView(mBoardStories);
     }
 
 
@@ -159,7 +117,7 @@ public class BoardStoriesVM extends AbstractViewModelToolbar<BoardStoriesView>
         webSocketClient.sendMessage(new CreateBoardStoryRequest(storyName.get(), boardEntity.getIdent()));
     }
 
-    private void getBoardStories(String boardId) {
+    private void pullBoardStories(String boardId) {
         webSocketClient.sendMessage(new GetBoardStoriesRequest(boardId));
     }
 
@@ -202,40 +160,17 @@ public class BoardStoriesVM extends AbstractViewModelToolbar<BoardStoriesView>
         Utils.toast(SampleApplication.getInstance(), "onItemDragEnded: fromColumn: " + fromColumn + " fromRow: " + fromRow  + " toColumn: " + toColumn  + " toRow: " + toRow);
     }
 
-    private void initSocketlisteners() {
-        webSocketClient.addResponseListener(this);
-
-//
-//        webSocketClient.addResponseListener(this, new SocketResponseListener<SocketAuthorisedResponse>(SocketAuthorisedResponse.class) {
-//            @Override
-//            public void onGotResponseData(SocketAuthorisedResponse data) {
-//                getBoardStories(boardEntity.getIdent());
-//                //
-//            }
-//        });
-//
-//        webSocketClient.addResponseListener(this, new SocketResponseListener<CreateBoardStoryResponse>(CreateBoardStoryResponse.class) {
-//            @Override
-//            public void onGotResponseData(CreateBoardStoryResponse data) {
-//            //    adapter.setNewStoryModel(data.getData().getStoryVM());
-//                makeCreateStoryBtnDefault();
-//            }
-//        });
-//
-//        webSocketClient.addResponseListener(this, new SocketResponseListener<GetBoardStoriesResponse>(GetBoardStoriesResponse.class) {
-//            @Override
-//            public void onGotResponseData(GetBoardStoriesResponse data) {
-//                storyVMList = data.getData().getBoardModel().getStoryVMList();
-//               // adapter.setStoryModelList(storyVMList);
-//                refreshBoardViewData(storyVMList);
-//            }
-//        });
+    @BindingAdapter("isFocus")
+    public static void setFocus(EditText editText, boolean isFocus) {
+        if (isFocus) {
+            editText.post(() -> {
+                editText.requestFocus();
+                editText.onKeyUp(KeyEvent.KEYCODE_DPAD_CENTER, new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_DPAD_CENTER));
+            });
+        }
     }
 
-//    private void makeCreateStoryBtnDefault() {
-//        isVisibleETName.set(false);
-//        storyName.set("");
-//       // ((BaseActivity) context).hideKeyboard();
-//    }
-
+    @Override
+    public void onBackPressed() {
+    }
 }

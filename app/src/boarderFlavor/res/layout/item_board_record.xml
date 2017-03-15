@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="biz.ideus.ideuslibexample.network.response.entity_model.AbstractStory" />
+            type="biz.ideus.ideuslibexample.network.response.entity_model.AbstractCard" />
     </data>
 
     <FrameLayout

@@ -1,5 +1,7 @@
 package biz.ideus.ideuslibexample.network.response.entity_model;
 
+import android.databinding.BaseObservable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
@@ -14,7 +16,7 @@ import io.requery.OneToMany;
  */
 
 @Entity
-public abstract class AbstractStory {
+public abstract class AbstractStory extends BaseObservable {
     @JsonProperty("ident")
     @Key
     protected int ident;

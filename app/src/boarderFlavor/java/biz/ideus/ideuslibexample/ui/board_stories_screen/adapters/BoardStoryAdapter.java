@@ -1,7 +1,6 @@
 package biz.ideus.ideuslibexample.ui.board_stories_screen.adapters;
 
 import android.databinding.DataBindingUtil;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,16 +44,14 @@ public class BoardStoryAdapter extends DragItemAdapter<Card, BoardStoryAdapter.V
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(mLayoutId, parent, false);
-        Log.d("onCreateViewHolder", view.toString());
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        //holder.binding.setViewModel( (Card)mItemList.get(position) );
-        holder.binding.text.setText(mItemList.get(position).getName());
-        Log.d("onBindViewHolder", mItemList.get(position).getName());
+        holder.binding.setViewModel(mItemList.get(position) );
+        //holder.binding.text.setText(mItemList.get(position).getName());
     }
 
     @Override

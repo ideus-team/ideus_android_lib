@@ -21,8 +21,6 @@ import android.widget.Scroller;
 
 import java.util.ArrayList;
 
-import biz.ideus.ideuslibexample.R;
-
 /**
  * Created by user on 17.02.2017.
  */
@@ -564,7 +562,6 @@ public class BoardView extends HorizontalScrollView implements AutoScroller.Auto
         });
 
         recyclerView.setAdapter(adapter);
-        recyclerView.setBackgroundColor(getContext().getResources().getColor(R.color.black));
         recyclerView.setDragEnabled(mDragEnabled);
         adapter.setDragStartedListener(new DragItemAdapter.DragStartCallback() {
             @Override

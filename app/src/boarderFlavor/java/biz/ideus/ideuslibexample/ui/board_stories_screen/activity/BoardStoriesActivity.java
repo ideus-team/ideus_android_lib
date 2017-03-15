@@ -36,12 +36,13 @@ public class BoardStoriesActivity extends BaseActivity<BoardStoriesView, BoardSt
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setModelView(this);
-//        getBoardView().setBoardListener(getViewModel());
+        getBoardView().setBoardListener(getViewModel());
 //        getBoardView().setBackgroundColor(getResources().getColor(R.color.black));
     }
 
     @Override
     public void rebuildBoardView(BoardStories data) {
+//        Utils.toast(this, "rebuildBoardView " + data.getLists().get(0).getCards().size());
         BoardView boardView = getBoardView();
         boardView.clearBoard();
         for (Story story : data.getLists()) {
@@ -54,8 +55,11 @@ public class BoardStoriesActivity extends BaseActivity<BoardStoriesView, BoardSt
             boardView.addColumnList(boardStoryAdapter, header, false);
             boardStoryAdapter.notifyDataSetChanged();
         }
-        boardView.invalidate();
+        //boardView.invalidate();
+        boardView.addColumnList()
     }
+
+
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
