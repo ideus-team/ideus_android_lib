@@ -4,6 +4,7 @@ package biz.ideus.ideuslibexample.data.local;
 import java.util.List;
 
 import biz.ideus.ideuslibexample.network.response.entity_model.BoardEntity;
+import biz.ideus.ideuslibexample.network.response.entity_model.BoardStories;
 import io.requery.Persistable;
 import io.requery.rx.SingleEntityStore;
 import rx.Observable;
@@ -55,5 +56,15 @@ public class BoardRequeryApi implements IBoardRequeryApi {
     @Override
     public List<BoardEntity> getBoardList() {
         return data.select(BoardEntity.class).get().toList();
+    }
+
+    public Observable<BoardStories> storeBoardStories(BoardStories boardStories){
+        BoardStories newBoardStories = boardStories.getTransformed();
+        data.delete(BoardStories.class).where(BoardStories.IDENT.eq(boardStories.getIdent())).get().value();
+        return data.insert(newBoardStories).toObservable();
+    }
+
+    public Observable<BoardStories> getBoardStories(int id){
+        return data.select(BoardStories.class).where(BoardStories.IDENT.eq(id)).get().toObservable();
     }
 }

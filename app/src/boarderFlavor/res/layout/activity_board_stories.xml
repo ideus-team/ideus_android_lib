@@ -18,12 +18,13 @@
         >
         <biz.ideus.ideuslibexample.ui.boardview.BoardView
             xmlns:android="http://schemas.android.com/apk/res/android"
-            bind:itemDragListener="@{viewModel}"
             android:id="@+id/board_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
         </biz.ideus.ideuslibexample.ui.boardview.BoardView>
+
+        <!--bind:itemDragListener="@{viewModel}"-->
+
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_add_board"
             android:onClick="@{viewModel::onFabClick}"

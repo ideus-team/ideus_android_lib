@@ -17,9 +17,9 @@ import biz.ideus.ideuslibexample.adapters.BoardsAdapter;
 import biz.ideus.ideuslibexample.data.local.BoardRequeryApi;
 import biz.ideus.ideuslibexample.data.remote.network_change.NetworkChangeReceiver;
 import biz.ideus.ideuslibexample.data.remote.network_change.NetworkChangeSubscriber;
-import biz.ideus.ideuslibexample.network.SocketListener;
 import biz.ideus.ideuslibexample.data.remote.socket.socket_response_model.data.SocketAutorisedData;
 import biz.ideus.ideuslibexample.enums.BoardClickActionTag;
+import biz.ideus.ideuslibexample.network.SocketListener;
 import biz.ideus.ideuslibexample.network.request.CreateBoardRequest;
 import biz.ideus.ideuslibexample.network.request.GetBoardListRequest;
 import biz.ideus.ideuslibexample.network.request.UpdateBoardRequest;
@@ -62,27 +62,37 @@ public class MainActivityVM extends AbstractMainActivityVM
 
     @Override
     public void boards(GetBoardsListData data) {
-
+        boardRequeryApi.storeBoardList(data.getBoardsEntitysList())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(boardEntities -> {
+                            boardsEntityList = (ArrayList<BoardEntity>) boardEntities;
+                            adapter.setBoardEntities(boardsEntityList);
+                        });
+        //adapter.setBoardEntities(data.getBoardsEntitysList());
     }
 
     @Override
     public void authorized(SocketAutorisedData data) {
-        Log.d("got data", "SocketAuthorisedResponse");
+        Log.d("got data", "authorized");
         getBoards();
     }
 
     @Override
     public void board_list_created(GetBoardsListData data) {
+        Log.d("got data", "board_list_created");
         adapter.setBoardEntities(data.getBoardsEntitysList());
     }
 
     @Override
     public void board_updated(BoardData data) {
+        Log.d("got data", "board_updated");
         adapter.updateBoardInList(data.getBoardEntity());
     }
 
     @Override
     public void board_created(BoardData data) {
+        Log.d("got data", "board_created");
         adapter.setNewBoardToList(data.getBoardEntity());
     }
 
@@ -104,6 +114,7 @@ public class MainActivityVM extends AbstractMainActivityVM
         }
 
     }
+
 
 
     private void initSocketlisteners() {

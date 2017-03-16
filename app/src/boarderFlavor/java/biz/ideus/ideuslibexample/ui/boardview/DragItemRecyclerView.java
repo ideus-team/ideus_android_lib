@@ -72,7 +72,8 @@ class DragItemRecyclerView extends RecyclerView implements AutoScroller.AutoScro
     }
 
     private void init() {
-        mAutoScroller = new AutoScroller(getContext(), this);
+        Context ctx = getContext();
+        mAutoScroller = new AutoScroller(ctx, this);
         mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
 
         addItemDecoration(new ItemDecoration() {

@@ -6,15 +6,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.util.List;
+
 import biz.ideus.ideuslibexample.databinding.ItemBoardRecordBinding;
-import biz.ideus.ideuslibexample.ui.board_stories_screen.activity.StoryVM;
+import biz.ideus.ideuslibexample.network.response.entity_model.Card;
 import biz.ideus.ideuslibexample.ui.boardview.DragItemAdapter;
 
 /**
  * Created by user on 20.02.2017.
  */
 
-public class BoardStoryAdapter extends DragItemAdapter<StoryVM, BoardStoryAdapter.ViewHolder>{
+public class BoardStoryAdapter extends DragItemAdapter<Card, BoardStoryAdapter.ViewHolder>{
 
     private int mLayoutId;
     private int mGrabHandleId;
@@ -27,6 +29,16 @@ public class BoardStoryAdapter extends DragItemAdapter<StoryVM, BoardStoryAdapte
         this.mLayoutId = mLayoutId;
         this.mGrabHandleId = mGrabHandleId;
         this.mDragOnLongPress = mDragOnLongPress;
+        setHasStableIds(true);
+    }
+
+    public BoardStoryAdapter(List<Card> mList, int mLayoutId, int mGrabHandleId, boolean mDragOnLongPress) {
+        this.mItemList = mList;
+        this.mLayoutId = mLayoutId;
+        this.mGrabHandleId = mGrabHandleId;
+        this.mDragOnLongPress = mDragOnLongPress;
+        setHasStableIds(true);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -38,10 +50,16 @@ public class BoardStoryAdapter extends DragItemAdapter<StoryVM, BoardStoryAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-       // holder.binding.setViewModel();
+        holder.binding.setViewModel(mItemList.get(position) );
+        //holder.binding.text.setText(mItemList.get(position).getName());
     }
 
+    @Override
+    public long getItemId(int position) {
+        return mItemList.get(position).getIdent();
+    }
 
+    // ViewHolder
     public class ViewHolder extends DragItemAdapter.ViewHolder {
         ItemBoardRecordBinding binding;
 

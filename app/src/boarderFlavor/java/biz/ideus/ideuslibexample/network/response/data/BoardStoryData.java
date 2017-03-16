@@ -2,7 +2,7 @@ package biz.ideus.ideuslibexample.network.response.data;
 
 import com.google.gson.annotations.SerializedName;
 
-import biz.ideus.ideuslibexample.network.response.model.BoardModel;
+import biz.ideus.ideuslibexample.network.response.entity_model.BoardStories;
 
 /**
  * Created by blackmamba on 15.02.17.
@@ -10,10 +10,10 @@ import biz.ideus.ideuslibexample.network.response.model.BoardModel;
 
 public class BoardStoryData {
     @SerializedName("board")
-    private BoardModel boardModel;
+    private BoardStories boardStories;
 
-    public BoardModel getBoardModel() {
-        return boardModel;
+    public BoardStories getBoardStories() {
+        return boardStories;
     }
 }
 

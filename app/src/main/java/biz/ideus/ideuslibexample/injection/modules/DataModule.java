@@ -32,7 +32,7 @@ public abstract class DataModule {
     @Provides
     @PerApplication
     static SingleEntityStore<Persistable> provideDataStore(@AppContext Context context) {
-        DatabaseSource source = new DatabaseSource(context, Models.DEFAULT, 2);
+        DatabaseSource source = new DatabaseSource(context, Models.DEFAULT, 6);
         source.setLoggingEnabled(true);
         if (BuildConfig.DEBUG) {
             // use this in development mode to drop and recreate the tables on every upgrade

@@ -234,7 +234,7 @@ public class BoardView extends HorizontalScrollView implements AutoScroller.Auto
             }
         }
 
-        // Updated event to list coordinates
+        // Updated event to boardStories coordinates
         mCurrentRecyclerView.onDragging(getListTouchX(mCurrentRecyclerView), getListTouchY(mCurrentRecyclerView));
 
         float scrollEdge = getResources().getDisplayMetrics().widthPixels * 0.14f;
