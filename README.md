@@ -1,4 +1,4 @@
-# ideus_android_lib
+# iDeus android library
 
 This library is helping tool in usual tasks in our company.
 
