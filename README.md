@@ -1,5 +1,7 @@
 # iDeus android library
 
+[logo]: https://avatars2.githubusercontent.com/u/5500488?v=3&s=200
+
 This library is helping tool in usual tasks in our company.
 
 Base features:
@@ -12,7 +14,7 @@ be continue...
 How to use:
 
 Paste this line:
-compile 'biz.ideus.ideuslib:ideuslib:1.0.1'
+`compile 'biz.ideus.ideuslib:ideuslib:1.0.1'`
 in your gradle file (your module gradle file)
 
 Examples are locate in app module.
